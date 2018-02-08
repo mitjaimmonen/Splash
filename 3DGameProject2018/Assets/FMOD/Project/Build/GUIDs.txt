@@ -1,0 +1,4 @@
+{74233d2d-7a39-4ae9-ac7c-9d219ee492da} event:/Auto rifle sounds
+{f0170c7d-ff4e-4a42-b89e-21671851f192} bus:/
+{65cb3ddc-10e3-4bdc-8ae2-3325fc7fc600} bus:/Reverb
+{5652a976-6094-4be0-bcc9-9079ddbfee82} bank:/Master Bank
