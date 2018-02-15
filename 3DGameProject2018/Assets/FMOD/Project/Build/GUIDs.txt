@@ -13,8 +13,7 @@
 {a165d4ef-9ae7-4fd1-8c25-098d85fdd788} event:/UI/Negative
 {552c1dab-e30c-4d9e-a90d-362ad72309c2} event:/UI/Select
 {0a80392a-d75e-4ccf-a4ba-7e7a321e1f8e} event:/Water Collisions/Hitmarker
-{0b89c783-7337-422b-839c-3777c4ac54bf} event:/Water Collisions/Wall water collision strong
-{0571c6ad-3fed-4de1-9b0a-1e204be1ba35} event:/Water Collisions/Wall water collision weak
+{0b89c783-7337-422b-839c-3777c4ac54bf} event:/Water Collisions/Wall water collisions
 {6556615f-304e-45cb-85ca-a7d4f6c9cdee} event:/Water Collisions/Water balloon
 {f0170c7d-ff4e-4a42-b89e-21671851f192} bus:/
 {65cb3ddc-10e3-4bdc-8ae2-3325fc7fc600} bus:/Reverb

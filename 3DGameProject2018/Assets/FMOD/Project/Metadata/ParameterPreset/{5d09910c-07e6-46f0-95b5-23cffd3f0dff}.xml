@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPreset" id="{5d09910c-07e6-46f0-95b5-23cffd3f0dff}">
+        <property name="name">
+            <value>CollisionStrength</value>
+        </property>
+        <relationship name="folder">
+            <destination>{fd137dd8-771d-4505-8280-4467a3d97e06}</destination>
+        </relationship>
+        <relationship name="parameter">
+            <destination>{3ee340cb-e4a6-469f-8a1f-7f4367b9b028}</destination>
+        </relationship>
+    </object>
+    <object class="GameParameter" id="{3ee340cb-e4a6-469f-8a1f-7f4367b9b028}">
+        <property name="maximum">
+            <value>100</value>
+        </property>
+        <property name="initialValue">
+            <value>0</value>
+        </property>
+    </object>
+</objects>

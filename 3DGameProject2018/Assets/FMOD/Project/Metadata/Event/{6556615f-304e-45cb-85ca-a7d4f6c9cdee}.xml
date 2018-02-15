@@ -294,7 +294,7 @@
             <value>0.15000000000000002</value>
         </property>
         <property name="length">
-            <value>3.1000000000000001</value>
+            <value>4.8499999999999996</value>
         </property>
         <property name="timelockedOffset">
             <value>6.7800000000000011</value>
@@ -660,18 +660,18 @@
     <object class="MixerBusFader" id="{6d1735ef-e9a6-44c5-8b06-b7dbd543db73}"/>
     <object class="AutomationPoint" id="{695a1762-7504-4b9b-86b6-3c731e74c430}">
         <property name="position">
-            <value>1.1500000000000001</value>
+            <value>1.75</value>
         </property>
         <property name="value">
             <value>1</value>
         </property>
         <property name="curveShape">
-            <value>-0.206076443</value>
+            <value>-0.395909518</value>
         </property>
     </object>
     <object class="AutomationPoint" id="{566834df-9766-482a-9418-c2dc42ce9102}">
         <property name="position">
-            <value>3.25</value>
+            <value>5</value>
         </property>
         <property name="value">
             <value>0</value>
