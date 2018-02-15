@@ -28,6 +28,7 @@ public class StateHandler : MonoBehaviour {
         //listen for input
         //pass input to current states controller in the scene whatever it may be
         //passes the controller number and button and intensity if applicable ie the triggers
+        //if its onpress or onrelease
         //string[] 
         return true;
     }
