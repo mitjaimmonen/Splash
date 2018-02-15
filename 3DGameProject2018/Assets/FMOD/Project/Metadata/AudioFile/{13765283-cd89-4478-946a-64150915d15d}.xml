@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{13765283-cd89-4478-946a-64150915d15d}">
+        <property name="assetPath">
+            <value>sfx/Water/Obnoxious_Sip_Straw_013.wav</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>96</value>
+        </property>
+        <property name="channelCount">
+            <value>1</value>
+        </property>
+        <property name="length">
+            <value>5.1956145833333336</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{24e8c4c9-5313-4c8e-8870-c3ee5ba89e82}</destination>
+        </relationship>
+    </object>
+</objects>

@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.01.10.00">
     <object class="AudioFile" id="{509e9fa5-0095-4131-bdbb-e27b75020131}">
         <property name="assetPath">
-            <value>sfx/Squirt Sound Effects.mp3</value>
+            <value>sfx/Water/Squirt Sound Effects.mp3</value>
         </property>
         <property name="isStreaming">
             <value>true</value>
