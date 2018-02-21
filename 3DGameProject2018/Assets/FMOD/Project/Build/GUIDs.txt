@@ -8,10 +8,12 @@
 {9bd850ec-9792-45d7-be2e-948eb1eb44d8} event:/Guns/Pistol sounds
 {c94f988b-c8cd-4089-8c6d-4ced3c554e68} event:/Guns/Reload auto rifle
 {de8e6457-ed1d-4c54-9ece-abd317731601} event:/Guns/Shotgun sounds
+{ae9b359c-8094-4510-b347-f75eff8ee667} event:/Guns/AutoRifle
 {dc702f45-6221-43a4-a993-4c901ebc8bfe} event:/UI/Back
 {fbb3d1a1-b3a1-4d81-93c4-1786462d3411} event:/UI/Move cursor
 {a165d4ef-9ae7-4fd1-8c25-098d85fdd788} event:/UI/Negative
 {552c1dab-e30c-4d9e-a90d-362ad72309c2} event:/UI/Select
+{1f080d3a-7634-4415-8aa7-3f0d7dd0c210} event:/UI/IngamePause
 {0a80392a-d75e-4ccf-a4ba-7e7a321e1f8e} event:/Water Collisions/Hitmarker
 {0b89c783-7337-422b-839c-3777c4ac54bf} event:/Water Collisions/Wall water collisions
 {6556615f-304e-45cb-85ca-a7d4f6c9cdee} event:/Water Collisions/Water balloon
