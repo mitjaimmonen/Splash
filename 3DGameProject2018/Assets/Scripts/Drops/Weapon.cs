@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD.Studio;
 
 /********************************************
  * (class name) Weapon
@@ -49,49 +50,56 @@ public class Weapon : MonoBehaviour {
 
     #region FMOD
 
-        //Only shoot sound event is stored in event instance because its parameters need to be accessed during lifetime.
-        //Other sound events are "one shots" which will be released after playing.
-        [FMODUnity.EventRef] public string shootSE, reloadSE, emptyMagSE, takeScopeSE;        
-        private FMOD.Studio.EventInstance shootEI; 
+    //Only shoot sound event is stored in event instance because its parameters need to be accessed during lifetime.
+    //Other sound events are "one shots" which will be released after playing.
+    [FMODUnity.EventRef] public string shootSE, reloadSE, emptyMagSE, takeScopeSE;        
+    private FMOD.Studio.EventInstance shootEI; 
 
-        //Store all fmod variables in code for easier tweaking during playback
-    	private FMOD.Studio.ParameterInstance FMOD_Magazine; // amount of water left in magazine, 0-100
-        private FMOD.Studio.ParameterInstance FMOD_Shooting; // Shooting force from Input, 0-100            
+    //Store all fmod variables in code for easier tweaking during playback
+    private FMOD.Studio.ParameterInstance FMOD_Magazine; // amount of water left in magazine, 0-100
+    private FMOD.Studio.ParameterInstance FMOD_Shooting; // Shooting force from Input, 0-100            
 
     #endregion
 
 
-    public void Start()
+    public void Awake()
     {
         waterParticles = gameObject.GetComponentInChildren<ParticleSystem>();
+        // gunAnim = gameObject.GetComponent<Animator>();
+        
         shootSpeed = waterParticles.main.startSpeedMultiplier;
         accuracyRandomizer = waterParticles.shape.randomDirectionAmount;
 
-        Debug.Log(shootSpeed);
         currentMagazineSize = maxMagazineSize;
         currentMagazines = startMagazines;
 
-        gunAnim = gameObject.GetComponent<Animator>();
-
         shootEI = FMODUnity.RuntimeManager.CreateInstance(shootSE);
-        FMODUnity.RuntimeManager.AttachInstanceToGameObject(shootEI, GetComponent<Transform>(), GetComponent<Rigidbody>());
+        shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
+        shootEI.getParameter("Magazine", out FMOD_Magazine);
+        shootEI.getParameter("Shooting", out FMOD_Shooting);
     }
 
     private void Update()
     {
+
+        
         if(timer > 0) 
         {
             timer -= Time.deltaTime;
         }
 
-
-
         //Test inputs temporarily here
         //If input amount more than 20, call shoot() every frame.
         float axis = Input.GetAxis("Fire1");
+
         if (axis > 0.2f)
             Shoot(axis);
+        else
+            FMOD_Shooting.setValue(axis * 100f);
+
         
+
+
         
     }
 
@@ -110,40 +118,45 @@ public class Weapon : MonoBehaviour {
                 Reload();
 
             //If no ammo or magazines, do not shoot.
+            FMOD_Shooting.setValue(0);
             return;
         }
 
 
 
-        //Give water particles all variables they might need (speed,accuracy etc)
+        //Set WaterParticle parameters.
         var main = waterParticles.main;
         var shape = waterParticles.shape;
-        float currentShootSpeed;
+        float currentShootSpeed = shootSpeed;
+        float currentAccuracyRandomizer = accuracyRandomizer;
 
         if(isContinuous)
             currentShootSpeed = shootSpeed * force;
-        else
-            currentShootSpeed = shootSpeed;
-
-        float currentAccuracyRandomizer = accuracyRandomizer;
 
         if (!isScope)
             currentAccuracyRandomizer = 2 * accuracyRandomizer;
-        else
-            currentAccuracyRandomizer = accuracyRandomizer;
-
 
         main.startSpeed = currentShootSpeed;
         shape.randomDirectionAmount = currentAccuracyRandomizer;
-
-
-
-        
         waterParticles.Play();
-        //--start sound & give sound parameters
+        
+        
+        //Set FMOD sound parameters.
+        FMOD_Shooting.setValue(force * 100f);
+        float magPercentage = (float)currentMagazineSize / (float)maxMagazineSize * 100f;        
+        FMOD_Magazine.setValue(magPercentage);
+
+        FMOD.Studio.PLAYBACK_STATE playbackState;
+        shootEI.getPlaybackState(out playbackState);
+        if (playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+        {
+            shootEI.start();
+            shootEI.release();
+        }
+
 
         currentMagazineSize -= shotUsage;
-
+        
         //Timer starts countdown for next possibility to shoot        
         timer = fireRate;
         
@@ -151,33 +164,17 @@ public class Weapon : MonoBehaviour {
     }
 
     private void Reload() {
-        //This asks for animator to change animation as soon as last animation lets to.
-        //Reload animation will then call sounds and magazine changes from itself.
-        //This way we avoid subtracting magazines too early or playing sounds in wrong places.
-        //See: void AnimReloading()
-        gunAnim.SetTrigger("reload");
+        // gunAnim.SetTrigger("reload");
+
+        FMODUnity.RuntimeManager.PlayOneShotAttached(reloadSE, gameObject);
+        currentMagazines--;
+        currentMagazineSize = maxMagazineSize;
+        timer = 5f;
     }
 
     void OnDestroy() {
         waterParticles.Stop();
-        shootEI.release();
+        shootEI.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
-
-
-    #region IN-ANIMATION CALLS
-
-    public void AnimReloading() {
-        FMODUnity.RuntimeManager.PlayOneShotAttached(reloadSE, gameObject);
-
-        currentMagazines--;
-        currentMagazineSize = maxMagazineSize;
-    }
-
-    public void AnimShooting() {
-
-    }
-
-    #endregion
-
 
 }
