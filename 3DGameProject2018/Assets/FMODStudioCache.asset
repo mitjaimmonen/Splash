@@ -29,7 +29,7 @@ MonoBehaviour:
   - {fileID: 114732177566363566}
   MasterBankRef: {fileID: 114754081980263302}
   StringsBankRef: {fileID: 114305681537062308}
-  stringsBankWriteTime: 636548179994167442
+  stringsBankWriteTime: 636548240770782358
   cacheVersion: 2
 --- !u!114 &114007965210880862
 MonoBehaviour:
@@ -200,9 +200,9 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114146722969785840}
-  - {fileID: 114990675623716214}
-  - {fileID: 114569746709441052}
+  - {fileID: 114303691778467648}
+  - {fileID: 114504808630161046}
+  - {fileID: 114900115602549964}
   MinDistance: 1
   MaxDistance: 20
   Length: 490
@@ -617,13 +617,14 @@ MonoBehaviour:
   guid: 57648ede1ded544c9eceabd317731601
   Banks:
   - {fileID: 114754081980263302}
-  IsStream: 1
+  IsStream: 0
   Is3D: 1
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: 114885168799400036}
   MinDistance: 1
   MaxDistance: 20
-  Length: 870
+  Length: 1000
 --- !u!114 &114215964313411624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,6 +932,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114303691778467648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_wood
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114304276398906806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -973,7 +989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\FMOD\Project\Build\Desktop\Master Bank.strings.bank
-  lastModified: 636548179994167442
+  lastModified: 636548240770782358
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -1607,6 +1623,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114504808630161046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_metal
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114506231137722288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2003,8 +2034,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114007965210880862}
-  - {fileID: 114527423772948476}
+  - {fileID: 114773829877222462}
+  - {fileID: 114736869368799840}
   MinDistance: 1
   MaxDistance: 20
   Length: 0
@@ -2322,6 +2353,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114684610699259378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114691216156748600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2449,6 +2495,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 790
+--- !u!114 &114736869368799840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
 --- !u!114 &114738545666434724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2537,11 +2598,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: C:\Users\Just A Laptop\Documents\GitKraken\3DGameProject2018\3DGameProject2018\Assets\FMOD\Project\Build\Desktop\Master
     Bank.bank
-  lastModified: 636548179994087459
+  lastModified: 636548240770717147
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1909696
+    Value: 1540160
   Exists: 1
 --- !u!114 &114756293383913354
 MonoBehaviour:
@@ -2617,6 +2678,21 @@ MonoBehaviour:
   Name: Magazine
   Min: 0
   Max: 100
+  Default: 0
+--- !u!114 &114773829877222462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
+  Min: 0
+  Max: 1
   Default: 0
 --- !u!114 &114777152900196782
 MonoBehaviour:
@@ -2871,6 +2947,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114844399373106626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114861459717292186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2980,6 +3071,21 @@ MonoBehaviour:
   - Name: Desktop
     Value: 2280704
   Exists: 1
+--- !u!114 &114885168799400036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
 --- !u!114 &114886686956490024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3062,6 +3168,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114900115602549964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_ground
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114911203448229724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3111,7 +3232,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114939415624703860}
+  - {fileID: 114844399373106626}
   MinDistance: 1
   MaxDistance: 20
   Length: 1800
@@ -3254,11 +3375,26 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114572071369132246}
-  - {fileID: 114499624869386538}
+  - {fileID: 114981311300329458}
+  - {fileID: 114684610699259378}
   MinDistance: 1
   MaxDistance: 20
   Length: 3000
+--- !u!114 &114981311300329458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: CollisionStrength
+  Min: 0
+  Max: 100
+  Default: 0
 --- !u!114 &114988586393064912
 MonoBehaviour:
   m_ObjectHideFlags: 0
