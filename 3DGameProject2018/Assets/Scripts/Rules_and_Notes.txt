@@ -1,0 +1,28 @@
+
+
+//Use to debug, will seperate logs with time codes
+Debug.Log("At " + (int) Time.time + " seconds: " + "");
+
+//Header for every class explaining the purpose
+/********************************************
+ * (class name) class
+ * 
+ * 
+ */
+
+//Tag to put on changes for later
+//                                                                                                                             ////////////Tagged////////////
+//*****************************************************************************************************************************//////////////To//////////////
+//                                                                                                                             ////////////Change////////////
+
+
+
+//////////Notes/////////////
+
+All controllers should have a tag so the state handler can attach to it on scene change for
+ our input passing and such
+
+teams needs to be a list
+
+we need to decide to have all the player elements constant and fixxed or initialized and equally spaced
+equally spaced is nice but obviously more work to smooth transitions ect
