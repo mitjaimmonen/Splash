@@ -34,11 +34,11 @@ public class Weapon : MonoBehaviour {
     [Tooltip("How long to wait until shoot input can get called again")]
     public float fireRate = 0.25f;
     [Tooltip("Does weapon reload automatically when empty?")]
-    public bool autoReload = true;
+    public bool autoReload = true, isContinuous = true;
 
     private Animator gunAnim;
     private ParticleSystem waterParticles;
-    private bool isShooting, isContinuous, isScope;
+    private bool isShooting, isScope;
     private int currentMagazineSize, currentMagazines;
     private float timer;
     private float shootForceMultiplier; //Controls water force according to input axis amounts
@@ -73,10 +73,6 @@ public class Weapon : MonoBehaviour {
         currentMagazineSize = maxMagazineSize;
         currentMagazines = startMagazines;
 
-        shootEI = FMODUnity.RuntimeManager.CreateInstance(shootSE);
-        shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
-        shootEI.getParameter("Magazine", out FMOD_Magazine);
-        shootEI.getParameter("Shooting", out FMOD_Shooting);
     }
 
     private void Update()
@@ -141,18 +137,33 @@ public class Weapon : MonoBehaviour {
         waterParticles.Play();
         
         
+        //SPAGHETTI HELL INC
+        //These checks need to be made for "one-shot" sounds to work
+        //One shots can start on top of each other while continuous continues the old sound without creating new.
+
+        if (!shootEI.isValid() || !isContinuous)
+        {
+            shootEI = FMODUnity.RuntimeManager.CreateInstance(shootSE);
+            shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
+        }
+
         //Set FMOD sound parameters.
+        shootEI.getParameter("Magazine", out FMOD_Magazine);
+        shootEI.getParameter("Shooting", out FMOD_Shooting);
         FMOD_Shooting.setValue(force * 100f);
         float magPercentage = (float)currentMagazineSize / (float)maxMagazineSize * 100f;        
         FMOD_Magazine.setValue(magPercentage);
 
         FMOD.Studio.PLAYBACK_STATE playbackState;
         shootEI.getPlaybackState(out playbackState);
-        if (playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+
+        if (playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING || !isContinuous)
         {
             shootEI.start();
             shootEI.release();
         }
+
+        
 
 
         currentMagazineSize -= shotUsage;
@@ -174,6 +185,7 @@ public class Weapon : MonoBehaviour {
 
     void OnDestroy() {
         waterParticles.Stop();
+        shootEI.release();
         shootEI.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
