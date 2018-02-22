@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{0bcf709f-441e-48c8-806b-9554d6740ef8}">
         <property name="name">
-            <value>Grenade launcher sounds</value>
+            <value>GrenadeLauncher</value>
         </property>
         <property name="outputFormat">
             <value>2</value>
