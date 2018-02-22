@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Weapon currentWeapon;
+    private float currentWater;
+    public float maxWater = 1000f;
     public HudHandler hud;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
     private MatchController controller;
@@ -18,8 +20,23 @@ public class PlayerController : MonoBehaviour
 
     private List<Effects> currentEffects;
 
+    public float CurrentWater
+    {
+        get { return currentWater; }
+        set 
+        {
+            if(value >= maxWater)
+                currentWater = maxWater;
+            else if (value < 0)
+                currentWater = 0;
+            else
+                currentWater = value;
+        }
+    }
+
     private void Start()
     {
+        CurrentWater = maxWater;
         //Find controller and bind it
     }
 
