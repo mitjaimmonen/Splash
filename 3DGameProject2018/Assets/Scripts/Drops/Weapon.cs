@@ -11,6 +11,9 @@ using FMOD.Studio;
  * 
  *
  * Other notes:
+ *
+ * Script assumes all weapons are under a parent which has player controller.
+ *
  * Timer is set for fire rate now.
  * Can be changed if needed.
  *
@@ -24,15 +27,35 @@ using FMOD.Studio;
 
 public class Weapon : MonoBehaviour {
     //hold a sound and particle effect along with damage, clip, ammunition size and isshooting, timer, iscontinuous
+    public enum WeaponTypeEnum
+    {
+        [Tooltip("Shoots continuously as long as bullets left")]AutoRifle,
+        [Tooltip("Shoots continuously for specified maximum time")]Pistol, 
+        [Tooltip("Shoots once")]Shotgun,
+        [Tooltip("Shoots projectile once")]Launcher 
+    };
+    public Weapon.WeaponTypeEnum weaponType = WeaponTypeEnum.AutoRifle;
+
+    public PlayerController playerController;
 
     [Tooltip("How much water in a single magazine")]
     public int maxMagazineSize = 100;
+
+    [Tooltip("How much water in a single magazine")]
+    public int maxBullets = 1000;
+
     [Tooltip("Amount of water containers at start")]
     public int startMagazines = 1;
+
     [Tooltip("How much one shot consumes water")]
     public int shotUsage = 1;
+
     [Tooltip("How long to wait until shoot input can get called again")]
     public float fireRate = 0.25f;
+
+    [Tooltip("This force stops shooting after given time. Set 0 if infinity/ignore.")]
+    public float maxShootTime = 0;  
+
     [Tooltip("Does weapon reload automatically when empty?")]
     public bool autoReload = true, isContinuous = true;
 
@@ -40,7 +63,7 @@ public class Weapon : MonoBehaviour {
     private ParticleSystem waterParticles;
     private bool isShooting, isScope;
     private int currentMagazineSize, currentMagazines;
-    private float timer;
+    private float fireRateTimer, shootTimeTimer;
     private float shootForceMultiplier; //Controls water force according to input axis amounts
     private float accuracyRandomizer; //How much particle direction is randomized
     private float shootSpeed; //Particle start speed (=force)
@@ -64,6 +87,7 @@ public class Weapon : MonoBehaviour {
 
     public void Awake()
     {
+        playerController = GetComponentInParent<PlayerController>();
         waterParticles = gameObject.GetComponentInChildren<ParticleSystem>();
         // gunAnim = gameObject.GetComponent<Animator>();
         
@@ -77,21 +101,24 @@ public class Weapon : MonoBehaviour {
 
     private void Update()
     {
-
-        
-        if(timer > 0) 
-        {
-            timer -= Time.deltaTime;
-        }
+        Debug.Log(weaponType);
+        fireRateTimer -= Time.deltaTime;
+        shootTimeTimer += Time.deltaTime;
 
         //Test inputs temporarily here
         //If input amount more than 20, call shoot() every frame.
         float axis = Input.GetAxis("Fire1");
 
-        if (axis > 0.2f)
+        if (axis > 0.2f) 
+        {
             Shoot(axis);
-        else
+
+        }
+        else 
+        {
             FMOD_Shooting.setValue(axis * 100f);
+            shootTimeTimer = 0;
+        }
 
         
 
@@ -102,8 +129,13 @@ public class Weapon : MonoBehaviour {
     public void Shoot(float force)
     {
 
-        if (timer > 0)
+        if (fireRateTimer > 0) 
+        {
+            if (shootTimeTimer > maxShootTime)
+                FMOD_Shooting.setValue(0);            
             return;
+
+        }
 
         if (currentMagazineSize < shotUsage)
         {
@@ -169,7 +201,7 @@ public class Weapon : MonoBehaviour {
         currentMagazineSize -= shotUsage;
         
         //Timer starts countdown for next possibility to shoot        
-        timer = fireRate;
+        fireRateTimer = fireRate;
         
 
     }
@@ -180,7 +212,7 @@ public class Weapon : MonoBehaviour {
         FMODUnity.RuntimeManager.PlayOneShotAttached(reloadSE, gameObject);
         currentMagazines--;
         currentMagazineSize = maxMagazineSize;
-        timer = 5f;
+        fireRateTimer = 5f;
     }
 
     void OnDestroy() {
