@@ -17,6 +17,7 @@ public class StateHandler : MonoBehaviour
     public GameObject controllerObject;
     private IController controller;//this is gonna be empty in all but the initial menu
     public State state;
+    public int controllerAmount = 0;
 
     //handle changing the state
     public void ChangeState(State desiredState)
@@ -38,40 +39,101 @@ public class StateHandler : MonoBehaviour
     //returns false if it failed to find a controller to pass to
     private bool FindInput()
     {
-        //listen for input
         string[] input = new string[3];
-        //passes the controller number and button and intensity if applicable ie the triggers
-        //if its onpress or onrelease maybe if necessary
-        //pass input to current states controller in the scene whatever it may be
-        if(Input.GetAxis("Horizontal_a") != 0)
+        //listen for input
+        for(int i = 0; i < controllerAmount; i++)
         {
-            input[0] = "Controller_a";
-            input[1] = "RightStick_X";
-            input[2] = Input.GetAxis("Horizontal_a").ToString();
-            controller.InputHandle(input);
-        }
-        if(Input.GetAxis("Vertical_a") != 0)
-        {
-            input[0] = "Controller_a";
-            input[1] = "RightStick_y";
-            input[2] = Input.GetAxis("Vertical_a").ToString();
-            controller.InputHandle(input);
-        }
-        if(Input.GetAxis("A_a") != 0)
-        {
-            input[0] = "Controller_a";
-            input[1] = "A_a";
-            input[2] = Input.GetAxis("A_a").ToString();
-            controller.InputHandle(input);
-        }
-        if(Input.GetAxis("R3_a") != 0)
-        {
-            input[0] = "Controller_a";
-            input[1] = "R3_a";
-            input[2] = Input.GetAxis("R3_a").ToString();
-            controller.InputHandle(input);
-        }
+            //passes the controller number and button and intensity if applicable ie the triggers
+            //if its onpress or onrelease maybe if necessary
+            //pass input to current states controller in the scene whatever it may be
+            if(Input.GetAxis("Joy" + i + "Start") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "Start";
+                input[2] = Input.GetAxis("Joy" + i + "Start").ToString();
+                controller.InputHandle(input);
+            }
+            if(Input.GetAxis("Joy" + i +"LeftHorizontal") != 0)
+            {
+                Debug.Log("trip");
+                input[0] = i.ToString();
+                input[1] = "LeftHorizontal";
+                input[2] = Input.GetAxis("Joy" + i + "LeftHorizontal").ToString();
+                controller.InputHandle(input);
+            }
+            if(Input.GetAxis("Joy" + i + "LeftVertical") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "LeftVertical";
+                input[2] = Input.GetAxis("Joy" + i + "LeftVertical").ToString();
+                controller.InputHandle(input);
+            }
+            if(Input.GetAxis("Joy" + i + "RightHorizontal") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "RightHorizontal";
+                input[2] = Input.GetAxis("Joy" + i + "RightHorizontal").ToString();
+                controller.InputHandle(input);
+            }
+            if(Input.GetAxis("Joy" + i + "RightVertical") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "RightVertical";
+                input[2] = Input.GetAxis("Joy" + i + "RightVertical").ToString();
+                controller.InputHandle(input);
+            }
+           
+            if(Input.GetAxis("Joy" + i + "A") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "A";
+                input[2] = Input.GetAxis("Joy" + i + "A").ToString();
+                controller.InputHandle(input);
+            }
+            if(Input.GetAxis("Joy" + i + "Y") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "Y";
+                input[2] = Input.GetAxis("Joy" + i + "Y").ToString();
+                controller.InputHandle(input);
+            }
 
+            if(Input.GetAxis("Joy" + i + "R1") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "R1";
+                input[2] = Input.GetAxis("Joy" + i + "R1").ToString();
+                controller.InputHandle(input);
+            }
+            if(Input.GetAxis("Joy" + i + "L1") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "L1";
+                input[2] = Input.GetAxis("Joy" + i + "L1").ToString();
+                controller.InputHandle(input);
+            }
+            if(Input.GetAxis("Joy" + i + "R2") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "R2";
+                input[2] = Input.GetAxis("Joy" + i + "R2").ToString();
+                controller.InputHandle(input);
+            }
+            if(Input.GetAxis("Joy" + i + "L2") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "L2";
+                input[2] = Input.GetAxis("Joy" + i + "L2").ToString();
+                controller.InputHandle(input);
+            }
+            if(Input.GetAxis("Joy" + i + "L3") != 0)
+            {
+                input[0] = i.ToString();
+                input[1] = "L3";
+                input[2] = Input.GetAxis("Joy" + i + "L3").ToString();
+                controller.InputHandle(input);
+            }
+        }
         return true;
     }
 }

@@ -13,6 +13,14 @@ public class PlayerController : MonoBehaviour
     private MatchController controller;
     public int maxHealth = 100, currentDamage = 0;
 
+
+    //Movement Variables
+    public float JumpVelocity = 1;
+    public float gravity = 1f;
+    public float maxVelocity;
+    public float groundOffset;
+    private float currentVerticalVelocity = 0;
+    private bool isGrounded = true;
     public float speed = 2;
     public float runMultiplier = 1.5f;
     //possibly a list of who damaged you as well so we could give people assists and stuff
@@ -23,11 +31,10 @@ public class PlayerController : MonoBehaviour
     public float CurrentWater
     {
         get { return currentWater; }
-        set 
-        {
+        set {
             if(value >= maxWater)
                 currentWater = maxWater;
-            else if (value < 0)
+            else if(value < 0)
                 currentWater = 0;
             else
                 currentWater = value;
@@ -45,28 +52,36 @@ public class PlayerController : MonoBehaviour
     //visually apply all current effects
     private void Update()
     {
-
+        if(!isGrounded)
+        {
+            currentVerticalVelocity -= gravity;
+            Mathf.Clamp(currentVerticalVelocity, -maxVelocity, maxVelocity);
+            RaycastHit hit;
+            if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1))
+            {
+                transform.position += new Vector3(0, currentVerticalVelocity, 0);
+            } else
+            {
+                currentVerticalVelocity = 0;
+                isGrounded = true;
+            }
+            
+        }
+        if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 1))
+        {
+            isGrounded = false;
+        }
     }
 
     //shoots, moves, interacts, shows scores, pauses if pressed button
     public void InputHandle(string[] input)
     {
-        if(input[1] == "RightStick_X")
+        Debug.Log(input[1]);
+        if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" )
         {
-            Move("x", float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
+            Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
         }
-        if(input[1] == "RightStick_y")
-        {
-            Move("y", float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
-        }
-        if(input[1] == "run")
-        {
-            Move("run", 1);
-        }
-        //if shoot 
-        //shoots currentweapon
-        //if show score 
-        //hudhandler.showscore
+
     }
 
 
@@ -76,11 +91,18 @@ public class PlayerController : MonoBehaviour
     {
         switch(axis)
         {
-            case "x":
+            case "LeftHorizontal":
                 transform.position += new Vector3(magnitude * speed * Time.deltaTime, 0, 0);
                 break;
-            case "y":
+            case "LeftVertical":
                 transform.position += new Vector3(0, 0, magnitude * speed * Time.deltaTime);
+                break;
+            case "A":
+                if(isGrounded)
+                {
+                    currentVerticalVelocity = JumpVelocity;
+                    isGrounded = false;
+                }
                 break;
             default:
                 break;

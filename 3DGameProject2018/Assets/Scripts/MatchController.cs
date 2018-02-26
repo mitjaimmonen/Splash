@@ -39,16 +39,16 @@ public class MatchController : MonoBehaviour, IController
         //all input goes to the controllers appropriate player
         switch(input[0])
         {
-            case "Controller_a":
+            case "0":
                 instantiatedPlayers[0].InputHandle(input);
                 break;
-            case "Controller_b":
+            case "1":
                 instantiatedPlayers[1].InputHandle(input);
                 break;
-            case "Controller_c":
+            case "2":
                 instantiatedPlayers[2].InputHandle(input);
                 break;
-            case "Controller_d":
+            case "3":
                 instantiatedPlayers[3].InputHandle(input);
                 break;
             default:
