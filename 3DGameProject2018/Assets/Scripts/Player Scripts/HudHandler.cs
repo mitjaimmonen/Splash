@@ -3,79 +3,87 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/********************************************
+ * (class name) HudHandler
+ * 
+ * Updates each players hud.
+ * Updates data from player controller when called to
+ *      Health, current ammo, global ammo, throwable item
+ * 
+ */
+
 public class HudHandler : MonoBehaviour {
 
     /*
     TO DO:
         - on instantiate, make sure player controller references itself to this class!
-
-    
      */
 
+     
+    //NOTES
+    //Sliders are 180 degrees, while the sprites themselves are only 108 degrees,
+    //This is why sliderValue = value * 0.6 + 20
+    //slider can not be under 20 or over 80.
+
+
+
     #region canvasReferences
-        public Image healthIcon;
+        public Image healthIcon, throwableIcon;
         public Slider healthSlider;
         public Slider clipSlider;
         public Text clipAmmoText;
         public Text globalAmmoText;
-        public Sprite[] healthIcons;
+        public Sprite[] healthIcons, thorwableIcons;
     #endregion
 
     public PlayerController playerController;
 
-    public float currentHealth; //from playerController
-    private float globalAmmo, clipSize, currentAmmo; //from playercontroller
+    private int currentHealth, maxHealth;
+    private int globalAmmo, clipSize, currentAmmo;
 
-    
-
-
-    public void Update() {
-        // UpdateHealth();
-        
-    }
 
     public void UpdateHealth(){
-        
-        //TODO
-        //Currenthealth private, get from playerController.
 
-        //NOTES
-        //Health slider is 180 degrees, while the sprite itself is only 108 degrees,
-        //This is why sliderHealth = value * 0.6 + 20
-        //slider can not be under 20 or over 80.
+        currentHealth = playerController.CurrentHealth;
+        maxHealth = playerController.MaxHealth;
 
+        int healthPercentage = (int)((float)currentHealth/(float)maxHealth * 100f);
+        int sliderHealth = (int)((float)healthPercentage * 0.6f + 20f);
+        healthSlider.value = sliderHealth;
 
-        // currentHealth = playerController.health;
-
-        if (currentHealth > 66)
+        if (healthPercentage > 66)
             healthIcon.sprite = healthIcons[0];
 
-        else if  (currentHealth > 33)
+        else if  (healthPercentage > 33)
             healthIcon.sprite = healthIcons[1];
 
         else
             healthIcon.sprite = healthIcons[2];
 
-        int sliderHealth = (int)(currentHealth * 0.6 + 20);
-        healthSlider.value = sliderHealth;
+
 
     }
 
     public void UpdateAmmo(){
 
-        globalAmmo = playerController.globalAmmo;
-        currentAmmo = playerController.currentAmmo;
+        globalAmmo = playerController.GlobalAmmo;
+        currentAmmo = playerController.CurrentAmmo;
 
-        clipAmmoText.text = ""+currentAmmo;
-        globalAmmoText.text = ""+globalAmmo;
+        clipAmmoText.text = "" + currentAmmo;
+        globalAmmoText.text = "" + globalAmmo;
         
-        int sliderAmmo = (int)(currentAmmo * 0.6 + 20);
+        int sliderAmmo = (int)(((float)currentAmmo / (float)clipSize *100f) * 0.6f + 20f);
         clipSlider.value = sliderAmmo;
 
     }
 
-    public void UpdateThrowable() {
-        //Update if throwable available
+    public void UpdateThrowable(string name) {
+        throwableIcon.enabled = true;
+        if (name == "balloon")
+            throwableIcon.sprite = thorwableIcons[0];
+        else
+            throwableIcon.enabled = false;
+
     }
 
 }
