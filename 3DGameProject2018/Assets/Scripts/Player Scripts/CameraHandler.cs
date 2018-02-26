@@ -8,7 +8,7 @@ public class CameraHandler : MonoBehaviour {
     private void Update()
     {
         transform.position = player.transform.position;
-
+        transform.rotation = player.transform.rotation;
     }
 
 }

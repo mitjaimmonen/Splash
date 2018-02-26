@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
         if(input[1] == "RightHorizontal")
         {transform.RotateAround(Vector3.zero, Vector3.up, 20 * Time.deltaTime);
             transform.Rotate(new Vector3(0,1,0) * Time.deltaTime * float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat)*lookSpeed);
-            camera.transform.RotateAround(camera.transform.position, Vector3.up, Time.deltaTime * float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat) * lookSpeed);
+            //camera.transform.RotateAround(camera.transform.position, Vector3.up, Time.deltaTime * float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat) * lookSpeed);
         }
         if(input[1] == "RightVertical")
         {
@@ -104,7 +104,6 @@ public class PlayerController : MonoBehaviour
         switch(axis)
         {
             case "LeftHorizontal":
-                
                 transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime;
                 break;
             case "LeftVertical":

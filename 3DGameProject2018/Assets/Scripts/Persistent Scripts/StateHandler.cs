@@ -13,9 +13,8 @@ public class StateHandler : MonoBehaviour
 {
 
     private MatchOptions options;
-    //we will search and find this during change state
-    public GameObject controllerObject;
-    private IController controller;//this is gonna be empty in all but the initial menu
+    //we will search and find this during change state and on start
+    private IController controller;
     public State state;
     public int controllerAmount = 0;
 
@@ -29,13 +28,19 @@ public class StateHandler : MonoBehaviour
     }
     private void Start()
     {
-        controller = controllerObject.GetComponent<IController>();
+        FindController();
+        DontDestroyOnLoad(transform.gameObject);
     }
+
     void Update()
     {
         FindInput();
     }
 
+
+    private void FindController() {
+        controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
+    }
     //returns false if it failed to find a controller to pass to
     private bool FindInput()
     {
