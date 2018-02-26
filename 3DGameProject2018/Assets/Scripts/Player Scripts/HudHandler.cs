@@ -4,28 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /********************************************
- * (class name) HudHandler
- * 
- * Updates each players hud.
- * Updates data from player controller when called to
- *      Health, current ammo, global ammo, throwable item
- * 
- */
+* (class name) HudHandler
+* 
+* Updates each players hud.
+* Updates data from player controller when called to.
+*      Health, current ammo, global ammo, throwable item
+* 
+* NOTES
+* Sliders are 180 degrees, while the sprites themselves are only 108 degrees,
+*   This is why sliderValue = value * 0.6 + 20
+*   slider can not be under 20 or over 80.
+*
+*/
 
-public class HudHandler : MonoBehaviour {
-
-    /*
-    TO DO:
-        - on instantiate, make sure player controller references itself to this class!
-     */
-
-     
-    //NOTES
-    //Sliders are 180 degrees, while the sprites themselves are only 108 degrees,
-    //This is why sliderValue = value * 0.6 + 20
-    //slider can not be under 20 or over 80.
-
-
+public class HudHandler : MonoBehaviour {     
 
     #region canvasReferences
         public Image healthIcon, throwableIcon;
@@ -36,16 +28,8 @@ public class HudHandler : MonoBehaviour {
         public Sprite[] healthIcons, thorwableIcons;
     #endregion
 
-    public PlayerController playerController;
 
-    private int currentHealth, maxHealth;
-    private int globalAmmo, clipSize, currentAmmo;
-
-
-    public void UpdateHealth(){
-
-        currentHealth = playerController.CurrentHealth;
-        maxHealth = playerController.MaxHealth;
+    public void UpdateHealth(int maxHealth, int currentHealth){
 
         int healthPercentage = (int)((float)currentHealth/(float)maxHealth * 100f);
         int sliderHealth = (int)((float)healthPercentage * 0.6f + 20f);
@@ -53,21 +37,14 @@ public class HudHandler : MonoBehaviour {
 
         if (healthPercentage > 66)
             healthIcon.sprite = healthIcons[0];
-
         else if  (healthPercentage > 33)
             healthIcon.sprite = healthIcons[1];
-
         else
             healthIcon.sprite = healthIcons[2];
 
-
-
     }
 
-    public void UpdateAmmo(){
-
-        globalAmmo = playerController.GlobalAmmo;
-        currentAmmo = playerController.CurrentAmmo;
+    public void UpdateAmmo(int globalAmmo, int clipSize, int currentAmmo){
 
         clipAmmoText.text = "" + currentAmmo;
         globalAmmoText.text = "" + globalAmmo;
