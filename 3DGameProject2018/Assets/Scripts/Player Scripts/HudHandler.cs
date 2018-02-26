@@ -1,62 +1,80 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HudHandler : MonoBehaviour {
 
     /*
-    Unclear??
-    - What class has health?
-    - Is hud attached to player?
-    - All weapons have own script, should hud get a list and check in update which is active?
-    - What script takes care of possible throwable items?
-    - How to get current player's camera?
+    TO DO:
+        - on instantiate, make sure player controller references itself to this class!
+
     
      */
 
-    // Variables:
-    // Camera viewport size
-    // ext player controller & health
-    // ext weapon
-    // child Health bar
-    // child Health face icon
-    // child current ammo text
-    // child global ammo text
-    // (Maybe) child magazine size OR shot usage text
-    // (maybe) child "throwable" icon
+    #region canvasReferences
+        public Image healthIcon;
+        public Slider healthSlider;
+        public Slider clipSlider;
+        public Text clipAmmoText;
+        public Text globalAmmoText;
+        public Sprite[] healthIcons;
+    #endregion
 
-    public void Awake() {
-        //Get components
+    public PlayerController playerController;
 
-        //If viewport scaling does not work well automatically:
-        //SetHudScaling(viewportSize)
-        
-    }
+    public float currentHealth; //from playerController
+    private float globalAmmo, clipSize, currentAmmo; //from playercontroller
+
+    
+
 
     public void Update() {
-
-        //If changes in health:
-        Health();
-        //If changes in ammunition:
-        Ammo();
-        //If changes in throwable items:
-        Throwable();
+        // UpdateHealth();
         
     }
 
-    private void Health(){
-        //Update health bar
-        //Update health face icon
+    public void UpdateHealth(){
+        
+        //TODO
+        //Currenthealth private, get from playerController.
+
+        //NOTES
+        //Health slider is 180 degrees, while the sprite itself is only 108 degrees,
+        //This is why sliderHealth = value * 0.6 + 20
+        //slider can not be under 20 or over 80.
+
+
+        // currentHealth = playerController.health;
+
+        if (currentHealth > 66)
+            healthIcon.sprite = healthIcons[0];
+
+        else if  (currentHealth > 33)
+            healthIcon.sprite = healthIcons[1];
+
+        else
+            healthIcon.sprite = healthIcons[2];
+
+        int sliderHealth = (int)(currentHealth * 0.6 + 20);
+        healthSlider.value = sliderHealth;
+
     }
 
-    private void Ammo(){
-        //Update global ammo
-        //Update current weapon ammo
-        //Update ammo bar
+    public void UpdateAmmo(){
+
+        globalAmmo = playerController.globalAmmo;
+        currentAmmo = playerController.currentAmmo;
+
+        clipAmmoText.text = ""+currentAmmo;
+        globalAmmoText.text = ""+globalAmmo;
+        
+        int sliderAmmo = (int)(currentAmmo * 0.6 + 20);
+        clipSlider.value = sliderAmmo;
 
     }
 
-    private void Throwable() {
+    public void UpdateThrowable() {
         //Update if throwable available
     }
 
