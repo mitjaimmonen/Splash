@@ -6,12 +6,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Weapon currentWeapon;
-    private float currentWater;
-    public float maxWater = 1000f;
+    private int currentHealth, maxHealth = 100;
+    private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 1000;
     public HudHandler hud;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
     private MatchController controller;
-    public int maxHealth = 100, currentDamage = 0;
+    public int currentDamage = 0;
 
     public Camera camera;
     //Movement Variables
@@ -28,22 +28,88 @@ public class PlayerController : MonoBehaviour
 
     private List<Effects> currentEffects;
 
-    public float CurrentWater
-    {
-        get { return currentWater; }
-        set {
-            if(value >= maxWater)
-                currentWater = maxWater;
-            else if(value < 0)
-                currentWater = 0;
-            else
-                currentWater = value;
+
+    #region Getters & Setters
+
+        //Setters now trigger functions in hud when values change.
+        //by including values, hud doesnt need to have reference on this script.
+        public int ClipSize
+        {
+            get { return clipSize; }
+            set 
+            {
+                if (value == clipSize)
+                    return;
+                else if (value < 0)
+                    clipSize = 0;
+                else
+                    clipSize = value;
+
+                hud.UpdateAmmo(globalAmmo, clipSize, currentAmmo);
+                
+            }
         }
-    }
+        public int CurrentAmmo
+        {
+            get { return currentAmmo; }
+            set 
+            {
+                if (value == currentAmmo)
+                    return;
+                else if (value >= clipSize)
+                    currentAmmo = clipSize;
+                else if (value < 0)
+                    currentAmmo = 0;
+                else
+                    currentAmmo = value;
+
+                hud.UpdateAmmo(globalAmmo, clipSize, currentAmmo);
+            }
+        }
+        public int GlobalAmmo
+        {
+            get {return globalAmmo; }
+            set
+            {
+                if (value == globalAmmo)
+                    return;
+                else if (value >= maxGlobalAmmo)
+                    globalAmmo = maxGlobalAmmo;
+                else if (value < 0)
+                    globalAmmo = 0;
+                else
+                    globalAmmo = value;
+
+                hud.UpdateAmmo(globalAmmo, clipSize, currentAmmo);
+            }
+        }
+
+        public int CurrentHealth
+        {
+            get{ return currentHealth; }
+            set
+            {
+                if (value == currentHealth)
+                    return;
+                else if (value >= maxHealth)
+                    currentHealth = maxHealth;
+                else if (value < 0)
+                    currentHealth = 0;
+                else
+                    currentHealth = value;
+
+                hud.UpdateHealth(maxHealth, currentHealth);
+            }
+        }
+    #endregion
+
 
     private void Start()
     {
-        CurrentWater = maxWater;
+        currentAmmo = clipSize;
+        hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
+        // hud.playerController = this;
+
         //Find controller and bind it
     }
 
