@@ -13,12 +13,12 @@ public class PlayerController : MonoBehaviour
     private MatchController controller;
     public int maxHealth = 100, currentDamage = 0;
 
-
+    public Camera camera;
     //Movement Variables
+    public float lookSpeed = 1;
     public float JumpVelocity = 1;
     public float gravity = 1f;
     public float maxVelocity;
-    public float groundOffset;
     private float currentVerticalVelocity = 0;
     private bool isGrounded = true;
     public float speed = 2;
@@ -65,12 +65,15 @@ public class PlayerController : MonoBehaviour
                 currentVerticalVelocity = 0;
                 isGrounded = true;
             }
-            
-        }
-        if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 1))
+
+        } else
         {
-            isGrounded = false;
+            if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 2))
+            {
+                isGrounded = false;
+            }
         }
+        
     }
 
     //shoots, moves, interacts, shows scores, pauses if pressed button
@@ -81,7 +84,16 @@ public class PlayerController : MonoBehaviour
         {
             Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
         }
-
+        if(input[1] == "RightHorizontal")
+        {transform.RotateAround(Vector3.zero, Vector3.up, 20 * Time.deltaTime);
+            transform.Rotate(new Vector3(0,1,0) * Time.deltaTime * float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat)*lookSpeed);
+            camera.transform.RotateAround(camera.transform.position, Vector3.up, Time.deltaTime * float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat) * lookSpeed);
+        }
+        if(input[1] == "RightVertical")
+        {
+            //look up and down
+        }
+        
     }
 
 
@@ -92,10 +104,11 @@ public class PlayerController : MonoBehaviour
         switch(axis)
         {
             case "LeftHorizontal":
-                transform.position += new Vector3(magnitude * speed * Time.deltaTime, 0, 0);
+                
+                transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime;
                 break;
             case "LeftVertical":
-                transform.position += new Vector3(0, 0, magnitude * speed * Time.deltaTime);
+                transform.position += -transform.forward * magnitude * speed * Time.deltaTime;
                 break;
             case "A":
                 if(isGrounded)

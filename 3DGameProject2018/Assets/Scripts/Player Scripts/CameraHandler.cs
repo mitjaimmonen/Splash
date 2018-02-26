@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraHandler : MonoBehaviour {
-    
 
-    //¿¿¿¿¿¿¿¿¿¿DO CAMERA THINGS??????????????
+    public GameObject player;
+    private void Update()
+    {
+        transform.position = player.transform.position;
+
+    }
 
 }

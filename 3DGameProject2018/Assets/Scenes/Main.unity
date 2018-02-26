@@ -146,10 +146,11 @@ MonoBehaviour:
   hud: {fileID: 0}
   maxHealth: 100
   currentDamage: 0
-  JumpVelocity: 5
-  gravity: 1
-  maxDownwardVelocity: 5
-  groundOffset: 0.01
+  camera: {fileID: 1549439620}
+  lookSpeed: 80
+  JumpVelocity: 0.4
+  gravity: 0.02
+  maxVelocity: 2
   speed: 2
   runMultiplier: 1.5
 --- !u!23 &346034563
@@ -361,6 +362,7 @@ GameObject:
   - component: {fileID: 1549439620}
   - component: {fileID: 1549439619}
   - component: {fileID: 1549439618}
+  - component: {fileID: 1549439622}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -430,6 +432,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 12.745001, y: -47.671, z: -2.6780002}
+--- !u!114 &1549439622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1549439617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0cb4875dfedf0142bed6cece6d0bb62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 346034561}
 --- !u!1 &1730672126
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +519,7 @@ GameObject:
   - component: {fileID: 1737779167}
   - component: {fileID: 1737779166}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: state
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -524,7 +538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerObject: {fileID: 620234219}
   state: 0
-  controllerAmount: 0
+  controllerAmount: 1
 --- !u!4 &1737779167
 Transform:
   m_ObjectHideFlags: 0
