@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public Weapon currentWeapon;
     public CameraHandler cameraHandler;
     //Movement Variables
-    public float lookSensV = 1, lookSensH = 1;
+    public float lookSensV = 0.8f, lookSensH = 1;
     public bool invertSensV = false;
     public float JumpVelocity = 1;
     public float gravity = 1f;
@@ -113,9 +113,10 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         globalAmmo = maxGlobalAmmo;
-        hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
+        
         cameraHandler = Instantiate(cameraHandler, Vector3.zero, Quaternion.Euler(0,0,0));
         cameraHandler.target = playerFace; // Camera gets rotation from this.
+        hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
 
         currentWeapon.gameObject.SetActive(true);
 
