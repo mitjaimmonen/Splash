@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MatchController : MonoBehaviour {
+public class MatchController : MonoBehaviour, IController
+{
 
     public MatchOptions options;// this is only public so we can pass an option us the map scene right away shouldnt be used otherwise
     public GameObject playerPrefab;
@@ -11,14 +12,15 @@ public class MatchController : MonoBehaviour {
     public GameObject[] dropSpawns;
     private float startTime;
     private bool isPaused = false;
-    private GameObject[] instantiatedPlayers;
+    public PlayerController[] instantiatedPlayers;// only public for testing
 
     //Initialize screens player and map
-    void Start () {
+    void Start()
+    {
         //make players of amount options player and pass each its input controller number
         //adjust camera views for the current number of players
         //spawn players and add them to initializedplayers
-	}
+    }
 
 
 
@@ -34,7 +36,24 @@ public class MatchController : MonoBehaviour {
 
     public void InputHandle(string[] input)
     {
-        //all input goes to the controllers player
+        //all input goes to the controllers appropriate player
+        switch(input[0])
+        {
+            case "0":
+                instantiatedPlayers[0].InputHandle(input);
+                break;
+            case "1":
+                instantiatedPlayers[1].InputHandle(input);
+                break;
+            case "2":
+                instantiatedPlayers[2].InputHandle(input);
+                break;
+            case "3":
+                instantiatedPlayers[3].InputHandle(input);
+                break;
+            default:
+                break;
+        }
     }
 
 
