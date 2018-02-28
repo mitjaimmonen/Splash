@@ -97,9 +97,7 @@ public class Weapon : MonoBehaviour {
     }
     private void Update()
     {
-        fireRateTimer += Time.deltaTime;
-        shootTimer += Time.deltaTime;
-        reloadTimer += Time.deltaTime;
+
 
         shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
 
@@ -120,6 +118,9 @@ public class Weapon : MonoBehaviour {
             shootTimer = 0;
                 
         }
+        fireRateTimer += Time.deltaTime;
+        shootTimer += Time.deltaTime;
+        reloadTimer += Time.deltaTime;
         
     }
 
