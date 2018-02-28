@@ -21082,7 +21082,7 @@ ParticleSystem:
   lengthInSec: 0.12
   simulationSpeed: 1
   stopAction: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -38184,18 +38184,27 @@ GameObject:
 --- !u!114 &1993229426
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114628286051620496, guid: b16cd47d4e21c0b45b13ef84cab6f623,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1993229425}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e5a5d7aa3904544cbd11611a8fc946d, type: 3}
+  m_Script: {fileID: 11500000, guid: f3f2e03f750344843bac64097c4639d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noScope: 1
-  mainCamera: {fileID: 1549439620}
-  m_EventPath: event:/Guns/Auto rifle sounds
+  playerController: {fileID: 0}
+  clipSize: 100
+  maxBullets: 1000
+  shotUsage: 1
+  fireRate: 0.1
+  maxShootTime: 0
+  reloadTime: 2
+  autoReload: 1
+  isContinuous: 1
+  shootSE: event:/Guns/AutoRifle
+  reloadSE: event:/Guns/Reload auto rifle
+  emptyMagSE: 
+  takeScopeSE: 
 --- !u!4 &1993229427
 Transform:
   m_ObjectHideFlags: 0

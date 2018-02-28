@@ -13,7 +13,7 @@ InputManager:
     positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -29,7 +29,7 @@ InputManager:
     positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -45,7 +45,7 @@ InputManager:
     positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -61,7 +61,7 @@ InputManager:
     positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -77,7 +77,7 @@ InputManager:
     positiveButton: joystick button 7
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -93,7 +93,7 @@ InputManager:
     positiveButton: joystick button 0
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 1
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -109,7 +109,7 @@ InputManager:
     positiveButton: joystick button 3
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -125,7 +125,7 @@ InputManager:
     positiveButton: joystick button 5
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -141,7 +141,7 @@ InputManager:
     positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -157,7 +157,7 @@ InputManager:
     positiveButton: joystick button 4
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -173,7 +173,7 @@ InputManager:
     positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -189,7 +189,7 @@ InputManager:
     positiveButton: joystick button 8
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0
@@ -205,7 +205,7 @@ InputManager:
     positiveButton: joystick button 2
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
+    gravity: 50
     dead: 0.19
     sensitivity: 1
     snap: 0

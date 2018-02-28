@@ -26,7 +26,6 @@ using FMOD.Studio;
 
 public class Weapon : MonoBehaviour {
     //hold a sound and particle effect along with damage, clip, ammunition size and isshooting, timer, iscontinuous
-    public PlayerController playerController;
 
     [Tooltip("How much water fits in a clip")]
     public int clipSize = 100;
@@ -49,6 +48,8 @@ public class Weapon : MonoBehaviour {
     [Tooltip("Does weapon reload automatically when empty?")]
     public bool autoReload = true, isContinuous = true;
 
+
+    private PlayerController playerController;
     private Animator gunAnim;
     private ParticleSystem waterParticles;
     private bool isShooting, isScope, isReloading = false;
@@ -83,15 +84,26 @@ public class Weapon : MonoBehaviour {
         accuracyRandomizer = waterParticles.shape.randomDirectionAmount;
 
         currentClipAmmo = clipSize;
+        playerController.CurrentAmmo = currentClipAmmo;
+        playerController.ClipSize = clipSize;
 
     }
 
+    void OnEnable() {
+        
+        playerController.CurrentAmmo = currentClipAmmo;
+        playerController.ClipSize = clipSize;
+        // playerController.ShotUsage = shotUsage;
+    }
     private void Update()
     {
         fireRateTimer += Time.deltaTime;
         shootTimer += Time.deltaTime;
         reloadTimer += Time.deltaTime;
         Debug.Log(currentClipAmmo);
+
+        if(Input.GetMouseButton(0))
+            Shoot(0.9f);
         
         if (reloadTimer > reloadTime)
             isReloading = false;
@@ -193,6 +205,7 @@ public class Weapon : MonoBehaviour {
 
 
         currentClipAmmo -= shotUsage;
+        playerController.CurrentAmmo = currentClipAmmo;
         
 
     }
@@ -203,25 +216,22 @@ public class Weapon : MonoBehaviour {
         isReloading = true;        
         FMODUnity.RuntimeManager.PlayOneShotAttached(reloadSE, gameObject);
         int oldClipAmmo = currentClipAmmo;
-        if (currentGlobalAmmo < (clipSize - currentClipAmmo))
-            currentClipAmmo += playerController.GlobalAmmo;
+        currentGlobalAmmo = playerController.GlobalAmmo;
+        if (currentGlobalAmmo < (clipSize - oldClipAmmo))
+            currentClipAmmo += currentGlobalAmmo;
         else
             currentClipAmmo = clipSize;
 
-        playerController.GlobalAmmo -= (currentClipAmmo - oldClipAmmo);
+        currentGlobalAmmo -= (currentClipAmmo - oldClipAmmo);
+        Debug.Log("Current clip ammo = " + currentClipAmmo + " old clip ammo = " + oldClipAmmo);
+        playerController.GlobalAmmo = currentGlobalAmmo;
+        
+        playerController.CurrentAmmo = currentClipAmmo;
 
         reloadTimer = 0;
     }
 
 
-    void OnEnable() {
-        
-        playerController.CurrentAmmo = currentClipAmmo;
-        playerController.ClipSize = clipSize;
-        // playerController.ShotUsage = shotUsage;
-        
-
-    }
     void OnDestroy() {
         waterParticles.Stop();
         shootEI.release();

@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     private Weapon currentWeapon;
     private int currentHealth, maxHealth = 100;
-    private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 1000;
+    private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     public HudHandler hud;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
     private MatchController controller;
@@ -104,9 +104,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
-    private void Start()
+    private void Awake()
     {
-        currentAmmo = clipSize;
+        globalAmmo = maxGlobalAmmo;
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
         // hud.playerController = this;
 

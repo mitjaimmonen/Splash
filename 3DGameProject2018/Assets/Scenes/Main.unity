@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.4964127, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -142,9 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWater: 1000
-  hud: {fileID: 0}
-  maxHealth: 100
+  hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
   currentDamage: 0
   camera: {fileID: 1549439620}
   lookSpeed: 80
@@ -215,7 +213,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1477299898}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -351,6 +350,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1172982599
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 346034566}
+    m_Modifications:
+    - target: {fileID: 4013307323414880, guid: c6d809d7fcf9d0342ba0ebc56b104e44, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.146
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013307323414880, guid: c6d809d7fcf9d0342ba0ebc56b104e44, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013307323414880, guid: c6d809d7fcf9d0342ba0ebc56b104e44, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013307323414880, guid: c6d809d7fcf9d0342ba0ebc56b104e44, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013307323414880, guid: c6d809d7fcf9d0342ba0ebc56b104e44, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013307323414880, guid: c6d809d7fcf9d0342ba0ebc56b104e44, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013307323414880, guid: c6d809d7fcf9d0342ba0ebc56b104e44, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013307323414880, guid: c6d809d7fcf9d0342ba0ebc56b104e44, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129776914140878, guid: c6d809d7fcf9d0342ba0ebc56b104e44, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: c6d809d7fcf9d0342ba0ebc56b104e44, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &1477299898 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4013307323414880, guid: c6d809d7fcf9d0342ba0ebc56b104e44,
+    type: 2}
+  m_PrefabInternal: {fileID: 1172982599}
 --- !u!1 &1549439617
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,8 +411,8 @@ GameObject:
   - component: {fileID: 1549439621}
   - component: {fileID: 1549439620}
   - component: {fileID: 1549439619}
-  - component: {fileID: 1549439618}
   - component: {fileID: 1549439622}
+  - component: {fileID: 1549439618}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -370,13 +420,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1549439618
-AudioListener:
+--- !u!114 &1549439618
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1549439617}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: 0
 --- !u!124 &1549439619
 Behaviour:
   m_ObjectHideFlags: 0

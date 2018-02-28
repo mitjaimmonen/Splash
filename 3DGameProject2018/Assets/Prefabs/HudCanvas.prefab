@@ -460,7 +460,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1000
+  m_Text: 0
 --- !u!114 &114261812559823658
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -566,7 +566,7 @@ MonoBehaviour:
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 3
-  m_FillAmount: 0.8
+  m_FillAmount: 0.2
   m_FillClockwise: 1
   m_FillOrigin: 3
 --- !u!114 &114577895254261684
@@ -619,7 +619,6 @@ MonoBehaviour:
   - {fileID: 21300004, guid: b1f7aa63117c483479d9d5769591cb58, type: 3}
   thorwableIcons:
   - {fileID: 21300000, guid: c0afcfa0449a44340b4d5a25363ab840, type: 3}
-  playerController: {fileID: 0}
 --- !u!114 &114984372668901308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -662,7 +661,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 1
-  m_Value: 80
+  m_Value: 20
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -700,7 +699,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100
+  m_Text: 0
 --- !u!222 &222038994566998728
 CanvasRenderer:
   m_ObjectHideFlags: 1
