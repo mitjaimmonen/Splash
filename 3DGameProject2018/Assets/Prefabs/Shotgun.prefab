@@ -94,8 +94,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1321080494216146}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.157, y: 0.115, z: 0.429}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4116979143064598}
@@ -113,12 +113,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f2e03f750344843bac64097c4639d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropDown: 0
-  maxMagazineSize: 100
-  startMagazines: 1
+  clipSize: 100
+  maxBullets: 1000
   shotUsage: 25
   fireRate: 0.5
   maxShootTime: 0
+  reloadTime: 2
   autoReload: 1
   isContinuous: 0
   shootSE: event:/Guns/Shotgun sounds

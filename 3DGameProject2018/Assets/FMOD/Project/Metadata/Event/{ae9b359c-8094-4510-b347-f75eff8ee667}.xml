@@ -160,7 +160,7 @@
             <value>true</value>
         </property>
         <property name="length">
-            <value>0.19</value>
+            <value>0.025000000000000001</value>
         </property>
         <property name="startOffset">
             <value>32.5</value>
@@ -193,10 +193,10 @@
     </object>
     <object class="SingleSound" id="{866f96c9-efad-4755-b50b-c892a5cc8ecd}">
         <property name="start">
-            <value>0.19</value>
+            <value>0.025000000000000001</value>
         </property>
         <property name="length">
-            <value>0.80999999999999994</value>
+            <value>0.97500000000000009</value>
         </property>
         <property name="looping">
             <value>true</value>
@@ -229,10 +229,10 @@
     </object>
     <object class="SingleSound" id="{0304418b-bcde-48ab-b962-e227c9cbfa66}">
         <property name="start">
-            <value>0.19</value>
+            <value>0.025000000000000001</value>
         </property>
         <property name="length">
-            <value>0.81000000000000005</value>
+            <value>0.9750000000000002</value>
         </property>
         <property name="looping">
             <value>true</value>

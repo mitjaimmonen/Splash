@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class CameraHandler : MonoBehaviour {
 
-    public GameObject player;
+    public GameObject target;
     private void Update()
     {
-        transform.position = player.transform.position;
-        transform.rotation = player.transform.rotation;
+        transform.position = target.transform.position;
+        // var rot = transform.rotation;
+        // rot.y = player.transform.rotation.y;
+        transform.rotation = target.transform.rotation;
     }
 
 }

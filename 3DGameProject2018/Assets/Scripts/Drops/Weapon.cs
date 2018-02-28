@@ -54,7 +54,7 @@ public class Weapon : MonoBehaviour {
     private ParticleSystem waterParticles;
     private bool isShooting, isScope, isReloading = false;
     private int currentClipAmmo, currentGlobalAmmo;
-    private float fireRateTimer, shootTimer, reloadTimer, lerpTimer;
+    private float fireRateTimer, shootTimer, reloadTimer;
     private float shootForceMultiplier; //Controls water force according to input axis amounts
     private float accuracyRandomizer; //How much particle direction is randomized
     private float shootSpeed; //Particle start speed (=force)
@@ -90,7 +90,7 @@ public class Weapon : MonoBehaviour {
     }
 
     void OnEnable() {
-        
+        playerController.currentWeapon = this;
         playerController.CurrentAmmo = currentClipAmmo;
         playerController.ClipSize = clipSize;
         // playerController.ShotUsage = shotUsage;
@@ -100,7 +100,8 @@ public class Weapon : MonoBehaviour {
         fireRateTimer += Time.deltaTime;
         shootTimer += Time.deltaTime;
         reloadTimer += Time.deltaTime;
-        Debug.Log(currentClipAmmo);
+
+        shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
 
         if(Input.GetMouseButton(0))
             Shoot(0.9f);
@@ -108,24 +109,16 @@ public class Weapon : MonoBehaviour {
         if (reloadTimer > reloadTime)
             isReloading = false;
         
+        
         if (isShooting)
         {
-            lerpTimer = 0;
             isShooting = false;            
         }
         else if (fireRateTimer > fireRate || isReloading || (maxShootTime != 0 && shootTimer > maxShootTime) || currentClipAmmo < shotUsage) 
         {
-            lerpTimer += 5 * Time.deltaTime;      
-            float value = Mathf.Lerp(0.19f, 0, lerpTimer);
-            FMOD_Shooting.setValue(value);
-            if (value == 0)
-            {
-                shootTimer = 0;
-            }
+            FMOD_Shooting.setValue(0);
+            shootTimer = 0;
                 
-
-            
-
         }
         
     }
@@ -156,8 +149,6 @@ public class Weapon : MonoBehaviour {
 
             return;
         }
-
-        Debug.Log("Shooting");
 
 
         //Set WaterParticle parameters.

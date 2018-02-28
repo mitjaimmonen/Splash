@@ -5,17 +5,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Weapon currentWeapon;
     private int currentHealth, maxHealth = 100;
     private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
-    public HudHandler hud;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
     private MatchController controller;
+    private float rotationV = 0, rotationH = 0, maxRotV = 80f, minRotV = -80f;
+
     public int currentDamage = 0;
 
-    public Camera camera;
+    //Classes
+    public GameObject playerFace;
+    public HudHandler hud;
+    public Weapon currentWeapon;
+    public CameraHandler cameraHandler;
     //Movement Variables
-    public float lookSpeed = 1;
+    public float lookSensV = 1, lookSensH = 1;
+    public bool invertSensV = false;
     public float JumpVelocity = 1;
     public float gravity = 1f;
     public float maxVelocity;
@@ -101,6 +106,7 @@ public class PlayerController : MonoBehaviour
                 hud.UpdateHealth(maxHealth, currentHealth);
             }
         }
+
     #endregion
 
 
@@ -108,9 +114,12 @@ public class PlayerController : MonoBehaviour
     {
         globalAmmo = maxGlobalAmmo;
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
-        // hud.playerController = this;
+        cameraHandler = Instantiate(cameraHandler, Vector3.zero, Quaternion.Euler(0,0,0));
+        cameraHandler.target = playerFace; // Camera gets rotation from this.
 
-        //Find controller and bind it
+        currentWeapon.gameObject.SetActive(true);
+
+        // hud.playerController = this;
     }
 
     //apply Gravity
@@ -150,19 +159,45 @@ public class PlayerController : MonoBehaviour
         {
             Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
         }
-        if(input[1] == "RightHorizontal")
-        {transform.RotateAround(Vector3.zero, Vector3.up, 20 * Time.deltaTime);
-            transform.Rotate(new Vector3(0,1,0) * Time.deltaTime * float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat)*lookSpeed);
-            //camera.transform.RotateAround(camera.transform.position, Vector3.up, Time.deltaTime * float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat) * lookSpeed);
-        }
-        if(input[1] == "RightVertical")
+        if(input[1] == "RightHorizontal" || input[1] == "RightVertical")
         {
-            //look up and down
+            Rotate(input[1],float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
         }
-        
+        if (input[1] == "R2")
+            currentWeapon.Shoot(float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
     }
 
 
+    private void Rotate(string axis, float magnitude) 
+    {
+        switch(axis)
+        {
+            case "RightHorizontal":
+                //Player only rotates horizontally
+                rotationH += magnitude * lookSensH;
+                transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);
+                break;
+            case "RightVertical":
+                //Face gameObject only rotates vertically.            
+                if (invertSensV)
+                    magnitude *= -1;
+                rotationV += magnitude * lookSensV;
+                rotationV = Mathf.Clamp(rotationV, minRotV, maxRotV);
+                playerFace.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
+                // currentWeapon.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
+                break;
+        }
+        //Horizontal
+        // rotationY = transform.localEulerAngles.y + magnitude * lookSensitivityY;
+        // Debug.Log("z" +magnitudeZ + " y" + magnitude);
+        // //Vertical
+        // rotationZ += magnitudeZ * lookSensitivityZ;
+        // rotationZ = Mathf.Clamp(rotationZ, minRotZ, maxRotZ);
+         
+        // transform.localEulerAngles = new Vector3(0, rotationY, rotationZ);
+        // transform.RotateAround(Vector3.zero, Vector3.up, 20 * Time.deltaTime);
+        // transform.Rotate(new Vector3(0,1,0) * Time.deltaTime * magnitudeZ * lookSensitivityY);
+    }
 
     //apply nongravity movements
     private void Move(string axis, float magnitude)
