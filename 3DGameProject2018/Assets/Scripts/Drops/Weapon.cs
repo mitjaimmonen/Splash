@@ -11,6 +11,9 @@ using FMOD.Studio;
  * 
  *
  * Other notes:
+ *
+ * Script assumes all weapons are under a parent which has player controller.
+ *
  * Timer is set for fire rate now.
  * Can be changed if needed.
  *
@@ -21,103 +24,128 @@ using FMOD.Studio;
  * Particles startSpeed working but particlesystem needs tweaking.
  */
 
-
 public class Weapon : MonoBehaviour {
     //hold a sound and particle effect along with damage, clip, ammunition size and isshooting, timer, iscontinuous
+    public PlayerController playerController;
+
+    [Tooltip("How much water fits in a clip")]
+    public int clipSize = 100;
 
     [Tooltip("How much water in a single magazine")]
-    public int maxMagazineSize = 100;
-    [Tooltip("Amount of water containers at start")]
-    public int startMagazines = 1;
+    public int maxBullets = 1000;
+
     [Tooltip("How much one shot consumes water")]
     public int shotUsage = 1;
-    [Tooltip("How long to wait until shoot input can get called again")]
+
+    [Tooltip("How long to wait until shoot input can get called again.")]
     public float fireRate = 0.25f;
+
+    [Tooltip("This force-stops shooting after given time. Applies only to Pistol weaponType.")]
+    public float maxShootTime = 0;  
+
+    [Tooltip("How long it takes to reload this gun.")]
+    public float reloadTime = 2f;
+
     [Tooltip("Does weapon reload automatically when empty?")]
     public bool autoReload = true, isContinuous = true;
 
     private Animator gunAnim;
     private ParticleSystem waterParticles;
-    private bool isShooting, isScope;
-    private int currentMagazineSize, currentMagazines;
-    private float timer;
+    private bool isShooting, isScope, isReloading = false;
+    private int currentClipAmmo, currentGlobalAmmo;
+    private float fireRateTimer, shootTimer, reloadTimer, lerpTimer;
     private float shootForceMultiplier; //Controls water force according to input axis amounts
     private float accuracyRandomizer; //How much particle direction is randomized
     private float shootSpeed; //Particle start speed (=force)
-
     
-
 
     #region FMOD
 
-    //Only shoot sound event is stored in event instance because its parameters need to be accessed during lifetime.
+    //Only shoot soundEvent is stored in event instance because its parameters need to be accessed during lifetime.
     //Other sound events are "one shots" which will be released after playing.
     [FMODUnity.EventRef] public string shootSE, reloadSE, emptyMagSE, takeScopeSE;        
     private FMOD.Studio.EventInstance shootEI; 
 
     //Store all fmod variables in code for easier tweaking during playback
-    private FMOD.Studio.ParameterInstance FMOD_Magazine; // amount of water left in magazine, 0-100
-    private FMOD.Studio.ParameterInstance FMOD_Shooting; // Shooting force from Input, 0-100            
+    private FMOD.Studio.ParameterInstance FMOD_Clip; // amount of water left in magazine, 0-100
+    private FMOD.Studio.ParameterInstance FMOD_Shooting; // Shooting force from Input, 0-1           
 
     #endregion
 
 
     public void Awake()
     {
+        playerController = GetComponentInParent<PlayerController>();
         waterParticles = gameObject.GetComponentInChildren<ParticleSystem>();
         // gunAnim = gameObject.GetComponent<Animator>();
         
         shootSpeed = waterParticles.main.startSpeedMultiplier;
         accuracyRandomizer = waterParticles.shape.randomDirectionAmount;
 
-        currentMagazineSize = maxMagazineSize;
-        currentMagazines = startMagazines;
+        currentClipAmmo = clipSize;
 
     }
 
     private void Update()
     {
-
+        fireRateTimer += Time.deltaTime;
+        shootTimer += Time.deltaTime;
+        reloadTimer += Time.deltaTime;
+        Debug.Log(currentClipAmmo);
         
-        if(timer > 0) 
+        if (reloadTimer > reloadTime)
+            isReloading = false;
+        
+        if (isShooting)
         {
-            timer -= Time.deltaTime;
+            lerpTimer = 0;
+            isShooting = false;            
         }
+        else if (fireRateTimer > fireRate || isReloading || (maxShootTime != 0 && shootTimer > maxShootTime) || currentClipAmmo < shotUsage) 
+        {
+            lerpTimer += 5 * Time.deltaTime;      
+            float value = Mathf.Lerp(0.19f, 0, lerpTimer);
+            FMOD_Shooting.setValue(value);
+            if (value == 0)
+            {
+                shootTimer = 0;
+            }
+                
 
-        //Test inputs temporarily here
-        //If input amount more than 20, call shoot() every frame.
-        float axis = Input.GetAxis("Fire1");
+            
 
-        if (axis > 0.2f)
-            Shoot(axis);
-        else
-            FMOD_Shooting.setValue(axis * 100f);
-
-        
-
-
+        }
         
     }
 
-    public void Shoot(float force)
+
+    public void Shoot(float input)
     {
+        // Shoot is called every frame when input is more than 0.19
+        isShooting = true;        
 
-        if (timer > 0)
-            return;
-
-        if (currentMagazineSize < shotUsage)
+        if (fireRateTimer < fireRate || isReloading || (maxShootTime != 0 && shootTimer > maxShootTime)) 
         {
-
+            isShooting = false;
+            return;
+        }
+        else
+        {
+            fireRateTimer = 0;
+        }
+        
+        if (currentClipAmmo < shotUsage)
+        {
             FMODUnity.RuntimeManager.PlayOneShotAttached(emptyMagSE, gameObject);
+            isShooting = false;
 
-            if(autoReload && currentMagazines>0)
+            if(autoReload)
                 Reload();
 
-            //If no ammo or magazines, do not shoot.
-            FMOD_Shooting.setValue(0);
             return;
         }
 
+        Debug.Log("Shooting");
 
 
         //Set WaterParticle parameters.
@@ -127,7 +155,7 @@ public class Weapon : MonoBehaviour {
         float currentAccuracyRandomizer = accuracyRandomizer;
 
         if(isContinuous)
-            currentShootSpeed = shootSpeed * force;
+            currentShootSpeed = shootSpeed * input;
 
         if (!isScope)
             currentAccuracyRandomizer = 2 * accuracyRandomizer;
@@ -137,7 +165,7 @@ public class Weapon : MonoBehaviour {
         waterParticles.Play();
         
         
-        //SPAGHETTI HELL INC
+
         //These checks need to be made for "one-shot" sounds to work
         //One shots can start on top of each other while continuous continues the old sound without creating new.
 
@@ -148,11 +176,11 @@ public class Weapon : MonoBehaviour {
         }
 
         //Set FMOD sound parameters.
-        shootEI.getParameter("Magazine", out FMOD_Magazine);
+        shootEI.getParameter("Magazine", out FMOD_Clip);
         shootEI.getParameter("Shooting", out FMOD_Shooting);
-        FMOD_Shooting.setValue(force * 100f);
-        float magPercentage = (float)currentMagazineSize / (float)maxMagazineSize * 100f;        
-        FMOD_Magazine.setValue(magPercentage);
+        FMOD_Shooting.setValue(input);
+        float clipPercentage = (float)currentClipAmmo / (float)clipSize * 100f;        
+        FMOD_Clip.setValue(clipPercentage);
 
         FMOD.Studio.PLAYBACK_STATE playbackState;
         shootEI.getPlaybackState(out playbackState);
@@ -163,26 +191,37 @@ public class Weapon : MonoBehaviour {
             shootEI.release();
         }
 
-        
 
-
-        currentMagazineSize -= shotUsage;
-        
-        //Timer starts countdown for next possibility to shoot        
-        timer = fireRate;
+        currentClipAmmo -= shotUsage;
         
 
     }
 
     private void Reload() {
         // gunAnim.SetTrigger("reload");
-
+        // When animations are in, clip & ammo are counted at the end of reload.
+        isReloading = true;        
         FMODUnity.RuntimeManager.PlayOneShotAttached(reloadSE, gameObject);
-        currentMagazines--;
-        currentMagazineSize = maxMagazineSize;
-        timer = 5f;
+        int oldClipAmmo = currentClipAmmo;
+        if (currentGlobalAmmo < (clipSize - currentClipAmmo))
+            currentClipAmmo += playerController.GlobalAmmo;
+        else
+            currentClipAmmo = clipSize;
+
+        playerController.GlobalAmmo -= (currentClipAmmo - oldClipAmmo);
+
+        reloadTimer = 0;
     }
 
+
+    void OnEnable() {
+        
+        playerController.CurrentAmmo = currentClipAmmo;
+        playerController.ClipSize = clipSize;
+        // playerController.ShotUsage = shotUsage;
+        
+
+    }
     void OnDestroy() {
         waterParticles.Stop();
         shootEI.release();
