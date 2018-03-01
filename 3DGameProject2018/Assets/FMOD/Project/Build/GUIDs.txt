@@ -3,6 +3,7 @@
 {2d183b57-83ec-460d-86bf-2b2220f66d77} event:/Character Movement/Jump
 {fe1384c3-04d1-4dea-8183-532425cfd9c0} event:/Character Movement/Take scope
 {fd5ff42e-e3ff-4de4-a71e-f13d2cfa09ea} event:/Character Movement/Throw
+{42992009-ff8f-4a12-88e8-9e68075da817} event:/Character Movement/PlatformJump
 {ae9b359c-8094-4510-b347-f75eff8ee667} event:/Guns/AutoRifle
 {0bcf709f-441e-48c8-806b-9554d6740ef8} event:/Guns/GrenadeLauncher
 {9bd850ec-9792-45d7-be2e-948eb1eb44d8} event:/Guns/Pistol sounds
