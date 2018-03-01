@@ -240,6 +240,16 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    void OnTriggerEnter(Collider other) {
+        Debug.Log("collision with: " + other.gameObject.name);
+        if (other.gameObject.name == "JumpPlatform")
+        {
+            currentVerticalVelocity = JumpVelocity*2;
+            isGrounded = false;
+        }
+    }
+
+
     //looks if its in a collision sphere with a weapon
     //if yes swap weapon
     //if weapons are the same the one on ground disapears and you get full ammo
