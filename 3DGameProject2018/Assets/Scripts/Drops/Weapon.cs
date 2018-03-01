@@ -4,7 +4,7 @@ using UnityEngine;
 using FMOD.Studio;
 
 /********************************************
- * (class name) Weapon
+ * Weapon
  *
  * General behaviour for all weapons.
  * Controls weapon particle effects, sounds and animations as well.
@@ -14,14 +14,9 @@ using FMOD.Studio;
  *
  * Script assumes all weapons are under a parent which has player controller.
  *
- * Timer is set for fire rate now.
- * Can be changed if needed.
- *
  * isContinuous is used to change between real time shoot force and static.
  * Burst weapons shoot with full force always.
  * 
- *
- * Particles startSpeed working but particlesystem needs tweaking.
  */
 
 public class Weapon : MonoBehaviour {
@@ -101,13 +96,11 @@ public class Weapon : MonoBehaviour {
         shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
 
 
-        if (reloadTimer > reloadTime)
-            isReloading = false;   
-        
-        if (isShooting)
-        {
-            isShooting = false;            
-        }
+        // Some checks in case shooting has ended
+        // if (reloadTimer > reloadTime)
+        //     isReloading = false;   
+        if (fireRateTimer - 0.1f > fireRate && isShooting)
+            isShooting = false;
         else if (fireRateTimer > fireRate || isReloading || (maxShootTime != 0 && shootTimer > maxShootTime) || currentClipAmmo < shotUsage) 
         {
             gunAnim.SetBool("isShooting", false);
@@ -119,7 +112,7 @@ public class Weapon : MonoBehaviour {
         //Look up "fireRate", "maxShootTime" and "reloadTime" to see the meanings.
         fireRateTimer += Time.deltaTime;
         shootTimer += Time.deltaTime;
-        reloadTimer += Time.deltaTime;
+        // reloadTimer += Time.deltaTime;
         
     }
 
@@ -128,7 +121,12 @@ public class Weapon : MonoBehaviour {
     {
         isShooting = true;        
 
-        if (fireRateTimer < fireRate || isReloading || (maxShootTime != 0 && shootTimer > maxShootTime)) 
+        // Do not shoot if one of the conditions is met.
+        if (fireRateTimer < fireRate)
+        {
+            return;
+        }
+        if (maxShootTime != 0 && shootTimer > maxShootTime)
         {
             isShooting = false;
             return;
@@ -138,6 +136,7 @@ public class Weapon : MonoBehaviour {
             fireRateTimer = 0;
         }
         
+        //Do not shoot if not enough ammo.
         if (currentClipAmmo < shotUsage)
         {
             FMODUnity.RuntimeManager.PlayOneShotAttached(emptyMagSE, gameObject);
@@ -148,7 +147,7 @@ public class Weapon : MonoBehaviour {
 
             return;
         }
-
+        isReloading = false;        
         gunAnim.SetBool("isShooting", true);
 
         //Set WaterParticle parameters.
@@ -160,12 +159,10 @@ public class Weapon : MonoBehaviour {
         if(isContinuous)
         {
             currentShootSpeed = shootSpeed * input;
-
             //Stops water particles from just falling down due to too little force. (Usual max speed is around 30-60)
             if(currentShootSpeed < 10)
                 currentShootSpeed = 10;
         }
-
         if (!isScope)
             currentAccuracyRandomizer = 2 * accuracyRandomizer;
 
@@ -176,7 +173,8 @@ public class Weapon : MonoBehaviour {
         
         
 
-        //These checks need to be made for "one-shot" sounds to work
+        //FMOD checks and parameters.
+        //If-checks need to be made for "one-shot" sounds to work
         //One shots can start on top of each other while continuous continues the old sound without creating new.
 
         if (!shootEI.isValid() || !isContinuous)
@@ -208,25 +206,15 @@ public class Weapon : MonoBehaviour {
 
     }
 
-    private void Reload() {
-        // gunAnim.SetTrigger("reload");
-        // When animations are in, clip & ammo are counted at the end of reload.
-        isReloading = true;        
-        FMODUnity.RuntimeManager.PlayOneShotAttached(reloadSE, gameObject);
-        int oldClipAmmo = currentClipAmmo;
-        currentGlobalAmmo = playerController.GlobalAmmo;
-        if (currentGlobalAmmo < (clipSize - oldClipAmmo))
-            currentClipAmmo += currentGlobalAmmo;
-        else
-            currentClipAmmo = clipSize;
-
-        currentGlobalAmmo -= (currentClipAmmo - oldClipAmmo);
-        Debug.Log("Current clip ammo = " + currentClipAmmo + " old clip ammo = " + oldClipAmmo);
-        playerController.GlobalAmmo = currentGlobalAmmo;
+    public void Reload() {
         
-        playerController.CurrentAmmo = currentClipAmmo;
-
-        reloadTimer = 0;
+        // When animations are fully implemented, clip & ammo are counted at the end of reload.
+        if (playerController.GlobalAmmo > 0 && !isShooting)
+        {
+            gunAnim.SetTrigger("reload");
+            isReloading = true;        
+            reloadTimer = 0;
+        }
     }
 
 
@@ -235,5 +223,28 @@ public class Weapon : MonoBehaviour {
         shootEI.release();
         shootEI.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
+
+
+    #region In-animation calls
+
+    public void AnimReloadStarted() {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(reloadSE, gameObject);
+
+    }
+    public void AnimReloadEnded() {
+        int oldClipAmmo = currentClipAmmo;
+        currentGlobalAmmo = playerController.GlobalAmmo;
+        if (currentGlobalAmmo < (clipSize - oldClipAmmo))
+            currentClipAmmo += currentGlobalAmmo;
+        else
+            currentClipAmmo = clipSize;
+
+        currentGlobalAmmo -= (currentClipAmmo - oldClipAmmo);
+        playerController.GlobalAmmo = currentGlobalAmmo;
+        
+        playerController.CurrentAmmo = currentClipAmmo;
+    }
+
+    #endregion
 
 }

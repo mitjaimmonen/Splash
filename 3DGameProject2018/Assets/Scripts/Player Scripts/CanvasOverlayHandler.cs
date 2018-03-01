@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
+/********************************************
+* CanvasOverlayHandler
+* 
+* Makes some overlay lines and filler image depending on how many players.
+* Is Called from playerController with currentPlayerAmount.
+*
+*/
+
 public class CanvasOverlayHandler : MonoBehaviour {
 
-	// Use this for initialization
+
 	public Sprite[] overlaySprites;
 	public Image splitter, filler;
-
-
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public void SetOverlay(int players) 
 	{

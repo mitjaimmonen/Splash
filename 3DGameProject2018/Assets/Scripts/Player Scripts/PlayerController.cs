@@ -3,6 +3,19 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
+/********************************************
+* PlayerController
+* 
+* Controls everything related to player
+*   - Hud & canvas
+*   - Weapon
+*   - Inputs
+*   - Transforms
+*   - Camera
+    - ...
+*
+*/
+
 public class PlayerController : MonoBehaviour
 {
     private int currentHealth, maxHealth = 100;
@@ -16,9 +29,9 @@ public class PlayerController : MonoBehaviour
     public int currentDamage = 0;
 
     //Classes
-    public GameObject playerFace;
-    public HudHandler hud;
-    public CanvasOverlayHandler canvasOverlay;
+    public GameObject playerFace; // Takes vertical rotation, also parents all guns.
+    public HudHandler hud; //Draws player specific hud inside camera viewport
+    public CanvasOverlayHandler canvasOverlay; //Draws some shit on top of all viewports
     public Weapon currentWeapon;
     public CameraHandler cameraHandler;
     //Movement Variables
@@ -122,6 +135,7 @@ public class PlayerController : MonoBehaviour
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
         canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
 
+        //Temporary values until we get the real player amount and can store which player this is.
         cameraHandler.SetViewport(currentPlayers, 1);
         canvasOverlay.SetOverlay(currentPlayers);
 
@@ -172,7 +186,13 @@ public class PlayerController : MonoBehaviour
             Rotate(input[1],float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
         }
         if (input[1] == "R2")
+        {
             currentWeapon.Shoot(float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
+        }
+        if (input[1] == "L1")
+        {
+            currentWeapon.Reload();
+        }
     }
 
 
@@ -192,19 +212,8 @@ public class PlayerController : MonoBehaviour
                 rotationV += magnitude * lookSensV;
                 rotationV = Mathf.Clamp(rotationV, minRotV, maxRotV);
                 playerFace.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
-                // currentWeapon.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
                 break;
         }
-        //Horizontal
-        // rotationY = transform.localEulerAngles.y + magnitude * lookSensitivityY;
-        // Debug.Log("z" +magnitudeZ + " y" + magnitude);
-        // //Vertical
-        // rotationZ += magnitudeZ * lookSensitivityZ;
-        // rotationZ = Mathf.Clamp(rotationZ, minRotZ, maxRotZ);
-         
-        // transform.localEulerAngles = new Vector3(0, rotationY, rotationZ);
-        // transform.RotateAround(Vector3.zero, Vector3.up, 20 * Time.deltaTime);
-        // transform.Rotate(new Vector3(0,1,0) * Time.deltaTime * magnitudeZ * lookSensitivityY);
     }
 
     //apply nongravity movements

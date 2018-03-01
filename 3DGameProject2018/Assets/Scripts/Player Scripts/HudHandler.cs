@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /********************************************
-* (class name) HudHandler
+* HudHandler
 * 
 * Updates each players hud.
 * Updates data from player controller when called to.
