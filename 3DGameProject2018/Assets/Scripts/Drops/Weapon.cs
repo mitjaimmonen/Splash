@@ -30,23 +30,23 @@ public class Weapon : MonoBehaviour {
     [Tooltip("How much water fits in a clip")]
     public int clipSize = 100;
 
-    [Tooltip("How much water in a single magazine")]
-    public int maxBullets = 1000;
-
     [Tooltip("How much one shot consumes water")]
     public int shotUsage = 1;
 
-    [Tooltip("How long to wait until shoot input can get called again.")]
+    [Tooltip("How long to wait until shoot input gets called again. E.g. 0.1f means shooting 10 rounds per second.")]
     public float fireRate = 0.25f;
 
-    [Tooltip("This force-stops shooting after given time. Applies only to Pistol weaponType.")]
-    public float maxShootTime = 0;  
+    [Tooltip("This force-stops shooting after given time. Use isContinuous = true with this.")]
+    public float maxShootTime = 0;
 
     [Tooltip("How long it takes to reload this gun.")]
     public float reloadTime = 2f;
 
-    [Tooltip("Does weapon reload automatically when empty?")]
-    public bool autoReload = true, isContinuous = true;
+    [Tooltip("Does weapon reload automatically when empty.")]
+    public bool autoReload = true;
+
+    [Tooltip("Is weapon burst or continuous (automatic) type.")]
+    public bool isContinuous = true;
 
 
     private PlayerController playerController;
@@ -55,21 +55,20 @@ public class Weapon : MonoBehaviour {
     private bool isShooting, isScope, isReloading = false;
     private int currentClipAmmo, currentGlobalAmmo;
     private float fireRateTimer, shootTimer, reloadTimer;
-    private float shootForceMultiplier; //Controls water force according to input axis amounts
     private float accuracyRandomizer; //How much particle direction is randomized
     private float shootSpeed; //Particle start speed (=force)
     
 
     #region FMOD
 
-    //Only shoot soundEvent is stored in event instance because its parameters need to be accessed during lifetime.
-    //Other sound events are "one shots" which will be released after playing.
-    [FMODUnity.EventRef] public string shootSE, reloadSE, emptyMagSE, takeScopeSE;        
-    private FMOD.Studio.EventInstance shootEI; 
+        //Only shoot soundEvent is stored in event instance because its parameters need to be accessed during lifetime.
+        //Other sound events are "one shots" which will be released after playing.
+        [FMODUnity.EventRef] public string shootSE, reloadSE, emptyMagSE, takeScopeSE;        
+        private FMOD.Studio.EventInstance shootEI; 
 
-    //Store all fmod variables in code for easier tweaking during playback
-    private FMOD.Studio.ParameterInstance FMOD_Clip; // amount of water left in magazine, 0-100
-    private FMOD.Studio.ParameterInstance FMOD_Shooting; // Shooting force from Input, 0-1           
+        //Store all fmod variables in code for easier tweaking during playback
+        private FMOD.Studio.ParameterInstance FMOD_Clip; // amount of water left in magazine, 0-100
+        private FMOD.Studio.ParameterInstance FMOD_Shooting; // Shooting force from Input, 0-1           
 
     #endregion
 
@@ -78,7 +77,7 @@ public class Weapon : MonoBehaviour {
     {
         playerController = GetComponentInParent<PlayerController>();
         waterParticles = gameObject.GetComponentInChildren<ParticleSystem>();
-        // gunAnim = gameObject.GetComponent<Animator>();
+        gunAnim = gameObject.GetComponentInChildren<Animator>();
         
         shootSpeed = waterParticles.main.startSpeedMultiplier;
         accuracyRandomizer = waterParticles.shape.randomDirectionAmount;
@@ -98,15 +97,12 @@ public class Weapon : MonoBehaviour {
     private void Update()
     {
 
-
+        //Updates sound position.
         shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
 
-        if(Input.GetMouseButton(0))
-            Shoot(0.9f);
-        
+
         if (reloadTimer > reloadTime)
-            isReloading = false;
-        
+            isReloading = false;   
         
         if (isShooting)
         {
@@ -114,10 +110,13 @@ public class Weapon : MonoBehaviour {
         }
         else if (fireRateTimer > fireRate || isReloading || (maxShootTime != 0 && shootTimer > maxShootTime) || currentClipAmmo < shotUsage) 
         {
+            gunAnim.SetBool("isShooting", false);
             FMOD_Shooting.setValue(0);
             shootTimer = 0;
                 
         }
+        
+        //Look up "fireRate", "maxShootTime" and "reloadTime" to see the meanings.
         fireRateTimer += Time.deltaTime;
         shootTimer += Time.deltaTime;
         reloadTimer += Time.deltaTime;
@@ -127,7 +126,6 @@ public class Weapon : MonoBehaviour {
 
     public void Shoot(float input)
     {
-        // Shoot is called every frame when input is more than 0.19
         isShooting = true;        
 
         if (fireRateTimer < fireRate || isReloading || (maxShootTime != 0 && shootTimer > maxShootTime)) 
@@ -151,6 +149,7 @@ public class Weapon : MonoBehaviour {
             return;
         }
 
+        gunAnim.SetBool("isShooting", true);
 
         //Set WaterParticle parameters.
         var main = waterParticles.main;
@@ -159,12 +158,19 @@ public class Weapon : MonoBehaviour {
         float currentAccuracyRandomizer = accuracyRandomizer;
 
         if(isContinuous)
+        {
             currentShootSpeed = shootSpeed * input;
+
+            //Stops water particles from just falling down due to too little force. (Usual max speed is around 30-60)
+            if(currentShootSpeed < 10)
+                currentShootSpeed = 10;
+        }
 
         if (!isScope)
             currentAccuracyRandomizer = 2 * accuracyRandomizer;
 
         main.startSpeed = currentShootSpeed;
+        Debug.Log(currentShootSpeed);
         shape.randomDirectionAmount = currentAccuracyRandomizer;
         waterParticles.Play();
         

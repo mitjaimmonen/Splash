@@ -11,11 +11,14 @@ public class PlayerController : MonoBehaviour
     private MatchController controller;
     private float rotationV = 0, rotationH = 0, maxRotV = 80f, minRotV = -80f;
 
+    public int currentPlayers; // Used for testing
+
     public int currentDamage = 0;
 
     //Classes
     public GameObject playerFace;
     public HudHandler hud;
+    public CanvasOverlayHandler canvasOverlay;
     public Weapon currentWeapon;
     public CameraHandler cameraHandler;
     //Movement Variables
@@ -117,6 +120,10 @@ public class PlayerController : MonoBehaviour
         cameraHandler = Instantiate(cameraHandler, Vector3.zero, Quaternion.Euler(0,0,0));
         cameraHandler.target = playerFace; // Camera gets rotation from this.
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
+        canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
+
+        cameraHandler.SetViewport(currentPlayers, 1);
+        canvasOverlay.SetOverlay(currentPlayers);
 
         currentWeapon.gameObject.SetActive(true);
 
