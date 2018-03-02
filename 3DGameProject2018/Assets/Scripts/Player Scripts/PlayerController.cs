@@ -141,6 +141,8 @@ public class PlayerController : MonoBehaviour
 
         currentWeapon.gameObject.SetActive(true);
 
+        CurrentHealth = 15;
+
         // hud.playerController = this;
     }
 

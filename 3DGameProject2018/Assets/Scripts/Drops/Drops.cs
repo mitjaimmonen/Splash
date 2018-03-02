@@ -2,9 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PickupEnum {
+    healthPickup,
+    ammoPickup
+}
+
+
 public class Drops : MonoBehaviour {
+
+    /*
+        This class is attached to pickup object
+        If pickup is on a platform, the platform will take care of spawning a new after a timer.
+    
+     */
 
 	//have a time variable for when its empty 
     //have a spawn command to spawn random drop from drops prefab
-    //have an update with all the animation on the spawned object
+
+
+    public int pickupValue;
+    public PickupEnum pickupType = PickupEnum.healthPickup;
+    private PlayerController playerController;
+
+
+    private void Awake()
+    {
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        playerController = other.GetComponent<PlayerController>();
+        Debug.Log("Collided with pickup. Name: " + pickupType);
+
+        if (other.gameObject.name == "Player")
+        {
+            if (pickupType == PickupEnum.healthPickup)
+            {
+                playerController.CurrentHealth += pickupValue;
+            } 
+            else if (pickupType == PickupEnum.ammoPickup)
+            {
+                playerController.GlobalAmmo += pickupValue;
+            }
+            Destroy(this.gameObject);
+            
+        }
+    }
 }
