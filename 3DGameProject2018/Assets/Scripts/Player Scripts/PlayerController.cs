@@ -240,13 +240,9 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void OnTriggerEnter(Collider other) {
-        Debug.Log("collision with: " + other.gameObject.name);
-        if (other.gameObject.name == "JumpPlatform")
-        {
-            currentVerticalVelocity = JumpVelocity*2;
+    public void PlatformJump(float velocity) {
+            currentVerticalVelocity = JumpVelocity * velocity;
             isGrounded = false;
-        }
     }
 
 
