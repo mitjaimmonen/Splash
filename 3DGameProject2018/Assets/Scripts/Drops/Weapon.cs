@@ -178,8 +178,8 @@ public class Weapon : MonoBehaviour {
         {
             currentShootSpeed = shootSpeed * input;
             //Stops water particles from just falling down due to too little force. (Usual max speed is around 30-60)
-            if(currentShootSpeed < 10)
-                currentShootSpeed = 10;
+            if(currentShootSpeed < 7)
+                currentShootSpeed = 7;
         }
         if (!isScope)
             currentAccuracyRandomizer = 2 * accuracyRandomizer;

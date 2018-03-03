@@ -12,8 +12,10 @@ using UnityEngine;
 *   - Inputs
 *   - Transforms
 *   - Camera
-    - ...
+*   - ...
 *
+*   NOTE:
+*   Move canvasOverlay to whichever class instantiates players.
 */
 
 public class PlayerController : MonoBehaviour
@@ -33,7 +35,13 @@ public class PlayerController : MonoBehaviour
     //Classes
     public GameObject playerFace; // Takes vertical rotation, also parents all guns.
     public HudHandler hud; //Draws player specific hud inside camera viewport
-    public CanvasOverlayHandler canvasOverlay; //Draws some shit on top of all viewports
+
+    //TEMPORARY
+    //This is general overlay and scene should have only one of them
+    //Move to whatever class instantiates playercontrollers.
+    public CanvasOverlayHandler canvasOverlay; 
+
+
     public Weapon currentWeapon;
     public CameraHandler cameraHandler;
     //Movement Variables
@@ -150,15 +158,18 @@ public class PlayerController : MonoBehaviour
         cameraHandler.playerController = this;
         cameraHandler.target = playerFace; // Camera gets rotation from this.
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
+
+
+        //TEMPORARY
         canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
+        canvasOverlay.SetOverlay(currentPlayers);
+
 
         //Temporary values until we get the real player amount and can store which player this is.
         cameraHandler.SetViewport(currentPlayers, 1);
-        canvasOverlay.SetOverlay(currentPlayers);
 
         currentWeapon.gameObject.SetActive(true);
 
-        // hud.playerController = this;
     }
 
     //apply Gravity

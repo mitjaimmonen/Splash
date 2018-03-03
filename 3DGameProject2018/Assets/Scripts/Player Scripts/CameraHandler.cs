@@ -33,7 +33,7 @@ public class CameraHandler : MonoBehaviour {
     }
 
 
-    //All playerControllers can set their viewports by calling this
+    //All playerControllers can set their viewports by calling this function
     //Player number starts from 1.
     public void SetViewport(int playerAmount, int player) 
     {
