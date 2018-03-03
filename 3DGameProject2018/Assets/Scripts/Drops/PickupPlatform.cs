@@ -13,17 +13,20 @@ public class PickupPlatform : MonoBehaviour {
 	
 
 	void Start () {
+
+		//Makes platforms seem more natural
+		transform.rotation = Quaternion.Euler(0,  Random.Range(-180f, 180f), 0);
+
 		if (pickups.Length == 0)
 			Debug.LogWarning("No drop Prefabs to spawn!");
 		else 
 		{
 			int index = Random.Range (0, pickups.Length);
-
 			currentPickup = pickups[index];
 		}
 
 
-		currentPickup = Instantiate(currentPickup, transform.position, Quaternion.Euler(0,0,0));
+		currentPickup = Instantiate(currentPickup, transform.position, transform.rotation);
 		currentPickup.transform.parent = gameObject.transform;
 
 	}
@@ -37,7 +40,7 @@ public class PickupPlatform : MonoBehaviour {
 				int index = Random.Range (0, pickups.Length);
 				currentPickup = pickups[index];
 			}
-			currentPickup = Instantiate(currentPickup, transform.position, Quaternion.Euler(0,0,0));
+			currentPickup = Instantiate(currentPickup, transform.position, transform.rotation);
 			currentPickup.transform.parent = gameObject.transform;
 			respawnTimer = 0;
 
