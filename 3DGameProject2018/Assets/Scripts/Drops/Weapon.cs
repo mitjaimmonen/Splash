@@ -43,6 +43,9 @@ public class Weapon : MonoBehaviour {
     [Tooltip("Is weapon burst or continuous (automatic) type.")]
     public bool isContinuous = true;
 
+    [Tooltip("How quickly gun rotates towards worldpoint that is in the middle of the camera viewport.")]
+    public float rotationSpeed = 1f;
+
 
     private PlayerController playerController;
     private Animator gunAnim;
@@ -52,6 +55,8 @@ public class Weapon : MonoBehaviour {
     private float fireRateTimer, shootTimer, reloadTimer;
     private float accuracyRandomizer; //How much particle direction is randomized
     private float shootSpeed; //Particle start speed (=force)
+    private Quaternion lookRotation;
+    private Vector3 lookDirection;
     
 
     #region FMOD
@@ -92,9 +97,22 @@ public class Weapon : MonoBehaviour {
     private void Update()
     {
 
+        //Set weapon aim to center worldpoint of the viewport.
+        if (playerController.IsAimRaycastHit)
+            lookDirection = (playerController.AimWorldPoint - transform.position).normalized;
+        else 
+            lookDirection = playerController.playerFace.transform.forward;
+
+        lookRotation = Quaternion.LookRotation(lookDirection);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        
+        
+
+
+        
+
         //Updates sound position.
         shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
-
 
         // Some checks in case shooting has ended
         // if (reloadTimer > reloadTime)

@@ -7,6 +7,7 @@ public class CameraHandler : MonoBehaviour {
     [Tooltip("What object does the camera reference for its transform.")]
     public GameObject target;
     private Camera currentCamera;
+    public PlayerController playerController;
 
     //Late update looks much more smooth because it lets all other transforms to finish first.
 
@@ -15,9 +16,19 @@ public class CameraHandler : MonoBehaviour {
     }
     private void LateUpdate()
     {
+        RaycastHit hit;
+        Ray forwardRay = new Ray(transform.position + transform.forward, transform.forward);
+
+        if (Physics.Raycast(forwardRay, out hit, Mathf.Infinity))
+        {
+            playerController.AimWorldPoint = hit.point;
+            playerController.IsAimRaycastHit = true;
+        } else 
+        {
+            playerController.IsAimRaycastHit = false;
+        }
+
         transform.position = target.transform.position;
-        // var rot = transform.rotation;
-        // rot.y = player.transform.rotation.y;
         transform.rotation = target.transform.rotation;
     }
 

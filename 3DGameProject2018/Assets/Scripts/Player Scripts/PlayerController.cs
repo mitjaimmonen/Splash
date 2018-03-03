@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
     private MatchController controller;
     private float rotationV = 0, rotationH = 0, maxRotV = 80f, minRotV = -80f;
+    private Vector3 aimWorldPoint; // Where gun rotates towards.
+    private bool isAimRaycastHit = false;
 
     public int currentPlayers; // Used for testing
 
@@ -123,6 +125,20 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        public Vector3 AimWorldPoint
+        {
+            get { return aimWorldPoint; }
+            set
+            {
+                aimWorldPoint = value;
+            }
+        }
+        public bool IsAimRaycastHit
+        {
+            get { return isAimRaycastHit; }
+            set { isAimRaycastHit = value; }
+        }
+
     #endregion
 
 
@@ -131,6 +147,7 @@ public class PlayerController : MonoBehaviour
         globalAmmo = maxGlobalAmmo;
         
         cameraHandler = Instantiate(cameraHandler, Vector3.zero, Quaternion.Euler(0,0,0));
+        cameraHandler.playerController = this;
         cameraHandler.target = playerFace; // Camera gets rotation from this.
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
         canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));

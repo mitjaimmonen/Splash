@@ -300,7 +300,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1415264391399614
 GameObject:
   m_ObjectHideFlags: 1
@@ -496,6 +496,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4588140695014354}
   - component: {fileID: 95096662932468702}
+  - component: {fileID: 114367438877552334}
   m_Layer: 0
   m_Name: gun origin changed
   m_TagString: Untagged
@@ -560,6 +561,7 @@ GameObject:
   - component: {fileID: 4338802512630830}
   - component: {fileID: 65308006912044106}
   - component: {fileID: 114148083834518994}
+  - component: {fileID: 54622177108944338}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -948,7 +950,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1590808485326396}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.328, z: 0.117}
+  m_LocalPosition: {x: 0, y: 0.437, z: 0.225}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4957359680913630}
@@ -1059,7 +1061,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1709318612409746}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.365, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4198909216040822}
@@ -1534,7 +1536,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1415063594259978}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.157, y: -0.152, z: 0.31199998}
+  m_LocalPosition: {x: 0.157, y: -0.255, z: 0.31199998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4588140695014354}
@@ -1590,7 +1592,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1289441464527228}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.157, y: -0.152, z: 0.31199998}
+  m_LocalPosition: {x: 0.157, y: -0.255, z: 0.31199998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4980431577411204}
@@ -1720,6 +1722,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1619310143881154}
   m_Mesh: {fileID: 4300004, guid: 93fbe271366dcd24cbf8d0625725b1a7, type: 3}
+--- !u!54 &54622177108944338
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709318612409746}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65308006912044106
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1741,7 +1758,7 @@ Animator:
   m_GameObject: {fileID: 1621933071840126}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 93fbe271366dcd24cbf8d0625725b1a7, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9f3e4354fcd6e354d9e589cb93084812, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1789,8 +1806,8 @@ MonoBehaviour:
   lookSensV: 1
   lookSensH: 2
   invertSensV: 0
-  JumpVelocity: 0.4
-  gravity: 0.02
+  JumpVelocity: 0.2
+  gravity: 0.01
   maxVelocity: 2
   speed: 5
   runMultiplier: 1.5
@@ -1812,10 +1829,22 @@ MonoBehaviour:
   reloadTime: 2
   autoReload: 1
   isContinuous: 0
+  rotationSpeed: 2
   shootSE: event:/Guns/Shotgun sounds
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: 
   takeScopeSE: 
+--- !u!114 &114367438877552334
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1621933071840126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd125411fe3d25f4693fe2c657c98036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114544134212063886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1834,6 +1863,7 @@ MonoBehaviour:
   reloadTime: 2
   autoReload: 1
   isContinuous: 1
+  rotationSpeed: 5
   shootSE: event:/Guns/AutoRifle
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: 
