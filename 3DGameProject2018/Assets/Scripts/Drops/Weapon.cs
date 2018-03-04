@@ -22,6 +22,9 @@ using FMOD.Studio;
 public class Weapon : MonoBehaviour {
     //hold a sound and particle effect along with damage, clip, ammunition size and isshooting, timer, iscontinuous
 
+    [Tooltip("How much damage per shot.")]
+    public int damage = 5;
+
     [Tooltip("How much water fits in a clip")]
     public int clipSize = 100;
 
@@ -85,6 +88,7 @@ public class Weapon : MonoBehaviour {
         currentClipAmmo = clipSize;
         playerController.CurrentAmmo = currentClipAmmo;
         playerController.ClipSize = clipSize;
+        playerController.currentDamage = damage;
 
     }
 
@@ -92,6 +96,7 @@ public class Weapon : MonoBehaviour {
         playerController.currentWeapon = this;
         playerController.CurrentAmmo = currentClipAmmo;
         playerController.ClipSize = clipSize;
+        playerController.currentDamage = damage;        
         // playerController.ShotUsage = shotUsage;
     }
     private void Update()

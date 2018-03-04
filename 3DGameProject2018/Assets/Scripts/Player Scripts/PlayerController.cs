@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     //Move to whatever class instantiates players.
     public CanvasOverlayHandler canvasOverlay; 
     // Used for testing canvasoverlay and setting camera viewport.
-    public int currentPlayers; 
+    public int currentPlayers, playerNumber; 
 
 
 
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     private int currentHealth, maxHealth = 100;
     private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
-    private float rotationV = 0, rotationH = 0, maxRotV = 80f, minRotV = -80f;
+    private float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -80f;
     private Vector3 aimWorldPoint; // Where gun rotates towards.
     private bool isAimRaycastHit = false;
 
@@ -161,7 +161,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        globalAmmo = maxGlobalAmmo;
+        GlobalAmmo = maxGlobalAmmo;
+        CurrentHealth = maxHealth;
+        rotationH = transform.localEulerAngles.y;
         
         cameraHandler = Instantiate(cameraHandler, Vector3.zero, Quaternion.Euler(0,0,0));
         cameraHandler.playerController = this;
@@ -176,7 +178,7 @@ public class PlayerController : MonoBehaviour
         canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
         canvasOverlay.SetOverlay(currentPlayers);
         //Temporary values until we get the real player amount and can store which player this is.
-        cameraHandler.SetViewport(currentPlayers, 1);
+        cameraHandler.SetViewport(currentPlayers, playerNumber);
 
 
 
@@ -300,7 +302,9 @@ public class PlayerController : MonoBehaviour
     //if health is zero call respawn
     public void TakeDamage(int damage)
     {
-
+        Debug.Log(CurrentHealth);
+        CurrentHealth -= damage;
+        Debug.Log(CurrentHealth);
     }
 
 
