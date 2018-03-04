@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class CameraHandler : MonoBehaviour {
 
-    [Tooltip("What object does the camera reference for its transform.")]
-    public GameObject target;
-    private Camera currentCamera;
-    public PlayerController playerController;
+    public GameObject target; //PlayerController sets this on instantiate.
+    private Camera currentCamera; 
+    public PlayerController playerController; // Playercontroller refers itself to this on instantiate.
 
-    //Late update looks much more smooth because it lets all other transforms to finish first.
 
     private void Awake() {
         currentCamera = GetComponent<Camera>();
     }
+
+    //Late update looks much more smooth because it lets all other transforms to finish first.    
     private void LateUpdate()
     {
         RaycastHit hit;
@@ -101,7 +101,7 @@ public class CameraHandler : MonoBehaviour {
                     rect.y = 0;
                 }
                 else {
-                    Debug.LogError("If three active players, there must be player 1, player 2 and player 3 defined.");                    
+                    Debug.LogError("If three active players, there must be players 1-3 defined.");                    
                 }
 
                 currentCamera.rect = rect;
@@ -137,7 +137,7 @@ public class CameraHandler : MonoBehaviour {
                     rect.y = 0;
                 }
                 else {
-                    Debug.LogError("If four active players, there must be player 1-4 defined");          
+                    Debug.LogError("If four active players, there must be players 1-4 defined");          
                 }
 
                 currentCamera.rect = rect;

@@ -20,30 +20,39 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+
+//                                                                                                                             ////////////Tagged////////////
+//*****************************************************************************************************************************//////////////To//////////////
+//                                                                                                                             ////////////Change////////////
+    //This is general overlay and scene should have only one of them.
+    //Move to whatever class instantiates players.
+    public CanvasOverlayHandler canvasOverlay; 
+    // Used for testing canvasoverlay and setting camera viewport.
+    public int currentPlayers; 
+
+
+
+
     private int currentHealth, maxHealth = 100;
     private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
-    private MatchController controller;
     private float rotationV = 0, rotationH = 0, maxRotV = 80f, minRotV = -80f;
     private Vector3 aimWorldPoint; // Where gun rotates towards.
     private bool isAimRaycastHit = false;
 
-    public int currentPlayers; // Used for testing
-
     public int currentDamage = 0;
 
+
     //Classes
+    private MatchController controller;
     public GameObject playerFace; // Takes vertical rotation, also parents all guns.
-    public HudHandler hud; //Draws player specific hud inside camera viewport
-
-    //TEMPORARY
-    //This is general overlay and scene should have only one of them
-    //Move to whatever class instantiates playercontrollers.
-    public CanvasOverlayHandler canvasOverlay; 
-
-
+    public HudHandler hud; //Draws player-specific hud inside camera viewport
     public Weapon currentWeapon;
     public CameraHandler cameraHandler;
+
+
+
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1;
     public bool invertSensV = false;
@@ -160,13 +169,17 @@ public class PlayerController : MonoBehaviour
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
 
 
-        //TEMPORARY
+//                                                                                                                             ////////////Tagged////////////
+//*****************************************************************************************************************************//////////////To//////////////
+//                                                                                                                             ////////////Change////////////
+        //Instantiate only once - elsewhere.
         canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
         canvasOverlay.SetOverlay(currentPlayers);
-
-
         //Temporary values until we get the real player amount and can store which player this is.
         cameraHandler.SetViewport(currentPlayers, 1);
+
+
+
 
         currentWeapon.gameObject.SetActive(true);
 
@@ -268,8 +281,8 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void PlatformJump(float velocity) {
-            currentVerticalVelocity = JumpVelocity * velocity;
+    public void PlatformJump(float multiplier) {
+            currentVerticalVelocity = JumpVelocity * multiplier;
             isGrounded = false;
     }
 

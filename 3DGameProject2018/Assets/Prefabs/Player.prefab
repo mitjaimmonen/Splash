@@ -433,6 +433,7 @@ GameObject:
   - component: {fileID: 4158207138020938}
   - component: {fileID: 198983556146058448}
   - component: {fileID: 199200556006747522}
+  - component: {fileID: 114585594896264952}
   m_Layer: 4
   m_Name: Particle continuous Sprite + Trail (assault rifle)
   m_TagString: Untagged
@@ -1794,12 +1795,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
+    type: 2}
   currentPlayers: 1
   currentDamage: 0
   playerFace: {fileID: 1590808485326396}
   hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
-  canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
-    type: 2}
   currentWeapon: {fileID: 114544134212063886}
   cameraHandler: {fileID: 114452112577806016, guid: 2c57df088684cc440b7f758eee323137,
     type: 2}
@@ -1868,6 +1869,17 @@ MonoBehaviour:
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: 
   takeScopeSE: 
+--- !u!114 &114585594896264952
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1568909983906260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504aaa145ccd715479efd3fc6c987cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!137 &137710310096811012
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -15634,7 +15646,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1a0ac78ab8bc4be40ac49f8b986f7c65, type: 2}
+  - {fileID: 0}
   - {fileID: 2100000, guid: a81500b37d9583342975d39e9b5095ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
