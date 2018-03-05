@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{5b6b5b76-3009-47e1-8d8a-dd78fa8c5042}">
+        <property name="assetPath">
+            <value>sfx/Water/sprinkler.mp3</value>
+        </property>
+        <property name="isStreaming">
+            <value>true</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>30.071999999999999</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{24e8c4c9-5313-4c8e-8870-c3ee5ba89e82}</destination>
+        </relationship>
+    </object>
+</objects>

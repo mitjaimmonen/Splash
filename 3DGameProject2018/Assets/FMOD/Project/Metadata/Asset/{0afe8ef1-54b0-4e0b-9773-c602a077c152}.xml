@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="EncodableAsset" id="{0afe8ef1-54b0-4e0b-9773-c602a077c152}">
+        <property name="assetPath">
+            <value>sfx/Water/Pop Toy/</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{24e8c4c9-5313-4c8e-8870-c3ee5ba89e82}</destination>
+        </relationship>
+    </object>
+</objects>

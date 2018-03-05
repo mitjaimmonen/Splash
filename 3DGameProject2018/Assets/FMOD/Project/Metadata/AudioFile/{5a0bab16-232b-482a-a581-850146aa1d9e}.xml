@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{5a0bab16-232b-482a-a581-850146aa1d9e}">
+        <property name="assetPath">
+            <value>sfx/Water/Water Splash on Cement Series - Sound Effect.mp3</value>
+        </property>
+        <property name="isStreaming">
+            <value>true</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>44.0999985</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>15.960816326530612</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{24e8c4c9-5313-4c8e-8870-c3ee5ba89e82}</destination>
+        </relationship>
+    </object>
+</objects>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{036fac98-5622-427e-81f2-0a47dfb73e9d}">
+        <property name="assetPath">
+            <value>sfx/Footsteps/FOOTSTEP - Metal Board Run Barefoot Male - 1.wav</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>96</value>
+        </property>
+        <property name="channelCount">
+            <value>1</value>
+        </property>
+        <property name="length">
+            <value>0.27733333333333332</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{24e8c4c9-5313-4c8e-8870-c3ee5ba89e82}</destination>
+        </relationship>
+    </object>
+</objects>
