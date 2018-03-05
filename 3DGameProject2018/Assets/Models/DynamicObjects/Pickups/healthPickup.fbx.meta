@@ -1,29 +1,28 @@
 fileFormatVersion: 2
-guid: bd0bd463631f99840bd0a8dc61f331b4
-timeCreated: 1520069905
+guid: 3fb67ad9bb7e0254cbf009c2fcaf68e8
+timeCreated: 1520256346
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: bottle spin
+    100000: cross
     100002: halo
     100004: //RootNode
-    400000: bottle spin
+    400000: cross
     400002: halo
     400004: //RootNode
-    2100000: Material
-    2100002: Material.003
-    2100004: Material.002
-    2300000: bottle spin
+    2100000: Material.005
+    2100002: Material.002
+    2300000: cross
     2300002: halo
-    3300000: bottle spin
+    3300000: cross
     3300002: halo
-    4300000: bottle spin
+    4300000: cross
     4300002: halo
-    7400000: bottle spin|bottle spinAction
-    7400002: bottle spin|haloAction
-    7400004: bottle spin|Shader NodetreeAction
-    7400006: halo|bottle spinAction
+    7400000: cross|CubeAction
+    7400002: cross|haloAction
+    7400004: cross|Shader NodetreeAction
+    7400006: halo|CubeAction
     7400008: halo|haloAction
     7400010: halo|Shader NodetreeAction
     9500000: //RootNode
@@ -31,18 +30,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: 7400d13888df38640bc212a0480242b8, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: Material.002
-    second: {fileID: 2100000, guid: 520c9207b3d549441afe9faa3fc81888, type: 2}
+    second: {fileID: 2100000, guid: 2a41b7a55f49a3541bdbe534a783af3e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.003
-    second: {fileID: 2100000, guid: 597b440a17e1af8438edcb62396a4d23, type: 2}
+      name: Material.005
+    second: {fileID: 2100000, guid: f6ee7eb579c2b68478146b01660b8c47, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -70,8 +64,8 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: bottle spin|bottle spinAction
-      takeName: bottle spin|bottle spinAction
+      name: cross|CubeAction
+      takeName: cross|CubeAction
       firstFrame: 0
       lastFrame: 50
       wrapMode: 0
