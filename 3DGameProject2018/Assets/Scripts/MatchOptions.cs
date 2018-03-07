@@ -9,22 +9,55 @@ public enum Map
 public class MatchOptions {
 
     public GameMode mode = GameMode.DeathMatch;
-    public int players = 1;
-    //all the teams need to be changed to a list later that way if we restart a match its mutable
-    public int[,] Teams;
+    private int currentActivePlayers = 0;
+    //[[controller #, team, active]]
+    private int[,] playerInfo = { {0,0,0 },{ 1, 1, 0 },{ 2, 2, 0 },{ 3, 3, 0 } };
     public Map map = Map.Map1;
 
-    public void InitializeTeams(int[,] teams) {
-        Teams = teams;
+    public int[,] PlayerInfo
+    {
+        get {
+            return playerInfo;
+        }
+
+        private set {
+            playerInfo = value;
+        }
+    }
+    public int CurrentActivePlayers
+    {
+        get {
+            return currentActivePlayers;
+        }
+
+        private set {
+            currentActivePlayers = value;
+        }
     }
 
 
-    //takes an option name runs it through a switch and changes it to the resultant option
-    //this is gonna be clunky and probaably have to rely on lots of switch/if statememnts but i cant think of a better way
-    //maybe if we used key value pairs instead of enums, but enums work good in unity editor side so ¯\_(ツ)_/¯
-    //also its only called once on scene change so couldnt care less
-    public void ChangeOption(string option, string value)
-    {
+    /// <summary>
+    /// Enables the player at passed index and increments the players if the player wasn't already enabled.
+    /// </summary>
+    /// <param name="index"></param>
+    public void EnablePlayer(int index) {
+        if(PlayerInfo[index, 2] == 0)
+        {
+            PlayerInfo[index, 2] = 1;
+            CurrentActivePlayers++;
+        } 
+    }
 
+    /// <summary>
+    /// Disables the player at passed index and decrements the players if the player wasn't already disabled.
+    /// </summary>
+    /// <param name="index"></param>
+    public void DisablePlayer(int index)
+    {
+        if(PlayerInfo[index, 2] == 1)
+        {
+            PlayerInfo[index, 2] = 0;
+            CurrentActivePlayers--;
+        }
     }
 }

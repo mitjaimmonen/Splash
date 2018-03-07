@@ -49,7 +49,8 @@ public class PlayerController : MonoBehaviour
     public GameObject playerFace; // Takes vertical rotation, also parents all guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
     public Weapon currentWeapon;
-    public CameraHandler cameraHandler;
+    public GameObject cameraPrefab;
+    private CameraHandler cameraHandler;
 
 
 
@@ -156,6 +157,14 @@ public class PlayerController : MonoBehaviour
             set { isAimRaycastHit = value; }
         }
 
+        public MatchController Controller
+        {
+
+            set {
+                controller = value;
+            }
+        }
+
     #endregion
 
 
@@ -163,9 +172,16 @@ public class PlayerController : MonoBehaviour
     {
         GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
-        rotationH = transform.localEulerAngles.y;
-        
-        cameraHandler = Instantiate(cameraHandler, Vector3.zero, Quaternion.Euler(0,0,0));
+
+        GameObject cameraToFind = null;
+        Transform[] trans = GameObject.Find("Cameras").GetComponentsInChildren<Transform>(true);
+        foreach (Transform t in trans) {
+            if (t.gameObject.name == "Main Camera" + (playerNumber-1)) {
+                cameraToFind = t.gameObject;
+                cameraToFind.SetActive(true);
+            }
+        }
+        cameraHandler = cameraToFind.GetComponent<CameraHandler>();
         cameraHandler.playerController = this;
         cameraHandler.target = playerFace; // Camera gets rotation from this.
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
@@ -184,8 +200,12 @@ public class PlayerController : MonoBehaviour
 
 
         currentWeapon.gameObject.SetActive(true);
+        
+    }
 
-        // hud.playerController = this;
+    private void Start() 
+    {
+        rotationH = transform.localEulerAngles.y;
     }
 
     //apply Gravity
@@ -220,7 +240,7 @@ public class PlayerController : MonoBehaviour
     //shoots, moves, interacts, shows scores, pauses if pressed button
     public void InputHandle(string[] input)
     {
-        Debug.Log(input[1]);
+        Debug.Log(input[0]);
         if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" )
         {
             Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
@@ -263,13 +283,22 @@ public class PlayerController : MonoBehaviour
     //apply nongravity movements
     private void Move(string axis, float magnitude)
     {
+        RaycastHit hit;
         switch(axis)
         {
             case "LeftHorizontal":
-                transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime;
+                if(!Physics.Raycast(transform.position, new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime,1))
+                {
+                    transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime;
+                }
                 break;
             case "LeftVertical":
-                transform.position += -transform.forward * magnitude * speed * Time.deltaTime;
+
+                if(!Physics.Raycast(transform.position, -transform.forward * magnitude * speed * Time.deltaTime, 1))
+                {
+                    transform.position += -transform.forward * magnitude * speed * Time.deltaTime;
+                }
+                
                 break;
             case "A":
                 if(isGrounded)
@@ -303,11 +332,17 @@ public class PlayerController : MonoBehaviour
     //if health is zero call respawn
     public void TakeDamage(int damage)
     {
-        Debug.Log(CurrentHealth);
         CurrentHealth -= damage;
-        Debug.Log(CurrentHealth);
+        if(currentHealth<1)
+        {
+            controller.Spawn(playerNumber);
+        }
     }
-
+    public void Reset()
+    {
+        GlobalAmmo = maxGlobalAmmo;
+        CurrentHealth = maxHealth;
+    }
 
     //add effect to effects list and then process the effect
     //call hud display effect

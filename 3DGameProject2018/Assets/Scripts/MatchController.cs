@@ -5,19 +5,40 @@ using UnityEngine;
 public class MatchController : MonoBehaviour, IController
 {
 
-    public MatchOptions options;// this is only public so we can pass an option us the map scene right away shouldnt be used otherwise
     public GameObject playerPrefab;
     public GameObject[] playerSpawns;
     public GameObject[] weaponSpawns;
     public GameObject[] dropSpawns;
     private float startTime;
     private bool isPaused = false;
-    public PlayerController[] instantiatedPlayers;// only public for testing
+    private PlayerController[] instantiatedPlayers = new PlayerController[4];// only public for testing
+    private StateHandler stateHandler;
+    public LayerMask PlayerLayerMask;
+
+
 
     //Initialize screens player and map
-    void Start()
+    void Awake()
     {
-        //make players of amount options player and pass each its input controller number
+        
+        stateHandler = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
+        playerPrefab.GetComponent<PlayerController>().currentPlayers = stateHandler.options.CurrentActivePlayers;
+        //make players of amount options player //not this right now(and pass each its input controller number)
+        for(int i = 0; i < instantiatedPlayers.Length; i++)
+        {
+            if(stateHandler.options.PlayerInfo[i,2] ==1)
+            {
+                playerPrefab.GetComponent<PlayerController>().playerNumber = i+1;
+                instantiatedPlayers[i] = Instantiate(playerPrefab).GetComponent<PlayerController>();
+                instantiatedPlayers[i].playerNumber = i;
+                instantiatedPlayers[i].Controller = this;
+                Spawn(i);
+                
+            }
+
+            
+        }
+                
         //adjust camera views for the current number of players
         //spawn players and add them to initializedplayers
     }
@@ -36,23 +57,11 @@ public class MatchController : MonoBehaviour, IController
 
     public void InputHandle(string[] input)
     {
-        //all input goes to the controllers appropriate player
-        switch(input[0])
+        //all input goes to the controllers appropriate player if active
+        if(stateHandler.options.PlayerInfo[int.Parse(input[0]), 2] == 1)
         {
-            case "0":
-                instantiatedPlayers[0].InputHandle(input);
-                break;
-            case "1":
-                instantiatedPlayers[1].InputHandle(input);
-                break;
-            case "2":
-                instantiatedPlayers[2].InputHandle(input);
-                break;
-            case "3":
-                instantiatedPlayers[3].InputHandle(input);
-                break;
-            default:
-                break;
+            
+            instantiatedPlayers[int.Parse(input[0])].InputHandle(input);
         }
     }
 
@@ -61,7 +70,18 @@ public class MatchController : MonoBehaviour, IController
     //takes the player position and will respawn that player at an unoccupied spawn
     public void Spawn(int playerIndex)
     {
-
+        //right now just spawns at spawn point of same number we should make this more complex in the future
+        for(int i = 0; i < playerSpawns.Length; i++)
+        {
+            if(!Physics.CheckSphere(playerSpawns[i].transform.position,1,PlayerLayerMask))
+            {
+                instantiatedPlayers[playerIndex].Reset();
+                instantiatedPlayers[playerIndex].transform.position = playerSpawns[i].transform.position;
+                instantiatedPlayers[playerIndex].transform.rotation = playerSpawns[i].transform.rotation;
+                
+                return;
+            }
+        }
     }
 
 

@@ -12,7 +12,7 @@ public class JumpPlatform : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.name == "Player")
+		if (other.gameObject.CompareTag("Player"))
 		{
 			playerController = other.GetComponent<PlayerController>();
 			playerController.PlatformJump(velocityMultiplier);

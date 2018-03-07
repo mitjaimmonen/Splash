@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenuController : MonoBehaviour {
-    private MatchOptions options;
-    private int[,] team;
+    private MatchOptions options = new MatchOptions();
     public GameObject[] visualPlayerElements = new GameObject[4];
 
     //stats to track were you are in both menues and a list of prefabs for each option
@@ -14,13 +13,18 @@ public class MainMenuController : MonoBehaviour {
     private int currentSelectionOptions = 0;
     public GameObject menuPrefab;
     public GameObject[] optionsObjects;
+    private StateHandler stateHandler;
+    //temp for player count
+    [SerializeField, Tooltip("Number of players to initiate the game with")]
+    private int players = 1;
 
     //if the options are prefabs initialize,or we could probably just have them placed in scene already through the editor
     //Highlight first element and set each input to the default option also assigning that in the match options
     //start main music at current saved settings volume
     private void Start()
     {
-        
+        stateHandler = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
+        StartGame();
     }
 
 
@@ -28,6 +32,12 @@ public class MainMenuController : MonoBehaviour {
     //pass options and team to the state handler along with ativating state change into the game
     private void StartGame()
     {
+        for(int i = 0; i < players; i++)
+        {
+            options.EnablePlayer(i);
+        }
+        stateHandler.options = options;
+        stateHandler.ChangeState(State.Game);
         //for menuobjects pass oprionobject.label, optionobject.getvalue to the current options
     }
 
