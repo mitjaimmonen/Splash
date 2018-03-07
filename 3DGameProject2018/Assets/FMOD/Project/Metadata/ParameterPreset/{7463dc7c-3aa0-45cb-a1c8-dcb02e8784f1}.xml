@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPreset" id="{7463dc7c-3aa0-45cb-a1c8-dcb02e8784f1}">
+        <property name="name">
+            <value>ThrowForce</value>
+        </property>
+        <relationship name="folder">
+            <destination>{fd137dd8-771d-4505-8280-4467a3d97e06}</destination>
+        </relationship>
+        <relationship name="parameter">
+            <destination>{e5d0d8cd-2044-4418-8dbe-1c3731a47774}</destination>
+        </relationship>
+    </object>
+    <object class="GameParameter" id="{e5d0d8cd-2044-4418-8dbe-1c3731a47774}">
+        <property name="initialValue">
+            <value>0</value>
+        </property>
+    </object>
+</objects>

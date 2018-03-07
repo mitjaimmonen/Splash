@@ -9,6 +9,11 @@
 {9bd850ec-9792-45d7-be2e-948eb1eb44d8} event:/Guns/Pistol sounds
 {c94f988b-c8cd-4089-8c6d-4ced3c554e68} event:/Guns/Reload auto rifle
 {de8e6457-ed1d-4c54-9ece-abd317731601} event:/Guns/Shotgun sounds
+{bcb9b8ed-95c7-46e1-b6dc-63c6a45ff27a} event:/Guns/ThrowForce feedback
+{e1f6ed17-b7f9-43cd-8b33-1f21632cb64a} event:/Guns/Throw
+{8d32088c-5d25-43b9-b868-adcc9a340be9} event:/Interactions/AmmoPickup
+{2d493f70-f2a0-454d-933b-8af718c16cfc} event:/Interactions/GunPickup
+{61afd588-bb8b-4fda-a8e7-d45b2a844fd5} event:/Interactions/HealthPickup
 {dc702f45-6221-43a4-a993-4c901ebc8bfe} event:/UI/Back
 {1f080d3a-7634-4415-8aa7-3f0d7dd0c210} event:/UI/IngamePause
 {fbb3d1a1-b3a1-4d81-93c4-1786462d3411} event:/UI/Move cursor
@@ -17,9 +22,6 @@
 {0a80392a-d75e-4ccf-a4ba-7e7a321e1f8e} event:/Water Collisions/Hitmarker
 {0b89c783-7337-422b-839c-3777c4ac54bf} event:/Water Collisions/Wall water collisions
 {6556615f-304e-45cb-85ca-a7d4f6c9cdee} event:/Water Collisions/Water balloon
-{61afd588-bb8b-4fda-a8e7-d45b2a844fd5} event:/Interactions/HealthPickup
-{8d32088c-5d25-43b9-b868-adcc9a340be9} event:/Interactions/AmmoPickup
-{2d493f70-f2a0-454d-933b-8af718c16cfc} event:/Interactions/GunPickup
 {f0170c7d-ff4e-4a42-b89e-21671851f192} bus:/
 {65cb3ddc-10e3-4bdc-8ae2-3325fc7fc600} bus:/Reverb
 {5652a976-6094-4be0-bcc9-9079ddbfee82} bank:/Master Bank
