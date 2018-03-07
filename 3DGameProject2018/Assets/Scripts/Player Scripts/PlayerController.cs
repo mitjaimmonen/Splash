@@ -213,6 +213,10 @@ public class PlayerController : MonoBehaviour
     //visually apply all current effects
     private void Update()
     {
+
+        if (transform.position.y < -50f)
+            controller.Spawn(playerNumber);            
+
         if(!isGrounded)
         {
             currentVerticalVelocity -= gravity;

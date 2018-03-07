@@ -34,7 +34,7 @@ public class Drops : MonoBehaviour {
         playerController = other.GetComponent<PlayerController>();
         Debug.Log("Collided with pickup. Name: " + pickupType);
 
-        if (other.gameObject.name == "Player")
+        if (other.gameObject.CompareTag("Player"))
         {
             if (pickupType == PickupEnum.healthPickup)
             {
