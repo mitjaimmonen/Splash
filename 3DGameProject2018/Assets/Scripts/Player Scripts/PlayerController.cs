@@ -185,6 +185,7 @@ public class PlayerController : MonoBehaviour
 
         currentWeapon.gameObject.SetActive(true);
 
+        // hud.playerController = this;
     }
 
     //apply Gravity
