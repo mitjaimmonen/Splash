@@ -19,7 +19,9 @@ interface IController
 public class StateHandler : MonoBehaviour
 {
 
-    public MatchOptions options;//Current Options
+    public MatchOptions options = new MatchOptions();//Current Options
+    [SerializeField, Tooltip("Default initialized players")]
+    public int players = 0;
     private IController controller;//Controller for current Scene
     public State state;//Current State
     private const int CONTROLLERCOUNT = 4;
@@ -27,7 +29,7 @@ public class StateHandler : MonoBehaviour
     
     
     //Makes sure no duplicate state handler, and temporary launches straight to map
-    private void Start()
+    private void Awake()
     {
         //Make sure there isnt an active state Handler(basicly only tripped when reloading the main menu)
         if(GameObject.FindGameObjectsWithTag("State Handler").Length > 1)
@@ -36,6 +38,10 @@ public class StateHandler : MonoBehaviour
         }
         FindController();
         DontDestroyOnLoad(transform.gameObject);
+        for(int i = 0; i < players; i++)
+        {
+            options.EnablePlayer(i);
+        }
     }
 
 

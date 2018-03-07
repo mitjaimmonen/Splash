@@ -14,6 +14,9 @@ public class MainMenuController : MonoBehaviour {
     public GameObject menuPrefab;
     public GameObject[] optionsObjects;
     private StateHandler stateHandler;
+    //temp for player count
+    [SerializeField, Tooltip("Number of players to initiate the game with")]
+    private int players = 1;
 
     //if the options are prefabs initialize,or we could probably just have them placed in scene already through the editor
     //Highlight first element and set each input to the default option also assigning that in the match options
@@ -29,10 +32,10 @@ public class MainMenuController : MonoBehaviour {
     //pass options and team to the state handler along with ativating state change into the game
     private void StartGame()
     {
-        options.EnablePlayer(0);
-        options.EnablePlayer(1);
-        options.EnablePlayer(2);
-        options.EnablePlayer(3);
+        for(int i = 0; i < players; i++)
+        {
+            options.EnablePlayer(i);
+        }
         stateHandler.options = options;
         stateHandler.ChangeState(State.Game);
         //for menuobjects pass oprionobject.label, optionobject.getvalue to the current options

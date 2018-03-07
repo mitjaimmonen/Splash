@@ -157,6 +157,14 @@ public class PlayerController : MonoBehaviour
             set { isAimRaycastHit = value; }
         }
 
+        public MatchController Controller
+        {
+
+            set {
+                controller = value;
+            }
+        }
+
     #endregion
 
 
@@ -165,8 +173,16 @@ public class PlayerController : MonoBehaviour
         GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
         rotationH = transform.localEulerAngles.y;
-        
-        cameraHandler = Instantiate(cameraPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<CameraHandler>();
+
+        GameObject cameraToFind = null;
+        Transform[] trans = GameObject.Find("Cameras").GetComponentsInChildren<Transform>(true);
+        foreach (Transform t in trans) {
+            if (t.gameObject.name == "Main Camera" + (playerNumber-1)) {
+                cameraToFind = t.gameObject;
+                cameraToFind.SetActive(true);
+            }
+        }
+        cameraHandler = cameraToFind.GetComponent<CameraHandler>();
         cameraHandler.playerController = this;
         cameraHandler.target = playerFace; // Camera gets rotation from this.
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
@@ -185,7 +201,7 @@ public class PlayerController : MonoBehaviour
 
 
         currentWeapon.gameObject.SetActive(true);
-
+        
     }
 
     //apply Gravity
@@ -303,11 +319,17 @@ public class PlayerController : MonoBehaviour
     //if health is zero call respawn
     public void TakeDamage(int damage)
     {
-        Debug.Log(CurrentHealth);
         CurrentHealth -= damage;
-        Debug.Log(CurrentHealth);
+        if(currentHealth<1)
+        {
+            controller.Spawn(playerNumber);
+        }
     }
-
+    public void Reset()
+    {
+        GlobalAmmo = maxGlobalAmmo;
+        CurrentHealth = maxHealth;
+    }
 
     //add effect to effects list and then process the effect
     //call hud display effect

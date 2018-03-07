@@ -13,11 +13,12 @@ public class MatchController : MonoBehaviour, IController
     private bool isPaused = false;
     private PlayerController[] instantiatedPlayers = new PlayerController[4];// only public for testing
     private StateHandler stateHandler;
+    public LayerMask PlayerLayerMask;
 
 
 
     //Initialize screens player and map
-    void Start()
+    void Awake()
     {
         
         stateHandler = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
@@ -29,14 +30,15 @@ public class MatchController : MonoBehaviour, IController
             {
                 playerPrefab.GetComponent<PlayerController>().playerNumber = i+1;
                 instantiatedPlayers[i] = Instantiate(playerPrefab).GetComponent<PlayerController>();
+                instantiatedPlayers[i].playerNumber = i;
+                instantiatedPlayers[i].Controller = this;
+                Spawn(i);
                 
             }
+
             
         }
-        Spawn(0);
-        Spawn(1);
-        
-        
+                
         //adjust camera views for the current number of players
         //spawn players and add them to initializedplayers
     }
@@ -69,7 +71,16 @@ public class MatchController : MonoBehaviour, IController
     public void Spawn(int playerIndex)
     {
         //right now just spawns at spawn point of same number we should make this more complex in the future
-        instantiatedPlayers[playerIndex].transform.position = playerSpawns[playerIndex].transform.position;
+        for(int i = 0; i < playerSpawns.Length; i++)
+        {
+            if(!Physics.CheckSphere(playerSpawns[i].transform.position,1,PlayerLayerMask))
+            {
+                instantiatedPlayers[playerIndex].Reset();
+                instantiatedPlayers[playerIndex].transform.position = playerSpawns[i].transform.position;
+                
+                return;
+            }
+        }
     }
 
 
