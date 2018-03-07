@@ -363,6 +363,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1438091459881352
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4790234656748096}
+  - component: {fileID: 95726149211275514}
+  - component: {fileID: 114464174883009972}
+  m_Layer: 0
+  m_Name: ModelPlaceholder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1470069574654476
 GameObject:
   m_ObjectHideFlags: 1
@@ -730,6 +747,7 @@ GameObject:
   - component: {fileID: 4980431577411204}
   - component: {fileID: 198378686583612396}
   - component: {fileID: 199560746279634344}
+  - component: {fileID: 114878086004120396}
   m_Layer: 0
   m_Name: Particle Burst Trail
   m_TagString: Untagged
@@ -1417,6 +1435,19 @@ Transform:
   m_Father: {fileID: 4113393517956410}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4790234656748096
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1438091459881352}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4991797916732596}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4817415417045112
 Transform:
   m_ObjectHideFlags: 1
@@ -1597,6 +1628,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4980431577411204}
+  - {fileID: 4790234656748096}
   m_Father: {fileID: 4198909216040822}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1784,6 +1816,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95726149211275514
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1438091459881352}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 04ee12f661f2f274096ff24d48b22d77, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114148083834518994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1802,7 +1851,7 @@ MonoBehaviour:
   currentDamage: 0
   playerFace: {fileID: 1590808485326396}
   hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
-  currentWeapon: {fileID: 114544134212063886}
+  currentWeapon: {fileID: 114335815519488122}
   cameraHandler: {fileID: 114452112577806016, guid: 2c57df088684cc440b7f758eee323137,
     type: 2}
   lookSensV: 1
@@ -1824,10 +1873,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f2e03f750344843bac64097c4639d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 10
   clipSize: 100
   shotUsage: 25
-  fireRate: 0.5
+  fireRate: 1
   maxShootTime: 0
   reloadTime: 2
   autoReload: 1
@@ -1843,6 +1892,17 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1621933071840126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd125411fe3d25f4693fe2c657c98036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114464174883009972
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1438091459881352}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd125411fe3d25f4693fe2c657c98036, type: 3}
@@ -1878,6 +1938,17 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1568909983906260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504aaa145ccd715479efd3fc6c987cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114878086004120396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1870554893032266}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 504aaa145ccd715479efd3fc6c987cce, type: 3}

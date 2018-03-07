@@ -122,6 +122,9 @@ public class Weapon : MonoBehaviour {
         // Some checks in case shooting has ended
         // if (reloadTimer > reloadTime)
         //     isReloading = false;   
+        if (autoReload && currentClipAmmo < shotUsage)
+            Reload();
+
         if (fireRateTimer - 0.1f > fireRate && isShooting)
             isShooting = false;
         else if (fireRateTimer > fireRate || isReloading || (maxShootTime != 0 && shootTimer > maxShootTime) || currentClipAmmo < shotUsage) 
@@ -164,10 +167,6 @@ public class Weapon : MonoBehaviour {
         {
             FMODUnity.RuntimeManager.PlayOneShotAttached(emptyMagSE, gameObject);
             isShooting = false;
-
-            if(autoReload)
-                Reload();
-
             return;
         }
         isReloading = false;        
@@ -232,9 +231,10 @@ public class Weapon : MonoBehaviour {
     public void Reload() {
         
         // When animations are fully implemented, clip & ammo are counted at the end of reload.
-        if (playerController.GlobalAmmo > 0 && !isShooting)
+        Debug.Log("Trying to reload clip");
+        if (playerController.GlobalAmmo > 0 && !gunAnim.GetCurrentAnimatorStateInfo(0).IsName("reload"))
         {
-            gunAnim.SetTrigger("reload");
+            gunAnim.SetBool("reload", true);
             isReloading = true;        
             reloadTimer = 0;
         }
@@ -252,6 +252,7 @@ public class Weapon : MonoBehaviour {
 
     public void AnimReloadStarted() {
         FMODUnity.RuntimeManager.PlayOneShotAttached(reloadSE, gameObject);
+        gunAnim.SetBool("reload", false); //Animation will play till the end anyway if not interrupted.
 
     }
     public void AnimReloadEnded() {
@@ -266,6 +267,7 @@ public class Weapon : MonoBehaviour {
         playerController.GlobalAmmo = currentGlobalAmmo;
         
         playerController.CurrentAmmo = currentClipAmmo;
+        
     }
 
     #endregion

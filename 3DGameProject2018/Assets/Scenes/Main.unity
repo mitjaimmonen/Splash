@@ -335,21 +335,6 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 1a0ac78ab8bc4be40ac49f8b986f7c65, type: 2}
-    - target: {fileID: 114148083834518994, guid: b9c565a37b0c5f44780f16a180f2d103,
-        type: 2}
-      propertyPath: currentPlayers
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114148083834518994, guid: b9c565a37b0c5f44780f16a180f2d103,
-        type: 2}
-      propertyPath: playerNumber
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114335815519488122, guid: b9c565a37b0c5f44780f16a180f2d103,
-        type: 2}
-      propertyPath: damage
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b9c565a37b0c5f44780f16a180f2d103, type: 2}
   m_IsPrefabParent: 0
