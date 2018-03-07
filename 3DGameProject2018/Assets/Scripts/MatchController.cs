@@ -75,9 +75,9 @@ public class MatchController : MonoBehaviour, IController
         {
             if(!Physics.CheckSphere(playerSpawns[i].transform.position,1,PlayerLayerMask))
             {
-                instantiatedPlayers[playerIndex].Reset();
                 instantiatedPlayers[playerIndex].transform.position = playerSpawns[i].transform.position;
                 instantiatedPlayers[playerIndex].transform.rotation = playerSpawns[i].transform.rotation;
+                instantiatedPlayers[playerIndex].Reset();
                 
                 return;
             }

@@ -173,19 +173,23 @@ public class PlayerController : MonoBehaviour
         GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
 
+        hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
+
         GameObject cameraToFind = null;
         Transform[] trans = GameObject.Find("Cameras").GetComponentsInChildren<Transform>(true);
         foreach (Transform t in trans) {
             if (t.gameObject.name == "Main Camera" + (playerNumber-1)) {
                 cameraToFind = t.gameObject;
                 cameraToFind.SetActive(true);
+                var canvas = hud.GetComponent<Canvas>();
+                canvas.worldCamera = cameraToFind.GetComponent<Camera>();
+                hud.playerNumberText.text = "Player Number: " + playerNumber;
             }
         }
         cameraHandler = cameraToFind.GetComponent<CameraHandler>();
         cameraHandler.playerController = this;
         cameraHandler.target = playerFace; // Camera gets rotation from this.
-        hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
-
+        
 
 //                                                                                                                             ////////////Tagged////////////
 //*****************************************************************************************************************************//////////////To//////////////
@@ -346,6 +350,7 @@ public class PlayerController : MonoBehaviour
     {
         GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
+        rotationH = transform.localEulerAngles.y;
     }
 
     //add effect to effects list and then process the effect
