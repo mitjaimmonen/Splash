@@ -287,7 +287,7 @@ public class PlayerController : MonoBehaviour
         switch(axis)
         {
             case "LeftHorizontal":
-                if(!Physics.Raycast(transform.position, new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime))
+                if(!Physics.Raycast(transform.position, new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime,1))
                 {
                     transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime;
                 }
