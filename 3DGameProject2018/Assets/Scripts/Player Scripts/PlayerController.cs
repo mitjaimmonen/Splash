@@ -283,13 +283,22 @@ public class PlayerController : MonoBehaviour
     //apply nongravity movements
     private void Move(string axis, float magnitude)
     {
+        RaycastHit hit;
         switch(axis)
         {
             case "LeftHorizontal":
-                transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime;
+                if(!Physics.Raycast(transform.position, new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime))
+                {
+                    transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime;
+                }
                 break;
             case "LeftVertical":
-                transform.position += -transform.forward * magnitude * speed * Time.deltaTime;
+
+                if(!Physics.Raycast(transform.position, -transform.forward * magnitude * speed * Time.deltaTime, 1))
+                {
+                    transform.position += -transform.forward * magnitude * speed * Time.deltaTime;
+                }
+                
                 break;
             case "A":
                 if(isGrounded)
