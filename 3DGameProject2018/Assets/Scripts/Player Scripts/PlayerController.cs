@@ -172,7 +172,6 @@ public class PlayerController : MonoBehaviour
     {
         GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
-        rotationH = transform.localEulerAngles.y;
 
         GameObject cameraToFind = null;
         Transform[] trans = GameObject.Find("Cameras").GetComponentsInChildren<Transform>(true);
@@ -202,6 +201,11 @@ public class PlayerController : MonoBehaviour
 
         currentWeapon.gameObject.SetActive(true);
         
+    }
+
+    private void Start() 
+    {
+        rotationH = transform.localEulerAngles.y;
     }
 
     //apply Gravity

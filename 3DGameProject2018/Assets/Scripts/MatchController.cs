@@ -77,6 +77,7 @@ public class MatchController : MonoBehaviour, IController
             {
                 instantiatedPlayers[playerIndex].Reset();
                 instantiatedPlayers[playerIndex].transform.position = playerSpawns[i].transform.position;
+                instantiatedPlayers[playerIndex].transform.rotation = playerSpawns[i].transform.rotation;
                 
                 return;
             }
