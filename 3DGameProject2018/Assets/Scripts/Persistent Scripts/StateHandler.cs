@@ -36,12 +36,20 @@ public class StateHandler : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if(state != State.MainMenu)
+        {
+            for(int i = 0; i < players; i++)
+            {
+                options.EnablePlayer(i);
+            }
+        }
         FindController();
         DontDestroyOnLoad(transform.gameObject);
-        for(int i = 0; i < players; i++)
-        {
-            options.EnablePlayer(i);
-        }
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
     }
 
 
@@ -50,7 +58,11 @@ public class StateHandler : MonoBehaviour
     /// </summary>
     private void FindController()
     {
-        controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
+        var temp = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
+        if(temp !=null)
+        {
+            controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
+        }
     }
 
 
@@ -79,10 +91,7 @@ public class StateHandler : MonoBehaviour
                 break;
         }
     }
-    private void OnLevelWasLoaded(int level)
-    {
-        controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
-    }
+    
 
 
 
@@ -143,7 +152,6 @@ public class StateHandler : MonoBehaviour
            
             if(Input.GetAxis("Joy" + i + "A") != 0)
             {
-                Debug.Log(Input.GetAxis("Joy" + i + "A")+ "    " + i);
                 input[0] = i.ToString(); 
                 input[1] = "A";
                 input[2] = Input.GetAxis("Joy" + i + "A").ToString();

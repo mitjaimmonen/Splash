@@ -12,12 +12,14 @@ public class OptionObject : MonoBehaviour {
     //all the settings for the option
     public OptionType type;
     public string label;
+    [SerializeField, Tooltip("Default for slider and value")]
     public int value = 100;
-    [SerializeField]
+    [SerializeField, Tooltip("Min value for slider and value")]
     private int min = 0;
-    [SerializeField]
+    [SerializeField, Tooltip("Max value for slider and value")]
     private int max = 100;
-    public List<string> listItems;
+    [SerializeField, Tooltip("Items in list selectors")]
+    private List<string> listItems;
 
 
     //trackers
@@ -56,6 +58,10 @@ public class OptionObject : MonoBehaviour {
     //button returns name
     public string GetValue()
     {
+        if(type == OptionType.button)
+        {
+            return label;
+        }
         return null;
     }
 

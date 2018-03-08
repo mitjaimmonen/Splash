@@ -1,15 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MainMenuController : MonoBehaviour {
+public class MainMenuController : MonoBehaviour, IController
+{
     private MatchOptions options = new MatchOptions();
-    public GameObject[] visualPlayerElements = new GameObject[4];
+    public TextMeshProUGUI[] visualPlayerElements = new TextMeshProUGUI[4];
 
     //stats to track were you are in both menues and a list of prefabs for each option
     private bool inSettings = false;
+
     private int currentSelectionMenu = 0;
-    public GameObject[] menuObjects;
+    public OptionObject[] menuObjects;
+
     private int currentSelectionOptions = 0;
     public GameObject menuPrefab;
     public GameObject[] optionsObjects;
@@ -24,20 +29,19 @@ public class MainMenuController : MonoBehaviour {
     private void Start()
     {
         stateHandler = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
-        StartGame();
     }
 
 
     //update options to hold the current selections
     //pass options and team to the state handler along with ativating state change into the game
-    private void StartGame()
+    public void StartGame()
     {
-        for(int i = 0; i < players; i++)
+        if(options.CurrentActivePlayers >0)
         {
-            options.EnablePlayer(i);
+            stateHandler.options = options;
+            stateHandler.ChangeState(State.Game);
         }
-        stateHandler.options = options;
-        stateHandler.ChangeState(State.Game);
+        
         //for menuobjects pass oprionobject.label, optionobject.getvalue to the current options
     }
 
@@ -56,7 +60,11 @@ public class MainMenuController : MonoBehaviour {
     //if x on settings menu exit then save settings
     public void InputHandle(string[] input)
     {
-        
+        if(input[1] == "Start" && !options.IsPlayerActive(int.Parse(input[0])))
+        {
+            options.EnablePlayer(int.Parse(input[0]));
+            visualPlayerElements[int.Parse(input[0])].text = "Player " + input[0] + " Ready";
+        }
     }
 
     

@@ -60,4 +60,12 @@ public class MatchOptions {
             CurrentActivePlayers--;
         }
     }
+
+    public bool IsPlayerActive(int index) {
+        if(PlayerInfo[index, 2] == 1)
+        {
+            return true;
+        }
+        return false;
+    }
 }
