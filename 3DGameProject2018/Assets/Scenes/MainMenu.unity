@@ -190,7 +190,7 @@ MonoBehaviour:
   menuObjects: []
   menuPrefab: {fileID: 0}
   optionsObjects: []
-  players: 4
+  players: 3
 --- !u!4 &1049473541
 Transform:
   m_ObjectHideFlags: 0

@@ -35,11 +35,9 @@ public class PickupPlatform : MonoBehaviour {
 	void Update () {
 		if (respawnTimer > respawnTime)
 		{
-			if (pickups.Length != 0)
-			{
-				int index = Random.Range (0, pickups.Length);
-				currentPickup = pickups[index];
-			}
+			int index = Random.Range (0, pickups.Length);
+			currentPickup = pickups[index];
+
 			currentPickup = Instantiate(currentPickup, transform.position, transform.rotation);
 			currentPickup.transform.parent = gameObject.transform;
 			respawnTimer = 0;

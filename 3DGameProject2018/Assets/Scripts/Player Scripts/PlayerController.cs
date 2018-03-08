@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private int currentHealth, maxHealth = 100;
+    private int currentHealth;
     private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
     private float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -70f;
@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     private bool isAimRaycastHit = false;
 
     public int currentDamage = 0;
+    public int maxHealth = 100;
 
 
     //Classes
@@ -86,7 +87,7 @@ public class PlayerController : MonoBehaviour
                 else
                     clipSize = value;
 
-                hud.UpdateAmmo(globalAmmo, clipSize, currentAmmo);
+                hud.UpdateAmmo();
                 
             }
         }
@@ -104,7 +105,7 @@ public class PlayerController : MonoBehaviour
                 else
                     currentAmmo = value;
 
-                hud.UpdateAmmo(globalAmmo, clipSize, currentAmmo);
+                hud.UpdateAmmo();
             }
         }
         public int GlobalAmmo
@@ -121,7 +122,7 @@ public class PlayerController : MonoBehaviour
                 else
                     globalAmmo = value;
 
-                hud.UpdateAmmo(globalAmmo, clipSize, currentAmmo);
+                hud.UpdateAmmo();
             }
         }
 
@@ -139,7 +140,7 @@ public class PlayerController : MonoBehaviour
                 else
                     currentHealth = value;
 
-                hud.UpdateHealth(maxHealth, currentHealth);
+                hud.UpdateHealth();
             }
         }
 
@@ -170,20 +171,27 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if (!GameObject.FindGameObjectWithTag("HUD Overlay"))
+        {
+            canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
+            canvasOverlay.SetOverlay(currentPlayers);
+        }
+        
+        hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
+        hud.playerController = this;
+
         GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
-
-        hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
 
         GameObject playerCamera = null;
         Transform[] trans = GameObject.Find("Cameras").GetComponentsInChildren<Transform>(true);
         foreach (Transform t in trans) {
-            if (t.gameObject.name == "Main Camera" + (playerNumber-1)) {
+            if (t.gameObject.name == "Main Camera" + (playerNumber)) {
                 playerCamera = t.gameObject;
                 playerCamera.SetActive(true);
                 var canvas = hud.GetComponent<Canvas>();
                 canvas.worldCamera = playerCamera.GetComponent<Camera>();
-                hud.playerNumberText.text = "Player Number: " + playerNumber;
+                hud.playerNumberText.text = "<HUD debug messages>";
             }
         }
         cameraHandler = playerCamera.GetComponent<CameraHandler>();
@@ -191,11 +199,7 @@ public class PlayerController : MonoBehaviour
         cameraHandler.target = playerFace; // Camera gets rotation from this.
         
         
-        if (!GameObject.FindGameObjectWithTag("HUD Overlay"))
-        {
-            canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
-            canvasOverlay.SetOverlay(currentPlayers);
-        }
+
         cameraHandler.SetViewport(currentPlayers, playerNumber);
 
         currentWeapon.gameObject.SetActive(true);
@@ -205,7 +209,7 @@ public class PlayerController : MonoBehaviour
     private void Start() 
     {
         rotationH = transform.localEulerAngles.y;
-        hud.UpdateAmmo(GlobalAmmo, ClipSize, CurrentAmmo);
+        hud.UpdateAmmo();
     }
 
     //apply Gravity

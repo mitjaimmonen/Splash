@@ -942,7 +942,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1568909983906260}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.028, z: 0.465}
+  m_LocalPosition: {x: 0, y: 0.0393, z: 0.465}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4738367784649136}
@@ -1835,9 +1835,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
     type: 2}
-  currentPlayers: 4
-  playerNumber: 4
+  currentPlayers: 2
+  playerNumber: 2
   currentDamage: 0
+  maxHealth: 100
   playerFace: {fileID: 1590808485326396}
   hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
   currentWeapon: {fileID: 114544134212063886}
@@ -2115,7 +2116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.75
+      scalar: 1
       minScalar: 0.75
       maxCurve:
         serializedVersion: 2
@@ -3335,7 +3336,7 @@ ParticleSystem:
     m_Curve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.9
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3677,7 +3678,7 @@ ParticleSystem:
     drag:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4595,10 +4596,10 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 0.1
+    radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967039
+      m_Bits: 1024
     maxCollisionShapes: 30
     quality: 2
     voxelSize: 5
@@ -12233,15 +12234,15 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 2077388241
+  randomSeed: -1270704201
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.75
-      minScalar: 0.5
+      scalar: 1.1
+      minScalar: 0.8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -12323,7 +12324,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.8235294, g: 0.9521911, b: 1, a: 0.459}
+      maxColor: {r: 0.88235295, g: 0.9681274, b: 1, a: 0.491}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -12682,7 +12683,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 0
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 0.2}
+    m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 88, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
@@ -12878,7 +12879,7 @@ ParticleSystem:
       time: 0
       countCurve:
         serializedVersion: 2
-        minMaxState: 3
+        minMaxState: 0
         scalar: 3
         minScalar: 2
         maxCurve:
@@ -13829,7 +13830,7 @@ ParticleSystem:
     drag:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.74
+      scalar: 0.1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -14747,10 +14748,10 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 0.1
+    radiusScale: 0.5
     collidesWith:
       serializedVersion: 2
-      m_Bits: 512
+      m_Bits: 1536
     maxCollisionShapes: 50
     quality: 0
     voxelSize: 1
@@ -15711,11 +15712,11 @@ ParticleSystemRenderer:
   m_MaxParticleSize: 0.5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
-  m_LengthScale: 1.75
+  m_LengthScale: 1.7
   m_SortingFudge: 0
   m_NormalDirection: 0
   m_RenderAlignment: 0
-  m_Pivot: {x: 0, y: 0, z: 0}
+  m_Pivot: {x: 0, y: 0.5, z: 0}
   m_UseCustomVertexStreams: 0
   m_VertexStreams: 00010304
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}

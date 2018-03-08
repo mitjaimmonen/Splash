@@ -28,7 +28,7 @@ public class MatchController : MonoBehaviour, IController
         {
             if(stateHandler.options.PlayerInfo[i,2] ==1)
             {
-                playerPrefab.GetComponent<PlayerController>().playerNumber = i+1;
+                playerPrefab.GetComponent<PlayerController>().playerNumber = i;
                 instantiatedPlayers[i] = Instantiate(playerPrefab).GetComponent<PlayerController>();
                 instantiatedPlayers[i].playerNumber = i;
                 instantiatedPlayers[i].Controller = this;

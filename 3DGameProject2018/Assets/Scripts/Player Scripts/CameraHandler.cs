@@ -60,17 +60,17 @@ public class CameraHandler : MonoBehaviour {
                 rect.height = 1f;
                 rect.width = 0.5f;       
 
-                if(player == 1) {
+                if(player == 0) {
                     //viewport half screen left
                     rect.x = 0;
                     rect.y = 0;
                 }
-                else if (player == 2) {
+                else if (player == 1) {
                     //viewport half screen right
                     rect.x = 0.5f;
                     rect.y = 0;
                 } else {
-                    Debug.LogError("If two active players, there must be player 1 and player 2 defined.");
+                    Debug.LogError("If two active players, there must be player 0 and player 1 defined.");
                 }
                 
                 currentCamera.rect = rect;
@@ -84,24 +84,24 @@ public class CameraHandler : MonoBehaviour {
                 rect.height = 0.5f;
                 rect.width = 0.5f;
 
-                if(player == 1) {
+                if(player == 0) {
                     //Set viewport 1/4 upper left
 
                     rect.x = 0;
                     rect.y = 0.5f;
                 }
-                else if (player == 2) {
+                else if (player == 1) {
                     //Set viewport 1/4 upper right
                     rect.x = 0.5f;
                     rect.y = 0.5f;
                 }
-                else if (player == 3) {
+                else if (player == 2) {
                     //Set viewport 1/4 lower left
                     rect.x = 0;
                     rect.y = 0;
                 }
                 else {
-                    Debug.LogError("If three active players, there must be players 1-3 defined.");                    
+                    Debug.LogError("If three active players, there must be players 0-3 defined.");                    
                 }
 
                 currentCamera.rect = rect;
@@ -116,28 +116,28 @@ public class CameraHandler : MonoBehaviour {
                 rect.height = 0.5f;
                 rect.width = 0.5f;
 
-                if(player == 1) {
+                if(player == 0) {
                     //Set viewport 1/4 upper left
                     rect.x = 0;
                     rect.y = 0.5f;
                 }
-                else if (player == 2) {
+                else if (player == 1) {
                     //Set viewport 1/4 upper right
                     rect.x = 0.5f;
                     rect.y = 0.5f;
                 }
-                else if (player == 3) {
+                else if (player == 2) {
                     //Set viewport 1/4 lower left
                     rect.x = 0;
                     rect.y = 0;
                 }
-                else if (player == 4) {
+                else if (player == 3) {
                     //Set viewport 1/4 lower right
                     rect.x = 0.5f;
                     rect.y = 0;
                 }
                 else {
-                    Debug.LogError("If four active players, there must be players 1-4 defined");          
+                    Debug.LogError("If four active players, there must be players 0-3 defined");          
                 }
 
                 currentCamera.rect = rect;

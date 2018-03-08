@@ -43,7 +43,7 @@ public class Drops : MonoBehaviour {
             {
                 playerController.CurrentHealth += pickupValue;
 
-                if (tempAmmo < playerController.GlobalAmmo)
+                if (tempHealth != playerController.CurrentHealth)
                 {
                     //Play sound
                     Destroy(this.gameObject);
@@ -54,7 +54,7 @@ public class Drops : MonoBehaviour {
             {
                 playerController.GlobalAmmo += pickupValue;
 
-                if (tempAmmo < playerController.GlobalAmmo)
+                if (tempAmmo != playerController.GlobalAmmo)
                 {
                     //Play sound
                     Destroy(this.gameObject);

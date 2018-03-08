@@ -29,12 +29,66 @@ public class HudHandler : MonoBehaviour {
         public Text playerNumberText;
     #endregion
 
+    public PlayerController playerController;
 
-    public void UpdateHealth(int maxHealth, int currentHealth){
+    private int maxHealth, currentHealth;
+    private int globalAmmo, clipSize, currentAmmo;
+    private float healthUpdateTimer = 0, ammoUpdateTimer = 0;
+    private bool isHealthUpdating, isAmmoUpdating;
+    private int oldMaxHealth, oldCurrentHealth, oldHealthPercentage;
+    private int oldCurrentAmmo, oldClipSize;
 
-        int healthPercentage = (int)((float)currentHealth/(float)maxHealth * 100f);
+
+    private void Start() {
+        oldCurrentHealth = playerController.CurrentHealth;
+        oldMaxHealth = playerController.maxHealth;
+        oldHealthPercentage = 100;
+
+        oldCurrentAmmo = playerController.CurrentAmmo;
+        oldClipSize = playerController.ClipSize;
+    }
+
+    private void Update() 
+    {
+        if (isHealthUpdating || isAmmoUpdating)
+        {
+            if (isHealthUpdating)
+            {
+                healthUpdateTimer += Time.deltaTime * 3.5f;
+                UpdateHealth();
+
+            }
+            if (isAmmoUpdating)
+            {
+                ammoUpdateTimer += Time.deltaTime * 3.5f;
+                UpdateAmmo();
+            }
+        }
+    }
+
+    public void UpdateHealth(){
+
+        isHealthUpdating = true;
+        // if (currentHealth != playerController.CurrentHealth)
+        //     oldCurrentHealth = currentHealth;
+        currentHealth = playerController.CurrentHealth;
+        maxHealth = playerController.maxHealth;
+
+        int lerpHealth = (int)Mathf.Lerp(oldCurrentHealth, currentHealth, healthUpdateTimer);
+
+        int healthPercentage = (int)((float)lerpHealth/(float)maxHealth * 100f);
         int sliderHealth = (int)((float)healthPercentage * 0.6f + 20f);
         healthSlider.value = sliderHealth;
+
+        if (healthUpdateTimer >= 1)
+        {
+            oldCurrentHealth = currentHealth;
+            oldMaxHealth = maxHealth;
+            healthUpdateTimer = 0;
+            isHealthUpdating = false;
+
+        }
+
 
         if (healthPercentage > 66)
             healthIcon.sprite = healthIcons[0];
@@ -45,13 +99,32 @@ public class HudHandler : MonoBehaviour {
 
     }
 
-    public void UpdateAmmo(int globalAmmo, int clipSize, int currentAmmo){
+    public void UpdateAmmo(){
 
-        clipAmmoText.text = "" + currentAmmo;
-        globalAmmoText.text = "" + globalAmmo;
+        isAmmoUpdating = true;
+        globalAmmo = playerController.GlobalAmmo;
+        clipSize = playerController.ClipSize;
+        if (currentAmmo != playerController.CurrentAmmo)
+            oldCurrentAmmo = currentAmmo;
+        currentAmmo = playerController.CurrentAmmo;
+
+
+        int lerpAmmo = (int)Mathf.SmoothStep(oldCurrentAmmo, currentAmmo, ammoUpdateTimer);
+
+        clipAmmoText.text = "" + lerpAmmo;
+        globalAmmoText.text = globalAmmo.ToString();
         
-        int sliderAmmo = (int)(((float)currentAmmo / (float)clipSize *100f) * 0.6f + 20f);
+        int ammoPercentage = (int)((float)lerpAmmo / (float)clipSize *100f);
+        int sliderAmmo = (int)(ammoPercentage * 0.6f + 20f);
         clipSlider.value = sliderAmmo;
+
+        if (ammoUpdateTimer > 1)
+        {
+            oldCurrentAmmo = currentAmmo;
+            oldClipSize = clipSize;
+            ammoUpdateTimer = 0;
+            isAmmoUpdating = false;
+        }
 
     }
 
