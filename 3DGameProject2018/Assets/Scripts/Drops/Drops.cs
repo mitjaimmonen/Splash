@@ -36,15 +36,30 @@ public class Drops : MonoBehaviour {
 
         if (other.gameObject.CompareTag("Player"))
         {
+            int tempHealth = playerController.CurrentHealth;
+            int tempAmmo = playerController.GlobalAmmo;
+
             if (pickupType == PickupEnum.healthPickup)
             {
                 playerController.CurrentHealth += pickupValue;
+
+                if (tempAmmo < playerController.GlobalAmmo)
+                {
+                    //Play sound
+                    Destroy(this.gameObject);
+                }
+                    
             } 
             else if (pickupType == PickupEnum.ammoPickup)
             {
                 playerController.GlobalAmmo += pickupValue;
+
+                if (tempAmmo < playerController.GlobalAmmo)
+                {
+                    //Play sound
+                    Destroy(this.gameObject);
+                }
             }
-            Destroy(this.gameObject);
             
         }
     }

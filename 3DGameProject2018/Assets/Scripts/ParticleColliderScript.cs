@@ -19,15 +19,25 @@ public class ParticleColliderScript : MonoBehaviour {
 		timer += Time.deltaTime;
 	}
 	private void OnParticleCollision(GameObject other) 
-	{
-		
-		if (other.layer == 9 && other != thisPlayerController.gameObject && timer > 0.09f)
+	{		
+		if (other.layer == 9 && other != thisPlayerController.gameObject)
 		{
-			timer = 0;
-			Debug.Log("Particle collision with another player.");
-			// thisPlayer.HitOtherPlayer(other);
-			PlayerController otherPlayerController = other.GetComponent<PlayerController>();
-			otherPlayerController.TakeDamage(thisPlayerController.currentDamage);
+			if (thisPlayerController.currentWeapon.gameObject.name == "Shotgun")
+			{
+				timer = 0;
+				Debug.Log("Shotgun particle collision with another player.");
+				// thisPlayer.HitOtherPlayer(other);
+				PlayerController otherPlayerController = other.GetComponent<PlayerController>();
+				otherPlayerController.TakeDamage(thisPlayerController.currentDamage);
+			}
+			else if (timer > 0.09f && thisPlayerController.currentWeapon.gameObject.name == "Auto rifle")
+			{
+				timer = 0;
+				Debug.Log("Particle collision with another player.");
+				// thisPlayer.HitOtherPlayer(other);
+				PlayerController otherPlayerController = other.GetComponent<PlayerController>();
+				otherPlayerController.TakeDamage(thisPlayerController.currentDamage);
+			}
 
 
 		}

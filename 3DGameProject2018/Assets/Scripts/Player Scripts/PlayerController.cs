@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     private int currentHealth, maxHealth = 100;
     private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
-    private float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -80f;
+    private float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -70f;
     private Vector3 aimWorldPoint; // Where gun rotates towards.
     private bool isAimRaycastHit = false;
 
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     public GameObject cameraPrefab;
     private CameraHandler cameraHandler;
 
-
+    public LayerMask layer;
 
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1;
@@ -114,8 +114,8 @@ public class PlayerController : MonoBehaviour
             {
                 if (value == globalAmmo)
                     return;
-                else if (value >= maxGlobalAmmo)
-                    globalAmmo = maxGlobalAmmo;
+                else if (value >= maxGlobalAmmo + (ClipSize - CurrentAmmo))
+                    globalAmmo = maxGlobalAmmo + (ClipSize - CurrentAmmo);
                 else if (value < 0)
                     globalAmmo = 0;
                 else
@@ -175,33 +175,28 @@ public class PlayerController : MonoBehaviour
 
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
 
-        GameObject cameraToFind = null;
+        GameObject playerCamera = null;
         Transform[] trans = GameObject.Find("Cameras").GetComponentsInChildren<Transform>(true);
         foreach (Transform t in trans) {
             if (t.gameObject.name == "Main Camera" + (playerNumber-1)) {
-                cameraToFind = t.gameObject;
-                cameraToFind.SetActive(true);
+                playerCamera = t.gameObject;
+                playerCamera.SetActive(true);
                 var canvas = hud.GetComponent<Canvas>();
-                canvas.worldCamera = cameraToFind.GetComponent<Camera>();
+                canvas.worldCamera = playerCamera.GetComponent<Camera>();
                 hud.playerNumberText.text = "Player Number: " + playerNumber;
             }
         }
-        cameraHandler = cameraToFind.GetComponent<CameraHandler>();
+        cameraHandler = playerCamera.GetComponent<CameraHandler>();
         cameraHandler.playerController = this;
         cameraHandler.target = playerFace; // Camera gets rotation from this.
         
-
-//                                                                                                                             ////////////Tagged////////////
-//*****************************************************************************************************************************//////////////To//////////////
-//                                                                                                                             ////////////Change////////////
-        //Instantiate only once - elsewhere.
-        canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
-        canvasOverlay.SetOverlay(currentPlayers);
-        //Temporary values until we get the real player amount and can store which player this is.
+        
+        if (!GameObject.FindGameObjectWithTag("HUD Overlay"))
+        {
+            canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
+            canvasOverlay.SetOverlay(currentPlayers);
+        }
         cameraHandler.SetViewport(currentPlayers, playerNumber);
-
-
-
 
         currentWeapon.gameObject.SetActive(true);
         
@@ -210,6 +205,7 @@ public class PlayerController : MonoBehaviour
     private void Start() 
     {
         rotationH = transform.localEulerAngles.y;
+        hud.UpdateAmmo(GlobalAmmo, ClipSize, CurrentAmmo);
     }
 
     //apply Gravity
@@ -217,7 +213,7 @@ public class PlayerController : MonoBehaviour
     //visually apply all current effects
     private void Update()
     {
-
+        
         if (transform.position.y < -50f)
             controller.Spawn(playerNumber);            
 
@@ -226,7 +222,7 @@ public class PlayerController : MonoBehaviour
             currentVerticalVelocity -= gravity;
             Mathf.Clamp(currentVerticalVelocity, -maxVelocity, maxVelocity);
             RaycastHit hit;
-            if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1))
+            if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1,layer))
             {
                 transform.position += new Vector3(0, currentVerticalVelocity, 0);
             } else
@@ -237,7 +233,7 @@ public class PlayerController : MonoBehaviour
 
         } else
         {
-            if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 2))
+            if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 2, layer))
             {
                 isGrounded = false;
             }
@@ -274,14 +270,14 @@ public class PlayerController : MonoBehaviour
         {
             case "RightHorizontal":
                 //Player only rotates horizontally
-                rotationH += magnitude * lookSensH;
+                rotationH += magnitude * lookSensH * Time.deltaTime;
                 transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);
                 break;
             case "RightVertical":
                 //Face gameObject only rotates vertically.            
                 if (invertSensV)
                     magnitude *= -1;
-                rotationV += magnitude * lookSensV;
+                rotationV += magnitude * lookSensV * Time.deltaTime;
                 rotationV = Mathf.Clamp(rotationV, minRotV, maxRotV);
                 playerFace.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
                 break;
@@ -348,7 +344,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Reset()
     {
-        GlobalAmmo = maxGlobalAmmo;
+        GlobalAmmo = maxGlobalAmmo + (ClipSize - CurrentAmmo);
         CurrentHealth = maxHealth;
         rotationH = transform.localEulerAngles.y;
     }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Controller
   - State Handler
+  - HUD Overlay
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - Weapon
   - Player
-  - 
+  - Environment
   - 
   - 
   - 

@@ -232,7 +232,7 @@ public class Weapon : MonoBehaviour {
         
         // When animations are fully implemented, clip & ammo are counted at the end of reload.
         Debug.Log("Trying to reload clip");
-        if (playerController.GlobalAmmo > 0 && !gunAnim.GetCurrentAnimatorStateInfo(0).IsName("reload"))
+        if (playerController.GlobalAmmo > 0 && !gunAnim.GetCurrentAnimatorStateInfo(0).IsName("reload") && currentClipAmmo < clipSize)
         {
             gunAnim.SetBool("reload", true);
             isReloading = true;        
