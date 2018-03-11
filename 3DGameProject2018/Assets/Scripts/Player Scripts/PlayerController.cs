@@ -40,9 +40,11 @@ public class PlayerController : MonoBehaviour
     private float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -70f;
     private Vector3 aimWorldPoint; // Where gun rotates towards.
     private bool isAimRaycastHit = false;
+    private int currentDamage = 0;
+    private float headshotMultiplier;
+    
 
-    public int currentDamage = 0;
-    public int maxHealth = 100;
+    private int maxHealth = 100;
 
 
     //Classes
@@ -59,7 +61,7 @@ public class PlayerController : MonoBehaviour
     public float lookSensV = 0.8f, lookSensH = 1;
     public bool invertSensV = false;
     public float JumpVelocity = 1;
-    public float gravity = 1f;
+    public float gravity = 50f;
     public float maxVelocity;
     private float currentVerticalVelocity = 0;
     private bool isGrounded = true;
@@ -125,6 +127,11 @@ public class PlayerController : MonoBehaviour
                 hud.UpdateAmmo();
             }
         }
+        public int CurrentDamage
+        {
+            get { return currentDamage; }
+            set { currentDamage = value; }
+        }
 
         public int CurrentHealth
         {
@@ -142,6 +149,11 @@ public class PlayerController : MonoBehaviour
 
                 hud.UpdateHealth();
             }
+        }
+        public int MaxHealth
+        {
+            get { return maxHealth; }
+            set { maxHealth = value; }
         }
 
         public Vector3 AimWorldPoint
@@ -217,13 +229,14 @@ public class PlayerController : MonoBehaviour
     //visually apply all current effects
     private void Update()
     {
-        
+
+
         if (transform.position.y < -50f)
             controller.Spawn(playerNumber);            
 
         if(!isGrounded)
         {
-            currentVerticalVelocity -= gravity;
+            currentVerticalVelocity -= gravity * Time.deltaTime;
             Mathf.Clamp(currentVerticalVelocity, -maxVelocity, maxVelocity);
             RaycastHit hit;
             if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1,layer))
@@ -248,7 +261,7 @@ public class PlayerController : MonoBehaviour
     //shoots, moves, interacts, shows scores, pauses if pressed button
     public void InputHandle(string[] input)
     {
-        Debug.Log(input[0]);
+        // Debug.Log(input[0]);
         if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" )
         {
             Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
@@ -338,8 +351,11 @@ public class PlayerController : MonoBehaviour
 
     //simple take damage
     //if health is zero call respawn
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, Vector3 origin)
     {
+
+        hud.TakeDamage(origin);
+
         CurrentHealth -= damage;
         if(currentHealth<1)
         {

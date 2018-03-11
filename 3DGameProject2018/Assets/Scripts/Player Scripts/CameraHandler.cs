@@ -37,6 +37,9 @@ public class CameraHandler : MonoBehaviour {
     //Player number starts from 1.
     public void SetViewport(int playerAmount, int player) 
     {
+        //Each camera has one cullingMask which no other camera has.
+        //Can be used to show player specific in-world elements.
+        currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("Culling" + player);
 
         var rect = currentCamera.rect;
         var fov = currentCamera.fieldOfView;

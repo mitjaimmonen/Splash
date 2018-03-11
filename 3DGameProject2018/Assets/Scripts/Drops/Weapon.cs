@@ -24,6 +24,7 @@ public class Weapon : MonoBehaviour {
 
     [Tooltip("How much damage per shot.")]
     public int damage = 5;
+    public float headshotMultiplier = 1.5f;
 
     [Tooltip("How much water fits in a clip")]
     public int clipSize = 100;
@@ -53,6 +54,7 @@ public class Weapon : MonoBehaviour {
     private PlayerController playerController;
     private Animator gunAnim;
     private ParticleSystem waterParticles;
+    private ParticleLauncher particleLauncher;
     private bool isShooting, isScope, isReloading = false;
     private int currentClipAmmo, currentGlobalAmmo;
     private float fireRateTimer, shootTimer, reloadTimer;
@@ -80,6 +82,7 @@ public class Weapon : MonoBehaviour {
     {
         playerController = GetComponentInParent<PlayerController>();
         waterParticles = gameObject.GetComponentInChildren<ParticleSystem>();
+        particleLauncher = waterParticles.GetComponent<ParticleLauncher>();
         gunAnim = gameObject.GetComponentInChildren<Animator>();
         
         shootSpeed = waterParticles.main.startSpeedMultiplier;
@@ -88,7 +91,8 @@ public class Weapon : MonoBehaviour {
         currentClipAmmo = clipSize;
         playerController.CurrentAmmo = currentClipAmmo;
         playerController.ClipSize = clipSize;
-        playerController.currentDamage = damage;
+        playerController.CurrentDamage = damage;
+        particleLauncher.headshotMultiplier = headshotMultiplier;
 
     }
 
@@ -96,7 +100,7 @@ public class Weapon : MonoBehaviour {
         playerController.currentWeapon = this;
         playerController.CurrentAmmo = currentClipAmmo;
         playerController.ClipSize = clipSize;
-        playerController.currentDamage = damage;        
+        playerController.CurrentDamage = damage;        
         // playerController.ShotUsage = shotUsage;
     }
     private void Update()

@@ -27,21 +27,23 @@ public class HudHandler : MonoBehaviour {
         public Text globalAmmoText;
         public Sprite[] healthIcons, thorwableIcons;
         public Text playerNumberText;
+        public Image hitDirectionIndicator;
     #endregion
 
     public PlayerController playerController;
 
     private int maxHealth, currentHealth;
     private int globalAmmo, clipSize, currentAmmo;
-    private float healthUpdateTimer = 0, ammoUpdateTimer = 0;
+    private float healthUpdateTimer = 0, ammoUpdateTimer = 0, damageIndicatorTimer = 0;
     private bool isHealthUpdating, isAmmoUpdating;
     private int oldMaxHealth, oldCurrentHealth, oldHealthPercentage;
     private int oldCurrentAmmo, oldClipSize;
+    private Vector3 lastDamageOrigin;
 
 
     private void Start() {
         oldCurrentHealth = playerController.CurrentHealth;
-        oldMaxHealth = playerController.maxHealth;
+        oldMaxHealth = playerController.MaxHealth;
         oldHealthPercentage = 100;
 
         oldCurrentAmmo = playerController.CurrentAmmo;
@@ -50,6 +52,13 @@ public class HudHandler : MonoBehaviour {
 
     private void Update() 
     {
+        if (damageIndicatorTimer <= 0.5f)
+        {
+            UpdateDamageIndicator();
+            damageIndicatorTimer += Time.deltaTime;
+        }
+
+
         if (isHealthUpdating || isAmmoUpdating)
         {
             if (isHealthUpdating)
@@ -66,13 +75,30 @@ public class HudHandler : MonoBehaviour {
         }
     }
 
+    public void TakeDamage(Vector3 origin) 
+    {
+        lastDamageOrigin = origin;
+        damageIndicatorTimer = 0;
+        UpdateDamageIndicator();
+    }
+
+    private void UpdateDamageIndicator() 
+    {
+        Vector3 dir = transform.InverseTransformDirection(lastDamageOrigin - transform.position);
+        float angle = Mathf.Atan2(-dir.x, dir.z) * Mathf.Rad2Deg;
+        hitDirectionIndicator.transform.localEulerAngles = new Vector3(0, 0, angle);
+
+        byte colorLerp = (byte)Mathf.Lerp(255,0, damageIndicatorTimer/0.5f);
+        hitDirectionIndicator.color = new Color32(255,0,0,colorLerp);
+
+    }
     public void UpdateHealth(){
 
         isHealthUpdating = true;
         // if (currentHealth != playerController.CurrentHealth)
         //     oldCurrentHealth = currentHealth;
         currentHealth = playerController.CurrentHealth;
-        maxHealth = playerController.maxHealth;
+        maxHealth = playerController.MaxHealth;
 
         int lerpHealth = (int)Mathf.Lerp(oldCurrentHealth, currentHealth, healthUpdateTimer);
 

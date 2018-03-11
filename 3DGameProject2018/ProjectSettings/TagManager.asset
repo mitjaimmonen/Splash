@@ -7,6 +7,7 @@ TagManager:
   - Controller
   - State Handler
   - HUD Overlay
+  - Head
   layers:
   - Default
   - TransparentFX
@@ -19,10 +20,10 @@ TagManager:
   - Weapon
   - Player
   - Environment
-  - 
-  - 
-  - 
-  - 
+  - Culling0
+  - Culling1
+  - Culling2
+  - Culling3
   - 
   - 
   - 
