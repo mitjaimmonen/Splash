@@ -21,23 +21,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-
-//                                                                                                                             ////////////Tagged////////////
-//*****************************************************************************************************************************//////////////To//////////////
-//                                                                                                                             ////////////Change////////////
-    //This is general overlay and scene should have only one of them.
-    //Move to whatever class instantiates players.
-    public CanvasOverlayHandler canvasOverlay; 
     // Used for testing canvasoverlay and setting camera viewport.
+    [HideInInspector]
     public int currentPlayers, playerNumber; 
-
-
 
 
     private int currentHealth;
     private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
-    private float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -70f;
+    private float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -60f;
     private Vector3 aimWorldPoint; // Where gun rotates towards.
     private bool isAimRaycastHit = false;
     private int currentDamage = 0;
@@ -48,24 +40,25 @@ public class PlayerController : MonoBehaviour
 
 
     //Classes
-    private MatchController controller;
+    public CanvasOverlayHandler canvasOverlay;     
     public GameObject playerFace; // Takes vertical rotation, also parents all guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
     public Weapon currentWeapon;
     public GameObject cameraPrefab;
     private CameraHandler cameraHandler;
+    private MatchController controller;
 
-    public LayerMask layer;
+    public LayerMask raycastLayerMask;
 
     //Movement Variables
-    public float lookSensV = 0.8f, lookSensH = 1;
+    public float lookSensV = 0.8f, lookSensH = 1f;
     public bool invertSensV = false;
-    public float JumpVelocity = 1;
-    public float gravity = 50f;
+    public float JumpVelocity = 1f;
+    public float gravity = 5f;
     public float maxVelocity;
     private float currentVerticalVelocity = 0;
     private bool isGrounded = true;
-    public float speed = 2;
+    public float speed = 2f;
     public float runMultiplier = 1.5f;
     //possibly a list of who damaged you as well so we could give people assists and stuff
     //wed have to run off a points system that way so id rather keep it to k/d right now or time because they are both easy
@@ -239,7 +232,7 @@ public class PlayerController : MonoBehaviour
             currentVerticalVelocity -= gravity * Time.deltaTime;
             Mathf.Clamp(currentVerticalVelocity, -maxVelocity, maxVelocity);
             RaycastHit hit;
-            if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1,layer))
+            if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1,raycastLayerMask))
             {
                 transform.position += new Vector3(0, currentVerticalVelocity, 0);
             } else
@@ -250,7 +243,7 @@ public class PlayerController : MonoBehaviour
 
         } else
         {
-            if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 2, layer))
+            if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 2, raycastLayerMask))
             {
                 isGrounded = false;
             }
@@ -361,6 +354,13 @@ public class PlayerController : MonoBehaviour
         {
             controller.Spawn(playerNumber);
         }
+    }
+
+    //Gets called on particle collision
+    //Can be used for score system later on.
+    public void DealDamage()
+    {
+        hud.DealDamage();
     }
     public void Reset()
     {

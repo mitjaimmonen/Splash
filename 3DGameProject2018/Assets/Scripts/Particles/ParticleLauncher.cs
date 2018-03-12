@@ -47,17 +47,18 @@ public class ParticleLauncher : MonoBehaviour {
 		
 		for (int i = 0; i < collisionEvents.Count;i++)
 		{
-			if (otherPlayerController != null && collisionEvents[i].colliderComponent.gameObject.layer == LayerMask.NameToLayer("Player"))
+			if (otherPlayerController != null && otherPlayerController != thisPlayerController && collisionEvents[i].colliderComponent.gameObject.layer == LayerMask.NameToLayer("Player"))
 			{
 				
 				if (collisionEvents[i].colliderComponent.gameObject.tag == "Head")
 				{
 					currentDamage = (int)(currentDamage * headshotMultiplier);
 				}
-				if (timer >= 0.1f)
+				if (timer > 0.09f)
 				{
 					// Debug.Log("Player Collision at world position: " + hitPoint);
-					StartCoroutine(ShowDamageText(collisionEvents[i].intersection, currentDamage));
+					// StartCoroutine(ShowDamageText(collisionEvents[i].intersection, currentDamage));
+					thisPlayerController.DealDamage();
 					otherPlayerController.TakeDamage(currentDamage, thisPlayerController.transform.position);
 					timer = 0;
 				}
@@ -68,6 +69,7 @@ public class ParticleLauncher : MonoBehaviour {
 				
 				if (splatterParticleSystem != null)
 					EmitAtCollisionPoint(collisionEvents[i]);
+
            		decalPool.ParticleHit (collisionEvents [i]);
 			}
 		}
@@ -76,17 +78,7 @@ public class ParticleLauncher : MonoBehaviour {
 	private void EmitAtCollisionPoint(ParticleCollisionEvent collisionEvent)
 	{
 		splatterParticleSystem.transform.position = collisionEvent.intersection;
-
-
-		Vector3 dir = Quaternion.LookRotation(collisionEvent.normal) * Vector3.forward;
-		if (Physics.Raycast(collisionEvent.intersection + dir, -dir,2f))
-		{
-			splatterParticleSystem.transform.localEulerAngles = Quaternion.LookRotation(collisionEvent.normal).eulerAngles;		
-		}
-		else
-		{
-			splatterParticleSystem.transform.rotation = Quaternion.LookRotation(collisionEvent.normal);		
-		}
+		splatterParticleSystem.transform.localEulerAngles = Quaternion.LookRotation(collisionEvent.normal).eulerAngles;
 
 		splatterParticleSystem.Emit(1);
 	}

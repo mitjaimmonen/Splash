@@ -1833,22 +1833,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayers: 3
+  playerNumber: 0
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
     type: 2}
-  currentPlayers: 3
-  playerNumber: 2
   playerFace: {fileID: 1590808485326396}
   hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
   currentWeapon: {fileID: 114544134212063886}
-  cameraPrefab: {fileID: 1136666684082146, guid: 2c57df088684cc440b7f758eee323137,
-    type: 2}
-  layer:
+  cameraPrefab: {fileID: 0}
+  raycastLayerMask:
     serializedVersion: 2
     m_Bits: 1024
   lookSensV: 180
   lookSensH: 200
   invertSensV: 0
-  JumpVelocity: 0.1
+  JumpVelocity: 0.17
   gravity: 0.2
   maxVelocity: 1
   speed: 7
@@ -1901,6 +1900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageText: {fileID: 0}
+  splatterParticleSystem: {fileID: 0}
   headshotMultiplier: 0
 --- !u!114 &114544134212063886
 MonoBehaviour:
@@ -1939,6 +1939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageText: {fileID: 1449735220919976, guid: 1597244e4d8b85e4abcdf5284881e24a, type: 2}
+  splatterParticleSystem: {fileID: 0}
   headshotMultiplier: 0
 --- !u!114 &114670936875770940
 MonoBehaviour:
@@ -1976,7 +1977,7 @@ CapsuleCollider:
   m_Radius: 0.24
   m_Height: 1.01
   m_Direction: 1
-  m_Center: {x: 0, y: -0.26, z: -0.03}
+  m_Center: {x: 0, y: -0.26, z: -0.09}
 --- !u!137 &137710310096811012
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -12912,7 +12913,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.020401001
+          value: 0.03060913
           inSlope: 0.19197144
           outSlope: 1.2489797
           tangentMode: 5
