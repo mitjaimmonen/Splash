@@ -26,7 +26,7 @@ public class MatchController : MonoBehaviour, IController
         //make players of amount options player //not this right now(and pass each its input controller number)
         for(int i = 0; i < instantiatedPlayers.Length; i++)
         {
-            if(stateHandler.options.PlayerInfo[i,2] ==1)
+            if(stateHandler.options.PlayersInfo[i,2] ==1)
             {
                 playerPrefab.GetComponent<PlayerController>().playerNumber = i+1;
                 instantiatedPlayers[i] = Instantiate(playerPrefab).GetComponent<PlayerController>();
@@ -58,7 +58,7 @@ public class MatchController : MonoBehaviour, IController
     public void InputHandle(string[] input)
     {
         //all input goes to the controllers appropriate player if active
-        if(stateHandler.options.PlayerInfo[int.Parse(input[0]), 2] == 1)
+        if(stateHandler.options.PlayersInfo[int.Parse(input[0]), 2] == 1)
         {
             
             instantiatedPlayers[int.Parse(input[0])].InputHandle(input);

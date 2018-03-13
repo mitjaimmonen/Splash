@@ -32,19 +32,31 @@ public class MainMenuController : MonoBehaviour, IController
     }
 
 
-    //update options to hold the current selections
-    //pass options and team to the state handler along with ativating state change into the game
+    /// <summary>
+    /// Call state change to game
+    /// Only works if theres active players
+    /// </summary>
     public void StartGame()
     {
-        if(options.CurrentActivePlayers >0)
+        //If there's an active player pass options to StateHandler and change state
+        if(stateHandler.options.CurrentActivePlayers >0)
         {
-            stateHandler.options = options;
             stateHandler.ChangeState(State.Game);
         }
-        
-        //for menuobjects pass oprionobject.label, optionobject.getvalue to the current options
     }
 
+
+
+    private void Update()
+    {
+        for(int i = 0; i < 6; i++)
+        {
+            if(Input.GetAxis("Joy" + i + "Start") != 0)
+            {
+                AddPlayer(i);
+            }
+        }
+    }
 
 
     //if in settings handle input accordingly else handle input in main menu
@@ -60,11 +72,16 @@ public class MainMenuController : MonoBehaviour, IController
     //if x on settings menu exit then save settings
     public void InputHandle(string[] input)
     {
-        if(input[1] == "Start" && !options.IsPlayerActive(int.Parse(input[0])))
+        if(input[1] == "Y")
         {
-            options.EnablePlayer(int.Parse(input[0]));
-            visualPlayerElements[int.Parse(input[0])].text = "Player " + input[0] + " Ready";
+            RemovePlayer(stateHandler.options.PlayersInfo[int.Parse(input[0]), 3]);
         }
+
+        //if(input[1] == "Start" && !stateHandler.options.IsPlayerActive(int.Parse(input[0])))
+        //{
+        //    stateHandler.options.EnablePlayer(int.Parse(input[0]));
+        //    visualPlayerElements[int.Parse(input[0])].text = "Player " + input[0] + " Ready";
+        //}
     }
 
     
@@ -75,13 +92,22 @@ public class MainMenuController : MonoBehaviour, IController
     //if the player is already in the array cycle its team up one(change its physical color to reflect)
     private void AddPlayer(int controller)
     {
-
+        
+        if(stateHandler.options.EnablePlayer(controller))
+        {
+            int currentplayer = stateHandler.options.PlayerFromController(controller);
+            visualPlayerElements[currentplayer].text = "Player " + currentplayer + " Ready";
+        }
     }
     //remove team element that has the controller being removed
     //shift all the players so they are left aligned
     private void RemovePlayer(int controller)
     {
-
+        int currentplayer = stateHandler.options.PlayerFromController(controller);
+        if(stateHandler.options.DisablePlayer(controller))
+        {
+            visualPlayerElements[currentplayer].text = "Press Start";
+        }
     }
 
 
