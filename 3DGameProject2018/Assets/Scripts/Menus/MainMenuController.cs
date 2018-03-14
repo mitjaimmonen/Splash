@@ -29,6 +29,15 @@ public class MainMenuController : MonoBehaviour, IController
     private void Start()
     {
         stateHandler = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
+        for(int i = 0; i < stateHandler.options.PlayersInfo.GetLength(0); i++)
+        {
+            if(stateHandler.options.PlayersInfo[i,2]==1)
+            {
+
+                visualPlayerElements[i].text = "Player " + (i+1) + " Ready";
+            }
+        }
+
     }
 
 
@@ -96,13 +105,14 @@ public class MainMenuController : MonoBehaviour, IController
         if(stateHandler.options.EnablePlayer(controller))
         {
             int currentplayer = stateHandler.options.PlayerFromController(controller);
-            visualPlayerElements[currentplayer].text = "Player " + currentplayer + " Ready";
+            visualPlayerElements[currentplayer].text = "Player " + (currentplayer+1) + " Ready";
         }
     }
     //remove team element that has the controller being removed
     //shift all the players so they are left aligned
     private void RemovePlayer(int controller)
     {
+        Debug.Log("herro");
         int currentplayer = stateHandler.options.PlayerFromController(controller);
         if(stateHandler.options.DisablePlayer(controller))
         {

@@ -49,7 +49,7 @@ public class StateHandler : MonoBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
-        controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
+        FindController();
     }
 
 
@@ -59,9 +59,12 @@ public class StateHandler : MonoBehaviour
     private void FindController()
     {
         var temp = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
-        if(temp !=null)
+        if(temp != null)
         {
             controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
+        } else
+        {
+            Debug.Log("No Controller found on scene load");
         }
     }
 
@@ -210,4 +213,6 @@ public class StateHandler : MonoBehaviour
             }
         }
     }
+
+    
 }

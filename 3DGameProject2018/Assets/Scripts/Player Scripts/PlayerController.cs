@@ -52,8 +52,6 @@ public class PlayerController : MonoBehaviour
     public GameObject cameraPrefab;
     private CameraHandler cameraHandler;
 
-
-
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1;
     public bool invertSensV = false;
@@ -217,32 +215,33 @@ public class PlayerController : MonoBehaviour
     //visually apply all current effects
     private void Update()
     {
-
-        if (transform.position.y < -50f)
-            controller.Spawn(playerNumber);            
-
-        if(!isGrounded)
+        if(!controller.isPaused)
         {
-            currentVerticalVelocity -= gravity;
-            Mathf.Clamp(currentVerticalVelocity, -maxVelocity, maxVelocity);
-            RaycastHit hit;
-            if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1))
+            if(transform.position.y < -50f)
+                controller.Spawn(playerNumber);
+
+            if(!isGrounded)
             {
-                transform.position += new Vector3(0, currentVerticalVelocity, 0);
+                currentVerticalVelocity -= gravity;
+                Mathf.Clamp(currentVerticalVelocity, -maxVelocity, maxVelocity);
+                RaycastHit hit;
+                if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1))
+                {
+                    transform.position += new Vector3(0, currentVerticalVelocity, 0);
+                } else
+                {
+                    currentVerticalVelocity = 0;
+                    isGrounded = true;
+                }
+
             } else
             {
-                currentVerticalVelocity = 0;
-                isGrounded = true;
-            }
-
-        } else
-        {
-            if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 2))
-            {
-                isGrounded = false;
+                if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 2))
+                {
+                    isGrounded = false;
+                }
             }
         }
-        
     }
 
     //shoots, moves, interacts, shows scores, pauses if pressed button
@@ -295,17 +294,18 @@ public class PlayerController : MonoBehaviour
         switch(axis)
         {
             case "LeftHorizontal":
-                if(!Physics.Raycast(transform.position, new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime,1))
+                if(!Physics.Raycast(transform.position, new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime, out hit, 1))
                 {
                     transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime;
-                }
+                } 
                 break;
             case "LeftVertical":
 
-                if(!Physics.Raycast(transform.position, -transform.forward * magnitude * speed * Time.deltaTime, 1))
+                if(!Physics.Raycast(transform.position, -transform.forward * magnitude * speed * Time.deltaTime,out hit,1))
                 {
                     transform.position += -transform.forward * magnitude * speed * Time.deltaTime;
-                }
+                } 
+                
                 
                 break;
             case "A":
