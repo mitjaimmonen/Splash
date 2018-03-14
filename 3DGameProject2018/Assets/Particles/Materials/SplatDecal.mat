@@ -80,11 +80,11 @@ Material:
     - _EnableExternalAlpha: 0
     - _FlipbookMode: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.8
+    - _Glossiness: 0.6
     - _GlossyReflections: 1
     - _InvFade: 0.87
     - _LightingEnabled: 1
-    - _Metallic: 0
+    - _Metallic: 0.25
     - _Mode: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.02

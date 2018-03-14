@@ -7,6 +7,10 @@ public class CameraHandler : MonoBehaviour {
     public GameObject target; //PlayerController sets this on instantiate.
     private Camera currentCamera; 
     public PlayerController playerController; // Playercontroller refers itself to this on instantiate.
+    public float fovLerpTime = 0.2f;
+
+    private float fov, newFov, oldFov;
+    private float fovTimer = 1f;
 
 
     private void Awake() {
@@ -14,6 +18,15 @@ public class CameraHandler : MonoBehaviour {
     }
 
     //Late update looks much more smooth because it lets all other transforms to finish first.    
+
+    private void Update()
+    {
+        if (fovTimer <= fovLerpTime)
+        {
+            fovTimer += Time.deltaTime;
+            SetFov(oldFov, newFov);
+        }
+    }
     private void LateUpdate()
     {
         RaycastHit hit;
@@ -42,7 +55,7 @@ public class CameraHandler : MonoBehaviour {
         currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("Culling" + player);
 
         var rect = currentCamera.rect;
-        var fov = currentCamera.fieldOfView;
+        fov = currentCamera.fieldOfView;
         
         switch(playerAmount)
         {
@@ -149,6 +162,20 @@ public class CameraHandler : MonoBehaviour {
                 break;
             }
         }
+    }
+
+    public void NewFov(float multiplier)
+    {
+        newFov = fov*multiplier;
+        oldFov = currentCamera.fieldOfView;
+        fovTimer = 0;
+        Debug.Log("Calling again");        
+        SetFov(oldFov, newFov);
+    }
+    private void SetFov(float oldFov, float newFov)
+    {
+        float currentFov = Mathf.Lerp(oldFov, newFov, fovTimer/fovLerpTime);
+        currentCamera.fieldOfView = currentFov;
     }
 
 }

@@ -29,11 +29,13 @@ public class PlayerController : MonoBehaviour
     private int currentHealth;
     private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
+    private float playerSpeed;
     private float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -60f;
     private Vector3 aimWorldPoint; // Where gun rotates towards.
     private bool isAimRaycastHit = false;
     private int currentDamage = 0;
     private float headshotMultiplier;
+    private float runningTimer = 0;
     
 
     private int maxHealth = 100;
@@ -57,8 +59,8 @@ public class PlayerController : MonoBehaviour
     public float gravity = 5f;
     public float maxVelocity;
     private float currentVerticalVelocity = 0;
-    private bool isGrounded = true;
-    public float speed = 2f;
+    private bool isGrounded = true, isRunning = false;
+    public float walkSpeed = 7f;
     public float runMultiplier = 1.5f;
     //possibly a list of who damaged you as well so we could give people assists and stuff
     //wed have to run off a points system that way so id rather keep it to k/d right now or time because they are both easy
@@ -187,6 +189,7 @@ public class PlayerController : MonoBehaviour
 
         GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
+        playerSpeed = walkSpeed;
 
         GameObject playerCamera = null;
         Transform[] trans = GameObject.Find("Cameras").GetComponentsInChildren<Transform>(true);
@@ -222,6 +225,10 @@ public class PlayerController : MonoBehaviour
     //visually apply all current effects
     private void Update()
     {
+        //Timers
+        runningTimer += Time.deltaTime;
+
+
 
 
         if (transform.position.y < -50f)
@@ -248,14 +255,20 @@ public class PlayerController : MonoBehaviour
                 isGrounded = false;
             }
         }
+
+        if (runningTimer > 0.1f && isRunning)
+        {
+            isRunning = false;
+            cameraHandler.NewFov(1); // 1 = original fov
+            playerSpeed = walkSpeed;
+        }
         
     }
 
     //shoots, moves, interacts, shows scores, pauses if pressed button
     public void InputHandle(string[] input)
     {
-        // Debug.Log(input[0]);
-        if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" )
+        if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" || input[1] == "L3")
         {
             Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
         }
@@ -272,7 +285,6 @@ public class PlayerController : MonoBehaviour
             currentWeapon.Reload();
         }
     }
-
 
     private void Rotate(string axis, float magnitude) 
     {
@@ -299,17 +311,26 @@ public class PlayerController : MonoBehaviour
     {
         switch(axis)
         {
+            case "L3":
+                    runningTimer = 0;            
+                    if (!isRunning)
+                    {
+                        isRunning = true;
+                        cameraHandler.NewFov(1.2f);
+                        playerSpeed = walkSpeed * runMultiplier;
+                    }
+                break;
             case "LeftHorizontal":
-                if(!Physics.Raycast(transform.position, new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime,1))
+                if(!Physics.Raycast(transform.position, new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed * Time.deltaTime,1))
                 {
-                    transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * speed * Time.deltaTime;
+                    transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed * Time.deltaTime;
                 }
                 break;
             case "LeftVertical":
 
-                if(!Physics.Raycast(transform.position, -transform.forward * magnitude * speed * Time.deltaTime, 1))
+                if(!Physics.Raycast(transform.position, -transform.forward * magnitude * playerSpeed * Time.deltaTime, 1))
                 {
-                    transform.position += -transform.forward * magnitude * speed * Time.deltaTime;
+                    transform.position += -transform.forward * magnitude * playerSpeed * Time.deltaTime;
                 }
                 
                 break;

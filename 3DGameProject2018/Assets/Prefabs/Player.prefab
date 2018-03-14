@@ -1850,7 +1850,7 @@ MonoBehaviour:
   JumpVelocity: 0.17
   gravity: 0.2
   maxVelocity: 1
-  speed: 7
+  walkSpeed: 7
   runMultiplier: 1.5
 --- !u!114 &114243893825775968
 MonoBehaviour:
