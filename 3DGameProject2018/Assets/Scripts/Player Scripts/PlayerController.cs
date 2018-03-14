@@ -241,7 +241,7 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1,raycastLayerMask))
             {
-                transform.position += new Vector3(0, currentVerticalVelocity, 0);
+                transform.position += new Vector3(0, currentVerticalVelocity * Time.deltaTime, 0);
             } else
             {
                 currentVerticalVelocity = 0;

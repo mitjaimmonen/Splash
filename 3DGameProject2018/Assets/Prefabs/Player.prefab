@@ -1847,8 +1847,8 @@ MonoBehaviour:
   lookSensV: 180
   lookSensH: 200
   invertSensV: 0
-  JumpVelocity: 0.17
-  gravity: 0.2
+  JumpVelocity: 10
+  gravity: 20
   maxVelocity: 1
   walkSpeed: 7
   runMultiplier: 1.5
