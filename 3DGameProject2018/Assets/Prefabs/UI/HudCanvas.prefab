@@ -793,7 +793,7 @@ MonoBehaviour:
   thorwableIcons:
   - {fileID: 21300000, guid: c0afcfa0449a44340b4d5a25363ab840, type: 3}
   playerNumberText: {fileID: 114465566057782608}
-  hitMarkerTime: 0.25
+  hitMarkerTime: 0.15
   damageIndicatorTime: 1
   playerController: {fileID: 0}
 --- !u!114 &114978109359613490

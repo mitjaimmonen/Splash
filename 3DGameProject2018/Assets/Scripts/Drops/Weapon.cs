@@ -57,7 +57,7 @@ public class Weapon : MonoBehaviour {
     private ParticleLauncher particleLauncher;
     private bool isShooting, isScope, isReloading = false;
     private int currentClipAmmo, currentGlobalAmmo;
-    private float fireRateTimer, shootTimer, reloadTimer;
+    private float fireRateTimer, shootTimer;
     private float accuracyRandomizer; //How much particle direction is randomized
     private float shootSpeed; //Particle start speed (=force)
     private Quaternion lookRotation;
@@ -142,7 +142,6 @@ public class Weapon : MonoBehaviour {
         //Look up "fireRate", "maxShootTime" and "reloadTime" to see the meanings.
         fireRateTimer += Time.deltaTime;
         shootTimer += Time.deltaTime;
-        // reloadTimer += Time.deltaTime;
         
     }
 
@@ -238,8 +237,7 @@ public class Weapon : MonoBehaviour {
         if (!isShooting && playerController.GlobalAmmo > 0 && !gunAnim.GetCurrentAnimatorStateInfo(0).IsName("reload") && currentClipAmmo < clipSize)
         {
             gunAnim.SetBool("reload", true);
-            isReloading = true;        
-            reloadTimer = 0;
+            isReloading = true;
         }
     }
 

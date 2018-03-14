@@ -30,7 +30,7 @@ public class HudHandler : MonoBehaviour {
         
     #endregion
 
-    public float hitMarkerTime = 0.25f, damageIndicatorTime = 1f;
+    public float hitMarkerTime = 0.15f, damageIndicatorTime = 1f;
 
     public PlayerController playerController;
 
@@ -38,24 +38,25 @@ public class HudHandler : MonoBehaviour {
     private int globalAmmo, clipSize, currentAmmo;
     private float healthUpdateTimer = 0, ammoUpdateTimer = 0, damageIndicatorTimer = 0, hitmarkerTimer = 0;
     private bool isHealthUpdating = false, isAmmoUpdating = false;
-    private int oldMaxHealth, oldCurrentHealth, oldHealthPercentage;
-    private int oldCurrentAmmo, oldClipSize;
+    private int oldCurrentHealth, oldCurrentAmmo;
     private Vector3 lastDamageOrigin, hitmarkerScale;
+    private float deltaTime=0;
 
 
     private void Start() {
         oldCurrentHealth = playerController.CurrentHealth;
-        oldMaxHealth = playerController.MaxHealth;
-        oldHealthPercentage = 100;
         hitmarkerScale = crosshair.transform.localScale;
         
 
         oldCurrentAmmo = playerController.CurrentAmmo;
-        oldClipSize = playerController.ClipSize;
     }
 
     private void Update() 
     {
+        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
+        int fps = (int)(1f/deltaTime);
+        playerNumberText.text = "FPS: " + fps;
+
         if (damageIndicatorTimer <= damageIndicatorTime)
         {
             UpdateDamageIndicator();
@@ -135,7 +136,6 @@ public class HudHandler : MonoBehaviour {
         if (healthUpdateTimer >= 1)
         {
             oldCurrentHealth = currentHealth;
-            oldMaxHealth = maxHealth;
             healthUpdateTimer = 0;
             isHealthUpdating = false;
 
@@ -173,7 +173,6 @@ public class HudHandler : MonoBehaviour {
         if (ammoUpdateTimer > 1)
         {
             oldCurrentAmmo = currentAmmo;
-            oldClipSize = clipSize;
             ammoUpdateTimer = 0;
             isAmmoUpdating = false;
         }

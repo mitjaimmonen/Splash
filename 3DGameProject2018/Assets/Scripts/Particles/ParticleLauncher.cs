@@ -8,18 +8,17 @@ public class ParticleLauncher : MonoBehaviour {
 
 
 	private ParticleDecalPool decalPool;
-	public GameObject damageText;
-
-
 	private PlayerController thisPlayerController;
 	private ParticleSystem thisParticleSystem;
 	public ParticleSystem splatterParticleSystem;
 	private List<ParticleCollisionEvent> collisionEvents;
-	private float timer = 0;
+	private float collisionCountTimer = 0, damageTimer = 0;
+	private int maxLoopCount = 20, oldLoopCount = 0;
 	public float headshotMultiplier;
 
 
-	private void Awake() 
+
+	private void Awake()
 	{
 		decalPool = GameObject.Find("DecalParticles").GetComponent<ParticleDecalPool>();
 		if (decalPool == null)
@@ -31,87 +30,91 @@ public class ParticleLauncher : MonoBehaviour {
 		collisionEvents = new List<ParticleCollisionEvent>();
 	}
 
-	private void Update() 
+	private void Update()
 	{
-		timer += Time.deltaTime;
+		collisionCountTimer += Time.deltaTime;
+		damageTimer += Time.deltaTime;
 	}
-	private void OnParticleCollision(GameObject other) 
-	{		
-		ParticlePhysicsExtensions.GetCollisionEvents (thisParticleSystem, other, collisionEvents);
-		int currentDamage = thisPlayerController.CurrentDamage;
-		PlayerController otherPlayerController = other.GetComponent<PlayerController>();
-		if (otherPlayerController == null)
-			{
-				otherPlayerController = other.GetComponentInParent<PlayerController>();				
-			}
-		
-		for (int i = 0; i < collisionEvents.Count;i++)
+	private void OnParticleCollision(GameObject other)
+	{
+		if (collisionCountTimer >= 0.1f)
 		{
-			if (otherPlayerController != null && otherPlayerController != thisPlayerController && collisionEvents[i].colliderComponent.gameObject.layer == LayerMask.NameToLayer("Player"))
-			{
-				
-				if (collisionEvents[i].colliderComponent.gameObject.tag == "Head")
-				{
-					currentDamage = (int)(currentDamage * headshotMultiplier);
-				}
-				if (timer > 0.09f)
-				{
-					// Debug.Log("Player Collision at world position: " + hitPoint);
-					// StartCoroutine(ShowDamageText(collisionEvents[i].intersection, currentDamage));
-					thisPlayerController.DealDamage();
-					otherPlayerController.TakeDamage(currentDamage, thisPlayerController.transform.position);
-					timer = 0;
-				}
-			}
-			else
-			{
-				//Particle hit environment and creates a decal.
-				
-				if (splatterParticleSystem != null)
-					EmitAtCollisionPoint(collisionEvents[i]);
+			//This allows to have maxLoopCount amount of collisions independently from framerate.
+			//Without oldLoopCount, the first time collisions are called, the list might not be full yet,
+			//but would be in next frame and timer wouldnt allow more collision calls.
+			Debug.Log("LoopCount reset");
+			oldLoopCount = 0;
+			collisionCountTimer=0;
+		}
 
-           		decalPool.ParticleHit (collisionEvents [i]);
+		ParticlePhysicsExtensions.GetCollisionEvents (thisParticleSystem, other, collisionEvents);
+
+		int loopCount = Mathf.Clamp(collisionEvents.Count, 0, maxLoopCount-oldLoopCount);
+		// Debug.Log("CollisionEvents count: " + collisionEvents.Count + ",  " + "Loop count: " + loopCount + ",  " + "Old Loop count: " + oldLoopCount);
+
+		if (loopCount > 0)
+		{
+			oldLoopCount += loopCount;
+			PlayerController otherPlayerController = null;
+
+			for (int i = 0; i < loopCount;i++)
+			{
+				if (collisionEvents[i].colliderComponent.gameObject.layer == LayerMask.NameToLayer("Player"))
+				{
+					int currentDamage = thisPlayerController.CurrentDamage;
+					if (otherPlayerController == null)
+						{
+							otherPlayerController = other.GetComponent<PlayerController>();
+							if (otherPlayerController == null)
+								otherPlayerController = other.GetComponentInParent<PlayerController>();
+						}
+
+					if (otherPlayerController != thisPlayerController)
+					{
+
+						if (collisionEvents[i].colliderComponent.gameObject.tag == "Head")
+						{
+							Debug.Log("Headshot");
+							currentDamage = (int)(currentDamage * headshotMultiplier);
+						}
+
+
+						if (thisPlayerController.currentWeapon.gameObject.name == "AutoRifle" && damageTimer > 0.09f)
+						{
+							Debug.Log("AutoRifle hit player");
+							thisPlayerController.DealDamage();
+							otherPlayerController.TakeDamage(currentDamage, thisPlayerController.transform.position);
+							damageTimer = 0;
+							
+						}
+						else if (thisPlayerController.currentWeapon.gameObject.name == "Shotgun")
+						{
+							Debug.Log("Shotgun hit player");
+							thisPlayerController.DealDamage();
+							otherPlayerController.TakeDamage(currentDamage, thisPlayerController.transform.position);
+						}
+					}
+				}
+				else //Particle hit environment and creates a decal.
+				{
+					if (splatterParticleSystem != null)
+						EmitSplashAtCollisionPoint(collisionEvents[i]);
+
+					decalPool.ParticleHit (collisionEvents [i]);
+				}
+				
 			}
+			
+
 		}
 	}
 
-	private void EmitAtCollisionPoint(ParticleCollisionEvent collisionEvent)
+	private void EmitSplashAtCollisionPoint(ParticleCollisionEvent collisionEvent)
 	{
 		splatterParticleSystem.transform.position = collisionEvent.intersection;
 		splatterParticleSystem.transform.localEulerAngles = Quaternion.LookRotation(collisionEvent.normal).eulerAngles;
 
 		splatterParticleSystem.Emit(1);
-	}
-
-	IEnumerator ShowDamageText(Vector3 pos, int dmg)
-	{
-		// Debug.Log("Coroutine started");		
-		float timer = 0, time = 0.5f;
-		Vector3 directionTowards = (pos - thisPlayerController.transform.position);
-		Vector3 newPos = pos;
-		newPos.y += 1f;
-		
-		GameObject damageTextObject = Instantiate(damageText, pos, Quaternion.LookRotation(directionTowards));
-		damageTextObject.layer = LayerMask.NameToLayer("Culling" + thisPlayerController.playerNumber);
-		TextMesh text = damageTextObject.GetComponent<TextMesh>();
-		float distance = directionTowards.magnitude;
-		text.characterSize = text.characterSize * (distance/5);
-		text.text = "-" +dmg + "HP";
-		while (timer <= time)
-		{
-			Vector3 lerpPos = Vector3.Lerp(pos, newPos, timer);
-			byte lerpAlpha = (byte)Mathf.Lerp(255,0, timer);
-			text.color = new Color32(255,255,255,lerpAlpha);
-			damageTextObject.transform.position = lerpPos;
-			timer += Time.deltaTime;
-			yield return new WaitForSeconds(0.03f); //about 30fps
-
-		}
-		
-		// Debug.Log("Ending coroutine");
-		Destroy(damageTextObject);
-		yield return null;
-
 	}
 
 

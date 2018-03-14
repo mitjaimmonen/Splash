@@ -297,7 +297,6 @@ public class PlayerController : MonoBehaviour
     //apply nongravity movements
     private void Move(string axis, float magnitude)
     {
-        RaycastHit hit;
         switch(axis)
         {
             case "LeftHorizontal":

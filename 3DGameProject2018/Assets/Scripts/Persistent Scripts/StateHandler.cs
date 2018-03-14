@@ -143,7 +143,7 @@ public class StateHandler : MonoBehaviour
            
             if(Input.GetAxis("Joy" + i + "A") != 0)
             {
-                Debug.Log(Input.GetAxis("Joy" + i + "A")+ "    " + i);
+                // Debug.Log(Input.GetAxis("Joy" + i + "A")+ "    " + i);
                 input[0] = i.ToString(); 
                 input[1] = "A";
                 input[2] = Input.GetAxis("Joy" + i + "A").ToString();
