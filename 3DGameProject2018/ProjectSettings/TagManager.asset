@@ -8,6 +8,7 @@ TagManager:
   - State Handler
   - HUD Overlay
   - Head
+  - Destroyable
   layers:
   - Default
   - TransparentFX

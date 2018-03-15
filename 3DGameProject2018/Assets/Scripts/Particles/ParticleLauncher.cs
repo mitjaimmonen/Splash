@@ -56,12 +56,12 @@ public class ParticleLauncher : MonoBehaviour {
 		{
 			oldLoopCount += loopCount;
 			PlayerController otherPlayerController = null;
+			int currentDamage = thisPlayerController.CurrentDamage;
 
 			for (int i = 0; i < loopCount;i++)
 			{
 				if (collisionEvents[i].colliderComponent.gameObject.layer == LayerMask.NameToLayer("Player"))
 				{
-					int currentDamage = thisPlayerController.CurrentDamage;
 					if (otherPlayerController == null)
 						{
 							otherPlayerController = other.GetComponent<PlayerController>();
@@ -95,12 +95,22 @@ public class ParticleLauncher : MonoBehaviour {
 						}
 					}
 				}
-				else //Particle hit environment and creates a decal.
+				else
 				{
+					decalPool.ParticleHit (collisionEvents [i]);
 					if (splatterParticleSystem != null)
 						EmitSplashAtCollisionPoint(collisionEvents[i]);
+					
+					if (collisionEvents[i].colliderComponent.gameObject.tag == "Destroyable" )
+					{
+						DynamicItemScript script = collisionEvents[i].colliderComponent.GetComponentInParent<DynamicItemScript>();
+						if (script != null)
+						{
+							Debug.Log("Collided with dynamic item.");
+							script.ParticleHit(thisPlayerController.transform.position, collisionEvents[i].intersection);
+						}
+					}
 
-					decalPool.ParticleHit (collisionEvents [i]);
 				}
 				
 			}
