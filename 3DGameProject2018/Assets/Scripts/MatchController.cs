@@ -57,6 +57,7 @@ public class MatchController : MonoBehaviour, IController
 
     public void InputHandle(string[] input)
     {
+        
         //all input goes to the controllers appropriate player if active
         if(stateHandler.options.PlayersInfo[int.Parse(input[0]), 2] == 1 && !isPaused)
         {
