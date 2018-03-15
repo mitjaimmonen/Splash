@@ -62,6 +62,7 @@ public class MatchController : MonoBehaviour, IController
         {
             if(input[1] == "Start")
             {
+                Debug.Log(input[2]);
                 Pause();
             } else
             {

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using XInputDotNetPure;
+
 /********************************************
  * StateHandler class
  *  Monitors all input
@@ -25,9 +27,10 @@ public class StateHandler : MonoBehaviour
     private IController controller;//Controller for current Scene
     public State state;//Current State
     private const int CONTROLLERCOUNT = 4;
+    private GamePadState[] gamepads = new GamePadState[6];
 
-    
-    
+
+
     //Makes sure no duplicate state handler, and temporary launches straight to map
     private void Awake()
     {
@@ -45,13 +48,13 @@ public class StateHandler : MonoBehaviour
         }
         FindController();
         DontDestroyOnLoad(transform.gameObject);
+        
     }
 
     private void OnLevelWasLoaded(int level)
     {
         FindController();
     }
-
 
     /// <summary>
     /// Finds the Controller object in scene
@@ -100,7 +103,7 @@ public class StateHandler : MonoBehaviour
 
     void Update()
     {
-        FindInput();
+        FindInputXInput();
     }
 
 
@@ -108,7 +111,7 @@ public class StateHandler : MonoBehaviour
     /// <summary>
     /// Listens for all inputs and passes to current controller
     /// </summary>
-    private void FindInput()
+    private void FindInputUnity()
     {
         string[] input = new string[3];
         int currentController;
@@ -214,5 +217,114 @@ public class StateHandler : MonoBehaviour
         }
     }
 
-    
+    private void FindInputXInput()
+    {
+        string[] input = new string[3];
+        int currentController;
+        int skippedplayer = 0;
+        //listen for input
+        for(int i = 0; i < gamepads.Length; i++)
+        {
+            gamepads[i] = GamePad.GetState((PlayerIndex)i);
+        }
+        for(int i = 0; i < CONTROLLERCOUNT; i++)
+        {
+            if(options.PlayersInfo[i, 2] == 0)
+            {
+                skippedplayer++;
+                continue;
+            }
+            currentController = options.PlayersInfo[i, 3];
+            //passes the controller number and button and intensity if applicable ie the triggers
+            //if its onpress or onrelease maybe if necessary
+            //pass input to current states controller in the scene whatever it may be
+            if(gamepads[currentController].Buttons.Start == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "Start";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].ThumbSticks.Left.X  != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "LeftHorizontal";
+                input[2] = (gamepads[currentController].ThumbSticks.Left.X).ToString();
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].ThumbSticks.Left.Y != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "LeftVertical";
+                input[2] = (-gamepads[currentController].ThumbSticks.Left.Y).ToString();
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].ThumbSticks.Right.X != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "RightHorizontal";
+                input[2] = (gamepads[currentController].ThumbSticks.Right.X).ToString();
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].ThumbSticks.Right.Y != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "RightVertical";
+                input[2] = (-gamepads[currentController].ThumbSticks.Right.Y).ToString();
+                controller.InputHandle(input);
+            }
+
+            if(gamepads[currentController].Buttons.A == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "A";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].Buttons.Y == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "Y";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+
+            if(gamepads[currentController].Buttons.RightShoulder == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "R1";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].Buttons.LeftShoulder == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "L1";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].Triggers.Right != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "R2";
+                input[2] = gamepads[currentController].Triggers.Right.ToString();
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].Triggers.Left != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "L2";
+                input[2] = gamepads[currentController].Triggers.Left.ToString();
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].Buttons.LeftStick == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "L3";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+        }
+    }
+
 }
