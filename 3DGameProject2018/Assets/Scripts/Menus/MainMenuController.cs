@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using XInputDotNetPure;
 
 public class MainMenuController : MonoBehaviour, IController
 {
@@ -58,11 +59,20 @@ public class MainMenuController : MonoBehaviour, IController
 
     private void Update()
     {
+        /* unity input
         for(int i = 0; i < 6; i++)
         {
             if(Input.GetAxis("Joy" + i + "Start") != 0)
             {
                 AddPlayer(i);
+            }
+        }*/
+        for(int i = 0; i < 6; i++)
+        {
+            if(GamePad.GetState((PlayerIndex)i).Buttons.Start == ButtonState.Pressed)
+            {
+                AddPlayer(i);
+                //gamepads[i] = GamePad.GetState((PlayerIndex)i);
             }
         }
     }
@@ -99,20 +109,20 @@ public class MainMenuController : MonoBehaviour, IController
     //and visually update a players presence (update the playerpresence prefabs text and color to active aand team color)
     //when innitialized everyone will be on seperate teams 1-4
     //if the player is already in the array cycle its team up one(change its physical color to reflect)
-    private void AddPlayer(int controller)
+    public void AddPlayer(int controller)
     {
         
         if(stateHandler.options.EnablePlayer(controller))
         {
             int currentplayer = stateHandler.options.PlayerFromController(controller);
             visualPlayerElements[currentplayer].text = "Player " + (currentplayer+1) + " Ready";
+            stateHandler.UpdateGamePad();
         }
     }
     //remove team element that has the controller being removed
     //shift all the players so they are left aligned
-    private void RemovePlayer(int controller)
+    public void RemovePlayer(int controller)
     {
-        Debug.Log("herro");
         int currentplayer = stateHandler.options.PlayerFromController(controller);
         if(stateHandler.options.DisablePlayer(controller))
         {
