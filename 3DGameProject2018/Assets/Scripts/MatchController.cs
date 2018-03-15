@@ -10,11 +10,11 @@ public class MatchController : MonoBehaviour, IController
     public GameObject[] weaponSpawns;
     public GameObject[] dropSpawns;
     private float startTime;
-    private bool isPaused = false;
+    public bool isPaused = false;
     private PlayerController[] instantiatedPlayers = new PlayerController[4];// only public for testing
-    private StateHandler stateHandler;
+    public StateHandler stateHandler;
     public LayerMask PlayerLayerMask;
-
+    public PauseMenu pause_menu;
 
 
     //Initialize screens player and map
@@ -26,7 +26,7 @@ public class MatchController : MonoBehaviour, IController
         //make players of amount options player //not this right now(and pass each its input controller number)
         for(int i = 0; i < instantiatedPlayers.Length; i++)
         {
-            if(stateHandler.options.PlayerInfo[i,2] ==1)
+            if(stateHandler.options.PlayersInfo[i,2] ==1)
             {
                 playerPrefab.GetComponent<PlayerController>().playerNumber = i;
                 instantiatedPlayers[i] = Instantiate(playerPrefab).GetComponent<PlayerController>();
@@ -58,10 +58,16 @@ public class MatchController : MonoBehaviour, IController
     public void InputHandle(string[] input)
     {
         //all input goes to the controllers appropriate player if active
-        if(stateHandler.options.PlayerInfo[int.Parse(input[0]), 2] == 1)
+        if(stateHandler.options.PlayersInfo[int.Parse(input[0]), 2] == 1 && !isPaused)
         {
-            
-            instantiatedPlayers[int.Parse(input[0])].InputHandle(input);
+            if(input[1] == "Start")
+            {
+                Debug.Log(input[2]);
+                Pause();
+            } else
+            {
+                instantiatedPlayers[int.Parse(input[0])].InputHandle(input);
+            }
         }
     }
 
@@ -88,8 +94,9 @@ public class MatchController : MonoBehaviour, IController
     //stops timer 
     //calls all players to fade screen
     //calls player that paused show pause menu
-    public void Pause(int player)
+    public void Pause()
     {
-
+        isPaused = true;
+        pause_menu.gameObject.SetActive(true);
     }
 }

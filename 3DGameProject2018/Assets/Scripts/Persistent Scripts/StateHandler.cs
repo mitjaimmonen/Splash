@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using XInputDotNetPure;
+
 /********************************************
  * StateHandler class
  *  Monitors all input
@@ -25,9 +27,10 @@ public class StateHandler : MonoBehaviour
     private IController controller;//Controller for current Scene
     public State state;//Current State
     private const int CONTROLLERCOUNT = 4;
+    private GamePadState[] gamepads = new GamePadState[6];
 
-    
-    
+
+
     //Makes sure no duplicate state handler, and temporary launches straight to map
     private void Awake()
     {
@@ -36,21 +39,36 @@ public class StateHandler : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if(state != State.MainMenu)
+        {
+            for(int i = 0; i < players; i++)
+            {
+                options.EnablePlayer(i);
+            }
+        }
         FindController();
         DontDestroyOnLoad(transform.gameObject);
-        for(int i = 0; i < players; i++)
-        {
-            options.EnablePlayer(i);
-        }
+        
     }
 
+    private void OnLevelWasLoaded(int level)
+    {
+        FindController();
+    }
 
     /// <summary>
     /// Finds the Controller object in scene
     /// </summary>
     private void FindController()
     {
-        controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
+        var temp = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
+        if(temp != null)
+        {
+            controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
+        } else
+        {
+            Debug.Log("No Controller found on scene load");
+        }
     }
 
 
@@ -79,16 +97,13 @@ public class StateHandler : MonoBehaviour
                 break;
         }
     }
-    private void OnLevelWasLoaded(int level)
-    {
-        controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
-    }
+    
 
 
 
     void Update()
     {
-        FindInput();
+        FindInputUnity();
     }
 
 
@@ -96,102 +111,220 @@ public class StateHandler : MonoBehaviour
     /// <summary>
     /// Listens for all inputs and passes to current controller
     /// </summary>
-    private void FindInput()
+    private void FindInputUnity()
     {
         string[] input = new string[3];
+        int currentController;
+        int skippedplayer = 0;
         //listen for input
         for(int i = 0; i < CONTROLLERCOUNT; i++)
         {
+            if(options.PlayersInfo[i,2] ==0)
+            {
+                skippedplayer++;
+                continue;
+            }
+            currentController = options.PlayersInfo[i, 3];
             //passes the controller number and button and intensity if applicable ie the triggers
             //if its onpress or onrelease maybe if necessary
             //pass input to current states controller in the scene whatever it may be
-            if(Input.GetAxis("Joy" + i + "Start") != 0)
+            if(Input.GetAxis("Joy" + currentController + "Start") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i-skippedplayer).ToString();
                 input[1] = "Start";
-                input[2] = Input.GetAxis("Joy" + i + "Start").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "Start").ToString();
                 controller.InputHandle(input);
             }
-            if(Input.GetAxis("Joy" + i +"LeftHorizontal") != 0)
+            if(Input.GetAxis("Joy" + currentController + "LeftHorizontal") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i - skippedplayer).ToString();
                 input[1] = "LeftHorizontal";
-                input[2] = Input.GetAxis("Joy" + i + "LeftHorizontal").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "LeftHorizontal").ToString();
                 controller.InputHandle(input);
             }
-            if(Input.GetAxis("Joy" + i + "LeftVertical") != 0)
+            if(Input.GetAxis("Joy" + currentController + "LeftVertical") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i - skippedplayer).ToString();
                 input[1] = "LeftVertical";
-                input[2] = Input.GetAxis("Joy" + i + "LeftVertical").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "LeftVertical").ToString();
                 controller.InputHandle(input);
             }
-            if(Input.GetAxis("Joy" + i + "RightHorizontal") != 0)
+            if(Input.GetAxis("Joy" + currentController + "RightHorizontal") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i - skippedplayer).ToString();
                 input[1] = "RightHorizontal";
-                input[2] = Input.GetAxis("Joy" + i + "RightHorizontal").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "RightHorizontal").ToString();
                 controller.InputHandle(input);
             }
-            if(Input.GetAxis("Joy" + i + "RightVertical") != 0)
+            if(Input.GetAxis("Joy" + currentController + "RightVertical") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i - skippedplayer).ToString();
                 input[1] = "RightVertical";
-                input[2] = Input.GetAxis("Joy" + i + "RightVertical").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "RightVertical").ToString();
                 controller.InputHandle(input);
             }
            
-            if(Input.GetAxis("Joy" + i + "A") != 0)
+            if(Input.GetAxis("Joy" + currentController + "A") != 0)
             {
-                // Debug.Log(Input.GetAxis("Joy" + i + "A")+ "    " + i);
-                input[0] = i.ToString(); 
+                input[0] = (i - skippedplayer).ToString(); 
                 input[1] = "A";
-                input[2] = Input.GetAxis("Joy" + i + "A").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "A").ToString();
                 controller.InputHandle(input);
             }
-            if(Input.GetAxis("Joy" + i + "Y") != 0)
+            if(Input.GetAxis("Joy" + currentController + "Y") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i - skippedplayer).ToString();
                 input[1] = "Y";
-                input[2] = Input.GetAxis("Joy" + i + "Y").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "Y").ToString();
                 controller.InputHandle(input);
             }
 
-            if(Input.GetAxis("Joy" + i + "R1") != 0)
+            if(Input.GetAxis("Joy" + currentController + "R1") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i - skippedplayer).ToString();
                 input[1] = "R1";
-                input[2] = Input.GetAxis("Joy" + i + "R1").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "R1").ToString();
                 controller.InputHandle(input);
             }
-            if(Input.GetAxis("Joy" + i + "L1") != 0)
+            if(Input.GetAxis("Joy" + currentController + "L1") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i - skippedplayer).ToString();
                 input[1] = "L1";
-                input[2] = Input.GetAxis("Joy" + i + "L1").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "L1").ToString();
                 controller.InputHandle(input);
             }
-            if(Input.GetAxis("Joy" + i + "R2") != 0)
+            if(Input.GetAxis("Joy" + currentController + "R2") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i - skippedplayer).ToString();
                 input[1] = "R2";
-                input[2] = Input.GetAxis("Joy" + i + "R2").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "R2").ToString();
                 controller.InputHandle(input);
             }
-            if(Input.GetAxis("Joy" + i + "L2") != 0)
+            if(Input.GetAxis("Joy" + currentController + "L2") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i - skippedplayer).ToString();
                 input[1] = "L2";
-                input[2] = Input.GetAxis("Joy" + i + "L2").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "L2").ToString();
                 controller.InputHandle(input);
             }
-            if(Input.GetAxis("Joy" + i + "L3") != 0)
+            if(Input.GetAxis("Joy" + currentController + "L3") != 0)
             {
-                input[0] = i.ToString();
+                input[0] = (i - skippedplayer).ToString();
                 input[1] = "L3";
-                input[2] = Input.GetAxis("Joy" + i + "L3").ToString();
+                input[2] = Input.GetAxis("Joy" + currentController + "L3").ToString();
                 controller.InputHandle(input);
             }
         }
     }
+
+    private void FindInputXInput()
+    {
+        string[] input = new string[3];
+        int currentController;
+        int skippedplayer = 0;
+        //listen for input
+        for(int i = 0; i < gamepads.Length; i++)
+        {
+            gamepads[i] = GamePad.GetState((PlayerIndex)i);
+        }
+        for(int i = 0; i < CONTROLLERCOUNT; i++)
+        {
+            if(options.PlayersInfo[i, 2] == 0)
+            {
+                skippedplayer++;
+                continue;
+            }
+            currentController = options.PlayersInfo[i, 3];
+            //passes the controller number and button and intensity if applicable ie the triggers
+            //if its onpress or onrelease maybe if necessary
+            //pass input to current states controller in the scene whatever it may be
+            if(gamepads[currentController].Buttons.Start == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "Start";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].ThumbSticks.Left.X  != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "LeftHorizontal";
+                input[2] = (gamepads[currentController].ThumbSticks.Left.X).ToString();
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].ThumbSticks.Left.Y != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "LeftVertical";
+                input[2] = (-gamepads[currentController].ThumbSticks.Left.Y).ToString();
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].ThumbSticks.Right.X != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "RightHorizontal";
+                input[2] = (gamepads[currentController].ThumbSticks.Right.X).ToString();
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].ThumbSticks.Right.Y != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "RightVertical";
+                input[2] = (-gamepads[currentController].ThumbSticks.Right.Y).ToString();
+                controller.InputHandle(input);
+            }
+
+            if(gamepads[currentController].Buttons.A == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "A";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].Buttons.Y == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "Y";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+
+            if(gamepads[currentController].Buttons.RightShoulder == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "R1";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].Buttons.LeftShoulder == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "L1";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].Triggers.Right != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "R2";
+                input[2] = gamepads[currentController].Triggers.Right.ToString();
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].Triggers.Left != 0)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "L2";
+                input[2] = gamepads[currentController].Triggers.Left.ToString();
+                controller.InputHandle(input);
+            }
+            if(gamepads[currentController].Buttons.LeftStick == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "L3";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+        }
+    }
+
 }

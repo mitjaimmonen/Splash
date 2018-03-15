@@ -230,37 +230,39 @@ public class PlayerController : MonoBehaviour
 
 
 
-
-        if (transform.position.y < -50f)
-            controller.Spawn(playerNumber);            
-
-        if(!isGrounded)
+        if (!controller.isPaused)
         {
-            currentVerticalVelocity -= gravity * Time.deltaTime;
-            Mathf.Clamp(currentVerticalVelocity, -maxVelocity, maxVelocity);
-            RaycastHit hit;
-            if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1,raycastLayerMask))
+            if (transform.position.y < -50f)
+                controller.Spawn(playerNumber);            
+
+            if(!isGrounded)
             {
-                transform.position += new Vector3(0, currentVerticalVelocity * Time.deltaTime, 0);
+                currentVerticalVelocity -= gravity * Time.deltaTime;
+                Mathf.Clamp(currentVerticalVelocity, -maxVelocity, maxVelocity);
+                RaycastHit hit;
+                if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1,raycastLayerMask))
+                {
+                    transform.position += new Vector3(0, currentVerticalVelocity * Time.deltaTime, 0);
+                } else
+                {
+                    currentVerticalVelocity = 0;
+                    isGrounded = true;
+                }
+
             } else
             {
-                currentVerticalVelocity = 0;
-                isGrounded = true;
+                if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 2, raycastLayerMask))
+                {
+                    isGrounded = false;
+                }
             }
 
-        } else
-        {
-            if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 2, raycastLayerMask))
+            if (runningTimer > 0.1f && isRunning)
             {
-                isGrounded = false;
+                isRunning = false;
+                cameraHandler.NewFov(1); // 1 = original fov
+                playerSpeed = walkSpeed;
             }
-        }
-
-        if (runningTimer > 0.1f && isRunning)
-        {
-            isRunning = false;
-            cameraHandler.NewFov(1); // 1 = original fov
-            playerSpeed = walkSpeed;
         }
         
     }
