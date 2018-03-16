@@ -60,6 +60,11 @@ public class ParticleLauncher : MonoBehaviour {
 
 			for (int i = 0; i < loopCount;i++)
 			{
+				if (!collisionEvents[i].colliderComponent)
+				{
+					Debug.Log("This isn't supposed to happen.");
+					continue;
+				}
 				if (collisionEvents[i].colliderComponent.gameObject.layer == LayerMask.NameToLayer("Player"))
 				{
 					if (otherPlayerController == null)

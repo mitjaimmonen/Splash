@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD.Studio;
+
 
 public enum PickupEnum {
     healthPickup,
@@ -24,6 +26,8 @@ public class Drops : MonoBehaviour {
     public PickupEnum pickupType = PickupEnum.healthPickup;
     private PlayerController playerController;
 
+    [FMODUnity.EventRef] public string ammoSE, healthSE;
+
 
     private void Awake()
     {
@@ -46,6 +50,8 @@ public class Drops : MonoBehaviour {
                 if (tempHealth != playerController.CurrentHealth)
                 {
                     //Play sound
+                    FMODUnity.RuntimeManager.PlayOneShot(healthSE, transform.position);
+
                     Destroy(this.gameObject);
                 }
                     
@@ -57,6 +63,8 @@ public class Drops : MonoBehaviour {
                 if (tempAmmo != playerController.GlobalAmmo)
                 {
                     //Play sound
+                    FMODUnity.RuntimeManager.PlayOneShot(ammoSE, transform.position);
+                    
                     Destroy(this.gameObject);
                 }
             }

@@ -390,6 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityMultiplier: 2
+  platformJumpSE: event:/Character Movement/PlatformJump
 --- !u!137 &137001176399641102
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

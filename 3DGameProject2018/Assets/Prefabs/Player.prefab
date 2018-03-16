@@ -1833,8 +1833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayers: 3
-  playerNumber: 2
+  currentPlayers: 2
+  playerNumber: 1
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
     type: 2}
   playerFace: {fileID: 1590808485326396}
@@ -1921,7 +1921,7 @@ MonoBehaviour:
   reloadTime: 2
   autoReload: 1
   isContinuous: 1
-  rotationSpeed: 5
+  rotationSpeed: 10
   shootSE: event:/Guns/AutoRifle
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: 
