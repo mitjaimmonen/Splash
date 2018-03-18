@@ -10,6 +10,8 @@ public class DynamicItemScript : MonoBehaviour {
 	public Collider mainCollider;
 	public GameObject[] ObjectsToDisableOnDestroy;
 
+	[FMODUnity.EventRef] public string destroySE;
+
 	private int currentHealth;
 	private ParticleSystem destroyParticleSystem;
 	private List<Rigidbody> childRigidbodies;
@@ -72,7 +74,6 @@ public class DynamicItemScript : MonoBehaviour {
 
 		if (currentHealth < 1 && isDestroyable)
 		{
-			isDestroying = true;
 			mainRigidbody.isKinematic = true;
 
 			foreach(var obj in ObjectsToDisableOnDestroy)
@@ -97,12 +98,14 @@ public class DynamicItemScript : MonoBehaviour {
 			else if (destroyParticleSystem != null)
 			{
 				destroyParticleSystem.transform.position = intersection;
+		
 				destroyParticleSystem.Play();
 
 				// mainRigidbody.gameObject.SetActive(false); //mesh renderer is attached to this.
 			}
-
-
+			if (!isDestroying)
+				FMODUnity.RuntimeManager.PlayOneShot(destroySE, transform.position);		
+			isDestroying = true;
 		}
 		else
 		{

@@ -26,7 +26,7 @@ public class Drops : MonoBehaviour {
     public PickupEnum pickupType = PickupEnum.healthPickup;
     private PlayerController playerController;
 
-    [FMODUnity.EventRef] public string ammoSE, healthSE;
+    [FMODUnity.EventRef] public string pickupSE;
 
 
     private void Awake()
@@ -50,7 +50,7 @@ public class Drops : MonoBehaviour {
                 if (tempHealth != playerController.CurrentHealth)
                 {
                     //Play sound
-                    FMODUnity.RuntimeManager.PlayOneShot(healthSE, transform.position);
+                    FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
 
                     Destroy(this.gameObject);
                 }
@@ -63,7 +63,7 @@ public class Drops : MonoBehaviour {
                 if (tempAmmo != playerController.GlobalAmmo)
                 {
                     //Play sound
-                    FMODUnity.RuntimeManager.PlayOneShot(ammoSE, transform.position);
+                    FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
                     
                     Destroy(this.gameObject);
                 }

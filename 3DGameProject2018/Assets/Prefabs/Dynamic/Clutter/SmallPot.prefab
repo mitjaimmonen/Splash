@@ -189,6 +189,7 @@ MonoBehaviour:
   mainCollider: {fileID: 65653752613374108}
   ObjectsToDisableOnDestroy:
   - {fileID: 1688043866326688}
+  destroySE: event:/Interactions/SmallPotBreak
 --- !u!198 &198787995339436460
 ParticleSystem:
   m_ObjectHideFlags: 1

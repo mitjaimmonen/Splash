@@ -110,7 +110,7 @@ public class Weapon : MonoBehaviour {
         if (playerController.IsAimRaycastHit)
             lookDirection = (playerController.AimWorldPoint - transform.position).normalized;
         else 
-            lookDirection = playerController.playerFace.transform.forward;
+            lookDirection = playerController.playerHead.transform.forward;
 
         lookRotation = Quaternion.LookRotation(lookDirection);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);

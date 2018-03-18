@@ -8,6 +8,7 @@ public class CameraHandler : MonoBehaviour {
     private Camera currentCamera; 
     public PlayerController playerController; // Playercontroller refers itself to this on instantiate.
     public float fovLerpTime = 0.2f;
+    public float forwardOffset = 0.1f, rotRadius = 0.1f;
 
     private float fov, newFov, oldFov;
     private float fovTimer = 1f;
@@ -41,7 +42,13 @@ public class CameraHandler : MonoBehaviour {
             playerController.IsAimRaycastHit = false;
         }
 
-        transform.position = target.transform.position;
+        var pos = target.transform.position;
+        Vector3 forw = playerController.transform.forward.normalized;
+        pos += forwardOffset * forw;
+        forw = target.transform.forward.normalized;
+        pos += rotRadius * forw;
+
+        transform.position = pos;
         transform.rotation = target.transform.rotation;
     }
 

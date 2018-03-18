@@ -13,6 +13,9 @@
 {8d32088c-5d25-43b9-b868-adcc9a340be9} event:/Interactions/AmmoPickup
 {2d493f70-f2a0-454d-933b-8af718c16cfc} event:/Interactions/GunPickup
 {61afd588-bb8b-4fda-a8e7-d45b2a844fd5} event:/Interactions/HealthPickup
+{97da5bd5-4639-4c17-8b3c-302afdcf518c} event:/Interactions/BigPotBreak
+{8fd47f21-68a2-4bd9-a822-d1df96e1c8da} event:/Interactions/SmallPotBreak
+{92b34941-44ff-4e2e-a6a0-72d5237a3dde} event:/Interactions/SpecialPickup
 {dc702f45-6221-43a4-a993-4c901ebc8bfe} event:/UI/Back
 {1f080d3a-7634-4415-8aa7-3f0d7dd0c210} event:/UI/IngamePause
 {fbb3d1a1-b3a1-4d81-93c4-1786462d3411} event:/UI/Move cursor

@@ -281,8 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupValue: 50
   pickupType: 1
-  ammoSE: event:/Interactions/AmmoPickup
-  healthSE: event:/Interactions/AmmoPickup
+  pickupSE: event:/Interactions/AmmoPickup
 --- !u!135 &135656171482579952
 SphereCollider:
   m_ObjectHideFlags: 1

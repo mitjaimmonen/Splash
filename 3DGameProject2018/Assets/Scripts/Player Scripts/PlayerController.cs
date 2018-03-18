@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     //Classes
     public CanvasOverlayHandler canvasOverlay;     
-    public GameObject playerFace; // Takes vertical rotation, also parents all guns.
+    public GameObject playerHead, gunsParent; // Takes vertical rotation, also parents all guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
     public Weapon currentWeapon;
     public GameObject cameraPrefab;
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private MatchController controller;
 
     public LayerMask raycastLayerMask;
+    [FMODUnity.EventRef] public string HitmarkerSE;
 
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1f;
@@ -204,7 +205,7 @@ public class PlayerController : MonoBehaviour
         }
         cameraHandler = playerCamera.GetComponent<CameraHandler>();
         cameraHandler.playerController = this;
-        cameraHandler.target = playerFace; // Camera gets rotation from this.
+        cameraHandler.target = playerHead; // Camera gets rotation from this.
         
         
 
@@ -303,7 +304,9 @@ public class PlayerController : MonoBehaviour
                     magnitude *= -1;
                 rotationV += magnitude * lookSensV * Time.deltaTime;
                 rotationV = Mathf.Clamp(rotationV, minRotV, maxRotV);
-                playerFace.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
+                playerHead.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
+                gunsParent.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
+
                 break;
         }
     }
@@ -382,6 +385,7 @@ public class PlayerController : MonoBehaviour
     //Can be used for score system later on.
     public void DealDamage()
     {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(HitmarkerSE, gameObject);
         hud.DealDamage();
     }
     public void Reset()

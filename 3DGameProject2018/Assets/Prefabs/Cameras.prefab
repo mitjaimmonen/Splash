@@ -187,7 +187,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.15
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 65
   orthographic: 0
@@ -388,6 +388,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   playerController: {fileID: 0}
+  fovLerpTime: 0.2
+  forwardOffset: 0.225
+  rotRadius: 0.1
 --- !u!114 &114154549000546710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -401,6 +404,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   playerController: {fileID: 0}
+  fovLerpTime: 0.2
+  forwardOffset: 0.1
+  rotRadius: 0.1
 --- !u!114 &114168662326135348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -438,6 +444,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   playerController: {fileID: 0}
+  fovLerpTime: 0.2
+  forwardOffset: 0.1
+  rotRadius: 0.1
 --- !u!114 &114515424991665912
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -463,6 +472,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   playerController: {fileID: 0}
+  fovLerpTime: 0.2
+  forwardOffset: 0.1
+  rotRadius: 0.1
 --- !u!114 &114892186422128446
 MonoBehaviour:
   m_ObjectHideFlags: 1
