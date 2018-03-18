@@ -1906,8 +1906,7 @@ MonoBehaviour:
   rotationSpeed: 2
   shootSE: event:/Guns/Shotgun sounds
   reloadSE: event:/Guns/Reload auto rifle
-  emptyMagSE: 
-  takeScopeSE: 
+  emptyMagSE: event:/Guns/EmptyShotgun
 --- !u!114 &114367438877552334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1955,8 +1954,7 @@ MonoBehaviour:
   rotationSpeed: 10
   shootSE: event:/Guns/AutoRifle
   reloadSE: event:/Guns/Reload auto rifle
-  emptyMagSE: 
-  takeScopeSE: 
+  emptyMagSE: event:/Guns/EmptyRifle
 --- !u!114 &114585594896264952
 MonoBehaviour:
   m_ObjectHideFlags: 1

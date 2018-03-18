@@ -10,10 +10,12 @@
 {de8e6457-ed1d-4c54-9ece-abd317731601} event:/Guns/Shotgun sounds
 {e1f6ed17-b7f9-43cd-8b33-1f21632cb64a} event:/Guns/Throw
 {bcb9b8ed-95c7-46e1-b6dc-63c6a45ff27a} event:/Guns/ThrowForce feedback
+{2fe65fcf-51f6-4ce0-acad-66dc0241b590} event:/Guns/EmptyRifle
+{8b462b52-5972-44df-a65d-d7315babe1b8} event:/Guns/EmptyShotgun
 {8d32088c-5d25-43b9-b868-adcc9a340be9} event:/Interactions/AmmoPickup
+{97da5bd5-4639-4c17-8b3c-302afdcf518c} event:/Interactions/BigPotBreak
 {2d493f70-f2a0-454d-933b-8af718c16cfc} event:/Interactions/GunPickup
 {61afd588-bb8b-4fda-a8e7-d45b2a844fd5} event:/Interactions/HealthPickup
-{97da5bd5-4639-4c17-8b3c-302afdcf518c} event:/Interactions/BigPotBreak
 {8fd47f21-68a2-4bd9-a822-d1df96e1c8da} event:/Interactions/SmallPotBreak
 {92b34941-44ff-4e2e-a6a0-72d5237a3dde} event:/Interactions/SpecialPickup
 {dc702f45-6221-43a4-a993-4c901ebc8bfe} event:/UI/Back

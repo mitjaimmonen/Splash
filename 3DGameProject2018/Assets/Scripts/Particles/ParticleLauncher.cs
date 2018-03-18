@@ -7,12 +7,12 @@ using UnityEngine.UI;
 public class ParticleLauncher : MonoBehaviour {
 
 
-	private ParticleDecalPool decalPool;
+	private ParticleDecal particleDecal;
 	private PlayerController thisPlayerController;
 	private ParticleSystem thisParticleSystem;
 	public ParticleSystem splatterParticleSystem;
 	private List<ParticleCollisionEvent> collisionEvents;
-	private float collisionCountTimer = 0, damageTimer = 0;
+	private float collisionCountTimer = 0, damageTimer = 0, splashTimer = 0;
 	private int maxLoopCount = 20, oldLoopCount = 0;
 	public float headshotMultiplier;
 
@@ -20,9 +20,9 @@ public class ParticleLauncher : MonoBehaviour {
 
 	private void Awake()
 	{
-		decalPool = GameObject.Find("DecalParticles").GetComponent<ParticleDecalPool>();
-		if (decalPool == null)
-			decalPool = Instantiate(decalPool, Vector3.zero,Quaternion.identity);
+		particleDecal = GameObject.Find("DecalParticles").GetComponent<ParticleDecal>();
+		if (particleDecal == null)
+			particleDecal = Instantiate(particleDecal, Vector3.zero,Quaternion.identity);
 
 		splatterParticleSystem = GameObject.Find("SplatterParticles").GetComponent<ParticleSystem>();
 		thisPlayerController = GetComponentInParent<PlayerController>();
@@ -33,6 +33,7 @@ public class ParticleLauncher : MonoBehaviour {
 	private void Update()
 	{
 		collisionCountTimer += Time.deltaTime;
+		splashTimer += Time.deltaTime;
 		damageTimer += Time.deltaTime;
 	}
 	private void OnParticleCollision(GameObject other)
@@ -42,7 +43,6 @@ public class ParticleLauncher : MonoBehaviour {
 			//This allows to have maxLoopCount amount of collisions independently from framerate.
 			//Without oldLoopCount, the first time collisions are called, the list might not be full yet,
 			//but would be in next frame and timer wouldnt allow more collision calls.
-			Debug.Log("LoopCount reset");
 			oldLoopCount = 0;
 			collisionCountTimer=0;
 		}
@@ -62,7 +62,7 @@ public class ParticleLauncher : MonoBehaviour {
 			{
 				if (!collisionEvents[i].colliderComponent)
 				{
-					Debug.Log("This isn't supposed to happen.");
+					Debug.Log("No collider component found on particle collision. This should be impossible.");
 					continue;
 				}
 				if (collisionEvents[i].colliderComponent.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -102,10 +102,16 @@ public class ParticleLauncher : MonoBehaviour {
 				}
 				else
 				{
-					decalPool.ParticleHit (collisionEvents [i]);
+					if (splashTimer > 0.05f)
+					{
+						splashTimer = 0;
+						particleDecal.ParticleHit (collisionEvents [i]);
+
+					}
+					
 					if (splatterParticleSystem != null)
 						EmitSplashAtCollisionPoint(collisionEvents[i]);
-					
+
 					if (collisionEvents[i].colliderComponent.gameObject.tag == "Destroyable" )
 					{
 						DynamicItemScript script = collisionEvents[i].colliderComponent.GetComponentInParent<DynamicItemScript>();

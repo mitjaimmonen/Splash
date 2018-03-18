@@ -55,10 +55,13 @@ public class Weapon : MonoBehaviour {
     private Animator gunAnim;
     private ParticleSystem waterParticles;
     private ParticleLauncher particleLauncher;
-    private bool isShooting, isScope, isReloading = false;
+    private bool isShooting, isReloading = false;
     private int currentClipAmmo, currentGlobalAmmo;
-    private float fireRateTimer, shootTimer;
-    private float accuracyRandomizer; //How much particle direction is randomized
+
+    //InputTimer checks if shoot trigger has been released
+    //FirerateTimer checks the interval between shots
+    //ShootTimer checks if weapon has been shooting long enough
+    private float inputTimer, fireRateTimer, shootTimer;
     private float shootSpeed; //Particle start speed (=force)
     private Quaternion lookRotation;
     private Vector3 lookDirection;
@@ -68,7 +71,7 @@ public class Weapon : MonoBehaviour {
 
         //Only shoot soundEvent is stored in event instance because its parameters need to be accessed during lifetime.
         //Other sound events are "one shots" which will be released after playing.
-        [FMODUnity.EventRef] public string shootSE, reloadSE, emptyMagSE, takeScopeSE;        
+        [FMODUnity.EventRef] public string shootSE, reloadSE, emptyMagSE;        
         private FMOD.Studio.EventInstance shootEI; 
 
         //Store all fmod variables in code for easier tweaking during playback
@@ -86,7 +89,6 @@ public class Weapon : MonoBehaviour {
         gunAnim = gameObject.GetComponentInChildren<Animator>();
         
         shootSpeed = waterParticles.main.startSpeedMultiplier;
-        accuracyRandomizer = waterParticles.shape.randomDirectionAmount;
 
         currentClipAmmo = clipSize;
         playerController.CurrentAmmo = currentClipAmmo;
@@ -114,32 +116,25 @@ public class Weapon : MonoBehaviour {
 
         lookRotation = Quaternion.LookRotation(lookDirection);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-        
-        
-
-
-        
 
         //Updates sound position.
         shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
+        
 
-        // Some checks in case shooting has ended
-        // if (reloadTimer > reloadTime)
-        //     isReloading = false;   
+        //Checks if shoot trigger is no longer called.
+        if ((inputTimer > 0.1f && inputTimer < 0.5f) || !isShooting)
+        {
+            isShooting = false;
+            gunAnim.SetBool("isShooting", false);
+            FMOD_Shooting.setValue(0);
+                
+        }
+
         if (autoReload && currentClipAmmo < shotUsage)
             Reload();
 
-        if (fireRateTimer - 0.1f > fireRate && isShooting)
-            isShooting = false;
-        else if (fireRateTimer > fireRate || isReloading || (maxShootTime != 0 && shootTimer > maxShootTime) || currentClipAmmo < shotUsage) 
-        {
-            gunAnim.SetBool("isShooting", false);
-            FMOD_Shooting.setValue(0);
-            shootTimer = 0;
-                
-        }
-        
         //Look up "fireRate", "maxShootTime" and "reloadTime" to see the meanings.
+        inputTimer += Time.deltaTime;
         fireRateTimer += Time.deltaTime;
         shootTimer += Time.deltaTime;
         
@@ -148,38 +143,42 @@ public class Weapon : MonoBehaviour {
 
     public void Shoot(float input)
     {
-        isShooting = true;        
 
-        // Do not shoot if one of the conditions is met.
+        if (inputTimer > 0.1f) //First time calling after input trigger
+        {
+            //Call everything here that needs to be called only once.
+
+            shootTimer = 0;
+
+            if (currentClipAmmo < shotUsage)
+            {
+                FMODUnity.RuntimeManager.PlayOneShotAttached(emptyMagSE, gameObject);
+                Debug.Log("empty mag sound");
+            }
+        }
+        //Reset input timer right after the if-check.
+        inputTimer = 0;
+
+
         if (fireRateTimer < fireRate)
-        {
             return;
-        }
-        if (maxShootTime != 0 && shootTimer > maxShootTime)
+        if (currentClipAmmo < shotUsage || (maxShootTime != 0 && shootTimer > maxShootTime))
         {
             isShooting = false;
             return;
         }
-        else
-        {
-            fireRateTimer = 0;
-        }
-        
-        //Do not shoot if not enough ammo.
-        if (currentClipAmmo < shotUsage)
-        {
-            FMODUnity.RuntimeManager.PlayOneShotAttached(emptyMagSE, gameObject);
-            isShooting = false;
-            return;
-        }
-        isReloading = false;        
+
+        //Tests passed and shooting is allowed, set bool true.
+        isShooting = true;
+        //Reset rest of the timers
+        fireRateTimer = 0;
+        //Reset animation bools making sure shooting animation gets played.
         gunAnim.SetBool("isShooting", true);
+        gunAnim.SetBool("reload", false);
 
         //Set WaterParticle parameters.
         var main = waterParticles.main;
-        var shape = waterParticles.shape;
         float currentShootSpeed = shootSpeed;
-        float currentAccuracyRandomizer = accuracyRandomizer;
 
         if(isContinuous)
         {
@@ -188,11 +187,8 @@ public class Weapon : MonoBehaviour {
             if(currentShootSpeed < 7)
                 currentShootSpeed = 7;
         }
-        if (!isScope)
-            currentAccuracyRandomizer = 2 * accuracyRandomizer;
 
         main.startSpeed = currentShootSpeed;
-        shape.randomDirectionAmount = currentAccuracyRandomizer;
         waterParticles.Play();
         
         
@@ -233,11 +229,10 @@ public class Weapon : MonoBehaviour {
     public void Reload() {
         
         // When animations are fully implemented, clip & ammo are counted at the end of reload.
-        Debug.Log("Trying to reload clip");
         if (!isShooting && playerController.GlobalAmmo > 0 && !gunAnim.GetCurrentAnimatorStateInfo(0).IsName("reload") && currentClipAmmo < clipSize)
         {
+            Debug.Log("Reload clip");
             gunAnim.SetBool("reload", true);
-            isReloading = true;
         }
     }
 
