@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private bool isAimRaycastHit = false;
     private int currentDamage = 0;
     private float headshotMultiplier;
-    private float runningTimer = 0;
+    private float runningTimer = 0, movingTimer = 0;
     
 
     private int maxHealth = 100;
@@ -50,8 +50,10 @@ public class PlayerController : MonoBehaviour
     private CameraHandler cameraHandler;
     private MatchController controller;
 
+
+    public Animator playerAnim;
     public LayerMask raycastLayerMask;
-    [FMODUnity.EventRef] public string HitmarkerSE;
+    [FMODUnity.EventRef] public string HitmarkerSE, jumpSE;
 
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1f;
@@ -228,6 +230,7 @@ public class PlayerController : MonoBehaviour
     {
         //Timers
         runningTimer += Time.deltaTime;
+        movingTimer += Time.deltaTime;
 
 
 
@@ -263,6 +266,10 @@ public class PlayerController : MonoBehaviour
                 isRunning = false;
                 cameraHandler.NewFov(1); // 1 = original fov
                 playerSpeed = walkSpeed;
+            }
+            if (movingTimer > 0.1f)
+            {
+                playerAnim.SetBool("isMoving", false);
             }
         }
         
@@ -326,15 +333,20 @@ public class PlayerController : MonoBehaviour
                     }
                 break;
             case "LeftHorizontal":
+                movingTimer = 0;
                 if(!Physics.Raycast(transform.position, new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed * Time.deltaTime,1))
                 {
+                    playerAnim.SetBool("isMoving", true);
+                    playerAnim.SetFloat("sideways", magnitude);
                     transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed * Time.deltaTime;
                 }
                 break;
             case "LeftVertical":
-
+                movingTimer = 0;
                 if(!Physics.Raycast(transform.position, -transform.forward * magnitude * playerSpeed * Time.deltaTime, 1))
                 {
+                    playerAnim.SetBool("isMoving", true);
+                    playerAnim.SetFloat("forward", magnitude);
                     transform.position += -transform.forward * magnitude * playerSpeed * Time.deltaTime;
                 }
                 
@@ -342,6 +354,7 @@ public class PlayerController : MonoBehaviour
             case "A":
                 if(isGrounded)
                 {
+                    FMODUnity.RuntimeManager.PlayOneShotAttached(jumpSE, gameObject);
                     currentVerticalVelocity = JumpVelocity;
                     isGrounded = false;
                 }

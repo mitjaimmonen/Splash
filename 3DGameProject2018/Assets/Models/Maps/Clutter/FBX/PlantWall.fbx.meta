@@ -1,23 +1,22 @@
 fileFormatVersion: 2
-guid: 2f1a588b7ba26964d925501feae1f996
-timeCreated: 1520439553
+guid: 9e93db63cf4ddc74885639c73fc2f3bd
+timeCreated: 1521455208
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: No Name
+    2100000: Material.008
     2300000: //RootNode
     3300000: //RootNode
-    4300000: map3
-    6400000: //RootNode
+    4300000: 'PLANT WALL '
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: No Name
-    second: {fileID: 2100000, guid: 798c6ac3cd5945d4c8fc8ffea7884d7f, type: 2}
+      name: Material.008
+    second: {fileID: 2100000, guid: dead7df4e0470ee49876875ac7ce0097, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -49,7 +48,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
