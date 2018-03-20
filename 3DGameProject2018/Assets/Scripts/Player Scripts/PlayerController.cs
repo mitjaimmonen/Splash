@@ -346,7 +346,10 @@ public class PlayerController : MonoBehaviour
                 if(!Physics.Raycast(transform.position, -transform.forward * magnitude * playerSpeed * Time.deltaTime, 1))
                 {
                     playerAnim.SetBool("isMoving", true);
-                    playerAnim.SetFloat("forward", magnitude);
+                    playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
+                    if (isRunning)
+                        playerAnim.SetFloat("forward", -magnitude);
+                    
                     transform.position += -transform.forward * magnitude * playerSpeed * Time.deltaTime;
                 }
                 
