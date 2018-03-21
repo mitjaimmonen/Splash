@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4460856941126726}
   - component: {fileID: 65937163427930010}
   - component: {fileID: 114256962212488438}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: JumpPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,8 +173,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1082844550545804}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.32, y: -0.19, z: -2.12}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -15.17, y: -0.29, z: 13.23}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4255883414700786}
   - {fileID: 4676561321495800}
@@ -287,7 +287,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.46, z: 1}
+  m_Size: {x: 1.53, y: 3.11, z: 1.66}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95951531919123642
 Animator:

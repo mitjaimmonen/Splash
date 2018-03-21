@@ -433,7 +433,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4198909216040822}
-  - component: {fileID: 136172752203868750}
+  - component: {fileID: 135715655334957748}
   m_Layer: 9
   m_Name: Face
   m_TagString: Head
@@ -530,7 +530,6 @@ GameObject:
   - component: {fileID: 4338802512630830}
   - component: {fileID: 136302762592438026}
   - component: {fileID: 114148083834518994}
-  - component: {fileID: 54622177108944338}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1756,21 +1755,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1619310143881154}
   m_Mesh: {fileID: 4300004, guid: 93fbe271366dcd24cbf8d0625725b1a7, type: 3}
---- !u!54 &54622177108944338
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1709318612409746}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!95 &95047338197742282
 Animator:
   serializedVersion: 3
@@ -1833,8 +1817,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayers: 3
-  playerNumber: 2
+  currentPlayers: 1
+  playerNumber: 0
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
     type: 2}
   playerFace: {fileID: 1590808485326396}
@@ -1847,11 +1831,14 @@ MonoBehaviour:
   lookSensV: 180
   lookSensH: 200
   invertSensV: 0
-  JumpVelocity: 10
-  gravity: 20
+  tempVel: {x: 0, y: 0, z: 0}
+  JumpVelocity: 0.3
+  gravity: 1
   maxVelocity: 1
   walkSpeed: 7
   runMultiplier: 1.5
+  maxSlope: 0.5
+  stepHeight: 0
 --- !u!114 &114243893825775968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1950,8 +1937,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd125411fe3d25f4693fe2c657c98036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &136172752203868750
-CapsuleCollider:
+--- !u!135 &135715655334957748
+SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -1959,10 +1946,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
-  m_Height: 0.25
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.05, z: -0.27}
+  serializedVersion: 2
+  m_Radius: 0.26
+  m_Center: {x: 0, y: 0.12, z: -0.21}
 --- !u!136 &136302762592438026
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1972,10 +1958,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.24
-  m_Height: 1.01
+  m_Radius: 0.39
+  m_Height: 1.66
   m_Direction: 1
-  m_Center: {x: 0, y: -0.26, z: -0.09}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137710310096811012
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

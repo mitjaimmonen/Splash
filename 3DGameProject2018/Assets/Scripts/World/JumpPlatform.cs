@@ -12,6 +12,7 @@ public class JumpPlatform : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other)
 	{
+        Debug.Log("triggered");
 		if (other.gameObject.CompareTag("Player"))
 		{
 			playerController = other.GetComponent<PlayerController>();
