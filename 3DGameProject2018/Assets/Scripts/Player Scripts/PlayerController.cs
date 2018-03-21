@@ -335,7 +335,8 @@ public class PlayerController : MonoBehaviour
 
             if(Physics.CheckCapsule(TopSphere, BotSphere, capsule.radius, raycastLayerMask))
             {
-                velocity = new Vector3(0,1*Time.deltaTime,0);
+                Debug.Log("Triggered");
+                velocity = -velocity;
             }
             /*Apply Velocity*/
             transform.position += velocity;
