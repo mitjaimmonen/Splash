@@ -92,7 +92,7 @@ public class ParticleLauncher : MonoBehaviour {
 						}
 
 
-						if (ignoreTimers && damageTimer > 0.09f)
+						if (ignoreTimers || damageTimer > 0.09f)
 						{
 							Debug.Log("Particle hit player");
 							thisPlayerController.DealDamage();
