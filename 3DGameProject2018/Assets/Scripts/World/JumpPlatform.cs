@@ -10,11 +10,17 @@ public class JumpPlatform : MonoBehaviour {
 
 	[FMODUnity.EventRef] public string platformJumpSE;
 	private PlayerController playerController;
+	private Animator anim;
+
+	void Start () {
+		anim = GetComponentInChildren<Animator>();
+	}
 	
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.CompareTag("Player"))
 		{
+			anim.SetTrigger("jump");
 			playerController = other.GetComponent<PlayerController>();
 			FMODUnity.RuntimeManager.PlayOneShot(platformJumpSE, transform.position);
 			playerController.PlatformJump(velocityMultiplier);

@@ -94,7 +94,7 @@ public class Weapon : MonoBehaviour {
         playerController.CurrentAmmo = currentClipAmmo;
         playerController.ClipSize = clipSize;
         playerController.CurrentDamage = damage;
-        particleLauncher.headshotMultiplier = headshotMultiplier;
+        particleLauncher.HeadshotMultiplier = headshotMultiplier;
 
     }
 
