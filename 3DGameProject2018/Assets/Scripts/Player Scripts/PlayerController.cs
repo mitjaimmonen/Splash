@@ -26,11 +26,12 @@ public class PlayerController : MonoBehaviour
     public int currentPlayers, playerNumber; 
 
 
+    [HideInInspector]
+    public float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -60f;
     private int currentHealth;
     private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
     private float playerSpeed;
-    private float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -60f;
     private Vector3 aimWorldPoint; // Where gun rotates towards.
     private bool isAimRaycastHit = false;
     private int currentDamage = 0;
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public GameObject playerHead, gunsParent; // Takes vertical rotation, also parents all guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
     public Weapon currentWeapon;
-    public GameObject cameraPrefab;
+
     private CameraHandler cameraHandler;
     private MatchController controller;
 
@@ -262,8 +263,8 @@ public class PlayerController : MonoBehaviour
 
 
             isGrounded = false;
-            Vector3 TopSphere = transform.position + new Vector3(0, capsule.height / 2 - capsule.radius, 0);
-            Vector3 BotSphere = transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0);
+            Vector3 TopSphere = transform.position + new Vector3(0, (capsule.height / 2 - capsule.radius) + 0.5f, 0) + capsule.center; //0.5f is additional offset because capsule does not reach head.
+            Vector3 BotSphere = transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0) + capsule.center;
             /*Collision Calc*/
             {
                 int ohshitcounter = 0;
@@ -335,6 +336,7 @@ public class PlayerController : MonoBehaviour
                         break;
                     }
                 }
+                playerAnim.SetBool("isGrounded", isGrounded);
             }
 
             if(Physics.CheckCapsule(TopSphere, BotSphere, capsule.radius, raycastLayerMask))
@@ -434,16 +436,16 @@ public class PlayerController : MonoBehaviour
 
             case "LeftVertical":
                 tempVel += -transform.forward * magnitude * playerSpeed;
-                break;
-
-                    playerAnim.SetBool("isMoving", true);
-                    playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
-                    if (isRunning)
-                        playerAnim.SetFloat("forward", -magnitude);
+                playerAnim.SetBool("isMoving", true);
+                playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
+                if (isRunning)
+                    playerAnim.SetFloat("forward", -magnitude);
                 movingTimer = 0;
+                break;                
             case "A":
                 if(isGrounded)
                 {
+                    playerAnim.SetTrigger("isJumping");
                     velocity.y += JumpVelocity;
                     FMODUnity.RuntimeManager.PlayOneShotAttached(jumpSE, gameObject);
                     isGrounded = false;

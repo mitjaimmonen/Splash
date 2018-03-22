@@ -106,7 +106,6 @@ public class ParticleLauncher : MonoBehaviour {
 				{
 					splashTimer = 0;		
 					particleDecal.ParticleHit (collisionEvents [i]);
-					Debug.Log(splashTimer + collisionEvents[i].colliderComponent.gameObject.name);
 					if (splatterParticleSystem != null)
 						EmitSplashAtCollisionPoint(collisionEvents[i]);
 				}

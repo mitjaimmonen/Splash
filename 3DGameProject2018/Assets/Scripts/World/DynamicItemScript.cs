@@ -6,7 +6,7 @@ public class DynamicItemScript : MonoBehaviour {
 
 	public int health = 10;
 	public float explosionForce = 1f;
-	public bool isDestroyable, isMovable, isMovableOnDestroy;
+	public bool isDestroyable, isMovable, isMovableOnDestroy, randomizeStartRotation = false;
 	public Collider mainCollider;
 	public GameObject[] ObjectsToDisableOnDestroy;
 
@@ -33,6 +33,10 @@ public class DynamicItemScript : MonoBehaviour {
 				mainRigidbody = child;
 			else
 				childRigidbodies.Add(child);
+		}
+		if (randomizeStartRotation)
+		{
+			transform.rotation = Quaternion.Euler(Random.Range(0,360), Random.Range(0,360), Random.Range(0,360));
 		}
 
 	}
