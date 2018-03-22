@@ -58,13 +58,19 @@ public class PlayerController : MonoBehaviour
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1f;
     public bool invertSensV = false;
+    public Vector3 tempVel;
     public float JumpVelocity = 1f;
     public float gravity = 5f;
     public float maxVelocity;
-    private float currentVerticalVelocity = 0;
     private bool isGrounded = true, isRunning = false;
     public float walkSpeed = 7f;
     public float runMultiplier = 1.5f;
+    public float maxSlope = 60;
+    public float stepHeight = 0;
+    private Vector3 velocity = new Vector3(0, 0, 0);
+    private Transform prevPosition;
+    private Transform thisPosition;
+    private CapsuleCollider capsule;
     //possibly a list of who damaged you as well so we could give people assists and stuff
     //wed have to run off a points system that way so id rather keep it to k/d right now or time because they are both easy
 
@@ -221,6 +227,7 @@ public class PlayerController : MonoBehaviour
     {
         rotationH = transform.localEulerAngles.y;
         hud.UpdateAmmo();
+        capsule = GetComponent<CapsuleCollider>();
     }
 
     //apply Gravity
@@ -230,36 +237,122 @@ public class PlayerController : MonoBehaviour
     {
         //Timers
         runningTimer += Time.deltaTime;
+        velocity += tempVel * Time.deltaTime;
+        tempVel = Vector3.zero;
         movingTimer += Time.deltaTime;
-
-
 
         if (!controller.isPaused)
         {
             if (transform.position.y < -50f)
-                controller.Spawn(playerNumber);            
+                controller.Spawn(playerNumber);
 
-            if(!isGrounded)
+            prevPosition = thisPosition;
+            thisPosition = transform;
+            /*Problems left:(/ == think its fixxed X = definitly fixed)
+             * [/]when hitting a 90degree meeting while jumping with the sphere of the collider it slows down y velocity
+             * []very occasional clipping when jumping into 90 with head and then pushing into the object
+             * []windowsils always clip???
+             * []some occasional thru floor(seems only infront of the first spawn when walking towards the house, possibly also only when looking down)
+             * []no real step function
+            */
+
+
+            /*GRAVITY*/
+            velocity.y -= gravity * Time.deltaTime;
+
+
+            isGrounded = false;
+            Vector3 TopSphere = transform.position + new Vector3(0, capsule.height / 2 - capsule.radius, 0);
+            Vector3 BotSphere = transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0);
+            /*Collision Calc*/
             {
-                currentVerticalVelocity -= gravity * Time.deltaTime;
-                Mathf.Clamp(currentVerticalVelocity, -maxVelocity, maxVelocity);
+                int ohshitcounter = 0;
                 RaycastHit hit;
-                if(!Physics.Raycast(transform.position, new Vector3(0, currentVerticalVelocity, 0), out hit, 1,raycastLayerMask))
+                Vector3 lastMoveVec;
+                while(Physics.CapsuleCast(
+                        TopSphere,//Capsule top sphere center
+                        BotSphere,//bottom sphere center
+                        capsule.radius,//Capsule Radius
+                        velocity.normalized,//Direction vector
+                        out hit,
+                        Mathf.Abs(velocity.magnitude),
+                        raycastLayerMask
+                        ))//Distance to cast
+                        
                 {
-                    transform.position += new Vector3(0, currentVerticalVelocity * Time.deltaTime, 0);
-                } else
-                {
-                    currentVerticalVelocity = 0;
-                    isGrounded = true;
-                }
+                    ohshitcounter++;//Loop count Tracker
+                    lastMoveVec = velocity;
 
-            } else
-            {
-                if(!Physics.Raycast(transform.position, new Vector3(0, 1, 0), 2, raycastLayerMask))
-                {
-                    isGrounded = false;
+                    //if we loop too much just exit and set velocity to just before collision and exit
+                    if(ohshitcounter == 10)
+                    {
+                        velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
+                        break;
+                    }
+
+                    Vector3 XZ = new Vector3(velocity.x, 0, velocity.z);
+                    if(hit.normal.y > maxSlope)
+                    {//Traversable slope
+                     //currently will step over anything less than 1/4th the radius of capsule
+                        Vector3 perpPlaneDir = Vector3.Cross(hit.normal, XZ);//this is a vector that will be parrallel to the slope but it will be perpindicular to the direction we want to go
+                        Vector3 planeDir = Vector3.Cross(perpPlaneDir, hit.normal);//This will be the an axis line of were we are walking, but we dont know if its forwards or backwards right now
+                        planeDir = planeDir * Mathf.Sign(Vector3.Dot(planeDir, XZ));//dot returns pos if they are headed in the same direction. so multiplying the planedir by its sign will give us the correct direction on the vector
+                        velocity = velocity.normalized * (hit.distance);//this will set velocity to go the un obstructed amount of the cast
+                        XZ -= new Vector3(velocity.x, 0, velocity.z);//this makes xv the remainder xv distance
+                        velocity += planeDir.normalized * XZ.magnitude;// / Mathf.Cos(Vector3.Angle(XV, planeDir.normalized)));//adds our plane direction of lenght xv if it were strethced to cover the same xv distance on our plane(so it doesnt slow down on slopes)
+                        velocity.y += Mathf.Sign(hit.normal.y) * .001f;
+                        isGrounded = true;
+                    //} else if(hit.normal.y < 0)) caused problems and it works fine without now because of changes so idk
+                    //{//jumping up into things just caps you there
+                    //    velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
+                    //    velocity.y -= gravity * Time.deltaTime;
+                    } else
+                    {//Wall or too steep slope
+                        Vector3 parallelSide = Vector3.Cross(Vector3.up, hit.normal);
+                        Vector3 parallelDown = Vector3.Cross(parallelSide, hit.normal);
+                        parallelSide = parallelSide * Mathf.Sign(Vector3.Dot(parallelSide, XZ));
+                        float angle = Vector3.Angle(-new Vector3(velocity.x, 0, velocity.z).normalized, hit.normal);
+                        float VerticalRemainder = velocity.y;
+                        float XZPlaneRemainder = XZ.magnitude;
+                        velocity = velocity.normalized * (hit.distance);
+                        VerticalRemainder -= velocity.y;
+                        XZPlaneRemainder -= new Vector3(velocity.x, 0, velocity.z).magnitude;
+                        if(velocity.y <= 0)
+                        {
+                            velocity += parallelDown.normalized * Mathf.Abs(VerticalRemainder);
+                        } else
+                        {
+                            velocity.y += VerticalRemainder;
+                        }
+                        velocity += parallelSide.normalized * (XZPlaneRemainder * (angle / 90));
+                        velocity += hit.normal * .001f;
+                        isGrounded = false;
+                    }
+                    //if last position velocity was the same as the new calculation set velocity to just before collision and exit
+                    if(lastMoveVec == velocity)
+                    {
+                        velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
+                        break;
+                    }
                 }
             }
+
+            if(Physics.CheckCapsule(TopSphere, BotSphere, capsule.radius, raycastLayerMask))
+            {
+                Debug.Log("Triggered");
+                velocity = -velocity;
+            }
+            /*Apply Velocity*/
+            transform.position += velocity;
+
+
+            /*Next frame vertical velocity calculation & reset*/
+            {
+                velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
+                velocity.x = 0;
+                velocity.z = 0;
+            }
+
 
             if (runningTimer > 0.1f && isRunning)
             {
@@ -272,7 +365,6 @@ public class PlayerController : MonoBehaviour
                 playerAnim.SetBool("isMoving", false);
             }
         }
-        
     }
 
     //shoots, moves, interacts, shows scores, pauses if pressed button
@@ -332,36 +424,33 @@ public class PlayerController : MonoBehaviour
                         playerSpeed = walkSpeed * runMultiplier;
                     }
                 break;
+
             case "LeftHorizontal":
-                movingTimer = 0;
-                if(!Physics.Raycast(transform.position, new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed * Time.deltaTime,1))
-                {
+                tempVel += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed;
                     playerAnim.SetBool("isMoving", true);
                     playerAnim.SetFloat("sideways", magnitude);
-                    transform.position += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed * Time.deltaTime;
-                }
-                break;
-            case "LeftVertical":
                 movingTimer = 0;
-                if(!Physics.Raycast(transform.position, -transform.forward * magnitude * playerSpeed * Time.deltaTime, 1))
-                {
+                break;
+
+            case "LeftVertical":
+                tempVel += -transform.forward * magnitude * playerSpeed;
+                break;
+
                     playerAnim.SetBool("isMoving", true);
                     playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
                     if (isRunning)
                         playerAnim.SetFloat("forward", -magnitude);
-                    
-                    transform.position += -transform.forward * magnitude * playerSpeed * Time.deltaTime;
-                }
-                
-                break;
+                movingTimer = 0;
             case "A":
                 if(isGrounded)
                 {
+                    velocity.y += JumpVelocity;
                     FMODUnity.RuntimeManager.PlayOneShotAttached(jumpSE, gameObject);
                     currentVerticalVelocity = JumpVelocity;
                     isGrounded = false;
                 }
                 break;
+
             default:
                 break;
         }
@@ -369,8 +458,9 @@ public class PlayerController : MonoBehaviour
 
 
     public void PlatformJump(float multiplier) {
-            currentVerticalVelocity = JumpVelocity * multiplier;
-            isGrounded = false;
+        Debug.Log(multiplier);
+        velocity.y = JumpVelocity * multiplier;
+        isGrounded = false;
     }
 
 
