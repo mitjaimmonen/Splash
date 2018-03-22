@@ -446,7 +446,6 @@ public class PlayerController : MonoBehaviour
                 {
                     velocity.y += JumpVelocity;
                     FMODUnity.RuntimeManager.PlayOneShotAttached(jumpSE, gameObject);
-                    currentVerticalVelocity = JumpVelocity;
                     isGrounded = false;
                 }
                 break;
