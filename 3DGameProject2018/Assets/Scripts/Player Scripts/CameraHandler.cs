@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class CameraHandler : MonoBehaviour {
 
-    public GameObject target; //PlayerController sets this on instantiate.
-    private Camera currentCamera; 
+    [HideInInspector]
+    public GameObject target; //PlayerController sets this on instantiate
+    [HideInInspector]    
     public PlayerController playerController; // Playercontroller refers itself to this on instantiate.
+
+    private Camera currentCamera; 
     public float fovLerpTime = 0.2f;
-    public float forwardOffset = 0.1f, rotRadius = 0.1f;
+    public float forwardOffset = -0.1f, upOffset = -0.2f, rotRadius = 0.1f;
 
     private float fov, newFov, oldFov;
     private float fovTimer = 1f;
@@ -44,7 +47,8 @@ public class CameraHandler : MonoBehaviour {
 
         var pos = target.transform.position;
         Vector3 forw = playerController.transform.forward.normalized;
-        pos += forwardOffset * forw;
+        Vector3 up = playerController.transform.up.normalized;
+        pos += forwardOffset * forw + upOffset * up;
         forw = target.transform.forward.normalized;
         pos += rotRadius * forw;
 
@@ -59,7 +63,8 @@ public class CameraHandler : MonoBehaviour {
     {
         //Each camera has one cullingMask which no other camera has.
         //Can be used to show player specific in-world elements.
-        currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("Culling" + player);
+        // currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("Culling" + player);
+        currentCamera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Culling" + player));
 
         var rect = currentCamera.rect;
         fov = currentCamera.fieldOfView;

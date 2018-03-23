@@ -5,7 +5,7 @@ using UnityEngine;
 
 /********************************************
 * PlayerController
-* 
+*
 * Controls everything related to player
 *   - Hud & canvas
 *   - Weapon
@@ -23,11 +23,11 @@ public class PlayerController : MonoBehaviour
 
     // Used for testing canvasoverlay and setting camera viewport.
     [HideInInspector]
-    public int currentPlayers, playerNumber; 
-
-
+    public int currentPlayers, playerNumber;
     [HideInInspector]
     public float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -60f;
+
+
     private int currentHealth;
     private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
@@ -37,13 +37,13 @@ public class PlayerController : MonoBehaviour
     private int currentDamage = 0;
     private float headshotMultiplier;
     private float runningTimer = 0, movingTimer = 0;
-    
+
 
     private int maxHealth = 100;
 
 
     //Classes
-    public CanvasOverlayHandler canvasOverlay;     
+    public CanvasOverlayHandler canvasOverlay;
     public GameObject playerHead, gunsParent; // Takes vertical rotation, also parents all guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
     public Weapon currentWeapon;
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
         public int ClipSize
         {
             get { return clipSize; }
-            set 
+            set
             {
                 if (value == clipSize)
                     return;
@@ -95,13 +95,13 @@ public class PlayerController : MonoBehaviour
                     clipSize = value;
 
                 hud.UpdateAmmo();
-                
+
             }
         }
         public int CurrentAmmo
         {
             get { return currentAmmo; }
-            set 
+            set
             {
                 if (value == currentAmmo)
                     return;
@@ -193,7 +193,7 @@ public class PlayerController : MonoBehaviour
             canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
             canvasOverlay.SetOverlay(currentPlayers);
         }
-        
+
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
         hud.playerController = this;
 
@@ -215,16 +215,16 @@ public class PlayerController : MonoBehaviour
         cameraHandler = playerCamera.GetComponent<CameraHandler>();
         cameraHandler.playerController = this;
         cameraHandler.target = playerHead; // Camera gets rotation from this.
-        
-        
+
+
 
         cameraHandler.SetViewport(currentPlayers, playerNumber);
-
         currentWeapon.gameObject.SetActive(true);
-        
+        playerAnim.gameObject.layer = LayerMask.NameToLayer("Culling" + playerNumber);
+
     }
 
-    private void Start() 
+    private void Start()
     {
         rotationH = transform.localEulerAngles.y;
         hud.UpdateAmmo();
@@ -241,6 +241,9 @@ public class PlayerController : MonoBehaviour
         velocity += tempVel * Time.deltaTime;
         tempVel = Vector3.zero;
         movingTimer += Time.deltaTime;
+
+        gunsParent.transform.localPosition = transform.InverseTransformPoint(cameraHandler.transform.position);
+        gunsParent.transform.rotation = playerHead.transform.rotation;
 
         if (!controller.isPaused)
         {
@@ -279,7 +282,7 @@ public class PlayerController : MonoBehaviour
                         Mathf.Abs(velocity.magnitude),
                         raycastLayerMask
                         ))//Distance to cast
-                        
+
                 {
                     ohshitcounter++;//Loop count Tracker
                     lastMoveVec = velocity;
@@ -356,6 +359,8 @@ public class PlayerController : MonoBehaviour
             }
 
 
+                      
+
             if (runningTimer > 0.1f && isRunning)
             {
                 isRunning = false;
@@ -368,6 +373,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
 
     //shoots, moves, interacts, shows scores, pauses if pressed button
     public void InputHandle(string[] input)
@@ -390,7 +396,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Rotate(string axis, float magnitude) 
+    private void Rotate(string axis, float magnitude)
     {
         switch(axis)
         {
@@ -400,13 +406,13 @@ public class PlayerController : MonoBehaviour
                 transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);
                 break;
             case "RightVertical":
-                //Face gameObject only rotates vertically.            
+                //Face gameObject only rotates vertically.
                 if (invertSensV)
                     magnitude *= -1;
                 rotationV += magnitude * lookSensV * Time.deltaTime;
                 rotationV = Mathf.Clamp(rotationV, minRotV, maxRotV);
                 playerHead.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
-                gunsParent.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
+                // gunsParent.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
 
                 break;
         }
@@ -418,7 +424,7 @@ public class PlayerController : MonoBehaviour
         switch(axis)
         {
             case "L3":
-                    runningTimer = 0;            
+                    runningTimer = 0;
                     if (!isRunning)
                     {
                         isRunning = true;
@@ -441,7 +447,7 @@ public class PlayerController : MonoBehaviour
                 if (isRunning)
                     playerAnim.SetFloat("forward", -magnitude);
                 movingTimer = 0;
-                break;                
+                break;
             case "A":
                 if(isGrounded)
                 {

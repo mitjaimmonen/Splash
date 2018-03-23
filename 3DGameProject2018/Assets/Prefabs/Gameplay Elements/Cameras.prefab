@@ -108,8 +108,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1076863754956562}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.16}
+  m_LocalRotation: {x: -0, y: -0.38268343, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: 8.23019, y: -0.42722875, z: 31.73981}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4771095596107226}
@@ -122,7 +122,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626810101349316}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.16}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4771095596107226}
@@ -135,7 +135,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1351039918025734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.16}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4771095596107226}
@@ -147,8 +147,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1226101406417172}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.16}
+  m_LocalRotation: {x: -0, y: 0.71286523, z: -0, w: 0.7013011}
+  m_LocalPosition: {x: -30.12, y: -1.1154474, z: -2.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4771095596107226}
@@ -161,7 +161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1329517791347224}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.16}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4512059051016088}
@@ -185,17 +185,17 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
+    width: 0.5
     height: 1
   near clip plane: 0.1
   far clip plane: 70
-  field of view: 65
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294936575
+    m_Bits: 4294965247
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -231,7 +231,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294936575
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -267,7 +267,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294936575
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -291,19 +291,19 @@ Camera:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.5
     y: 0
-    width: 1
+    width: 0.5
     height: 1
   near clip plane: 0.1
   far clip plane: 70
-  field of view: 65
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294936575
+    m_Bits: 4294963199
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -389,8 +389,9 @@ MonoBehaviour:
   target: {fileID: 0}
   playerController: {fileID: 0}
   fovLerpTime: 0.2
-  forwardOffset: 0.225
-  rotRadius: 0.1
+  forwardOffset: -0.1
+  upOffset: -0.15
+  rotRadius: 0
 --- !u!114 &114154549000546710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -405,8 +406,9 @@ MonoBehaviour:
   target: {fileID: 0}
   playerController: {fileID: 0}
   fovLerpTime: 0.2
-  forwardOffset: 0.225
-  rotRadius: 0.1
+  forwardOffset: -0.1
+  upOffset: -0.15
+  rotRadius: 0
 --- !u!114 &114168662326135348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -445,8 +447,9 @@ MonoBehaviour:
   target: {fileID: 0}
   playerController: {fileID: 0}
   fovLerpTime: 0.2
-  forwardOffset: 0.225
-  rotRadius: 0.1
+  forwardOffset: -0.1
+  upOffset: -0.15
+  rotRadius: 0
 --- !u!114 &114515424991665912
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -473,8 +476,9 @@ MonoBehaviour:
   target: {fileID: 0}
   playerController: {fileID: 0}
   fovLerpTime: 0.2
-  forwardOffset: 0.225
-  rotRadius: 0.1
+  forwardOffset: -0.1
+  upOffset: -0.15
+  rotRadius: 0
 --- !u!114 &114892186422128446
 MonoBehaviour:
   m_ObjectHideFlags: 1
