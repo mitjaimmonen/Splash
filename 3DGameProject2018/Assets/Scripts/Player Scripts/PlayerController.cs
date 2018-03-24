@@ -201,6 +201,7 @@ public class PlayerController : MonoBehaviour
         CurrentHealth = maxHealth;
         playerSpeed = walkSpeed;
 
+        //Set own camera for players by their number. Scene already has 4 inactive cameras ready.
         GameObject playerCamera = null;
         Transform[] trans = GameObject.Find("Cameras").GetComponentsInChildren<Transform>(true);
         foreach (Transform t in trans) {
@@ -214,13 +215,15 @@ public class PlayerController : MonoBehaviour
         }
         cameraHandler = playerCamera.GetComponent<CameraHandler>();
         cameraHandler.playerController = this;
-        cameraHandler.target = playerHead; // Camera gets rotation from this.
-
-
-
+        cameraHandler.target = playerHead;
         cameraHandler.SetViewport(currentPlayers, playerNumber);
-        currentWeapon.gameObject.SetActive(true);
-        playerAnim.gameObject.layer = LayerMask.NameToLayer("Culling" + playerNumber);
+
+        currentWeapon = Instantiate(currentWeapon, transform.position, Quaternion.identity);
+        currentWeapon.playerController = this;
+        currentWeapon.transform.parent = gunsParent.transform;
+        currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
+        currentWeapon.Initialize();
+
 
     }
 
@@ -474,11 +477,16 @@ public class PlayerController : MonoBehaviour
     //looks if its in a collision sphere with a weapon
     //if yes swap weapon
     //if weapons are the same the one on ground disapears and you get full ammo
-    private void Interact()
+    public void SwapWeapon(GameObject newWeapon)
     {
+        Destroy(currentWeapon.gameObject);
+        currentWeapon = Instantiate(newWeapon, transform.position, Quaternion.identity).GetComponent<Weapon>();
+        currentWeapon.playerController = this;
+        currentWeapon.transform.parent = gunsParent.transform;
+        currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
+        currentWeapon.Initialize();
 
     }
-
 
     //simple take damage
     //if health is zero call respawn

@@ -26,7 +26,7 @@ public class ParticleLauncher : MonoBehaviour {
 
 
 
-	private void Awake()
+	private void Start()
 	{
 		particleDecal = GameObject.Find("DecalParticles").GetComponent<ParticleDecal>();
 		if (particleDecal == null)

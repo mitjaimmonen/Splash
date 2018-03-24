@@ -20,7 +20,6 @@ public class ParticleDecal : MonoBehaviour {
 	
 	public void ParticleHit(ParticleCollisionEvent colEvent)
 	{
-		Debug.Log("creating decal");
 		EmitDecalParticleAtPosition(colEvent, colorGradient);
 	}
 

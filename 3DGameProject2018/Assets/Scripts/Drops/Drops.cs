@@ -6,7 +6,8 @@ using FMOD.Studio;
 
 public enum PickupEnum {
     healthPickup,
-    ammoPickup
+    ammoPickup,
+    gunPickup
 }
 
 
@@ -25,6 +26,7 @@ public class Drops : MonoBehaviour {
     public int pickupValue;
     public PickupEnum pickupType = PickupEnum.healthPickup;
     private PlayerController playerController;
+    public GameObject pickupObjectIfAny;
 
     [FMODUnity.EventRef] public string pickupSE;
 
@@ -34,17 +36,13 @@ public class Drops : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider other)
-    {
-        playerController = other.GetComponent<PlayerController>();
-        Debug.Log("Collided with pickup. Name: " + pickupType);
-
+    {        
         if (other.gameObject.CompareTag("Player"))
         {
-            int tempHealth = playerController.CurrentHealth;
-            int tempAmmo = playerController.GlobalAmmo;
-
+            playerController = other.GetComponent<PlayerController>();
             if (pickupType == PickupEnum.healthPickup)
             {
+                int tempHealth = playerController.CurrentHealth;
                 playerController.CurrentHealth += pickupValue;
 
                 if (tempHealth != playerController.CurrentHealth)
@@ -58,6 +56,7 @@ public class Drops : MonoBehaviour {
             } 
             else if (pickupType == PickupEnum.ammoPickup)
             {
+                int tempAmmo = playerController.GlobalAmmo;
                 playerController.GlobalAmmo += pickupValue;
 
                 if (tempAmmo != playerController.GlobalAmmo)
@@ -67,6 +66,12 @@ public class Drops : MonoBehaviour {
                     
                     Destroy(this.gameObject);
                 }
+            }
+            else if (pickupType == PickupEnum.gunPickup)
+            {
+                playerController.SwapWeapon(pickupObjectIfAny);
+                Destroy(this.gameObject);
+                
             }
             
         }

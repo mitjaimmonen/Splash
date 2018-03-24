@@ -16,7 +16,6 @@ public class CameraCanvasScaler : CanvasScaler
      // The log base doesn't have any influence on the results whatsoever, as long as the same base is used everywhere.
      public const float kLogBase = 2;
      private Canvas canvas;
-	 private Camera currentCamera; // comment out when player controller done.
 
 	//  private PlayerController playerController;
      protected override void OnEnable()
@@ -25,13 +24,6 @@ public class CameraCanvasScaler : CanvasScaler
          if (canvas == null)
             canvas = GetComponent<Canvas>();
             
-		 currentCamera = FindObjectOfType<Camera>(); //comment out when player controller done
-		 if (canvas.worldCamera == null)
-		 {
-		 	canvas.worldCamera = currentCamera; //Comment out when player controller done.
-			// canvas.worldCamera = playerController.camera;
-
-		 }
          base.OnEnable();
      }
  

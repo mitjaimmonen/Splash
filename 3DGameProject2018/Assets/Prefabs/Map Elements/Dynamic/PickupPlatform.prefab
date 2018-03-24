@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4815852291693486}
   - component: {fileID: 108646171088941190}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Area Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4815449215535228}
   - component: {fileID: 108178523664331444}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Area Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4190569154188474}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 4191289295206382}
   - component: {fileID: 33991984342062940}
   - component: {fileID: 23271802894561622}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: pick up platform export final2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4646438320339282}
   - component: {fileID: 108472824948469934}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Area Light (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4181689519207860}
   - component: {fileID: 114981359564351386}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PickupPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4901479210601430}
   - component: {fileID: 108104822246136116}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Area Light (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,9 +129,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1769574499836652}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.54, y: -1.96, z: 4.31}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 33.34, y: 9.505, z: -18.76}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_Children:
   - {fileID: 4191289295206382}
   - {fileID: 4190569154188474}
@@ -286,7 +286,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -322,7 +322,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -358,7 +358,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -394,7 +394,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -418,5 +418,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickups:
   - {fileID: 1083878052978896, guid: 1e4ecddd8e34363408eaeeca3c151e1b, type: 2}
-  - {fileID: 1598849427160916, guid: 73d83a0a636bfd34a979d5c1a5e09fa5, type: 2}
   respawnTime: 15

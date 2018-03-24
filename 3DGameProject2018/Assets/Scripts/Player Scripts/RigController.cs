@@ -26,7 +26,6 @@ public class RigController : MonoBehaviour {
 	void LateUpdate () {
 		vRotation = playerController.rotationV;
 		Vector3 leftArmRot = leftRot;
-		Debug.Log(vRotation);
 		leftArmRot.x -= Mathf.Clamp(vRotation,-90, 25);
 		leftArm.localEulerAngles = leftArmRot;
 		

@@ -50,8 +50,12 @@ public class Weapon : MonoBehaviour {
     [Tooltip("How quickly gun rotates towards worldpoint that is in the middle of the camera viewport.")]
     public float rotationSpeed = 1f;
 
+    [Tooltip("What is the gun's local position under player's gunOrigin.")]
+    public Vector3 localPositionOffset;
 
-    private PlayerController playerController;
+
+    [HideInInspector]
+    public PlayerController playerController;
     private Animator gunAnim;
     private ParticleSystem waterParticles;
     private ParticleLauncher particleLauncher;
@@ -81,9 +85,9 @@ public class Weapon : MonoBehaviour {
     #endregion
 
 
-    public void Awake()
+    public void Initialize()
     {
-        playerController = GetComponentInParent<PlayerController>();
+        gameObject.SetActive(true);
         waterParticles = gameObject.GetComponentInChildren<ParticleSystem>();
         particleLauncher = waterParticles.GetComponent<ParticleLauncher>();
         gunAnim = gameObject.GetComponentInChildren<Animator>();
@@ -91,20 +95,23 @@ public class Weapon : MonoBehaviour {
         shootSpeed = waterParticles.main.startSpeedMultiplier;
 
         currentClipAmmo = clipSize;
-        playerController.CurrentAmmo = currentClipAmmo;
+        if (playerController == null)
+            playerController = GetComponentInParent<PlayerController>();
+        
         playerController.ClipSize = clipSize;
+        playerController.CurrentAmmo = currentClipAmmo;
         playerController.CurrentDamage = damage;
         particleLauncher.HeadshotMultiplier = headshotMultiplier;
 
     }
 
-    void OnEnable() {
-        playerController.currentWeapon = this;
-        playerController.CurrentAmmo = currentClipAmmo;
-        playerController.ClipSize = clipSize;
-        playerController.CurrentDamage = damage;        
-        // playerController.ShotUsage = shotUsage;
-    }
+    // void OnEnable() {
+    //     playerController.currentWeapon = this;
+    //     playerController.CurrentAmmo = currentClipAmmo;
+    //     playerController.ClipSize = clipSize;
+    //     playerController.CurrentDamage = damage;        
+    //     // playerController.ShotUsage = shotUsage;
+    // }
     private void Update()
     {
 
