@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     public GameObject cameraPrefab;
     private CameraHandler cameraHandler;
     private MatchController controller;
-
+    public PlayerStats stats = new PlayerStats();
 
     public Animator playerAnim;
     public LayerMask raycastLayerMask;
@@ -228,6 +228,7 @@ public class PlayerController : MonoBehaviour
         rotationH = transform.localEulerAngles.y;
         hud.UpdateAmmo();
         capsule = GetComponent<CapsuleCollider>();
+        stats.player = playerNumber;
     }
 
     //apply Gravity
@@ -237,14 +238,18 @@ public class PlayerController : MonoBehaviour
     {
         //Timers
         runningTimer += Time.deltaTime;
-        velocity += tempVel * Time.deltaTime;
+        velocity += new Vector3(tempVel.x*Time.deltaTime, tempVel.y, tempVel.z * Time.deltaTime);
         tempVel = Vector3.zero;
         movingTimer += Time.deltaTime;
 
         if (!controller.isPaused)
         {
-            if (transform.position.y < -50f)
+            if(transform.position.y < -50f)
+            {
                 controller.Spawn(playerNumber);
+                stats.deaths += 1;
+            }
+                
 
             prevPosition = thisPosition;
             thisPosition = transform;
@@ -474,7 +479,7 @@ public class PlayerController : MonoBehaviour
 
     //simple take damage
     //if health is zero call respawn
-    public void TakeDamage(int damage, Vector3 origin)
+    public void TakeDamage(int damage, Vector3 origin,PlayerController DamageDealer)
     {
 
         hud.TakeDamage(origin);
@@ -483,6 +488,8 @@ public class PlayerController : MonoBehaviour
         if(currentHealth<1)
         {
             controller.Spawn(playerNumber);
+            DamageDealer.stats.kills += 1;
+            stats.deaths += 1;
         }
     }
 

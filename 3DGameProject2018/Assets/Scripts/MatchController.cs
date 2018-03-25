@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MatchController : MonoBehaviour, IController
 {
+    public int maxKills = 10;
 
     public GameObject playerPrefab;
     public GameObject[] playerSpawns;
@@ -47,13 +48,31 @@ public class MatchController : MonoBehaviour, IController
 
     public void Update()
     {
+        if(stateHandler.options.mode == GameMode.DeathMatch)
+        {
+            for(int i = 0; i < stateHandler.players; i++)
+            {
+                if(instantiatedPlayers[i].stats.kills >= maxKills)
+                {
+                    EndMatch();
+                    
+                }
+                
+            }
+        }
         //depending on game mode look for exit condition
         //ie time if not paused, or cycle players and look for a kill count
         //timed deathmatch will be fixxed for now but later we can add a condition if timed death is selected to add a slider option after for the duration of like 5 to 60 or something
         //also check all spawn objects and if theyve been ampty for x time spawn a new one
     }
 
-
+    private void EndMatch() {
+        for(int i = 0; i < stateHandler.players; i++)
+        {
+            stateHandler.stats.Add(instantiatedPlayers[i].stats);
+        }
+        stateHandler.ChangeState(State.EndMenu);
+    }
 
     public void InputHandle(string[] input)
     {

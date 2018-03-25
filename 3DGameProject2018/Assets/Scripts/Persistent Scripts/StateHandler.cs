@@ -28,7 +28,7 @@ public class StateHandler : MonoBehaviour
     public State state;//Current State
     private const int CONTROLLERCOUNT = 4;
     private GamePadState[] gamepads = new GamePadState[4];
-
+    public List<PlayerStats> stats = new List<PlayerStats>();
 
 
     //Makes sure no duplicate state handler, and temporary launches straight to map
@@ -97,8 +97,31 @@ public class StateHandler : MonoBehaviour
                 break;
         }
     }
-    
 
+    public void Sort() {
+        List<PlayerStats> temp = new List<PlayerStats>();
+        int length = temp.Count;
+        for(int i = 0; i < length; i++)
+        {
+            int highest = FindHighest(stats);
+            temp.Add(stats[highest]);
+            stats.RemoveAt(highest);
+        }
+        stats = temp;
+    }
+    private int FindHighest(List<PlayerStats> temp) {
+        int index = 0;
+        int kills = 0;
+        for(int i = 0; i < temp.Count; i++)
+        {
+            if(temp[i].kills > kills)
+            {
+                kills = temp[i].kills;
+                index = i;
+            }
+        }
+        return index;
+    }
 
 
     void Update()
@@ -115,7 +138,6 @@ public class StateHandler : MonoBehaviour
             }
         }
     }
-
 
     /// <summary>
     /// Listens for all inputs and passes to current controller

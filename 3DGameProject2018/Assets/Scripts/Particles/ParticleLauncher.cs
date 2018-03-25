@@ -96,7 +96,7 @@ public class ParticleLauncher : MonoBehaviour {
 						{
 							Debug.Log("Particle hit player");
 							thisPlayerController.DealDamage();
-							otherPlayerController.TakeDamage(currentDamage, thisPlayerController.transform.position);
+							otherPlayerController.TakeDamage(currentDamage, thisPlayerController.transform.position, thisPlayerController);
 							damageTimer = 0;
 							
 						}

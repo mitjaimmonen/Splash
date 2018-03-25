@@ -1863,7 +1863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayers: 2
-  playerNumber: 0
+  playerNumber: 1
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
     type: 2}
   playerHead: {fileID: 1590808485326396}
@@ -1871,17 +1871,18 @@ MonoBehaviour:
   hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
   currentWeapon: {fileID: 114544134212063886}
   cameraPrefab: {fileID: 0}
+  stats: {fileID: 0}
   playerAnim: {fileID: 95753283529642684}
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  HitmarkerSE: event:/Water Collisions/Hitmarker
-  jumpSE: event:/Character Movement/Jump
+  HitmarkerSE: 
+  jumpSE: 
   lookSensV: 180
   lookSensH: 200
   invertSensV: 0
   tempVel: {x: 0, y: 0, z: 0}
-  JumpVelocity: 0.3
+  JumpVelocity: 0.5
   gravity: 1
   maxVelocity: 1
   walkSpeed: 7
@@ -1934,9 +1935,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 504aaa145ccd715479efd3fc6c987cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageInterval: 0
+  damageInterval: 0.09
   maxLoopCount: 20
-  ignoreTimers: 1
+  ignoreTimers: 0
 --- !u!114 &114544134212063886
 MonoBehaviour:
   m_ObjectHideFlags: 1
