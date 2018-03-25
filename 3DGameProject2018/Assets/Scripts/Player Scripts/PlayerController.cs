@@ -250,8 +250,6 @@ public class PlayerController : MonoBehaviour
 
         if (!controller.isPaused)
         {
-            if (transform.position.y < -50f)
-                controller.Spawn(playerNumber);
 
             prevPosition = thisPosition;
             thisPosition = transform;
@@ -377,6 +375,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.layer == LayerMask.NameToLayer("Water"))
+            controller.Spawn(playerNumber);
+            
+    }
 
     //shoots, moves, interacts, shows scores, pauses if pressed button
     public void InputHandle(string[] input)
@@ -479,12 +483,17 @@ public class PlayerController : MonoBehaviour
     //if weapons are the same the one on ground disapears and you get full ammo
     public void SwapWeapon(GameObject newWeapon)
     {
-        Destroy(currentWeapon.gameObject);
-        currentWeapon = Instantiate(newWeapon, transform.position, Quaternion.identity).GetComponent<Weapon>();
-        currentWeapon.playerController = this;
-        currentWeapon.transform.parent = gunsParent.transform;
-        currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
-        currentWeapon.Initialize();
+        GlobalAmmo += currentAmmo; // Add current clip ammo to global before filling the clip
+        if (newWeapon.name != currentWeapon.gameObject.name)
+        {
+            Destroy(currentWeapon.gameObject);
+            currentWeapon = Instantiate(newWeapon, transform.position, transform.rotation).GetComponent<Weapon>();
+            currentWeapon.playerController = this;
+            currentWeapon.transform.parent = gunsParent.transform;
+            currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
+            currentWeapon.Initialize();
+        }
+
 
     }
 

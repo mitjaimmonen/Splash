@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4815852291693486}
   - component: {fileID: 108646171088941190}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Area Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4815449215535228}
   - component: {fileID: 108178523664331444}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Area Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4190569154188474}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 4191289295206382}
   - component: {fileID: 33991984342062940}
   - component: {fileID: 23271802894561622}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: pick up platform export final2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4646438320339282}
   - component: {fileID: 108472824948469934}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Area Light (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4181689519207860}
   - component: {fileID: 114981359564351386}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: PickupPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4901479210601430}
   - component: {fileID: 108104822246136116}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Area Light (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

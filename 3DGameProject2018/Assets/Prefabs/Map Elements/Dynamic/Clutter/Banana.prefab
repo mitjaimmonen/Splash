@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114480846599763334}
   - component: {fileID: 54194664027958900}
   - component: {fileID: 136291662721521362}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Banana
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4557373098034570}
   - component: {fileID: 33982080986857242}
   - component: {fileID: 23960234387957834}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: banana
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -102,14 +102,14 @@ public class ParticleLauncher : MonoBehaviour {
 						}
 					}
 				}
-				else if (splashTimer > 0.025f || ignoreTimers )
+				if (splashTimer > 0.025f || ignoreTimers )
 				{
 					splashTimer = 0;		
 					particleDecal.ParticleHit (collisionEvents [i]);
 					if (splatterParticleSystem != null)
 						EmitSplashAtCollisionPoint(collisionEvents[i]);
 				}
-				else if (clutterHitTimer > 0.09f || ignoreTimers)
+				if (clutterHitTimer > 0.09f || ignoreTimers)
 				{
 					clutterHitTimer = 0;
 					if (collisionEvents[i].colliderComponent.gameObject.tag == "Dynamic Elements" )

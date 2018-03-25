@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4300619826176362}
   - component: {fileID: 33257846929421686}
   - component: {fileID: 23058696789734450}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GardenFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +158,7 @@ MonoBehaviour:
   isDestroyable: 1
   isMovable: 0
   isMovableOnDestroy: 1
+  randomizeStartRotation: 0
   mainCollider: {fileID: 65688345047642570}
   ObjectsToDisableOnDestroy: []
   destroySE: 

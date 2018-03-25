@@ -4410,7 +4410,8 @@ GameObject:
   - component: {fileID: 1310714725}
   - component: {fileID: 1310714724}
   - component: {fileID: 1310714722}
-  m_Layer: 10
+  - component: {fileID: 1310714726}
+  m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4471,6 +4472,18 @@ Transform:
   m_Father: {fileID: 959336111}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1310714726
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310714721}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 1, z: 10}
+  m_Center: {x: 0, y: -0.7, z: 0}
 --- !u!4 &1345414892 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4583276037969712, guid: 1f8e2b06a3e29294d94e84ff1daee128,

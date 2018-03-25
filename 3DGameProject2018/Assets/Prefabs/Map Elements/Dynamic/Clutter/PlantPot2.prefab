@@ -569,6 +569,7 @@ MonoBehaviour:
   isDestroyable: 1
   isMovable: 1
   isMovableOnDestroy: 0
+  randomizeStartRotation: 0
   mainCollider: {fileID: 65111111306598748}
   ObjectsToDisableOnDestroy:
   - {fileID: 1311409497899312}

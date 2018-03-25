@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114377211978194394}
   - component: {fileID: 54281180202544580}
   - component: {fileID: 136414006908069800}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Apple
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4429720518742274}
   - component: {fileID: 33221890575305958}
   - component: {fileID: 23866764360023638}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: apple
   m_TagString: Untagged
   m_Icon: {fileID: 0}

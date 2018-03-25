@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4039227568812900}
   - component: {fileID: 33040068264040180}
   - component: {fileID: 23671888807565382}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlantPot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,6 +157,7 @@ MonoBehaviour:
   isDestroyable: 0
   isMovable: 1
   isMovableOnDestroy: 0
+  randomizeStartRotation: 0
   mainCollider: {fileID: 65731456831752492}
   ObjectsToDisableOnDestroy: []
   destroySE: 

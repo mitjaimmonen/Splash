@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 135656171482579952}
   - component: {fileID: 23084184167177532}
   - component: {fileID: 114523475091719920}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ammoPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4886907194199660}
   - component: {fileID: 33471726599159702}
   - component: {fileID: 23709451201717046}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: bottle spin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 4473990719001916}
   - component: {fileID: 33044159931355000}
   - component: {fileID: 23117536027255646}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: halo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4612609912841554}
   - component: {fileID: 95580563463809354}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ammoPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,6 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupValue: 50
   pickupType: 1
+  pickupObjectIfAny: {fileID: 0}
   pickupSE: event:/Interactions/AmmoPickup
 --- !u!135 &135656171482579952
 SphereCollider:

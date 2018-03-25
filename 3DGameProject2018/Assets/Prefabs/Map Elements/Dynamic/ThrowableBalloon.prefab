@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4860918635037630}
   - component: {fileID: 95337643402985806}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: water_balloon_export
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4551325125396930}
   - component: {fileID: 137848907218881198}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: water ballon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4455748689138442}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ThrowableBalloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

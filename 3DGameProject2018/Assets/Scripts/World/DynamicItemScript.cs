@@ -73,6 +73,12 @@ public class DynamicItemScript : MonoBehaviour {
 			Destroy(gameObject);
 	}
 
+	private void OnTriggerEnter(Collider col)
+	{
+		if (col.gameObject.layer == LayerMask.NameToLayer("Water"))
+			Destroy(gameObject);
+	}
+
 
 	public void ParticleHit(Vector3 origin, Vector3 intersection)
 	{

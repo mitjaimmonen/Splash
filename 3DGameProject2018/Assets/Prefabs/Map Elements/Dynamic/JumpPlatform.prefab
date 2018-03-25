@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4460856941126726}
   - component: {fileID: 65937163427930010}
   - component: {fileID: 114256962212488438}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: JumpPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4939230140749728}
   - component: {fileID: 108686994210587548}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Spot light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 33456914088929382}
   - component: {fileID: 23390142481885720}
   - component: {fileID: 64667657389957110}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4147326750952016}
   - component: {fileID: 137001176399641102}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4676561321495800}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4255883414700786}
   - component: {fileID: 95951531919123642}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: trampoline export
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4810751927721670}
   - component: {fileID: 108802350387387466}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Spot light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

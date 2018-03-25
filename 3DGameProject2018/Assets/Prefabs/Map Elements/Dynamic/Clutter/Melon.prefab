@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114521716596638750}
   - component: {fileID: 54211709578549170}
   - component: {fileID: 136960586232901296}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Melon
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4946128674212724}
   - component: {fileID: 33469758164348172}
   - component: {fileID: 23683391124284254}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: melon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
