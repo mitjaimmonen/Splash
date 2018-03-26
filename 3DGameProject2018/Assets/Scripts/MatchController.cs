@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MatchController : MonoBehaviour, IController
 {
-    public int maxKills = 10;
+    public int maxKills = 1;
 
     public GameObject playerPrefab;
     public GameObject[] playerSpawns;
@@ -52,6 +52,7 @@ public class MatchController : MonoBehaviour, IController
         {
             for(int i = 0; i < stateHandler.players; i++)
             {
+                Debug.Log("player: " + i + " has " + instantiatedPlayers[i].stats.kills + " Kills");
                 if(instantiatedPlayers[i].stats.kills >= maxKills)
                 {
                     EndMatch();

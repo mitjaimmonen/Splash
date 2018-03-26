@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     public GameObject cameraPrefab;
     private CameraHandler cameraHandler;
     private MatchController controller;
-    public PlayerStats stats = new PlayerStats();
+    public PlayerStats stats;
 
     public Animator playerAnim;
     public LayerMask raycastLayerMask;
@@ -220,7 +220,10 @@ public class PlayerController : MonoBehaviour
         cameraHandler.SetViewport(currentPlayers, playerNumber);
 
         currentWeapon.gameObject.SetActive(true);
-        
+        stats = new PlayerStats();
+        Debug.Log(stats);
+        //stats.player = playerNumber;
+
     }
 
     private void Start() 
@@ -228,7 +231,7 @@ public class PlayerController : MonoBehaviour
         rotationH = transform.localEulerAngles.y;
         hud.UpdateAmmo();
         capsule = GetComponent<CapsuleCollider>();
-        stats.player = playerNumber;
+        
     }
 
     //apply Gravity
