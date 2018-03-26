@@ -80,7 +80,10 @@ public class ParticleLauncher : MonoBehaviour {
 							otherPlayerController = other.GetComponent<PlayerController>();
 							if (otherPlayerController == null)
 								otherPlayerController = other.GetComponentInParent<PlayerController>();
+							if (otherPlayerController == null)
+								continue;
 						}
+					Debug.Log("Particle hit player: " + otherPlayerController.gameObject.name);
 
 					if (otherPlayerController != thisPlayerController)
 					{
@@ -94,7 +97,6 @@ public class ParticleLauncher : MonoBehaviour {
 
 						if (ignoreTimers || damageTimer > 0.09f)
 						{
-							Debug.Log("Particle hit player");
 							thisPlayerController.DealDamage();
 							otherPlayerController.TakeDamage(currentDamage, thisPlayerController.transform.position);
 							damageTimer = 0;
@@ -109,7 +111,7 @@ public class ParticleLauncher : MonoBehaviour {
 					if (splatterParticleSystem != null)
 						EmitSplashAtCollisionPoint(collisionEvents[i]);
 				}
-				if (clutterHitTimer > 0.09f || ignoreTimers)
+				if (clutterHitTimer > 0.045f || ignoreTimers)
 				{
 					clutterHitTimer = 0;
 					if (collisionEvents[i].colliderComponent.gameObject.tag == "Dynamic Elements" )

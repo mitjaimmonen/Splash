@@ -28,17 +28,30 @@ public class PlayerController : MonoBehaviour
     public float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -60f;
 
 
+    #region Weapon
+        private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
+        private float headshotMultiplier;
+        private Weapon currentWeapon;
+        public List<Weapon> carriedWeapons;
+        [HideInInspector]
+        public Drops pickupDrop;
+        public int maxWeapons = 2;
+        private int weaponIndex = 0;
+        [Tooltip ("Switches to picked up weapon instantly.")]
+        public bool switchOnPickup;
+        [Tooltip ("Picks up new weapon instantly if space available")]
+        public bool autoPickup;
+        private bool pickupAllowed = false;
+    #endregion
+
+
     private int currentHealth;
-    private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
     private float playerSpeed;
     private Vector3 aimWorldPoint; // Where gun rotates towards.
     private bool isAimRaycastHit = false;
     private int currentDamage = 0;
-    private float headshotMultiplier;
-    private float runningTimer = 0, movingTimer = 0;
-
-
+    private float runningTimer = 0, movingTimer = 0, interactTimer = 0, pickupTimer = 0;
     private int maxHealth = 100;
 
 
@@ -46,10 +59,11 @@ public class PlayerController : MonoBehaviour
     public CanvasOverlayHandler canvasOverlay;
     public GameObject playerHead, gunsParent; // Takes vertical rotation, also parents all guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
-    public Weapon currentWeapon;
+
 
     private CameraHandler cameraHandler;
-    private MatchController controller;
+    [HideInInspector]
+    public MatchController controller;
 
 
     public Animator playerAnim;
@@ -218,11 +232,16 @@ public class PlayerController : MonoBehaviour
         cameraHandler.target = playerHead;
         cameraHandler.SetViewport(currentPlayers, playerNumber);
 
-        currentWeapon = Instantiate(currentWeapon, transform.position, Quaternion.identity);
+
+        weaponIndex = 0;
+        currentWeapon = Instantiate(carriedWeapons[weaponIndex], transform.position, transform.rotation);
+        currentWeapon.name = carriedWeapons[weaponIndex].name;
+        carriedWeapons[weaponIndex] = currentWeapon;
         currentWeapon.playerController = this;
         currentWeapon.transform.parent = gunsParent.transform;
         currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
         currentWeapon.Initialize();
+        currentWeapon.Activate();
 
 
     }
@@ -244,6 +263,8 @@ public class PlayerController : MonoBehaviour
         velocity += tempVel * Time.deltaTime;
         tempVel = Vector3.zero;
         movingTimer += Time.deltaTime;
+        interactTimer += Time.deltaTime;
+        pickupTimer += Time.deltaTime;
 
         gunsParent.transform.localPosition = transform.InverseTransformPoint(cameraHandler.transform.position);
         gunsParent.transform.rotation = playerHead.transform.rotation;
@@ -393,6 +414,20 @@ public class PlayerController : MonoBehaviour
         {
             Rotate(input[1],float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
         }
+        if (input[1] == "Y")
+        {
+            if (pickupAllowed && pickupDrop != null && pickupTimer > 0.1f)
+                PickupWeapon();
+            pickupTimer = 0;
+        }
+        if (input[1] == "R1")
+        {
+            if (interactTimer > 0.1f)
+            {
+                SwitchWeapon(1+weaponIndex);                
+            }
+            interactTimer = 0;
+        }
         if (input[1] == "R2")
         {
             currentWeapon.Shoot(float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
@@ -478,22 +513,112 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    //looks if its in a collision sphere with a weapon
-    //if yes swap weapon
-    //if weapons are the same the one on ground disapears and you get full ammo
-    public void SwapWeapon(GameObject newWeapon)
+
+
+
+
+    public void AllowPickup(Drops drop, bool isAllowed)
     {
-        GlobalAmmo += currentAmmo; // Add current clip ammo to global before filling the clip
-        if (newWeapon.name != currentWeapon.gameObject.name)
+        pickupDrop = drop;
+        pickupAllowed = isAllowed;
+
+        if (pickupAllowed)
         {
-            Destroy(currentWeapon.gameObject);
-            currentWeapon = Instantiate(newWeapon, transform.position, transform.rotation).GetComponent<Weapon>();
-            currentWeapon.playerController = this;
-            currentWeapon.transform.parent = gunsParent.transform;
-            currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
-            currentWeapon.Initialize();
+            if (autoPickup && pickupDrop != null)
+            {
+                PickupWeapon();
+            }
         }
 
+
+    }
+
+    //Switch weapon switches between carried weapons
+    public void SwitchWeapon(int index)
+    {
+        if (index > carriedWeapons.Count-1)
+            weaponIndex = 0;
+        else
+            weaponIndex = index;
+        if (currentWeapon != carriedWeapons[weaponIndex])
+        {
+            Debug.Log("SwitchWeapon. weaponIndex: " + weaponIndex + ", carriedWeapons.count: " + carriedWeapons.Count);
+            currentWeapon.Deactivate();
+            currentWeapon = carriedWeapons[weaponIndex];
+            currentWeapon.Activate();
+
+        } else if (currentWeapon == carriedWeapons[weaponIndex])
+            Debug.Log("currentWeapon: " + currentWeapon.name + ", index weapon: " + carriedWeapons[weaponIndex].name);
+        
+    }
+
+    //Swap weapon swaps current weapon to new and throws it current away
+    public void SwapWeapon()
+    {
+        Destroy(currentWeapon.gameObject);
+        carriedWeapons.RemoveAt(weaponIndex);
+
+        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny, transform.position, transform.rotation));
+        
+        currentWeapon = carriedWeapons[carriedWeapons.Count-1];
+        currentWeapon.transform.parent = gunsParent.transform;
+        currentWeapon.playerController = this;
+        currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
+        currentWeapon.Initialize(); // Picked up weapons need to set some initial values
+        currentWeapon.Activate(); //SwapWeapon makes swapped weapon current & active
+
+        Destroy(pickupDrop.gameObject);
+        weaponIndex = carriedWeapons.Count-1;
+    }
+
+    //Picks up weapon.
+    public void PickupWeapon()
+    {
+
+        foreach (var weapon in carriedWeapons)
+        {
+            Debug.Log(weapon.name);
+            Debug.Log(pickupDrop.pickupWeaponIfAny.name);
+            if (weapon.name == pickupDrop.pickupWeaponIfAny.name)
+            {
+                Debug.Log("Already have this weapon");
+                int oldAmmo = GlobalAmmo;
+                GlobalAmmo += (clipSize - currentAmmo); // Add current clip ammo to global
+                currentWeapon.CurrentClipAmmo = currentWeapon.ClipSize;
+                if (oldAmmo != GlobalAmmo)
+                {
+                    Destroy(pickupDrop.gameObject);
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+
+            }
+
+        }
+
+        if (carriedWeapons.Count < maxWeapons)
+        {
+            Destroy(pickupDrop.gameObject);
+
+            carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny.gameObject, transform.position, transform.rotation).GetComponent<Weapon>());
+            carriedWeapons[carriedWeapons.Count-1].gameObject.SetActive(false);
+            carriedWeapons[carriedWeapons.Count-1].transform.parent = gunsParent.transform;
+            carriedWeapons[carriedWeapons.Count-1].playerController = this;
+            carriedWeapons[carriedWeapons.Count-1].transform.localPosition = currentWeapon.localPositionOffset;
+            carriedWeapons[carriedWeapons.Count-1].Initialize();
+
+            
+            if (switchOnPickup)
+                SwitchWeapon(carriedWeapons.Count-1);
+        }
+        else if (!autoPickup)
+            SwapWeapon();
+
+
+        
 
     }
 

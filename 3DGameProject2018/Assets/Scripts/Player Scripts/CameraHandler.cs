@@ -181,7 +181,6 @@ public class CameraHandler : MonoBehaviour {
         newFov = fov*multiplier;
         oldFov = currentCamera.fieldOfView;
         fovTimer = 0;
-        Debug.Log("Calling again");        
         SetFov(oldFov, newFov);
     }
     private void SetFov(float oldFov, float newFov)

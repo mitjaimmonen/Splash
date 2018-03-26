@@ -1336,19 +1336,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayers: 2
-  playerNumber: 1
+  currentPlayers: 1
+  playerNumber: 0
   rotationV: 0
   rotationH: 0
   maxRotV: 80
   minRotV: -60
+  carriedWeapons:
+  - {fileID: 114651251365182740, guid: 56cca7690b8b018468bb41591ff435c9, type: 2}
+  pickupDrop: {fileID: 0}
+  maxWeapons: 1
+  switchOnPickup: 1
+  autoPickup: 0
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
     type: 2}
   playerHead: {fileID: 1590808485326396}
   gunsParent: {fileID: 1371622987980496}
   hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
-  currentWeapon: {fileID: 114651251365182740, guid: 56cca7690b8b018468bb41591ff435c9,
-    type: 2}
+  controller: {fileID: 0}
   playerAnim: {fileID: 95753283529642684}
   raycastLayerMask:
     serializedVersion: 2

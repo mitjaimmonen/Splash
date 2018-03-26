@@ -88,6 +88,7 @@ public class DynamicItemScript : MonoBehaviour {
 	private void TakeDamage(Vector3 origin, Vector3 intersection)
 	{
 		currentHealth -= 1;
+		Debug.Log("TakeDamage dynamic item. Current health: " + currentHealth);
 
         if (takeDamageSE != "")
 		{
