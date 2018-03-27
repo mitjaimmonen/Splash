@@ -34,7 +34,8 @@ public class PlayerController : MonoBehaviour
         private Weapon currentWeapon;
         public List<Weapon> carriedWeapons;
         [HideInInspector]
-        public Drops pickupDrop;
+        private Drops pickupDrop;
+        private WeaponData pickupData;
         public int maxWeapons = 2;
         private int weaponIndex = 0;
         [Tooltip ("Switches to picked up weapon instantly.")]
@@ -233,14 +234,18 @@ public class PlayerController : MonoBehaviour
         cameraHandler.SetViewport(currentPlayers, playerNumber);
 
 
+        //Create gun from the first item in carriedWeapons list & give parameters
         weaponIndex = 0;
         currentWeapon = Instantiate(carriedWeapons[weaponIndex], transform.position, transform.rotation);
-        currentWeapon.name = carriedWeapons[weaponIndex].name;
+        currentWeapon.name = carriedWeapons[weaponIndex].name; //Prevents name to be a "(clone)"
         carriedWeapons[weaponIndex] = currentWeapon;
         currentWeapon.playerController = this;
         currentWeapon.transform.parent = gunsParent.transform;
         currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
+
+        //Initialize basically a start function but had to be called after parameters are set
         currentWeapon.Initialize();
+        //Make weapon as current active weapon
         currentWeapon.Activate();
 
 
@@ -517,10 +522,11 @@ public class PlayerController : MonoBehaviour
 
 
 
-    public void AllowPickup(Drops drop, bool isAllowed)
+    public void AllowPickup(Drops drop, bool isAllowed, WeaponData data)
     {
         pickupDrop = drop;
         pickupAllowed = isAllowed;
+        pickupData = data;
 
         if (pickupAllowed)
         {
@@ -529,52 +535,10 @@ public class PlayerController : MonoBehaviour
                 PickupWeapon();
             }
         }
-
-
     }
 
-    //Switch weapon switches between carried weapons
-    public void SwitchWeapon(int index)
-    {
-        if (index > carriedWeapons.Count-1)
-            weaponIndex = 0;
-        else
-            weaponIndex = index;
-        if (currentWeapon != carriedWeapons[weaponIndex])
-        {
-            Debug.Log("SwitchWeapon. weaponIndex: " + weaponIndex + ", carriedWeapons.count: " + carriedWeapons.Count);
-            currentWeapon.Deactivate();
-            currentWeapon = carriedWeapons[weaponIndex];
-            currentWeapon.Activate();
-
-        } else if (currentWeapon == carriedWeapons[weaponIndex])
-            Debug.Log("currentWeapon: " + currentWeapon.name + ", index weapon: " + carriedWeapons[weaponIndex].name);
-        
-    }
-
-    //Swap weapon swaps current weapon to new and throws it current away
-    public void SwapWeapon()
-    {
-        Destroy(currentWeapon.gameObject);
-        carriedWeapons.RemoveAt(weaponIndex);
-
-        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny, transform.position, transform.rotation));
-        
-        currentWeapon = carriedWeapons[carriedWeapons.Count-1];
-        currentWeapon.transform.parent = gunsParent.transform;
-        currentWeapon.playerController = this;
-        currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
-        currentWeapon.Initialize(); // Picked up weapons need to set some initial values
-        currentWeapon.Activate(); //SwapWeapon makes swapped weapon current & active
-
-        Destroy(pickupDrop.gameObject);
-        weaponIndex = carriedWeapons.Count-1;
-    }
-
-    //Picks up weapon.
     public void PickupWeapon()
     {
-
         foreach (var weapon in carriedWeapons)
         {
             Debug.Log(weapon.name);
@@ -604,6 +568,8 @@ public class PlayerController : MonoBehaviour
             Destroy(pickupDrop.gameObject);
 
             carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny.gameObject, transform.position, transform.rotation).GetComponent<Weapon>());
+            CopyComponentValues<WeaponData>(pickupData, carriedWeapons[carriedWeapons.Count-1].gameObject);
+
             carriedWeapons[carriedWeapons.Count-1].gameObject.SetActive(false);
             carriedWeapons[carriedWeapons.Count-1].transform.parent = gunsParent.transform;
             carriedWeapons[carriedWeapons.Count-1].playerController = this;
@@ -615,12 +581,52 @@ public class PlayerController : MonoBehaviour
                 SwitchWeapon(carriedWeapons.Count-1);
         }
         else if (!autoPickup)
-            SwapWeapon();
-
-
-        
-
+            SwapWeapon();  
     }
+
+
+    //Switch weapon switches between carried weapons
+    public void SwitchWeapon(int index)
+    {
+        if (index > carriedWeapons.Count-1)
+            weaponIndex = 0;
+        else
+            weaponIndex = index;
+        if (currentWeapon != carriedWeapons[weaponIndex])
+        {
+            Debug.Log("SwitchWeapon. weaponIndex: " + weaponIndex + ", carriedWeapons.count: " + carriedWeapons.Count);
+            currentWeapon.Deactivate();
+            currentWeapon = carriedWeapons[weaponIndex];
+            currentWeapon.Activate();
+
+        } else if (currentWeapon == carriedWeapons[weaponIndex])
+            Debug.Log("currentWeapon: " + currentWeapon.name + ", index weapon: " + carriedWeapons[weaponIndex].name);
+        
+    }
+
+    //Swap weapon swaps current weapon to new and throws current away
+    public void SwapWeapon()
+    {
+        GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, currentWeapon.transform.position, transform.rotation);
+        CopyComponentValues<WeaponData>(currentWeapon.weaponData, swappedGunPickup);
+        Destroy(currentWeapon.gameObject);
+
+        carriedWeapons.RemoveAt(weaponIndex);
+        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny, transform.position, transform.rotation));
+        currentWeapon = carriedWeapons[carriedWeapons.Count-1];
+        CopyComponentValues<WeaponData>(pickupData, currentWeapon.gameObject);
+        currentWeapon.transform.parent = gunsParent.transform;
+        currentWeapon.playerController = this;
+        currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
+        currentWeapon.Initialize(); // Picked up weapons need to set some initial values
+        currentWeapon.Activate(); //SwapWeapon makes swapped weapon current & active
+
+        Destroy(pickupDrop.gameObject);
+        weaponIndex = carriedWeapons.Count-1;
+    }
+
+    //Picks up weapon.
+    
 
     //simple take damage
     //if health is zero call respawn
@@ -660,6 +666,42 @@ public class PlayerController : MonoBehaviour
     private void ReleaseEffect()
     {
 
+    }
+
+    // Component ReplaceOrCopyComponent(Component original, GameObject destination)
+    // {
+    //     System.Type type = original.GetType();
+
+    //     Component copy = destination.GetComponent(type);
+    //     if (copy)
+    //         Destroy(copy);
+    //     copy = destination.AddComponent(type);
+    //     // Copied fields can be restricted with BindingFlags
+    //     System.Reflection.FieldInfo[] fields = type.GetFields(); 
+    //     foreach (System.Reflection.FieldInfo field in fields)
+    //     {
+    //         field.SetValue(copy, field.GetValue(original));
+    //     }
+    //     return copy;
+    // }
+    T CopyComponentValues<T>(T original, GameObject destination) where T : Component
+    {
+         System.Type type = original.GetType();
+         var dst = destination.GetComponent(type) as T;
+         if (!dst) dst = destination.AddComponent(type) as T;
+         var fields = type.GetFields();
+         foreach (var field in fields)
+         {
+             if (field.IsStatic) continue;
+             field.SetValue(dst, field.GetValue(original));
+         }
+         var props = type.GetProperties();
+         foreach (var prop in props)
+         {
+             if (!prop.CanWrite || !prop.CanWrite || prop.Name == "name") continue;
+             prop.SetValue(dst, prop.GetValue(original, null), null);
+         }
+         return dst as T;
     }
 
 }

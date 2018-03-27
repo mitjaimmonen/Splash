@@ -28,11 +28,14 @@ public class Drops : MonoBehaviour {
     private PlayerController playerController;
     public Weapon pickupWeaponIfAny;
 
+    private WeaponData weaponData;
+
     [FMODUnity.EventRef] public string pickupSE;
 
 
     private void Awake()
     {
+        weaponData = GetComponent<WeaponData>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -69,7 +72,12 @@ public class Drops : MonoBehaviour {
             }
             else if (pickupType == PickupEnum.gunPickup)
             {
-                playerController.AllowPickup(this, true);
+                if (!weaponData)
+                {
+                    Debug.Log("Searching for weapon data in drop");
+                    weaponData = GetComponent<WeaponData>();
+                }
+                playerController.AllowPickup(this, true, weaponData);
                 
             }
             
@@ -82,7 +90,7 @@ public class Drops : MonoBehaviour {
             playerController = other.GetComponent<PlayerController>();
             if (pickupType == PickupEnum.gunPickup)
             {
-                playerController.AllowPickup(this, false);
+                playerController.AllowPickup(this, false, weaponData);
                 
             }
         }

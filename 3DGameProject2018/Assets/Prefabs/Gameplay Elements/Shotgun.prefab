@@ -55,6 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4969262406050422}
   - component: {fileID: 114902853403670186}
+  - component: {fileID: 114587173704028452}
   m_Layer: 8
   m_Name: Shotgun
   m_TagString: Untagged
@@ -208,6 +209,25 @@ MonoBehaviour:
   damageInterval: 0
   maxLoopCount: 20
   ignoreTimers: 1
+--- !u!114 &114587173704028452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1399383448485632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
+  headshotMultiplier: 1.25
+  currentClipAmmo: 100
+  clipSize: 100
+  shotUsage: 20
+  fireRate: 1.25
+  maxShootTime: 0
+  rotationSpeed: 3
 --- !u!114 &114711123594465960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -230,18 +250,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f2e03f750344843bac64097c4639d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 4
-  headshotMultiplier: 1.25
-  clipSize: 100
-  shotUsage: 20
-  fireRate: 1
-  maxShootTime: 0
-  reloadTime: 2
+  weaponData: {fileID: 114587173704028452}
+  weaponPickup: {fileID: 1276350154424002, guid: 04d48e2342624d346a2436ec5409acc2,
+    type: 2}
   autoReload: 1
   isContinuous: 0
-  rotationSpeed: 2
-  localPositionOffset: {x: 0.195, y: -0.265, z: 0.215}
   playerController: {fileID: 0}
+  localPositionOffset: {x: 0.195, y: -0.265, z: 0.215}
   shootSE: event:/Guns/Shotgun sounds
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: event:/Guns/EmptyShotgun

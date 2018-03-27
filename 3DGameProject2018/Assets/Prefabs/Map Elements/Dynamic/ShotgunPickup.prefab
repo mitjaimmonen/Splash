@@ -23,8 +23,9 @@ GameObject:
   - component: {fileID: 54228965795116086}
   - component: {fileID: 136856379495512262}
   - component: {fileID: 65138374364391096}
+  - component: {fileID: 114024175889803244}
   m_Layer: 15
-  m_Name: ShotgunPickup 1
+  m_Name: ShotgunPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,8 +141,27 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.2, z: 1}
+  m_Size: {x: 0.19, y: 0.26, z: 1}
   m_Center: {x: 0, y: -0.02, z: 0}
+--- !u!114 &114024175889803244
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1276350154424002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
+  headshotMultiplier: 1.25
+  currentClipAmmo: 100
+  clipSize: 100
+  shotUsage: 20
+  fireRate: 1.25
+  maxShootTime: 0
+  rotationSpeed: 5
 --- !u!114 &114473381003101896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,7 +187,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.41
-  m_Height: 1.65
+  m_Radius: 0.58
+  m_Height: 1.8
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}

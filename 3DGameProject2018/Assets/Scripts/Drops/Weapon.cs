@@ -21,38 +21,14 @@ using FMOD.Studio;
 
 public class Weapon : MonoBehaviour {
     //hold a sound and particle effect along with damage, clip, ammunition size and isshooting, timer, iscontinuous
-
-    [Tooltip("How much damage per shot.")]
-    public int damage = 5;
-    public float headshotMultiplier = 1.5f;
-
-    [Tooltip("How much water fits in a clip")]
-    public int clipSize = 100;
-
-    [Tooltip("How much one shot consumes water")]
-    public int shotUsage = 1;
-
-    [Tooltip("How long to wait until shoot input gets called again. E.g. 0.1f means shooting 10 rounds per second.")]
-    public float fireRate = 0.25f;
-
-    [Tooltip("This force-stops shooting after given time. Use isContinuous = true with this.")]
-    public float maxShootTime = 0;
-
-    [Tooltip("How long it takes to reload this gun.")]
-    public float reloadTime = 2f;
+    public WeaponData weaponData;
+    public GameObject weaponPickup;
 
     [Tooltip("Does weapon reload automatically when empty.")]
     public bool autoReload = true;
 
     [Tooltip("Is weapon burst or continuous (automatic) type.")]
     public bool isContinuous = true;
-
-    [Tooltip("How quickly gun rotates towards worldpoint that is in the middle of the camera viewport.")]
-    public float rotationSpeed = 1f;
-
-    [Tooltip("What is the gun's local position under player's gunOrigin.")]
-    public Vector3 localPositionOffset;
-
 
     [HideInInspector]
     public PlayerController playerController;
@@ -63,7 +39,9 @@ public class Weapon : MonoBehaviour {
     private ParticleSystem waterParticles;
     private ParticleLauncher particleLauncher;
     private bool isShooting, isReloading = false, isActive;
-    private int currentClipAmmo, currentGlobalAmmo;
+
+    [Tooltip("What is the gun's local position under player's gunOrigin.")]
+    public Vector3 localPositionOffset;
 
     //InputTimer checks if shoot trigger has been released
     //FirerateTimer checks the interval between shots
@@ -91,22 +69,22 @@ public class Weapon : MonoBehaviour {
 
         public int CurrentClipAmmo 
         {
-            get { return currentClipAmmo; }
+            get { return weaponData.currentClipAmmo; }
             set
             {
                 if (value < 0)
-                    currentClipAmmo = 0;
-                else if (value <= clipSize)
-                    currentClipAmmo = value;
-                else if (value > clipSize)
-                    currentClipAmmo = clipSize;
+                    weaponData.currentClipAmmo = 0;
+                else if (value <= weaponData.clipSize)
+                    weaponData.currentClipAmmo = value;
+                else if (value > weaponData.clipSize)
+                    weaponData.currentClipAmmo = weaponData.clipSize;
 
-                playerController.CurrentAmmo = currentClipAmmo;
+                playerController.CurrentAmmo = weaponData.currentClipAmmo;
             }
         }
         public int ClipSize
         {
-            get { return clipSize; }
+            get { return weaponData.clipSize; }
         }
 
     #endregion
@@ -115,6 +93,7 @@ public class Weapon : MonoBehaviour {
     public void Initialize()
     {
         Debug.Log("Weapon - Initialize called");
+        weaponData = GetComponent<WeaponData>();
         
         if (playerController == null)
             playerController = GetComponentInParent<PlayerController>();
@@ -132,8 +111,8 @@ public class Weapon : MonoBehaviour {
         if (!gunAnim)
             Debug.LogWarning("No Animator found!");
         
-        currentClipAmmo = clipSize;
         shootSpeed = waterParticles.main.startSpeedMultiplier;
+        // weaponData.currentClipAmmo = weaponData.clipSize;
         // playerController.ClipSize = clipSize;
         // playerController.CurrentAmmo = currentClipAmmo;
         // playerController.CurrentDamage = damage;
@@ -147,9 +126,9 @@ public class Weapon : MonoBehaviour {
         Debug.Log("Weapon - Activate called");
         if (playerController)
         {
-            playerController.ClipSize = clipSize;
-            playerController.CurrentAmmo = currentClipAmmo;
-            playerController.CurrentDamage = damage;
+            playerController.ClipSize = weaponData.clipSize;
+            playerController.CurrentAmmo = weaponData.currentClipAmmo;
+            playerController.CurrentDamage = weaponData.damage;
         }
         else
         {
@@ -158,12 +137,16 @@ public class Weapon : MonoBehaviour {
         }
         if (particleLauncher)
         {
-            particleLauncher.HeadshotMultiplier = headshotMultiplier;            
+            particleLauncher.HeadshotMultiplier = weaponData.headshotMultiplier;            
         }
         else
         {
             Debug.Log("No particle launcher on Activate. This should not happen.");
         }
+        if (!weaponData)
+            Debug.Log("No weaponData on Activate. This should not happen.");
+            
+            
         isActive = true;
         gameObject.SetActive(true);
 
@@ -191,7 +174,7 @@ public class Weapon : MonoBehaviour {
                 lookDirection = playerController.playerHead.transform.forward;
 
             lookRotation = Quaternion.LookRotation(lookDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
 
             //Updates sound position.
             shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
@@ -206,7 +189,7 @@ public class Weapon : MonoBehaviour {
                     
             }
 
-            if (autoReload && currentClipAmmo < shotUsage)
+            if (autoReload && weaponData.currentClipAmmo < weaponData.shotUsage)
             {
                 Debug.Log("Reloading?");
                 Reload();
@@ -231,7 +214,7 @@ public class Weapon : MonoBehaviour {
 
                 shootTimer = 0;
 
-                if (currentClipAmmo < shotUsage)
+                if (weaponData.currentClipAmmo < weaponData.shotUsage)
                 {
                     FMODUnity.RuntimeManager.PlayOneShotAttached(emptyMagSE, gameObject);
                     Debug.Log("empty mag sound");
@@ -241,9 +224,9 @@ public class Weapon : MonoBehaviour {
             inputTimer = 0;
 
 
-            if (fireRateTimer < fireRate)
+            if (fireRateTimer < weaponData.fireRate)
                 return;
-            if (currentClipAmmo < shotUsage || (maxShootTime != 0 && shootTimer > maxShootTime))
+            if (weaponData.currentClipAmmo < weaponData.shotUsage || (weaponData.maxShootTime != 0 && shootTimer > weaponData.maxShootTime))
             {
                 isShooting = false;
                 return;
@@ -268,6 +251,8 @@ public class Weapon : MonoBehaviour {
                 if(currentShootSpeed < 7)
                     currentShootSpeed = 7;
             }
+            else
+                currentShootSpeed = shootSpeed;
 
             main.startSpeed = currentShootSpeed;
             waterParticles.Play();
@@ -288,7 +273,7 @@ public class Weapon : MonoBehaviour {
             shootEI.getParameter("Magazine", out FMOD_Clip);
             shootEI.getParameter("Shooting", out FMOD_Shooting);
             FMOD_Shooting.setValue(input);
-            float clipPercentage = (float)currentClipAmmo / (float)clipSize * 100f;        
+            float clipPercentage = (float)weaponData.currentClipAmmo / (float)weaponData.clipSize * 100f;        
             FMOD_Clip.setValue(clipPercentage);
 
             FMOD.Studio.PLAYBACK_STATE playbackState;
@@ -301,15 +286,15 @@ public class Weapon : MonoBehaviour {
             }
 
 
-            currentClipAmmo -= shotUsage;
-            playerController.CurrentAmmo = currentClipAmmo;
+            weaponData.currentClipAmmo -= weaponData.shotUsage;
+            playerController.CurrentAmmo = weaponData.currentClipAmmo;
         }
     }
 
     public void Reload() {
         
         // When animations are fully implemented, clip & ammo are counted at the end of reload.
-        if (!isShooting && playerController.GlobalAmmo > 0 && !gunAnim.GetCurrentAnimatorStateInfo(0).IsName("reload") && currentClipAmmo < clipSize)
+        if (!isShooting && playerController.GlobalAmmo > 0 && !gunAnim.GetCurrentAnimatorStateInfo(0).IsName("reload") && weaponData.currentClipAmmo < weaponData.clipSize)
         {
             Debug.Log("Reload clip");
             gunAnim.SetBool("reload", true);
@@ -326,17 +311,17 @@ public class Weapon : MonoBehaviour {
 
     }
     public void AnimReloadEnded() {
-        int oldClipAmmo = currentClipAmmo;
-        currentGlobalAmmo = playerController.GlobalAmmo;
-        if (currentGlobalAmmo < (clipSize - oldClipAmmo))
-            currentClipAmmo += currentGlobalAmmo;
+        int oldClipAmmo = weaponData.currentClipAmmo;
+        int currentGlobalAmmo = playerController.GlobalAmmo;
+        if (currentGlobalAmmo < (weaponData.clipSize - oldClipAmmo))
+            weaponData.currentClipAmmo += currentGlobalAmmo;
         else
-            currentClipAmmo = clipSize;
+            weaponData.currentClipAmmo = weaponData.clipSize;
 
-        currentGlobalAmmo -= (currentClipAmmo - oldClipAmmo);
+        currentGlobalAmmo -= (weaponData.currentClipAmmo - oldClipAmmo);
         playerController.GlobalAmmo = currentGlobalAmmo;
         
-        playerController.CurrentAmmo = currentClipAmmo;
+        playerController.CurrentAmmo = weaponData.currentClipAmmo;
         
     }
     #endregion

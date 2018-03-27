@@ -3709,7 +3709,7 @@ Prefab:
     - target: {fileID: 114226994725315656, guid: 3d9d3542b6c7316469ffb162768cc004,
         type: 2}
       propertyPath: players
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d9d3542b6c7316469ffb162768cc004, type: 2}
@@ -4464,10 +4464,6 @@ Prefab:
     - target: {fileID: 4941879480817928, guid: 04d48e2342624d346a2436ec5409acc2, type: 2}
       propertyPath: m_RootOrder
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1276350154424002, guid: 04d48e2342624d346a2436ec5409acc2, type: 2}
-      propertyPath: m_Name
-      value: ShotgunPickup
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04d48e2342624d346a2436ec5409acc2, type: 2}
