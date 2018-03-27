@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
                     currentAmmo = 0;
                 else
                     currentAmmo = value;
-
+                Debug.Log("asd");
                 hud.UpdateAmmo();
             }
         }
@@ -546,10 +546,13 @@ public class PlayerController : MonoBehaviour
             if (weapon.name == pickupDrop.pickupWeaponIfAny.name)
             {
                 Debug.Log("Already have this weapon");
-                int oldAmmo = GlobalAmmo;
-                GlobalAmmo += (clipSize - currentAmmo); // Add current clip ammo to global
-                currentWeapon.CurrentClipAmmo = currentWeapon.ClipSize;
-                if (oldAmmo != GlobalAmmo)
+                int oldAmmo = pickupData.currentClipAmmo;
+                pickupData.currentClipAmmo -= (weapon.ClipSize - weapon.CurrentClipAmmo); // Add current clip ammo to global
+                weapon.CurrentClipAmmo = weapon.ClipSize;
+
+                int oldGlobalAmmo = GlobalAmmo;
+                GlobalAmmo += pickupData.currentClipAmmo;
+                if (oldGlobalAmmo != GlobalAmmo || oldAmmo != pickupData.currentClipAmmo)
                 {
                     Destroy(pickupDrop.gameObject);
                     return;
@@ -565,6 +568,7 @@ public class PlayerController : MonoBehaviour
 
         if (carriedWeapons.Count < maxWeapons)
         {
+            Debug.Log("New weapon picked up");
             Destroy(pickupDrop.gameObject);
 
             carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny.gameObject, transform.position, transform.rotation).GetComponent<Weapon>());
@@ -607,6 +611,7 @@ public class PlayerController : MonoBehaviour
     //Swap weapon swaps current weapon to new and throws current away
     public void SwapWeapon()
     {
+        Debug.Log("Swapping weapon");
         GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, currentWeapon.transform.position, transform.rotation);
         CopyComponentValues<WeaponData>(currentWeapon.weaponData, swappedGunPickup);
         Destroy(currentWeapon.gameObject);

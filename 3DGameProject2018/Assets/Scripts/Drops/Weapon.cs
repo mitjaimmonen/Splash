@@ -78,8 +78,8 @@ public class Weapon : MonoBehaviour {
                     weaponData.currentClipAmmo = value;
                 else if (value > weaponData.clipSize)
                     weaponData.currentClipAmmo = weaponData.clipSize;
-
-                playerController.CurrentAmmo = weaponData.currentClipAmmo;
+                if (isActive)
+                    playerController.CurrentAmmo = weaponData.currentClipAmmo;
             }
         }
         public int ClipSize
