@@ -1871,7 +1871,6 @@ MonoBehaviour:
   hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
   currentWeapon: {fileID: 114544134212063886}
   cameraPrefab: {fileID: 0}
-  stats: {fileID: 0}
   playerAnim: {fileID: 95753283529642684}
   raycastLayerMask:
     serializedVersion: 2
@@ -1888,7 +1887,8 @@ MonoBehaviour:
   walkSpeed: 7
   runMultiplier: 1.5
   maxSlope: 0.5
-  stepHeight: 0
+  climbSpeed: 1
+  stepHeight: 0.1
 --- !u!114 &114243893825775968
 MonoBehaviour:
   m_ObjectHideFlags: 1

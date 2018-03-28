@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 224785010409691542}
   - component: {fileID: 222301807911789944}
   - component: {fileID: 114899039791605260}
+  - component: {fileID: 114601628693116576}
   m_Layer: 5
   m_Name: Player stats
   m_TagString: Untagged
@@ -79,6 +80,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114601628693116576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1566475086686246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 667fe0d9a464e854096ed97d4ff82373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 114770488176570518}
+  kills: {fileID: 114722389833870486}
+  deaths: {fileID: 114996376096008426}
 --- !u!114 &114722389833870486
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -105,7 +120,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -138,7 +153,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -198,7 +213,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -281,10 +296,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -222, y: 48}
-  m_SizeDelta: {x: -540.8, y: -132.9}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 110, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224803938092504258
 RectTransform:

@@ -50,13 +50,12 @@ public class MatchController : MonoBehaviour, IController
     {
         if(stateHandler.options.mode == GameMode.DeathMatch)
         {
-            for(int i = 0; i < stateHandler.players; i++)
+            for(int i = 0; i < stateHandler.options.CurrentActivePlayers; i++)
             {
-                Debug.Log("player: " + i + " has " + instantiatedPlayers[i].stats.kills + " Kills");
                 if(instantiatedPlayers[i].stats.kills >= maxKills)
                 {
                     EndMatch();
-                    
+                    break;
                 }
                 
             }
@@ -68,7 +67,7 @@ public class MatchController : MonoBehaviour, IController
     }
 
     private void EndMatch() {
-        for(int i = 0; i < stateHandler.players; i++)
+        for(int i = 0; i < stateHandler.options.CurrentActivePlayers; i++)
         {
             stateHandler.stats.Add(instantiatedPlayers[i].stats);
         }
@@ -83,7 +82,6 @@ public class MatchController : MonoBehaviour, IController
         {
             if(input[1] == "Start")
             {
-                Debug.Log(input[2]);
                 Pause();
             } else
             {

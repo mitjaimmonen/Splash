@@ -61,7 +61,7 @@ public class StateHandler : MonoBehaviour
     /// </summary>
     private void FindController()
     {
-        var temp = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
+        IController temp = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
         if(temp != null)
         {
             controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<IController>();
@@ -92,6 +92,7 @@ public class StateHandler : MonoBehaviour
                 SceneManager.LoadScene("Level1");
                 break;
             case State.EndMenu:
+                SceneManager.LoadScene("EndScene");
                 break;
             default:
                 break;
@@ -100,14 +101,17 @@ public class StateHandler : MonoBehaviour
 
     public void Sort() {
         List<PlayerStats> temp = new List<PlayerStats>();
-        int length = temp.Count;
+        int length = stats.Count;
         for(int i = 0; i < length; i++)
         {
             int highest = FindHighest(stats);
             temp.Add(stats[highest]);
             stats.RemoveAt(highest);
         }
-        stats = temp;
+        for(int i = 0; i < temp.Count; i++)
+        {
+            stats.Add(temp[i]);
+        }
     }
     private int FindHighest(List<PlayerStats> temp) {
         int index = 0;
