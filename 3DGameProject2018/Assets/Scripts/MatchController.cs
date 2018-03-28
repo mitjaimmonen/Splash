@@ -16,6 +16,10 @@ public class MatchController : MonoBehaviour, IController
     public StateHandler stateHandler;
     public LayerMask PlayerLayerMask;
     public PauseMenu pause_menu;
+    private float gameTimer;
+    public float gameLength = 300;
+    public bool istimed = false;
+    public bool isKillLimit = false;
 
 
     //Initialize screens player and map
@@ -39,7 +43,17 @@ public class MatchController : MonoBehaviour, IController
 
             
         }
-                
+        if(stateHandler.options.maxKills != 0)
+        {
+            isKillLimit = true;
+            maxKills = (int)stateHandler.options.maxKills;
+        }
+        if(stateHandler.options.maxTime != 0)
+        {
+            istimed = true;
+            gameLength = 60*stateHandler.options.maxTime;//time 60 to convert minutes to seconds
+        }
+
         //adjust camera views for the current number of players
         //spawn players and add them to initializedplayers
     }
@@ -48,18 +62,26 @@ public class MatchController : MonoBehaviour, IController
 
     public void Update()
     {
-        if(stateHandler.options.mode == GameMode.DeathMatch)
-        {
-            for(int i = 0; i < stateHandler.options.CurrentActivePlayers; i++)
+        gameTimer += Time.deltaTime;
+        //if(stateHandler.options.mode == GameMode.DeathMatch)
+        //{
+            if(isKillLimit)
             {
-                if(instantiatedPlayers[i].stats.kills >= maxKills)
+                for(int i = 0; i < stateHandler.options.CurrentActivePlayers; i++)
                 {
-                    EndMatch();
-                    break;
+                    if(instantiatedPlayers[i].stats.kills >= maxKills)
+                    {
+                        EndMatch();
+                        break;
+                    }
+
                 }
-                
             }
-        }
+            if(gameTimer >= gameLength && istimed == true)
+            {
+                EndMatch();
+            }
+        ///}
         //depending on game mode look for exit condition
         //ie time if not paused, or cycle players and look for a kill count
         //timed deathmatch will be fixxed for now but later we can add a condition if timed death is selected to add a slider option after for the duration of like 5 to 60 or something

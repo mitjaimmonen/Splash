@@ -1,6 +1,8 @@
-﻿public enum GameMode
+﻿/*Enum*/
+public enum GameMode
 {
-    DeathMatch, TimedDeathMatch
+    //Enum For game mode
+    DeathMatch
 }
 public enum Map
 {
@@ -14,6 +16,8 @@ public enum Map
 public class MatchOptions {
 
     public GameMode mode = GameMode.DeathMatch;
+    public float maxTime = 3;
+    public float maxKills = 10;
     private int currentActivePlayers = 0;
     //[[player #, team, active, controller #]]
     private int[,] playerInfo = { {0, 0, 0, 0 },{ 1, 1, 0, 0 },{ 2, 2, 0, 0 },{ 3, 3, 0, 0 } };

@@ -294,7 +294,7 @@ public class PlayerController : MonoBehaviour
                     //if we loop too much just exit and set velocity to just before collision and exit
                     if(ohshitcounter == 10)
                     {
-                        Debug.Log("oh sheeet");
+                        Debug.Log("max loops");
                         velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
                         break;
                     }
@@ -303,16 +303,18 @@ public class PlayerController : MonoBehaviour
                     if(hit.normal.y > maxSlope)
                     {//Traversable slope
                      //currently will step over anything less than 1/4th the radius of capsule
+                        Debug.Log("floor");
                         Vector3 perpPlaneDir = Vector3.Cross(hit.normal, XZ);//this is a vector that will be parrallel to the slope but it will be perpindicular to the direction we want to go
                         Vector3 planeDir = Vector3.Cross(perpPlaneDir, hit.normal);//This will be the an axis line of were we are walking, but we dont know if its forwards or backwards right now
                         planeDir = planeDir * Mathf.Sign(Vector3.Dot(planeDir, XZ));//dot returns pos if they are headed in the same direction. so multiplying the planedir by its sign will give us the correct direction on the vector
                         velocity = velocity.normalized * (hit.distance);//this will set velocity to go the un obstructed amount of the cast
                         XZ -= new Vector3(velocity.x, 0, velocity.z);//this makes xv the remainder xv distance
                         velocity += planeDir.normalized * XZ.magnitude;// / Mathf.Cos(Vector3.Angle(XV, planeDir.normalized)));//adds our plane direction of lenght xv if it were strethced to cover the same xv distance on our plane(so it doesnt slow down on slopes)
-                        velocity.y += Mathf.Sign(hit.normal.y) * .01f;
+                        velocity.y += Mathf.Sign(hit.normal.y) * .001f;
                         isGrounded = true;
                     } else
                     {//Wall or too steep slope
+                        Debug.Log("wall");
                         if(Physics.CapsuleCast(
                         TopSphere,//Capsule top sphere center
                         BotSphere+new Vector3(0,stepHeight,0),//bottom sphere center
@@ -356,7 +358,7 @@ public class PlayerController : MonoBehaviour
                     if(lastMoveVec == velocity)
                     {
                         velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
-                        Debug.Log("same");
+                        Debug.Log("Same vector");
                         break;
                     }
                 }
