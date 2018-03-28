@@ -62,8 +62,7 @@ public class LastMenuController : MonoBehaviour {
 
 
 
-    /******************/
-    /*Public Functions*/
+    #region Public Functions
     /// <summary>
     /// Calls state changes to main menu
     /// </summary>
@@ -80,5 +79,5 @@ public class LastMenuController : MonoBehaviour {
         state.ChangeState(State.Game);
         state.stats.Clear();
     }
-
+    #endregion
 }

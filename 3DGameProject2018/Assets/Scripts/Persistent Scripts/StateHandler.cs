@@ -71,8 +71,8 @@ public class StateHandler : MonoBehaviour {
 
 
 
-    /******************/
-    /*Public Functions*/
+    #region Public Functions
+    
     /// <summary>
     /// Handles changing the game between scenes
     /// </summary>
@@ -112,11 +112,13 @@ public class StateHandler : MonoBehaviour {
             stats.Add(temp[i]);
         }
     }
+
+    #endregion
+
+
+
+    #region Private Functions
     
-
-
-    /*******************/
-    /*Private Functions*/
     /// <summary>
     /// Finds the Controller object in scene
     /// </summary>
@@ -257,6 +259,8 @@ public class StateHandler : MonoBehaviour {
             }
         }
     }
+
+    #endregion
 
 
 

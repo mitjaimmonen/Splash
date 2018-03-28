@@ -15,8 +15,8 @@ public class SliderNumber : MonoBehaviour {
 
 
 
-    /******************/
-    /*Public Functions*/
+    #region Public Functions
+
     /// <summary>
     /// Call on slider change to change a label for the number
     /// </summary>
@@ -31,5 +31,7 @@ public class SliderNumber : MonoBehaviour {
             text.text = slider.value.ToString();
         }
     }
+
+    #endregion
 
 }

@@ -63,8 +63,8 @@ public class MainMenuController : MonoBehaviour, IController {
 
 
 
-    /******************/
-    /*Public Functions*/
+    #region Public Functions
+
     /// <summary>
     /// Call state change to game
     /// Only works if there are active players
@@ -100,10 +100,13 @@ public class MainMenuController : MonoBehaviour, IController {
     {
         Application.Quit();
     }
+    
+    #endregion
 
 
-    /*******************/
-    /*Private Functions*/
+
+    #region Private Functions
+
     /// <summary>
     /// Binds controller to an activated player
     /// </summary>
@@ -128,7 +131,8 @@ public class MainMenuController : MonoBehaviour, IController {
             visualPlayerElements[currentplayer].text = "Press Start";
         }
     }
-
+    
+    #endregion
 
 
     /******************************
@@ -136,13 +140,10 @@ public class MainMenuController : MonoBehaviour, IController {
      *  Add settings prefab and
      *  ShowSettings function
      *  
-     ******************************/
     //Brings up settings menu prefab
     //changes the states current icontroller to the new settings
     //makes settings last controller to this object
-    private void ShowSettings()
-    {
-
-    }
-
+    private void ShowSettings(){}
+     ******************************/
+    
 }

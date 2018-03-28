@@ -4368,7 +4368,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 145be44a87bddf645a27ca98250678a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxKills: 1
   playerPrefab: {fileID: 1709318612409746, guid: b9c565a37b0c5f44780f16a180f2d103,
     type: 2}
   playerSpawns:
@@ -4376,17 +4375,14 @@ MonoBehaviour:
   - {fileID: 946403388}
   - {fileID: 1924357198}
   - {fileID: 1948198313}
-  weaponSpawns: []
-  dropSpawns: []
-  isPaused: 0
-  stateHandler: {fileID: 0}
   PlayerLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  pause_menu: {fileID: 987400299}
+  pauseMenu: {fileID: 987400299}
+  isTimed: 0
   gameLength: 300
-  istimed: 0
-  isKillLimit: 0
+  hasKillLimit: 0
+  maxKills: 1
 --- !u!4 &1770569033
 Transform:
   m_ObjectHideFlags: 0

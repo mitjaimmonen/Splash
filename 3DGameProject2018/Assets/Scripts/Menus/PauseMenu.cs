@@ -14,23 +14,23 @@ public class PauseMenu : MonoBehaviour {
 
 
 
-    /******************/
-    /*Public Functions*/
+    #region Public Functions
+
     /// <summary>
     /// Resumes game from pausing
     /// </summary>
     public void Resume() {
 
-        controller.isPaused = false;
+        controller.IsPaused = false;
         gameObject.SetActive(false);
     }
     /// <summary>
     /// State change to main menu
     /// </summary>
     public void MainMenu() {
-        controller.isPaused = false;
+        controller.IsPaused = false;
         gameObject.SetActive(false);
-        controller.stateHandler.ChangeState(State.MainMenu);
+        controller.StateHandler.ChangeState(State.MainMenu);
     }
     /// <summary>
     /// Quits Game to desktop
@@ -39,5 +39,7 @@ public class PauseMenu : MonoBehaviour {
     {
         Application.Quit();
     }
+
+    #endregion
 
 }

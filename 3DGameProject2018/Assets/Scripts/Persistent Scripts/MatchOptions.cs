@@ -1,4 +1,4 @@
-﻿/*Enum*/
+﻿/*Enums*/
 public enum GameMode
 {
     //Enum For game mode
@@ -6,8 +6,10 @@ public enum GameMode
 }
 public enum Map
 {
-    Map1
+    //Enum For Maps
+    Arena
 }
+
 /********************************************
  *  MatchOptions class
  * Class to hold all current match options
@@ -15,13 +17,19 @@ public enum Map
  */
 public class MatchOptions {
 
+    /******************/
+    /*Member Variables*/
     public GameMode mode = GameMode.DeathMatch;
+    public Map map = Map.Arena;
     public float maxTime = 3;
     public float maxKills = 10;
     private int currentActivePlayers = 0;
     //[[player #, team, active, controller #]]
     private int[,] playerInfo = { {0, 0, 0, 0 },{ 1, 1, 0, 0 },{ 2, 2, 0, 0 },{ 3, 3, 0, 0 } };
-    public Map map = Map.Map1;
+
+
+
+    #region Getters and Setters
 
     public int[,] PlayersInfo
     {
@@ -44,6 +52,11 @@ public class MatchOptions {
         }
     }
 
+    #endregion
+
+
+
+    #region Public Functions
 
     /// <summary>
     /// Enables the player of joy number and increments the players if the player wasn't already enabled.
@@ -70,7 +83,6 @@ public class MatchOptions {
         }
         return false;
     }
-
     /// <summary>
     /// Disables the player of joy number and decrements the players if the player isn't already disabled.
     /// </summary>
@@ -89,7 +101,6 @@ public class MatchOptions {
         }
         return false;
     }
-
     /// <summary>
     /// Finds the state of player at index passed
     /// </summary>
@@ -102,9 +113,6 @@ public class MatchOptions {
         }
         return false;
     }
-
-
-
     /// <summary>
     /// Get player info array of index player
     /// </summary>
@@ -120,6 +128,7 @@ public class MatchOptions {
         }
         return 0;
     }
+
+    #endregion
+
 }
-
-

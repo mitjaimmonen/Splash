@@ -17,15 +17,14 @@ using UnityEngine;
 *   NOTE:
 *   Move canvasOverlay to whichever class instantiates players.
 */
-
 public class PlayerController : MonoBehaviour
 {
 
+    /******************/
+    /*Member Variables*/
     // Used for testing canvasoverlay and setting camera viewport.
     [HideInInspector]
     public int currentPlayers, playerNumber; 
-
-
     private int currentHealth;
     private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
@@ -36,11 +35,7 @@ public class PlayerController : MonoBehaviour
     private int currentDamage = 0;
     private float headshotMultiplier;
     private float runningTimer = 0, movingTimer = 0;
-    
-
     private int maxHealth = 100;
-
-
     //Classes
     public CanvasOverlayHandler canvasOverlay;     
     public GameObject playerHead, gunsParent; // Takes vertical rotation, also parents all guns.
@@ -50,11 +45,9 @@ public class PlayerController : MonoBehaviour
     private CameraHandler cameraHandler;
     private MatchController controller;
     public PlayerStats stats;
-
     public Animator playerAnim;
     public LayerMask raycastLayerMask;
     [FMODUnity.EventRef] public string HitmarkerSE, jumpSE;
-
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1f;
     public bool invertSensV = false;
@@ -73,8 +66,8 @@ public class PlayerController : MonoBehaviour
     private CapsuleCollider capsule;
     //possibly a list of who damaged you as well so we could give people assists and stuff
     //wed have to run off a points system that way so id rather keep it to k/d right now or time because they are both easy
-
     private List<Effects> currentEffects;
+
 
 
     #region Getters & Setters
@@ -185,6 +178,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
+
+    /************************/
+    /*MonoBehavior Functions*/
     private void Awake()
     {
         if (!GameObject.FindGameObjectWithTag("HUD Overlay"))
@@ -192,7 +188,6 @@ public class PlayerController : MonoBehaviour
             canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
             canvasOverlay.SetOverlay(currentPlayers);
         }
-        
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
         hud.playerController = this;
 
@@ -214,18 +209,13 @@ public class PlayerController : MonoBehaviour
         cameraHandler = playerCamera.GetComponent<CameraHandler>();
         cameraHandler.playerController = this;
         cameraHandler.target = playerHead; // Camera gets rotation from this.
-        
-        
-
         cameraHandler.SetViewport(currentPlayers, playerNumber);
-
         currentWeapon.gameObject.SetActive(true);
         stats = new PlayerStats {
             player = playerNumber
         };
 
     }
-
     private void Start() 
     {
         rotationH = transform.localEulerAngles.y;
@@ -233,10 +223,7 @@ public class PlayerController : MonoBehaviour
         capsule = GetComponent<CapsuleCollider>();
         
     }
-
-    //apply Gravity
-    //do a sphere check for drops
-    //visually apply all current effects
+    //Physics
     private void Update()
     {
         //Timers
@@ -245,7 +232,7 @@ public class PlayerController : MonoBehaviour
         tempVel = Vector3.zero;
         movingTimer += Time.deltaTime;
 
-        if (!controller.isPaused)
+        if (!controller.IsPaused)
         {
             if(transform.position.y < -50f)
             {
@@ -394,6 +381,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+
+    /*****************/
+    /*Implementations*/
     //shoots, moves, interacts, shows scores, pauses if pressed button
     public void InputHandle(string[] input)
     {
@@ -414,6 +405,48 @@ public class PlayerController : MonoBehaviour
             currentWeapon.Reload();
         }
     }
+
+
+
+    #region Public Functions
+
+    public void PlatformJump(float multiplier)
+    {
+        Debug.Log(multiplier);
+        velocity.y = JumpVelocity * multiplier;
+        isGrounded = false;
+    }
+    //take damage if health is zero call respawn
+    public void TakeDamage(int damage, Vector3 origin, PlayerController DamageDealer)
+    {
+        hud.TakeDamage(origin);
+        CurrentHealth -= damage;
+        if(currentHealth < 1)
+        {
+            controller.Spawn(playerNumber);
+            DamageDealer.stats.kills += 1;
+            stats.deaths += 1;
+        }
+    }
+    //Gets called on particle collision
+    //Can be used for score system later on.
+    public void DealDamage()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(HitmarkerSE, gameObject);
+        hud.DealDamage();
+    }
+    public void Reset()
+    {
+        GlobalAmmo = maxGlobalAmmo + (ClipSize - CurrentAmmo);
+        CurrentHealth = maxHealth;
+        rotationH = transform.localEulerAngles.y;
+    }
+
+    #endregion
+
+
+
+    #region Private Functions
 
     private void Rotate(string axis, float magnitude) 
     {
@@ -436,26 +469,25 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-
     //apply nongravity movements
     private void Move(string axis, float magnitude)
     {
         switch(axis)
         {
             case "L3":
-                    runningTimer = 0;            
-                    if (!isRunning)
-                    {
-                        isRunning = true;
-                        cameraHandler.NewFov(1.2f);
-                        playerSpeed = walkSpeed * runMultiplier;
-                    }
+                runningTimer = 0;
+                if(!isRunning)
+                {
+                    isRunning = true;
+                    cameraHandler.NewFov(1.2f);
+                    playerSpeed = walkSpeed * runMultiplier;
+                }
                 break;
 
             case "LeftHorizontal":
                 tempVel += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed;
-                    playerAnim.SetBool("isMoving", true);
-                    playerAnim.SetFloat("sideways", magnitude);
+                playerAnim.SetBool("isMoving", true);
+                playerAnim.SetFloat("sideways", magnitude);
                 movingTimer = 0;
                 break;
 
@@ -463,10 +495,10 @@ public class PlayerController : MonoBehaviour
                 tempVel += -transform.forward * magnitude * playerSpeed;
                 break;
 
-                    playerAnim.SetBool("isMoving", true);
-                    playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
-                    if (isRunning)
-                        playerAnim.SetFloat("forward", -magnitude);
+                playerAnim.SetBool("isMoving", true);
+                playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
+                if(isRunning)
+                    playerAnim.SetFloat("forward", -magnitude);
                 movingTimer = 0;
             case "A":
                 if(isGrounded)
@@ -481,54 +513,6 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-
-
-    public void PlatformJump(float multiplier) {
-        Debug.Log(multiplier);
-        velocity.y = JumpVelocity * multiplier;
-        isGrounded = false;
-    }
-
-
-    //looks if its in a collision sphere with a weapon
-    //if yes swap weapon
-    //if weapons are the same the one on ground disapears and you get full ammo
-    private void Interact()
-    {
-
-    }
-
-
-    //simple take damage
-    //if health is zero call respawn
-    public void TakeDamage(int damage, Vector3 origin,PlayerController DamageDealer)
-    {
-
-        hud.TakeDamage(origin);
-
-        CurrentHealth -= damage;
-        if(currentHealth<1)
-        {
-            controller.Spawn(playerNumber);
-            DamageDealer.stats.kills += 1;
-            stats.deaths += 1;
-        }
-    }
-
-    //Gets called on particle collision
-    //Can be used for score system later on.
-    public void DealDamage()
-    {
-        FMODUnity.RuntimeManager.PlayOneShotAttached(HitmarkerSE, gameObject);
-        hud.DealDamage();
-    }
-    public void Reset()
-    {
-        GlobalAmmo = maxGlobalAmmo + (ClipSize - CurrentAmmo);
-        CurrentHealth = maxHealth;
-        rotationH = transform.localEulerAngles.y;
-    }
-
     //add effect to effects list and then process the effect
     //call hud display effect
     private void Effect()
@@ -540,5 +524,17 @@ public class PlayerController : MonoBehaviour
     {
 
     }
+
+    #endregion
+
+
+
+    /******************************
+     *            To Do
+     *  Make associated camera follow the
+     *  killer until death timer is up and 
+     *  call respawn
+     *  
+     ******************************/
 
 }

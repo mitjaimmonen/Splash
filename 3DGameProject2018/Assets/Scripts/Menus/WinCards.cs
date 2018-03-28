@@ -16,8 +16,8 @@ public class WinCards : MonoBehaviour {
 
 
 
-    /******************/
-    /*Public Functions*/
+    #region Public Functions
+
     /// <summary>
     /// Changes card to have the look of first place
     /// </summary>
@@ -39,6 +39,8 @@ public class WinCards : MonoBehaviour {
 
     }
 
+    #endregion
+
 
 
     /******************************
@@ -49,4 +51,5 @@ public class WinCards : MonoBehaviour {
      *  change the card
      *  
      ******************************/
+
 }
