@@ -1,13 +1,14 @@
 fileFormatVersion: 2
-guid: 309a5633360b4dd4887ca8030d51b8e8
-timeCreated: 1521455208
+guid: d245bbd9c92091f43ae515194cf7dbbe
+timeCreated: 1522255646
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Material
+    2100000: Street lamp body
+    2100002: Street lamp glass
     2300000: //RootNode
     3300000: //RootNode
     4300000: STREET LAMP
@@ -15,8 +16,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: 5ed5ec9b85f71454d93da59c77b23792, type: 2}
+      name: Street lamp body
+    second: {fileID: 2100000, guid: e0c2ec362861cd042b2f4c1ac5814c34, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Street lamp glass
+    second: {fileID: 2100000, guid: 9a504ca57d1813d4e88654b2ca909a0b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

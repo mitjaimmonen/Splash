@@ -1,13 +1,14 @@
 fileFormatVersion: 2
-guid: 0b14f5f8d706bb54bb4257407f8e27ec
-timeCreated: 1521455207
+guid: 3ea95ae6e402a6d48ac5dfacb22f6ed4
+timeCreated: 1522255646
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Material.001
+    2100000: StreetLampWallGlass
+    2100002: StreetLampWall
     2300000: //RootNode
     3300000: //RootNode
     4300000: STREET LAMP WALL
@@ -15,8 +16,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: 9bf2d80ea1f87004cbe8f02f9682208b, type: 2}
+      name: StreetLampWall
+    second: {fileID: 2100000, guid: 0fb9c1bc8e0c1db4a8ad48e7ed74998b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: StreetLampWallGlass
+    second: {fileID: 2100000, guid: 9a504ca57d1813d4e88654b2ca909a0b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
