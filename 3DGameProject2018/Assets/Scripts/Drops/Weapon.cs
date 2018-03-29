@@ -184,10 +184,10 @@ public class Weapon : MonoBehaviour {
             if ((inputTimer > 0.1f && inputTimer < 0.5f) || !isShooting)
             {
                 isShooting = false;
-                gunAnim.SetBool("isShooting", false);
                 FMOD_Shooting.setValue(0);
                     
             }
+            gunAnim.SetBool("isShooting", isShooting);
 
             if (autoReload && weaponData.currentClipAmmo < weaponData.shotUsage)
             {
@@ -237,7 +237,6 @@ public class Weapon : MonoBehaviour {
             //Reset rest of the timers
             fireRateTimer = 0;
             //Reset animation bools making sure shooting animation gets played.
-            gunAnim.SetBool("isShooting", true);
             gunAnim.SetBool("reload", false);
 
             //Set WaterParticle parameters.
