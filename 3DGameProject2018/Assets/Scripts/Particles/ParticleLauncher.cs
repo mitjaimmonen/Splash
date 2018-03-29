@@ -98,7 +98,7 @@ public class ParticleLauncher : MonoBehaviour {
 						if (ignoreTimers || damageTimer > 0.09f)
 						{
 							thisPlayerController.DealDamage();
-							otherPlayerController.TakeDamage(currentDamage, thisPlayerController.transform.position);
+							otherPlayerController.TakeDamage(currentDamage, thisPlayerController);
 							damageTimer = 0;
 							
 						}

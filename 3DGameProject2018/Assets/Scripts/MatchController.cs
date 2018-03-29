@@ -2,68 +2,133 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MatchController : MonoBehaviour, IController
-{
+/********************************************
+ * MatchController class
+ *  Handles pausing spawning players and ending 
+ *  the match
+ */
+public class MatchController : MonoBehaviour, IController{
 
+    /******************/
+    /*Member Variables*/
     public GameObject playerPrefab;
     public GameObject[] playerSpawns;
-    public GameObject[] weaponSpawns;
-    public GameObject[] dropSpawns;
-    private float startTime;
-    public bool isPaused = false;
-    private PlayerController[] instantiatedPlayers = new PlayerController[4];// only public for testing
-    public StateHandler stateHandler;
     public LayerMask PlayerLayerMask;
-    public PauseMenu pause_menu;
+    public PauseMenu pauseMenu;
+    private bool isPaused = false;
+    private PlayerController[] instantiatedPlayers = new PlayerController[4];// only public for testing
+    private StateHandler stateHandler;
+    private float startTime;
+    [SerializeField, Tooltip("Does match end on time limit")]
+    private bool isTimed = false;
+    [SerializeField, Tooltip("Time in seconds")]
+    private float gameLength;
+    private float gameTimer;
+    [SerializeField, Tooltip("Does match end at maxKills")]
+    private bool hasKillLimit = false;
+    [SerializeField]
+    private int maxKills = 1;
 
 
-    //Initialize screens player and map
+
+    #region Getters and Setters
+
+    public bool IsPaused
+    {
+        get {
+            return isPaused;
+        }
+
+        set {
+            isPaused = value;
+        }
+    }
+    public StateHandler StateHandler
+    {
+        get {
+            return stateHandler;
+        }
+
+        private set {
+            stateHandler = value;
+        }
+    }
+
+    #endregion
+
+
+
+    /************************/
+    /*MonoBehavior Functions*/
+    //Instantiate players and adjust controller options
     void Awake()
     {
+        StateHandler = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
+        playerPrefab.GetComponent<PlayerController>().currentPlayers = StateHandler.options.CurrentActivePlayers;
         
-        stateHandler = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
-        playerPrefab.GetComponent<PlayerController>().currentPlayers = stateHandler.options.CurrentActivePlayers;
-        //make players of amount options player //not this right now(and pass each its input controller number)
+        //Instantiate players
         for(int i = 0; i < instantiatedPlayers.Length; i++)
         {
-            if(stateHandler.options.PlayersInfo[i,2] ==1)
+            if(StateHandler.options.PlayersInfo[i,2] ==1)
             {
                 playerPrefab.GetComponent<PlayerController>().playerNumber = i;
                 instantiatedPlayers[i] = Instantiate(playerPrefab).GetComponent<PlayerController>();
-                instantiatedPlayers[i].playerNumber = i;
                 instantiatedPlayers[i].Controller = this;
                 Spawn(i);
-                
             }
-
-            
         }
-                
-        //adjust camera views for the current number of players
-        //spawn players and add them to initializedplayers
+        //set our exit conditions based on the statehandler.options
+        if(StateHandler.options.maxKills != 0)
+        {
+            hasKillLimit = true;
+            maxKills = (int)StateHandler.options.maxKills;
+        }
+        if(StateHandler.options.maxTime != 0)
+        {
+            isTimed = true;
+            gameLength = 60*StateHandler.options.maxTime;//multiply by 60 to convert seconds to minutes
+        }
     }
-
-
-
+    //Check for our exit conditions
     public void Update()
     {
-        //depending on game mode look for exit condition
-        //ie time if not paused, or cycle players and look for a kill count
-        //timed deathmatch will be fixxed for now but later we can add a condition if timed death is selected to add a slider option after for the duration of like 5 to 60 or something
-        //also check all spawn objects and if theyve been ampty for x time spawn a new one
+        if(!isPaused)
+        {
+            if(hasKillLimit)
+            {
+                for(int i = 0; i < StateHandler.options.CurrentActivePlayers; i++)
+                {
+                    if(instantiatedPlayers[i].stats.kills >= maxKills)
+                    {
+                        EndMatch();
+                        break;
+                    }
+
+                }
+            }
+            if(isTimed)
+            {
+                gameTimer += Time.deltaTime;
+                if(gameTimer >= gameLength)
+                {
+                    EndMatch();
+                }
+            }
+        }
     }
 
 
 
+    /*****************/
+    /*Implementations*/
+    //Sends input to player, and calls pausing
     public void InputHandle(string[] input)
     {
-        
         //all input goes to the controllers appropriate player if active
-        if(stateHandler.options.PlayersInfo[int.Parse(input[0]), 2] == 1 && !isPaused)
+        if(StateHandler.options.PlayersInfo[int.Parse(input[0]), 2] == 1 && !IsPaused)
         {
             if(input[1] == "Start")
             {
-                Debug.Log(input[2]);
                 Pause();
             } else
             {
@@ -74,30 +139,54 @@ public class MatchController : MonoBehaviour, IController
 
 
 
-    //takes the player position and will respawn that player at an unoccupied spawn
-    public void Spawn(int playerIndex)
-    {
-        //right now just spawns at spawn point of same number we should make this more complex in the future
-        for(int i = 0; i < playerSpawns.Length; i++)
-        {
-            if(!Physics.CheckSphere(playerSpawns[i].transform.position,1,PlayerLayerMask))
-            {
-                instantiatedPlayers[playerIndex].transform.position = playerSpawns[i].transform.position;
-                instantiatedPlayers[playerIndex].transform.rotation = playerSpawns[i].transform.rotation;
-                instantiatedPlayers[playerIndex].Reset();
-                
-                return;
-            }
-        }
-    }
-
-
-    //stops timer 
-    //calls all players to fade screen
-    //calls player that paused show pause menu
+    #region Public Functions
+    
+    /// <summary>
+    /// Activates pause, and sets pause menu active
+    /// </summary>
     public void Pause()
     {
-        isPaused = true;
-        pause_menu.gameObject.SetActive(true);
+        IsPaused = true;
+        pauseMenu.gameObject.SetActive(true);
     }
+    /// <summary>
+    /// Respawns a given player at random unoccupied spawn
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    public void Spawn(int playerIndex)
+    {
+        List<GameObject> unocupiedSpawns = new List<GameObject>();
+
+        for(int i = 0; i < playerSpawns.Length; i++)
+        {
+            if(!Physics.CheckSphere(playerSpawns[i].transform.position, 1, PlayerLayerMask))
+            {
+                unocupiedSpawns.Add(playerSpawns[i]);
+            }
+        }
+        int spawn = Random.Range(0, unocupiedSpawns.Count);
+        instantiatedPlayers[playerIndex].transform.position = playerSpawns[spawn].transform.position;
+        instantiatedPlayers[playerIndex].transform.rotation = playerSpawns[spawn].transform.rotation;
+        instantiatedPlayers[playerIndex].Reset();
+    }
+
+    #endregion
+
+
+
+    #region Private Functions
+
+    /// <summary>
+    /// Gives player stats to StateHandler and calls scene change to EndMenu
+    /// </summary>
+    private void EndMatch() {
+        for(int i = 0; i < StateHandler.options.CurrentActivePlayers; i++)
+        {
+            StateHandler.stats.Add(instantiatedPlayers[i].stats);
+        }
+        StateHandler.ChangeState(State.EndMenu);
+    }
+
+    #endregion
+
 }

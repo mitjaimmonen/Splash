@@ -165,7 +165,7 @@ public class Weapon : MonoBehaviour {
 
     private void Update()
     {
-        if(gameObject.activeSelf && !playerController.controller.isPaused && isActive)
+        if(gameObject.activeSelf && !playerController.controller.IsPaused && isActive)
         {
             //Set weapon aim to center worldpoint of the viewport.
             if (playerController.IsAimRaycastHit)
@@ -206,7 +206,7 @@ public class Weapon : MonoBehaviour {
 
     public void Shoot(float input)
     {
-        if (gameObject.activeSelf && !playerController.controller.isPaused && isActive)
+        if (gameObject.activeSelf && !playerController.controller.IsPaused && isActive)
         {
             if (inputTimer > 0.1f) //First time calling after input trigger
             {
