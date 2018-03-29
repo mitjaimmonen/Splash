@@ -1107,10 +1107,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SampleCount: 14
-  ScatteringCoef: 0.018
+  ScatteringCoef: 0.112
   ExtinctionCoef: 0.1
-  SkyboxExtinctionCoef: 0.29
-  MieG: 0.904
+  SkyboxExtinctionCoef: 0.601
+  MieG: 0.9
   HeightFog: 1
   HeightScale: 0.021
   GroundLevel: 54.05
@@ -3892,7 +3892,7 @@ Prefab:
     - target: {fileID: 114226994725315656, guid: 3d9d3542b6c7316469ffb162768cc004,
         type: 2}
       propertyPath: players
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d9d3542b6c7316469ffb162768cc004, type: 2}
