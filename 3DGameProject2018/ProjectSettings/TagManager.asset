@@ -10,6 +10,7 @@ TagManager:
   - Head
   - Dynamic Elements
   - Static Elements
+  - Torso
   layers:
   - Default
   - TransparentFX

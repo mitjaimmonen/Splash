@@ -12,7 +12,12 @@ ModelImporter:
     3300000: //RootNode
     4300000: stand
     6400000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: be3636cbd9d3aca4bb6383d4452588a6, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -50,7 +55,7 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

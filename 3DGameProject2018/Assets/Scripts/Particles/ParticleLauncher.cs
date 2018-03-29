@@ -119,7 +119,6 @@ public class ParticleLauncher : MonoBehaviour {
 						DynamicItemScript script = collisionEvents[i].colliderComponent.GetComponentInParent<DynamicItemScript>();
 						if (script != null)
 						{
-							Debug.Log("Collided with dynamic item.");
 							script.ParticleHit(thisPlayerController.transform.position, collisionEvents[i].intersection);
 						}
 					}

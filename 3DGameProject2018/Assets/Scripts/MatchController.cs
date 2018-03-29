@@ -63,6 +63,7 @@ public class MatchController : MonoBehaviour, IController{
     //Instantiate players and adjust controller options
     void Awake()
     {
+        Shader.WarmupAllShaders();
         StateHandler = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
         playerPrefab.GetComponent<PlayerController>().currentPlayers = StateHandler.options.CurrentActivePlayers;
         

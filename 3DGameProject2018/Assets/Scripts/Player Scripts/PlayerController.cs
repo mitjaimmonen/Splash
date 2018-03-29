@@ -123,7 +123,6 @@ public class PlayerController : MonoBehaviour
                     currentAmmo = 0;
                 else
                     currentAmmo = value;
-                Debug.Log("asd");
                 hud.UpdateAmmo();
             }
         }
@@ -538,7 +537,6 @@ public class PlayerController : MonoBehaviour
 
 
     public void PlatformJump(float multiplier) {
-        Debug.Log(multiplier);
         velocity.y = JumpVelocity * multiplier;
         isGrounded = false;
     }
