@@ -82,11 +82,19 @@ public class MatchController : MonoBehaviour, IController{
         {
             hasKillLimit = true;
             maxKills = (int)StateHandler.options.maxKills;
+        } else
+        {
+            maxKills = 0;
+            hasKillLimit = false;
         }
         if(StateHandler.options.maxTime != 0)
         {
             isTimed = true;
             gameLength = 60*StateHandler.options.maxTime;//multiply by 60 to convert seconds to minutes
+        } else
+        {
+            gameLength = 0;
+            isTimed = false;
         }
     }
     //Check for our exit conditions
