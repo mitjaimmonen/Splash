@@ -161,7 +161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1224248098790608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.06, z: 0.282}
+  m_LocalPosition: {x: 0, y: -0.06, z: 0.455}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4431403817589834}
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
+  damage: 4
   headshotMultiplier: 1.25
   currentClipAmmo: 100
   clipSize: 100
@@ -315,7 +315,7 @@ MonoBehaviour:
   autoReload: 1
   isContinuous: 0
   playerController: {fileID: 0}
-  localPositionOffset: {x: 0.195, y: -0.265, z: 0.215}
+  localPositionOffset: {x: 0.14, y: -0.1, z: 0.45}
   shootSE: event:/Guns/Shotgun sounds
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: event:/Guns/EmptyShotgun
@@ -1099,7 +1099,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.013429679
+          value: 0.019624747
           inSlope: 0.19197144
           outSlope: 0.5147247
           tangentMode: 5

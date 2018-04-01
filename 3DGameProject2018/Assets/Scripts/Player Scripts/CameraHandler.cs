@@ -33,27 +33,84 @@ public class CameraHandler : MonoBehaviour {
     }
     private void LateUpdate()
     {
-        RaycastHit hit;
-        Ray forwardRay = new Ray(transform.position + transform.forward, transform.forward);
+        if (playerController.IsAlive)
+        {
+            RaycastHit hit;
+            Ray forwardRay = new Ray(transform.position + transform.forward, transform.forward);
 
-        if (Physics.Raycast(forwardRay, out hit, Mathf.Infinity))
-        {
-            playerController.AimWorldPoint = hit.point;
-            playerController.IsAimRaycastHit = true;
-        } else 
-        {
-            playerController.IsAimRaycastHit = false;
+            if (Physics.Raycast(forwardRay, out hit, Mathf.Infinity))
+            {
+                playerController.AimWorldPoint = hit.point;
+                playerController.IsAimRaycastHit = true;
+            } else 
+            {
+                playerController.IsAimRaycastHit = false;
+            }
+
+            var pos = target.transform.position; //Player's head position
+            Vector3 forw = playerController.transform.forward.normalized; //Player's forward (never looking up or down)
+            Vector3 up = playerController.transform.up.normalized; //Player's up vector (should always be straight upwards)
+            pos += forwardOffset * forw + upOffset * up; //Add offsets to camera position
+            forw = target.transform.forward.normalized; //Change forward vector to head's forward, which can also be upwards/downwards
+            pos += rotRadius * forw; //Add radius into offset
+
+            transform.position = pos;
+            transform.rotation = target.transform.rotation;
         }
 
-        var pos = target.transform.position;
-        Vector3 forw = playerController.transform.forward.normalized;
-        Vector3 up = playerController.transform.up.normalized;
-        pos += forwardOffset * forw + upOffset * up;
-        forw = target.transform.forward.normalized;
-        pos += rotRadius * forw;
+    }
 
-        transform.position = pos;
-        transform.rotation = target.transform.rotation;
+    public void Die(PlayerController attacker)
+    {
+        StartCoroutine(FollowAttacker(attacker));
+    }
+
+    private IEnumerator FollowAttacker(PlayerController attacker)
+    {
+        Vector3 attackerPosOffset;
+        if (attacker)
+        
+        
+        while (!playerController.IsAlive)
+        {
+            //First loop looks at dead player
+            //Second loop lerps to attacker
+            //Third loop keeps camera on attacker
+
+            float time = Time.time + 2f;        
+            while (time > Time.time || (!playerController.IsAlive && !attacker))
+            {
+                //If suicide, look at dying player until respawned.
+                Debug.Log("Looking at dead player.");
+                attackerPosOffset = (playerController.playerAnim.transform.right * 1.5f) + (-playerController.playerAnim.transform.forward * 1.5f) + (playerController.playerAnim.transform.up);            
+
+                Vector3 lerpPos = Vector3.Lerp(transform.position, playerController.playerAnim.transform.position + attackerPosOffset, Time.deltaTime * 5f);
+                Quaternion lerpRot = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(playerController.playerHead.transform.position - lerpPos, attacker.transform.up), Time.deltaTime * 5f);
+                transform.position = lerpPos;
+                transform.rotation = lerpRot;             
+                ;
+                yield return new WaitForEndOfFrame(); //Update rotation about 60 times a second.
+            }
+
+            while (!playerController.IsAlive && attacker && !playerController.IsAlive)
+            {
+                attackerPosOffset =(attacker.transform.forward * 1.5f) + (attacker.transform.up * 0.8f) + (-attacker.transform.right);                
+                Debug.Log("Looking at enemy player.");
+                //Look at attacker until respawn
+                Vector3 lerpPos = Vector3.Lerp(transform.position, attacker.transform.position + attackerPosOffset, Time.deltaTime *8f);
+                Quaternion lerpRot = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(attacker.playerHead.transform.position - lerpPos, attacker.transform.up),Time.deltaTime*8f);
+                transform.position = lerpPos;
+                transform.rotation = lerpRot;
+                yield return new WaitForEndOfFrame();
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+        
+
+
+
+        yield break;
     }
 
 

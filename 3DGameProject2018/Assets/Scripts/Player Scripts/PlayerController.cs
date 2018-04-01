@@ -22,28 +22,30 @@ public class PlayerController : MonoBehaviour
 
     /******************/
     /*Member Variables*/
-    // Used for testing canvasoverlay and setting camera viewport.
-    [HideInInspector]
-    public int currentPlayers, playerNumber;
-    [HideInInspector]
-    public float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -60f;
+
+    [HideInInspector] public int currentPlayers, playerNumber;
+    [HideInInspector] public float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -60f;
 
 
     #region Weapon
+        
+        [SerializeField, Tooltip ("Switches to picked up weapon instantly.")]
+        private bool switchOnPickup;
+        [SerializeField, Tooltip ("Picks up new weapon instantly if space available")]
+        private bool autoPickup;
+        [SerializeField, Tooltip ("Add initial weapon(s) from prefabs. Should always have at least one weapon.")]
+        private List<Weapon> carriedWeapons; //All current weapons under gunsParent.
+        [SerializeField]
+        private int maxWeapons = 2;
+
+        private Weapon currentWeapon; //Active weapon
+        private Weapon defaultWeapon; //Reference to a prefab, taken from first carriedWeapons list item.        
+        private Drops pickupDrop; //Updates every time weapon drop is nearby
+        private WeaponData pickupData; //Updates every time weapon drop is nearby
         private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
-        private float headshotMultiplier;
-        private Weapon currentWeapon;
-        public List<Weapon> carriedWeapons;
-        [HideInInspector]
-        private Drops pickupDrop;
-        private WeaponData pickupData;
-        public int maxWeapons = 2;
-        private int weaponIndex = 0;
-        [Tooltip ("Switches to picked up weapon instantly.")]
-        public bool switchOnPickup;
-        [Tooltip ("Picks up new weapon instantly if space available")]
-        public bool autoPickup;
+        private int weaponIndex = 0; //Current weapon in carriedWeapons
         private bool pickupAllowed = false;
+
     #endregion
 
 
@@ -51,21 +53,25 @@ public class PlayerController : MonoBehaviour
     private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
     private float playerSpeed;
     private Vector3 aimWorldPoint; // Where gun rotates towards.
-    private bool isAimRaycastHit = false;
+
+    private bool isAlive = true;
+    private bool isAimRaycastHit = false; //Used for aiming the center of screen
     private int currentDamage = 0;
     private float runningTimer = 0, movingTimer = 0, interactTimer = 0, pickupTimer = 0;
     private int maxHealth = 100;
     //Classes
     public CanvasOverlayHandler canvasOverlay;
-    public GameObject playerHead, gunsParent; // Takes vertical rotation, also parents all guns.
+    public GameObject playerHead; //Has head collider for headshots.
+    public GameObject gunsParent; //Position always same as camera. Weapon script uses this to parent guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
 
-
+    private RigController rigController; //Controls player model animator state & physics (ragdoll)
     private CameraHandler cameraHandler;
     [HideInInspector]
     public MatchController controller;
     public PlayerStats stats;
     public Animator playerAnim;
+
     public LayerMask raycastLayerMask;
     [FMODUnity.EventRef] public string HitmarkerSE, jumpSE;
     //Movement Variables
@@ -133,8 +139,8 @@ public class PlayerController : MonoBehaviour
             {
                 if (value == globalAmmo)
                     return;
-                else if (value >= maxGlobalAmmo + (ClipSize - CurrentAmmo))
-                    globalAmmo = maxGlobalAmmo + (ClipSize - CurrentAmmo);
+                else if (value >= maxGlobalAmmo)
+                    globalAmmo = maxGlobalAmmo;
                 else if (value < 0)
                     globalAmmo = 0;
                 else
@@ -185,6 +191,10 @@ public class PlayerController : MonoBehaviour
             get { return isAimRaycastHit; }
             set { isAimRaycastHit = value; }
         }
+        public bool IsAlive
+        {
+            get { return isAlive; }
+        }
 
         public MatchController Controller
         {
@@ -232,27 +242,34 @@ public class PlayerController : MonoBehaviour
         cameraHandler.target = playerHead;
         cameraHandler.SetViewport(currentPlayers, playerNumber);
         
+        rigController = GetComponentInChildren<RigController>();
+
         stats = new PlayerStats {
             player = playerNumber
         };
 
+        if (carriedWeapons.Count == 0)
+            Debug.LogError("CarriedWeapons count should always be at least 1!");
+        else
+        {
+            weaponIndex = 0; 
+            defaultWeapon = carriedWeapons[weaponIndex]; //Default weapon always asset reference, not instantiated object
 
-        // currentWeapon.gameObject.SetActive(true);
+            for(int i = 0; i < carriedWeapons.Count; i++)
+            {
+                string name = carriedWeapons[i].name; //Get asset name before replacing with instatiated object.
+                carriedWeapons[i] = Instantiate(carriedWeapons[i], transform.position, transform.rotation);
+                carriedWeapons[i].name = name; //Assign asset name. Prevents being named as "(clone)"
+                carriedWeapons[i].playerController = this;
+                carriedWeapons[i].Initialize();
+                carriedWeapons[i].Deactivate();
+            }
 
-        //Create gun from the first item in carriedWeapons list & give parameters
-        weaponIndex = 0;
-        currentWeapon = Instantiate(carriedWeapons[weaponIndex], transform.position, transform.rotation);
-        currentWeapon.name = carriedWeapons[weaponIndex].name; //Prevents name to be a "(clone)"
-        carriedWeapons[weaponIndex] = currentWeapon;
-        currentWeapon.playerController = this;
-        currentWeapon.transform.parent = gunsParent.transform;
-        currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
-
-        //Initialize basically a start function but had to be called after parameters are set
-        currentWeapon.Initialize();
-        //Make weapon as current active weapon
-        currentWeapon.Activate();
-
+            //Create gun from the first item in carriedWeapons list & give parameters 
+            currentWeapon = carriedWeapons[weaponIndex];
+            //Make weapon as current active weapon 
+            currentWeapon.Activate(); 
+        }
 
     }
 
@@ -268,18 +285,17 @@ public class PlayerController : MonoBehaviour
     {
         //Timers
         runningTimer += Time.deltaTime;
-        velocity += new Vector3(tempVel.x*Time.deltaTime, tempVel.y, tempVel.z * Time.deltaTime);
-        tempVel = Vector3.zero;
         movingTimer += Time.deltaTime;
         interactTimer += Time.deltaTime;
         pickupTimer += Time.deltaTime;
+        
+        velocity += new Vector3(tempVel.x*Time.deltaTime, tempVel.y, tempVel.z * Time.deltaTime);
+        tempVel = Vector3.zero;
 
-        gunsParent.transform.localPosition = transform.InverseTransformPoint(cameraHandler.transform.position);
-        gunsParent.transform.rotation = playerHead.transform.rotation;
-
-        if (!controller.IsPaused)
+        if (!controller.IsPaused && isAlive)
         {
-
+            gunsParent.transform.localPosition = transform.InverseTransformPoint(cameraHandler.transform.position);
+            gunsParent.transform.rotation = playerHead.transform.rotation;
 
             /*Problems left:(/ == think its fixxed X = definitly fixed)
              * [/]when hitting a 90degree meeting while jumping with the sphere of the collider it slows down y velocity
@@ -425,8 +441,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer("Water"))
-            controller.Spawn(playerNumber);
+        if (isAlive && col.gameObject.layer == LayerMask.NameToLayer("Water"))
+            Die(null);
             
     }
 
@@ -437,36 +453,48 @@ public class PlayerController : MonoBehaviour
     //shoots, moves, interacts, shows scores, pauses if pressed button
     public void InputHandle(string[] input)
     {
-        if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" || input[1] == "L3")
+        if (isAlive)
         {
-            Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
-        }
-        if(input[1] == "RightHorizontal" || input[1] == "RightVertical")
-        {
-            Rotate(input[1],float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
-        }
-        if (input[1] == "Y")
-        {
-            if (pickupAllowed && pickupDrop != null && pickupTimer > 0.1f)
-                PickupWeapon();
-            pickupTimer = 0;
-        }
-        if (input[1] == "R1")
-        {
-            if (interactTimer > 0.1f)
+            if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" || input[1] == "L3")
             {
-                SwitchWeapon(1+weaponIndex);                
+                Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
             }
-            interactTimer = 0;
+            if(input[1] == "RightHorizontal" || input[1] == "RightVertical")
+            {
+                Rotate(input[1],float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
+            }
+            if (input[1] == "Y")
+            {
+                if (pickupAllowed && pickupDrop != null && pickupTimer > 0.1f)
+                    PickupWeapon();
+                pickupTimer = 0;
+            }
+            if (input[1] == "B")
+            {
+                if (interactTimer > 0.1f)
+                {
+                    DropWeapon(false);
+                }
+                interactTimer = 0;
+            }
+            if (input[1] == "R1")
+            {
+                if (interactTimer > 0.1f)
+                {
+                    SwitchWeapon(1+weaponIndex);                
+                }
+                interactTimer = 0;
+            }
+            if (input[1] == "R2")
+            {
+                currentWeapon.Shoot(float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
+            }
+            if (input[1] == "L1")
+            {
+                currentWeapon.Reload();
+            }
         }
-        if (input[1] == "R2")
-        {
-            currentWeapon.Shoot(float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
-        }
-        if (input[1] == "L1")
-        {
-            currentWeapon.Reload();
-        }
+
     }
 
     private void Rotate(string axis, float magnitude) 
@@ -537,6 +565,7 @@ public class PlayerController : MonoBehaviour
 
 
     public void PlatformJump(float multiplier) {
+        
         velocity.y = JumpVelocity * multiplier;
         isGrounded = false;
     }
@@ -545,14 +574,14 @@ public class PlayerController : MonoBehaviour
 
 
 
-
+    //Gets called when triggered near a gun pickup.
     public void AllowPickup(Drops drop, bool isAllowed, WeaponData data)
     {
         pickupDrop = drop;
         pickupAllowed = isAllowed;
         pickupData = data;
 
-        if (pickupAllowed)
+        if (pickupAllowed && isAlive)
         {
             if (autoPickup && pickupDrop != null)
             {
@@ -561,28 +590,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Picks up new weapon to carry
     public void PickupWeapon()
     {
         foreach (var weapon in carriedWeapons)
         {
-            Debug.Log(weapon.name);
-            Debug.Log(pickupDrop.pickupWeaponIfAny.name);
             if (weapon.name == pickupDrop.pickupWeaponIfAny.name)
             {
-                Debug.Log("Already have this weapon");
-                int oldAmmo = pickupData.currentClipAmmo;
-                pickupData.currentClipAmmo -= (weapon.ClipSize - weapon.CurrentClipAmmo); // Add current clip ammo to global
-                weapon.CurrentClipAmmo = weapon.ClipSize;
-
+                Debug.Log("Carrying this weapon already.");
+                //Already have this weapon, trying to take ammo
                 int oldGlobalAmmo = GlobalAmmo;
                 GlobalAmmo += pickupData.currentClipAmmo;
-                if (oldGlobalAmmo != GlobalAmmo || oldAmmo != pickupData.currentClipAmmo)
+                if (oldGlobalAmmo != GlobalAmmo)
                 {
+                    Debug.Log("Took ammo, destroying pickup.");
                     Destroy(pickupDrop.gameObject);
                     return;
                 }
                 else
                 {
+                    Debug.Log("Ammo full. Cannot pick up.");
                     return;
                 }
 
@@ -593,18 +620,15 @@ public class PlayerController : MonoBehaviour
         if (carriedWeapons.Count < maxWeapons)
         {
             Debug.Log("New weapon picked up");
+            carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny, transform.position, transform.rotation));
+            PersonalExtensions.CopyComponentValues<WeaponData>(pickupData, carriedWeapons[carriedWeapons.Count-1].gameObject);
+            carriedWeapons[carriedWeapons.Count-1].gameObject.name = pickupDrop.pickupWeaponIfAny.gameObject.name;
+            carriedWeapons[carriedWeapons.Count-1].playerController = this;
+            carriedWeapons[carriedWeapons.Count-1].Initialize();
+            carriedWeapons[carriedWeapons.Count-1].Deactivate();
+
             Destroy(pickupDrop.gameObject);
 
-            carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny.gameObject, transform.position, transform.rotation).GetComponent<Weapon>());
-            CopyComponentValues<WeaponData>(pickupData, carriedWeapons[carriedWeapons.Count-1].gameObject);
-
-            carriedWeapons[carriedWeapons.Count-1].gameObject.SetActive(false);
-            carriedWeapons[carriedWeapons.Count-1].transform.parent = gunsParent.transform;
-            carriedWeapons[carriedWeapons.Count-1].playerController = this;
-            carriedWeapons[carriedWeapons.Count-1].transform.localPosition = currentWeapon.localPositionOffset;
-            carriedWeapons[carriedWeapons.Count-1].Initialize();
-
-            
             if (switchOnPickup)
                 SwitchWeapon(carriedWeapons.Count-1);
         }
@@ -612,63 +636,71 @@ public class PlayerController : MonoBehaviour
             SwapWeapon();  
     }
 
-
-    //Switch weapon switches between carried weapons
+    //Switches between carried weapons
     public void SwitchWeapon(int index)
     {
         if (index > carriedWeapons.Count-1)
             weaponIndex = 0;
         else
             weaponIndex = index;
+
+
         if (currentWeapon != carriedWeapons[weaponIndex])
         {
-            Debug.Log("SwitchWeapon. weaponIndex: " + weaponIndex + ", carriedWeapons.count: " + carriedWeapons.Count);
-            currentWeapon.Deactivate();
+            if (currentWeapon)
+                currentWeapon.Deactivate();
+            
             currentWeapon = carriedWeapons[weaponIndex];
             currentWeapon.Activate();
 
-        } else if (currentWeapon == carriedWeapons[weaponIndex])
-            Debug.Log("currentWeapon: " + currentWeapon.name + ", index weapon: " + carriedWeapons[weaponIndex].name);
+        }
         
     }
-
-    //Swap weapon swaps current weapon to new and throws current away
+    //Swaps current weapon to new and throws current away
     public void SwapWeapon()
     {
-        Debug.Log("Swapping weapon");
-        GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, currentWeapon.transform.position, transform.rotation);
-        CopyComponentValues<WeaponData>(currentWeapon.weaponData, swappedGunPickup);
-        Destroy(currentWeapon.gameObject);
-
-        carriedWeapons.RemoveAt(weaponIndex);
+        //Create weapon pickup and remove weapon from player.
+        DropWeapon(true);
         carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny, transform.position, transform.rotation));
-        currentWeapon = carriedWeapons[carriedWeapons.Count-1];
-        CopyComponentValues<WeaponData>(pickupData, currentWeapon.gameObject);
-        currentWeapon.transform.parent = gunsParent.transform;
+        weaponIndex = carriedWeapons.Count-1; //Index updates to be list's last item
+        currentWeapon = carriedWeapons[weaponIndex];
+        currentWeapon.name = pickupDrop.pickupWeaponIfAny.name; //Prevents name to be a "(clone)"
+        PersonalExtensions.CopyComponentValues<WeaponData>(pickupData, currentWeapon.gameObject);
         currentWeapon.playerController = this;
-        currentWeapon.transform.localPosition = currentWeapon.localPositionOffset;
         currentWeapon.Initialize(); // Picked up weapons need to set some initial values
         currentWeapon.Activate(); //SwapWeapon makes swapped weapon current & active
 
         Destroy(pickupDrop.gameObject);
-        weaponIndex = carriedWeapons.Count-1;
     }
 
-    //Picks up weapon.
-    
+    public void DropWeapon(bool isReplaced)
+    {
+        
+        if (carriedWeapons.Count > 1 || isReplaced) // Player must have at least one weapon
+        {
+            GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, currentWeapon.transform.position, transform.rotation);
+            PersonalExtensions.CopyComponentValues<WeaponData>(currentWeapon.weaponData, swappedGunPickup);
+            Destroy(currentWeapon.gameObject);
+            carriedWeapons.RemoveAt(weaponIndex);
 
-    //simple take damage
-    //if health is zero call respawn
+            if (!isReplaced)
+                SwitchWeapon(weaponIndex+1);
+        }
+
+    }
+
+
     public void TakeDamage(int damage, PlayerController attacker)
     {
-
+        Debug.Log("Taking damage: " + damage);
         hud.TakeDamage(attacker.transform.position);
 
         CurrentHealth -= damage;
-        if(currentHealth<1)
+        if(currentHealth<1 && isAlive)
         {
             attacker.stats.kills++;
-            controller.Spawn(playerNumber);
+            Die(attacker);
+            // controller.Spawn(playerNumber);
         }
     }
 
@@ -679,11 +711,64 @@ public class PlayerController : MonoBehaviour
         FMODUnity.RuntimeManager.PlayOneShotAttached(HitmarkerSE, gameObject);
         hud.DealDamage();
     }
+
+    public void Die(PlayerController attacker)
+    {
+        //Note: attacker will be null on suicide.
+        if (isAlive)
+        {
+            isAlive = false;
+            cameraHandler.Die(attacker);
+            rigController.Die();
+
+            Debug.Log("Dropping weapon and creating pickup drop");
+            GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, currentWeapon.transform.position, transform.rotation);
+            PersonalExtensions.CopyComponentValues<WeaponData>(currentWeapon.weaponData, swappedGunPickup);
+            foreach(Weapon weapon in carriedWeapons)
+            {
+                Destroy(weapon.gameObject);
+            }
+            StartCoroutine(RespawnTimer());
+        }
+
+        
+    }
+    private IEnumerator RespawnTimer()
+    {
+        int time = 0;
+        while (time <= controller.RespawnTime)
+        {
+            hud.UpdateTimer(controller.RespawnTime - time);
+            time++;
+            yield return new WaitForSeconds(1);
+        }
+        controller.Spawn(playerNumber);
+        yield break;
+    }
     public void Reset()
     {
-        GlobalAmmo = maxGlobalAmmo + (ClipSize - CurrentAmmo);
+        GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
         rotationH = transform.localEulerAngles.y;
+
+        if (!isAlive)
+        {
+            weaponIndex = 0;
+            carriedWeapons.Clear();
+            carriedWeapons.Add(defaultWeapon);
+            currentWeapon = Instantiate(carriedWeapons[weaponIndex], transform.position, transform.rotation);
+            currentWeapon.name = carriedWeapons[weaponIndex].name; //Prevents name to be a "(clone)"
+            carriedWeapons[weaponIndex] = currentWeapon;
+            currentWeapon.playerController = this;
+
+            //Initialize basically a start function but had to be called after parameters are set
+            currentWeapon.Initialize();
+            //Make weapon as current active weapon
+            currentWeapon.Activate();
+            isAlive = true;        
+        }
+
+
     }
 
     //add effect to effects list and then process the effect
@@ -698,25 +783,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    T CopyComponentValues<T>(T original, GameObject destination) where T : Component
-    {
-         System.Type type = original.GetType();
-         var dst = destination.GetComponent(type) as T;
-         var fields = type.GetFields();
-         if (!dst) dst = destination.AddComponent(type) as T;
-         foreach (var field in fields)
-         {
-             if (field.IsStatic) continue;
-             field.SetValue(dst, field.GetValue(original));
-         }
-         var props = type.GetProperties();
-         foreach (var prop in props)
-         {
-             if (!prop.CanWrite || !prop.CanWrite || prop.Name == "name") continue;
-             prop.SetValue(dst, prop.GetValue(original, null), null);
-         }
-         return dst as T;
-    }
 
 
 

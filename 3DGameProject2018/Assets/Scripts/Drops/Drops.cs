@@ -27,6 +27,7 @@ public class Drops : MonoBehaviour {
     public PickupEnum pickupType = PickupEnum.healthPickup;
     private PlayerController playerController;
     public Weapon pickupWeaponIfAny;
+    public Rigidbody rb;
 
     private WeaponData weaponData;
 
@@ -35,7 +36,12 @@ public class Drops : MonoBehaviour {
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         weaponData = GetComponent<WeaponData>();
+        if (!weaponData && pickupWeaponIfAny)
+        {
+            weaponData = PersonalExtensions.CopyComponentValues(pickupWeaponIfAny.weaponData, this.gameObject);
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -74,8 +80,9 @@ public class Drops : MonoBehaviour {
             {
                 if (!weaponData)
                 {
-                    Debug.Log("Searching for weapon data in drop");
                     weaponData = GetComponent<WeaponData>();
+                    if (!weaponData)
+                        return;
                 }
                 playerController.AllowPickup(this, true, weaponData);
                 

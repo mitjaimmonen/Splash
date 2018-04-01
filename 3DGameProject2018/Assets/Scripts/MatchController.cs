@@ -28,6 +28,7 @@ public class MatchController : MonoBehaviour, IController{
     private bool hasKillLimit = false;
     [SerializeField]
     private int maxKills = 1;
+    private int respawnTime = 5;
 
 
 
@@ -42,6 +43,10 @@ public class MatchController : MonoBehaviour, IController{
         set {
             isPaused = value;
         }
+    }
+    public int RespawnTime
+    {
+        get {return respawnTime;}
     }
     public StateHandler StateHandler
     {
@@ -89,6 +94,7 @@ public class MatchController : MonoBehaviour, IController{
             isTimed = true;
             gameLength = 60*StateHandler.options.maxTime;//multiply by 60 to convert seconds to minutes
         }
+        respawnTime = stateHandler.options.respawnTime;
     }
     //Check for our exit conditions
     public void Update()

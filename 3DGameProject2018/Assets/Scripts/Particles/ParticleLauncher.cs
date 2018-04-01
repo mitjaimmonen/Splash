@@ -64,7 +64,8 @@ public class ParticleLauncher : MonoBehaviour {
 		{
 			oldLoopCount += loopCount;
 			PlayerController otherPlayerController = null;
-			int currentDamage = thisPlayerController.CurrentDamage;
+			int originalDamage = thisPlayerController.CurrentDamage;
+			int currentDamage = originalDamage;
 
 			for (int i = 0; i < loopCount;i++)
 			{
@@ -91,7 +92,7 @@ public class ParticleLauncher : MonoBehaviour {
 						if (collisionEvents[i].colliderComponent.gameObject.tag == "Head")
 						{
 							Debug.Log("Headshot");
-							currentDamage = (int)(currentDamage * headshotMultiplier);
+							currentDamage = (int)(originalDamage * headshotMultiplier);
 						}
 
 
@@ -111,25 +112,23 @@ public class ParticleLauncher : MonoBehaviour {
 					if (splatterParticleSystem != null)
 						EmitSplashAtCollisionPoint(collisionEvents[i]);
 				}
-				if (clutterHitTimer > 0.045f || ignoreTimers)
+				
+				if (collisionEvents[i].colliderComponent.gameObject.tag == "Dynamic Elements" )
 				{
-					clutterHitTimer = 0;
-					if (collisionEvents[i].colliderComponent.gameObject.tag == "Dynamic Elements" )
+					DynamicItemScript script = collisionEvents[i].colliderComponent.GetComponentInParent<DynamicItemScript>();
+					if (script != null)
 					{
-						DynamicItemScript script = collisionEvents[i].colliderComponent.GetComponentInParent<DynamicItemScript>();
-						if (script != null)
-						{
-							script.ParticleHit(thisPlayerController.transform.position, collisionEvents[i].intersection);
-						}
+						Debug.Log("Particl hit dynamic item");
+						script.ParticleHit(thisPlayerController.transform.position, collisionEvents[i].intersection);
 					}
-					else if (collisionEvents[i].colliderComponent.gameObject.tag == "Static Elements")
+				}
+				else if (collisionEvents[i].colliderComponent.gameObject.tag == "Static Elements")
+				{
+					if (collisionEvents[i].colliderComponent.gameObject.name == "LampLight")
 					{
-						if (collisionEvents[i].colliderComponent.gameObject.name == "LampLight")
-						{
-							BreakableLampScript script = collisionEvents[i].colliderComponent.GetComponent<BreakableLampScript>();
-							if (script != null)
-								script.TakeDamage();
-						}
+						BreakableLampScript script = collisionEvents[i].colliderComponent.GetComponent<BreakableLampScript>();
+						if (script != null)
+							script.TakeDamage();
 					}
 				}
 			}

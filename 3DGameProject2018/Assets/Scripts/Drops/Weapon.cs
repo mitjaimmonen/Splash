@@ -92,8 +92,9 @@ public class Weapon : MonoBehaviour {
     //Gets called on picked up
     public void Initialize()
     {
-        Debug.Log("Weapon - Initialize called");
         weaponData = GetComponent<WeaponData>();
+        transform.parent = playerController.gunsParent.transform;
+        transform.localPosition = localPositionOffset;
         
         if (playerController == null)
             playerController = GetComponentInParent<PlayerController>();
@@ -123,7 +124,6 @@ public class Weapon : MonoBehaviour {
     //When weapon is picked up or when switched as currentWeapon
     public void Activate()
     {
-        Debug.Log("Weapon - Activate called");
         if (playerController)
         {
             playerController.ClipSize = weaponData.clipSize;

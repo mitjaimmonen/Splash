@@ -214,6 +214,13 @@ public class StateHandler : MonoBehaviour {
                 input[2] = "1";
                 controller.InputHandle(input);
             }
+            if(gamepads[i].Buttons.B == ButtonState.Pressed)
+            {
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "B";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
             if(gamepads[i].Buttons.Y == ButtonState.Pressed)
             {
                 input[0] = (i - skippedplayer).ToString();

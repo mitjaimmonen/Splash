@@ -72,7 +72,6 @@ GameObject:
   - component: {fileID: 54772257793370354}
   - component: {fileID: 136748123584002550}
   - component: {fileID: 65347095194126176}
-  - component: {fileID: 114596156099384688}
   m_Layer: 15
   m_Name: AutoRifleDrop
   m_TagString: Untagged
@@ -273,25 +272,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.15, y: 0.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114596156099384688
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1593175078492508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 5
-  headshotMultiplier: 1.5
-  currentClipAmmo: 100
-  clipSize: 100
-  shotUsage: 1
-  fireRate: 0.1
-  maxShootTime: 0
-  rotationSpeed: 5
 --- !u!114 &114795900914206750
 MonoBehaviour:
   m_ObjectHideFlags: 1

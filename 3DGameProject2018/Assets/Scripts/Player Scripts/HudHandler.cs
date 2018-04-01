@@ -20,18 +20,19 @@ using UnityEngine.UI;
 public class HudHandler : MonoBehaviour {     
 
     #region canvasReferences
-        public Image healthIcon, throwableIcon, dmgDirectionIndicator, hitmarker, crosshair;
+        public Image healthIcon, throwableIcon, damageIndicator, hitmarker, crosshair;
         public Slider healthSlider;
         public Slider clipSlider;
         public Text clipAmmoText;
         public Text globalAmmoText;
+        public Text timerText;
         public Sprite[] healthIcons, thorwableIcons;
         public Text playerNumberText;
         
     #endregion
 
     public float hitMarkerTime = 0.15f, damageIndicatorTime = 1f;
-
+    public Color damageIndicatorColor;
     public PlayerController playerController;
 
     private int maxHealth, currentHealth;
@@ -40,27 +41,36 @@ public class HudHandler : MonoBehaviour {
     private bool isHealthUpdating = false, isAmmoUpdating = false;
     private int oldCurrentHealth, oldCurrentAmmo;
     private Vector3 lastDamageOrigin, hitmarkerScale;
-    private float deltaTime=0;
+    private float fpsDeltaTime=0;
+    private Color whiteNoAlpha = new Color(1,1,1,0);
 
 
     private void Start() {
         oldCurrentHealth = playerController.CurrentHealth;
         hitmarkerScale = crosshair.transform.localScale;
-        
-
         oldCurrentAmmo = playerController.CurrentAmmo;
     }
 
     private void Update() 
     {
-        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
-        int fps = (int)(1f/deltaTime);
+        fpsDeltaTime += (Time.unscaledDeltaTime - fpsDeltaTime) * 0.1f;
+        int fps = (int)(1f/fpsDeltaTime);
         playerNumberText.text = "FPS: " + fps;
+
+        if (timerText.color != whiteNoAlpha)
+        {
+            timerText.color = Color.Lerp(timerText.color, whiteNoAlpha, Time.deltaTime * 5f);
+        }
 
         if (damageIndicatorTimer <= damageIndicatorTime)
         {
             UpdateDamageIndicator();
             damageIndicatorTimer += Time.deltaTime;
+        }
+        else
+        {
+            damageIndicatorColor.a = 0;
+            damageIndicator.color = damageIndicatorColor;
         }
         if (hitmarkerTimer < hitMarkerTime)
         {
@@ -96,7 +106,6 @@ public class HudHandler : MonoBehaviour {
         hitmarkerTimer = 0;
         UpdateHitmarker();
     }
-
     private void UpdateHitmarker()
     {
         Vector3 newScale = hitmarkerScale + hitmarkerScale/2 * Mathf.Sin(Mathf.PI*hitmarkerTimer/hitMarkerTime);
@@ -113,11 +122,19 @@ public class HudHandler : MonoBehaviour {
     {
         Vector3 dir = transform.InverseTransformDirection(lastDamageOrigin - transform.position);
         float angle = Mathf.Atan2(-dir.x, dir.z) * Mathf.Rad2Deg;
-        dmgDirectionIndicator.transform.localEulerAngles = new Vector3(0, 0, angle);
+        damageIndicator.transform.localEulerAngles = new Vector3(0, 0, angle);
 
-        byte colorLerp = (byte)Mathf.Lerp(255,0, damageIndicatorTimer/damageIndicatorTime);
-        dmgDirectionIndicator.color = new Color32(0,0,255,colorLerp);
+        float alphaLerp = Mathf.Lerp(255,0, damageIndicatorTimer/damageIndicatorTime);
+        damageIndicatorColor.a = alphaLerp;
+        Debug.Log(damageIndicatorColor.a);
+        damageIndicator.color = damageIndicatorColor;
 
+    }
+
+    public void UpdateTimer(int time)
+    {
+        timerText.color = Color.white;
+        timerText.text = time.ToString();
     }
     public void UpdateHealth(){
 
