@@ -846,7 +846,7 @@ MonoBehaviour:
   playerNumberText: {fileID: 114465566057782608}
   hitMarkerTime: 0.15
   damageIndicatorTime: 1
-  damageIndicatorColor: {r: 0, g: 0, b: 1, a: 1}
+  damageIndicatorColor: {r: 0.13738108, g: 0.57839906, b: 0.8897059, a: 1}
   playerController: {fileID: 0}
 --- !u!114 &114978109359613490
 MonoBehaviour:

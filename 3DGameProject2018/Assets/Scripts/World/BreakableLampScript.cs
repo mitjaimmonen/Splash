@@ -5,10 +5,19 @@ using UnityEngine;
 public class BreakableLampScript : MonoBehaviour {
 
 	public int breakChancePercentage;
-	private Light lampLight;
+	private List<Light> lampLights;
+	private List<float> startValues;
+	
 	private void Start()
 	{
-		lampLight = GetComponent<Light>();
+		lampLights = new List<Light>();
+		startValues = new List<float>();
+		foreach (var lamp in GetComponentsInChildren<Light>())
+		{
+			Debug.Log("adding light to list");
+			lampLights.Add(lamp);
+			startValues.Add(lamp.intensity);
+		}
 	}
 
 	public void TakeDamage()
@@ -29,13 +38,16 @@ public class BreakableLampScript : MonoBehaviour {
 	private IEnumerator BreakLamp()
 	{
 		float timer = 0;
-		float startValue = lampLight.intensity;
 		while (timer < 1f)
 		{
 			timer += Time.deltaTime;
-			float lerp = Mathf.Lerp(startValue, 0.0f, timer);
-			float intensity = Random.Range(lerp, startValue);
-			lampLight.intensity = intensity;
+			float lerpMultiplier = Mathf.Lerp(1f, 0, timer);
+			for(int i = 0; i < lampLights.Count; i++)
+			{
+				float intensity = Random.Range(0, startValues[i] * lerpMultiplier);
+				lampLights[i].intensity = intensity;
+
+			}
 			yield return new WaitForEndOfFrame();
 		}
 		Destroy(gameObject);

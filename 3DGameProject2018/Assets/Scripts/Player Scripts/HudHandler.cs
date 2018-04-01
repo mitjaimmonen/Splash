@@ -42,7 +42,7 @@ public class HudHandler : MonoBehaviour {
     private int oldCurrentHealth, oldCurrentAmmo;
     private Vector3 lastDamageOrigin, hitmarkerScale;
     private float fpsDeltaTime=0;
-    private Color whiteNoAlpha = new Color(1,1,1,0);
+    private Color noAlpha;
 
 
     private void Start() {
@@ -57,21 +57,20 @@ public class HudHandler : MonoBehaviour {
         int fps = (int)(1f/fpsDeltaTime);
         playerNumberText.text = "FPS: " + fps;
 
-        if (timerText.color != whiteNoAlpha)
+        if (timerText.color.a != 0)
         {
-            timerText.color = Color.Lerp(timerText.color, whiteNoAlpha, Time.deltaTime * 5f);
+            noAlpha = timerText.color;
+            noAlpha.a = 0;
+            timerText.color = Color.Lerp(timerText.color, noAlpha, Time.deltaTime * 5f);
         }
 
-        if (damageIndicatorTimer <= damageIndicatorTime)
+        if (damageIndicator.color.a != 0)
         {
-            UpdateDamageIndicator();
-            damageIndicatorTimer += Time.deltaTime;
+            noAlpha = damageIndicator.color;
+            noAlpha.a = 0;
+            damageIndicator.color = Color.Lerp(damageIndicator.color, noAlpha, Time.deltaTime * 5f);
         }
-        else
-        {
-            damageIndicatorColor.a = 0;
-            damageIndicator.color = damageIndicatorColor;
-        }
+        
         if (hitmarkerTimer < hitMarkerTime)
         {
             UpdateHitmarker();
@@ -124,9 +123,6 @@ public class HudHandler : MonoBehaviour {
         float angle = Mathf.Atan2(-dir.x, dir.z) * Mathf.Rad2Deg;
         damageIndicator.transform.localEulerAngles = new Vector3(0, 0, angle);
 
-        float alphaLerp = Mathf.Lerp(255,0, damageIndicatorTimer/damageIndicatorTime);
-        damageIndicatorColor.a = alphaLerp;
-        Debug.Log(damageIndicatorColor.a);
         damageIndicator.color = damageIndicatorColor;
 
     }

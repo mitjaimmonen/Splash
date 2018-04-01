@@ -124,9 +124,9 @@ public class ParticleLauncher : MonoBehaviour {
 				}
 				else if (collisionEvents[i].colliderComponent.gameObject.tag == "Static Elements")
 				{
-					if (collisionEvents[i].colliderComponent.gameObject.name == "LampLight")
+					BreakableLampScript script;
+					if (script = collisionEvents[i].colliderComponent.GetComponent<BreakableLampScript>())
 					{
-						BreakableLampScript script = collisionEvents[i].colliderComponent.GetComponent<BreakableLampScript>();
 						if (script != null)
 							script.TakeDamage();
 					}
