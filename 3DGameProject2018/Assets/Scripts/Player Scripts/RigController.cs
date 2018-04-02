@@ -60,8 +60,6 @@ public class RigController : MonoBehaviour {
 			rightArmRot.x -= vRotation;
 			rightArm.localEulerAngles = rightArmRot;
 		}
-		else
-			Debug.Log("Not updating arms.");
 	}
 
 	private void Reset()

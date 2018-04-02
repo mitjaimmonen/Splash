@@ -454,8 +454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 4
-  headshotMultiplier: 1.5
+  damage: 7
+  headshotMultiplier: 1.75
   currentClipAmmo: 100
   clipSize: 100
   shotUsage: 1

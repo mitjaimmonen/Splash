@@ -68,6 +68,7 @@ public class HudHandler : MonoBehaviour {
         {
             noAlpha = damageIndicator.color;
             noAlpha.a = 0;
+            UpdateDamageIndicator();
             damageIndicator.color = Color.Lerp(damageIndicator.color, noAlpha, Time.deltaTime * 5f);
         }
         
@@ -98,6 +99,7 @@ public class HudHandler : MonoBehaviour {
     {
         lastDamageOrigin = origin;
         damageIndicatorTimer = 0;
+        damageIndicator.color = damageIndicatorColor;
         UpdateDamageIndicator();
     }
     public void DealDamage()
@@ -122,9 +124,6 @@ public class HudHandler : MonoBehaviour {
         Vector3 dir = transform.InverseTransformDirection(lastDamageOrigin - transform.position);
         float angle = Mathf.Atan2(-dir.x, dir.z) * Mathf.Rad2Deg;
         damageIndicator.transform.localEulerAngles = new Vector3(0, 0, angle);
-
-        damageIndicator.color = damageIndicatorColor;
-
     }
 
     public void UpdateTimer(int time)

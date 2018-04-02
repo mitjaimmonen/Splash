@@ -115,7 +115,7 @@
             <value>1.6600000000000001</value>
         </property>
         <property name="pitch">
-            <value>2.4000001</value>
+            <value>0.600000024</value>
         </property>
         <relationship name="modulators">
             <destination>{d97a5afc-e937-4956-8dfe-932275e0dcc7}</destination>
@@ -181,6 +181,9 @@
         </relationship>
     </object>
     <object class="EventMixerGroup" id="{9403d27b-75d4-415f-bff0-7a51fc9e7ad2}">
+        <property name="volume">
+            <value>1</value>
+        </property>
         <property name="name">
             <value>Audio 2</value>
         </property>
@@ -406,7 +409,7 @@
             <value>0.0046698113207547173</value>
         </property>
         <property name="value">
-            <value>2.80000019</value>
+            <value>4.93099785</value>
         </property>
     </object>
     <object class="AutomationPoint" id="{7396ea71-6659-4eb9-a9b6-ef02940d6427}">
@@ -414,7 +417,7 @@
             <value>1.3355660377358491</value>
         </property>
         <property name="value">
-            <value>11</value>
+            <value>13.1309967</value>
         </property>
     </object>
     <object class="Automator" id="{e77d7134-1b6f-4c30-b28c-7a46bda9c0fc}">

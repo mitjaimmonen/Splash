@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
 
     private int currentHealth;
-    private int deaths = 0, kills = 0, damageTake = 0, damageDelt = 0;
+    private int deaths = 0, kills = 0;
     private float playerSpeed;
     private Vector3 aimWorldPoint; // Where gun rotates towards.
 
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     public Animator playerAnim;
 
     public LayerMask raycastLayerMask;
-    [FMODUnity.EventRef] public string HitmarkerSE, jumpSE;
+    [FMODUnity.EventRef] public string hitmarkerSE, jumpSE, takeDamageSE, dieSE;
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1f;
     public bool invertSensV = false;
@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
     public float stepHeight = 0;
     private Vector3 velocity = new Vector3(0, 0, 0);
     private Vector3 prevVelocity;
+    [SerializeField] private Collider[] damageColliders; //Colliders that take damage
     private CapsuleCollider capsule;
     //possibly a list of who damaged you as well so we could give people assists and stuff
     //wed have to run off a points system that way so id rather keep it to k/d right now or time because they are both easy
@@ -692,8 +693,8 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(int damage, PlayerController attacker)
     {
-        Debug.Log("Taking damage: " + damage);
         hud.TakeDamage(attacker.transform.position);
+        FMODUnity.RuntimeManager.PlayOneShotAttached(takeDamageSE, gameObject);
 
         CurrentHealth -= damage;
         if(currentHealth<1 && isAlive)
@@ -708,7 +709,7 @@ public class PlayerController : MonoBehaviour
     //Can be used for score system later on.
     public void DealDamage()
     {
-        FMODUnity.RuntimeManager.PlayOneShotAttached(HitmarkerSE, gameObject);
+        FMODUnity.RuntimeManager.PlayOneShotAttached(hitmarkerSE, gameObject);
         hud.DealDamage();
     }
 
@@ -718,8 +719,14 @@ public class PlayerController : MonoBehaviour
         if (isAlive)
         {
             isAlive = false;
+            FMODUnity.RuntimeManager.PlayOneShotAttached(dieSE, rigController.gameObject); //Arm is part of rig, so sound updates wherever rig has ragdolled.
             cameraHandler.Die(attacker);
             rigController.Die();
+
+            foreach(Collider col in damageColliders)
+            {
+                col.enabled = false;
+            }
 
             Debug.Log("Dropping weapon and creating pickup drop");
             GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, currentWeapon.transform.position, transform.rotation);
@@ -761,6 +768,10 @@ public class PlayerController : MonoBehaviour
             carriedWeapons[weaponIndex] = currentWeapon;
             currentWeapon.playerController = this;
 
+            foreach(Collider col in damageColliders)
+            {
+                col.enabled = true;
+            }
             //Initialize basically a start function but had to be called after parameters are set
             currentWeapon.Initialize();
             //Make weapon as current active weapon

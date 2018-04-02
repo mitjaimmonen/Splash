@@ -71,7 +71,6 @@ public class ParticleLauncher : MonoBehaviour {
 			{
 				if (!collisionEvents[i].colliderComponent)
 				{
-					//Collided multiple objects during same frame.
 					continue;
 				}
 				if (collisionEvents[i].colliderComponent.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -84,14 +83,12 @@ public class ParticleLauncher : MonoBehaviour {
 							if (otherPlayerController == null)
 								continue;
 						}
-					Debug.Log("Particle hit player: " + otherPlayerController.gameObject.name);
 
 					if (otherPlayerController != thisPlayerController)
 					{
 
 						if (collisionEvents[i].colliderComponent.gameObject.tag == "Head")
 						{
-							Debug.Log("Headshot");
 							currentDamage = (int)(originalDamage * headshotMultiplier);
 						}
 
@@ -105,7 +102,7 @@ public class ParticleLauncher : MonoBehaviour {
 						}
 					}
 				}
-				if (splashTimer > 0.025f || ignoreTimers )
+				else if (splashTimer > 0.025f || ignoreTimers )
 				{
 					splashTimer = 0;		
 					particleDecal.ParticleHit (collisionEvents [i]);
@@ -118,7 +115,6 @@ public class ParticleLauncher : MonoBehaviour {
 					DynamicItemScript script = collisionEvents[i].colliderComponent.GetComponentInParent<DynamicItemScript>();
 					if (script != null)
 					{
-						Debug.Log("Particl hit dynamic item");
 						script.ParticleHit(thisPlayerController.transform.position, collisionEvents[i].intersection);
 					}
 				}

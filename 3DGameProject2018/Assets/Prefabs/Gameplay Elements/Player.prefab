@@ -1609,8 +1609,10 @@ MonoBehaviour:
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  HitmarkerSE: 
-  jumpSE: 
+  hitmarkerSE: event:/Water Collisions/Hitmarker
+  jumpSE: event:/Character Movement/Jump
+  takeDamageSE: event:/Character Movement/TakeDamage
+  dieSE: event:/Character Movement/Death
   lookSensV: 180
   lookSensH: 200
   invertSensV: 0
@@ -1623,6 +1625,9 @@ MonoBehaviour:
   maxSlope: 0.5
   climbSpeed: 1
   stepHeight: 0.1
+  damageColliders:
+  - {fileID: 136172752203868750}
+  - {fileID: 136785458119969632}
 --- !u!114 &114466195618453568
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1694,7 +1699,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1709318612409746}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.39
   m_Height: 1.64
