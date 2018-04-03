@@ -67,35 +67,30 @@ public class CameraHandler : MonoBehaviour {
 
     private IEnumerator FollowAttacker(PlayerController attacker)
     {
-        Vector3 attackerPosOffset;
-        if (attacker)
-        
-        
+        Vector3 posOffset;
         while (!playerController.IsAlive)
         {
             //First loop looks at dead player
             //Second loop lerps to attacker
-            //Third loop keeps camera on attacker
 
             float time = Time.time + 2f;        
             while (time > Time.time || (!playerController.IsAlive && !attacker))
             {
-                //If suicide, look at dying player until respawned.
-                attackerPosOffset = (playerController.playerAnim.transform.right * 1.5f) + (-playerController.playerAnim.transform.forward * 1.5f) + (playerController.playerAnim.transform.up);            
+                //If suicide (= !Attacker), look at dying player until respawned.
+                posOffset = (playerController.transform.right * 0.5f) + (-playerController.transform.forward * 2f) + (playerController.transform.up *2f);            
 
-                Vector3 lerpPos = Vector3.Lerp(transform.position, playerController.playerAnim.transform.position + attackerPosOffset, Time.deltaTime * 5f);
-                Quaternion lerpRot = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(playerController.playerHead.transform.position - lerpPos, attacker.transform.up), Time.deltaTime * 5f);
+                Vector3 lerpPos = Vector3.Lerp(transform.position, playerController.transform.position + posOffset, Time.deltaTime * 5f);
+                Quaternion lerpRot = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(playerController.playerHead.transform.position - lerpPos, playerController.transform.up), Time.deltaTime * 5f);
                 transform.position = lerpPos;
-                transform.rotation = lerpRot;             
-                ;
-                yield return new WaitForEndOfFrame(); //Update rotation about 60 times a second.
+                transform.rotation = lerpRot;
+                yield return new WaitForEndOfFrame();
             }
 
-            while (!playerController.IsAlive && attacker && !playerController.IsAlive)
+            while (!playerController.IsAlive && attacker)
             {
-                attackerPosOffset =(attacker.transform.forward * 1.5f) + (attacker.transform.up * 0.8f) + (-attacker.transform.right);                
+                posOffset =(attacker.transform.forward * 1.5f) + (attacker.transform.up * 0.8f) + (-attacker.transform.right);                
                 //Look at attacker until respawn
-                Vector3 lerpPos = Vector3.Lerp(transform.position, attacker.transform.position + attackerPosOffset, Time.deltaTime *8f);
+                Vector3 lerpPos = Vector3.Lerp(transform.position, attacker.transform.position + posOffset, Time.deltaTime *8f);
                 Quaternion lerpRot = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(attacker.playerHead.transform.position - lerpPos, attacker.transform.up),Time.deltaTime*8f);
                 transform.position = lerpPos;
                 transform.rotation = lerpRot;

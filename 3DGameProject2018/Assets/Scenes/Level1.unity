@@ -646,12 +646,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: event:/Ambience/Waves
-  PlayEvent: 1
-  StopEvent: 0
+  PlayEvent: 11
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
-  Preload: 0
+  Preload: 1
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
@@ -697,12 +697,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: event:/Ambience/Waves
-  PlayEvent: 1
-  StopEvent: 0
+  PlayEvent: 11
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
-  Preload: 0
+  Preload: 1
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
@@ -3313,14 +3313,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Event: event:/Ambience/Waves on rocks
   PlayEvent: 11
-  StopEvent: 2
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 1
   Params: []
   OverrideAttenuation: 1
-  OverrideMinDistance: 0.99999994
+  OverrideMinDistance: 1
   OverrideMaxDistance: 30
 --- !u!4 &598440322
 Transform:
@@ -3688,16 +3688,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: event:/Ambience/In-land birds
-  PlayEvent: 1
-  StopEvent: 0
+  PlayEvent: 11
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
-  Preload: 0
+  Preload: 1
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
-  OverrideMaxDistance: 15
+  OverrideMaxDistance: 30
 --- !u!1 &682555758
 GameObject:
   m_ObjectHideFlags: 0
@@ -4012,12 +4012,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: event:/Ambience/Waves
-  PlayEvent: 1
-  StopEvent: 0
+  PlayEvent: 11
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
-  Preload: 0
+  Preload: 1
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
@@ -4197,26 +4197,6 @@ Prefab:
     - target: {fileID: 1401610286106170, guid: 0cc961167d630af4591aa36bcfd4b7c0, type: 2}
       propertyPath: m_Name
       value: Tree (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4485898757903960, guid: 0cc961167d630af4591aa36bcfd4b7c0, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.82349735
-      objectReference: {fileID: 0}
-    - target: {fileID: 4485898757903960, guid: 0cc961167d630af4591aa36bcfd4b7c0, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1.0035461
-      objectReference: {fileID: 0}
-    - target: {fileID: 4485898757903960, guid: 0cc961167d630af4591aa36bcfd4b7c0, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.8234973
-      objectReference: {fileID: 0}
-    - target: {fileID: 1526454378295422, guid: 0cc961167d630af4591aa36bcfd4b7c0, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 1401610286106170, guid: 0cc961167d630af4591aa36bcfd4b7c0, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0cc961167d630af4591aa36bcfd4b7c0, type: 2}
@@ -5422,12 +5402,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: event:/Ambience/Waves
-  PlayEvent: 1
-  StopEvent: 0
+  PlayEvent: 11
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
-  Preload: 0
+  Preload: 1
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
@@ -6331,15 +6311,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Event: event:/Ambience/Clock tower tick
   PlayEvent: 1
-  StopEvent: 0
+  StopEvent: 2
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 1
   Params: []
-  OverrideAttenuation: 1
+  OverrideAttenuation: 0
   OverrideMinDistance: 1
-  OverrideMaxDistance: 25
+  OverrideMaxDistance: 20
 --- !u!1001 &1213196786
 Prefab:
   m_ObjectHideFlags: 0
@@ -7563,12 +7543,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: event:/Ambience/Waves
-  PlayEvent: 1
-  StopEvent: 0
+  PlayEvent: 11
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
-  Preload: 0
+  Preload: 1
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
@@ -8598,12 +8578,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: event:/Ambience/Waves
-  PlayEvent: 1
-  StopEvent: 0
+  PlayEvent: 11
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
-  Preload: 0
+  Preload: 1
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
@@ -9084,16 +9064,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: event:/Ambience/In-land birds
-  PlayEvent: 1
-  StopEvent: 0
+  PlayEvent: 11
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
-  Preload: 0
+  Preload: 1
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
-  OverrideMaxDistance: 15
+  OverrideMaxDistance: 30
 --- !u!1 &1807840709
 GameObject:
   m_ObjectHideFlags: 0
@@ -9241,16 +9221,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: event:/Ambience/Seagulls
-  PlayEvent: 1
-  StopEvent: 0
+  PlayEvent: 11
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
-  Preload: 0
+  Preload: 1
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
-  OverrideMaxDistance: 50
+  OverrideMaxDistance: 30
 --- !u!4 &1825873744 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4598892195997302, guid: d8569febe63c70646908fe2b32a1b8af,
@@ -10503,12 +10483,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: event:/Ambience/Waves
-  PlayEvent: 1
-  StopEvent: 0
+  PlayEvent: 11
+  StopEvent: 12
   CollisionTag: 
   AllowFadeout: 1
   TriggerOnce: 0
-  Preload: 0
+  Preload: 1
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1

@@ -191,7 +191,6 @@ public class Weapon : MonoBehaviour {
 
             if (autoReload && weaponData.currentClipAmmo < weaponData.shotUsage)
             {
-                Debug.Log("Reloading?");
                 Reload();
 
             }
