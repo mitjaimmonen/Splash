@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114982249891307772}
   - component: {fileID: 54297264887251282}
   - component: {fileID: 65731456831752492}
+  - component: {fileID: 114788076141762514}
   m_Layer: 10
   m_Name: PlantPot
   m_TagString: Dynamic Elements
@@ -65,9 +66,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1344382523863772}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.69, y: 0.46, z: -2.73}
-  m_LocalScale: {x: 1.0000006, y: 1, z: 1.0000006}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.69, y: 0.46000004, z: -2.73}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4039227568812900}
   m_Father: {fileID: 0}
@@ -121,8 +122,8 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1344382523863772}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0.25
+  m_Mass: 10
+  m_Drag: 0.5
   m_AngularDrag: 0.75
   m_UseGravity: 1
   m_IsKinematic: 1
@@ -141,6 +142,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1.25}
   m_Center: {x: 0, y: 0.05, z: 0.21}
+--- !u!114 &114788076141762514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1344382523863772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxParticleCollisionCount: 10
+  collisionSE: event:/Water Collisions/HitHardSurface
+  waterSplashSE: event:/Water Collisions/WaterSplashHuge
+  destroySE: event:/Interactions/BigPotBreak
 --- !u!114 &114982249891307772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,5 +176,4 @@ MonoBehaviour:
   randomizeStartRotation: 0
   mainCollider: {fileID: 65731456831752492}
   ObjectsToDisableOnDestroy: []
-  destroySE: 
-  takeDamageSE: 
+  mainRigidbody: {fileID: 0}

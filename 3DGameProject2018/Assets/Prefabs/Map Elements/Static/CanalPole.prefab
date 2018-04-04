@@ -26,7 +26,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1966378151177472
 GameObject:
@@ -37,12 +37,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4275522022450820}
   - component: {fileID: 136507144004057706}
+  - component: {fileID: 114821850086026048}
   m_Layer: 0
   m_Name: CanalPole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4176063325134868
 Transform:
@@ -112,6 +113,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1492880692262320}
   m_Mesh: {fileID: 4300000, guid: a249c7261b617044293d17bc608a2cda, type: 3}
+--- !u!114 &114821850086026048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1966378151177472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxParticleCollisionCount: 10
+  collisionSE: event:/Water Collisions/HitMetalSurface
+  waterSplashSE: 
+  destroySE: 
 --- !u!136 &136507144004057706
 CapsuleCollider:
   m_ObjectHideFlags: 1

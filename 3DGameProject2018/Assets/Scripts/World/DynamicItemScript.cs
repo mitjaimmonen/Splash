@@ -10,27 +10,30 @@ public class DynamicItemScript : MonoBehaviour {
 	public Collider mainCollider;
 	public GameObject[] ObjectsToDisableOnDestroy;
 
-	[FMODUnity.EventRef] public string destroySE, takeDamageSE;
 
 	private int currentHealth;
 	private ParticleSystem destroyParticleSystem;
+	private CollisionSounds collisionSounds;
 	private List<Rigidbody> childRigidbodies;
-	private Rigidbody mainRigidbody;
+	[SerializeField] private Rigidbody mainRigidbody;
 
 	private float timer;
-	private bool isDestroying;
+	private bool isDestroying = false;
 
 
 	private void Start()
 	{
 		currentHealth = health;
 		destroyParticleSystem = GetComponentInChildren<ParticleSystem>();
+		collisionSounds = GetComponent<CollisionSounds>();
 		Rigidbody[] childRB = GetComponentsInChildren<Rigidbody>(true);
 		childRigidbodies = new List<Rigidbody>();
 		foreach(var child in childRB)
 		{
-			if (child.gameObject.activeSelf)
+			if (child.gameObject.activeSelf && !mainRigidbody)
 				mainRigidbody = child;
+			else if (child == mainRigidbody)
+				continue;
 			else
 				childRigidbodies.Add(child);
 		}
@@ -41,98 +44,89 @@ public class DynamicItemScript : MonoBehaviour {
 
 	}
 
+	public void ParticleHit(Vector3 origin, Vector3 intersection)
+	{
+		currentHealth -= 1;
+		Debug.Log(currentHealth);
 
-	private void Update () {
-		if (isDestroying)
+		if (currentHealth < 1 && isDestroyable && !isDestroying)
+			StartCoroutine(StartDestroy(origin, intersection));
+
+		else if ((isMovable && !isDestroying) || (isDestroying && isMovableOnDestroy))
+			Move(origin, intersection);
+	}
+
+	private void Move(Vector3 origin, Vector3 intersection)
+	{
+		Vector3 dir = (transform.position - origin).normalized;
+		dir.y += 0.5f;
+		mainRigidbody.isKinematic = false;
+		mainRigidbody.AddForceAtPosition(dir/2, intersection, ForceMode.Impulse);
+	}
+
+	private IEnumerator StartDestroy(Vector3 origin, Vector3 intersection)
+	{
+		Debug.Log("Destroying.");
+		timer = Time.time;
+		isDestroying = true;
+		mainRigidbody.isKinematic = isMovableOnDestroy ? false : true; //dynamic if isMovableOnDestroy
+		mainCollider.enabled = isMovableOnDestroy ? true : false;
+		if (collisionSounds)
+			collisionSounds.PlayDestroy();
+		
+		if (childRigidbodies.Count > 0)
 		{
-			
-			timer += Time.deltaTime;
-			if (!isMovableOnDestroy)
-				mainCollider.enabled = false;
-			
-			if (timer > 20f)
+			foreach (var child in childRigidbodies)
+			{
+				child.isKinematic = false;
+				child.gameObject.SetActive(true);
+				child.AddExplosionForce(Random.Range(explosionForce/2, explosionForce), transform.position,0);
+			}
+		}
+		else if (destroyParticleSystem != null)
+		{
+			destroyParticleSystem.transform.position = intersection;
+			destroyParticleSystem.Play();
+		}
+
+		foreach(var obj in ObjectsToDisableOnDestroy)
+		{
+			obj.SetActive(false);
+		}
+
+
+		yield return new WaitForEndOfFrame();
+		while (isDestroying)
+		{
+			if (timer < Time.time - 30f)
+				Destroy(gameObject);
+
+			else if (timer < Time.time - 20f)
 			{
 				if (childRigidbodies.Count > 0)
 				{
 					foreach (var child in childRigidbodies)
 					{
 						child.isKinematic = true;
-						child.transform.position += new Vector3(0,0.5f * -Time.deltaTime,0);
+						child.transform.position += new Vector3(0,-0.01f,0);
 					}
 				}
 				else
 				{
 					mainRigidbody.isKinematic = true;
-					transform.position += new Vector3(0,0.5f * -Time.deltaTime,0);
+					transform.position += new Vector3(0,-0.005f,0);
 				}
 			}
-			if (timer > 30f)
-				Destroy(gameObject);
+			yield return new WaitForSeconds(0.1f);
 		}
-		if (transform.position.y < -30f)
-			Destroy(gameObject);
+		yield break;
 	}
 
-	private void OnTriggerEnter(Collider col)
+
+	public void OnWaterTrigger()
 	{
-		if (col.gameObject.layer == LayerMask.NameToLayer("Water"))
-			Destroy(gameObject);
+		//Water class calls this.
+		Destroy(gameObject, 1f);
 	}
 
-
-	public void ParticleHit(Vector3 origin, Vector3 intersection)
-	{
-		TakeDamage(origin, intersection);
-	}
-
-	private void TakeDamage(Vector3 origin, Vector3 intersection)
-	{
-		currentHealth -= 1;
-
-        if (takeDamageSE != "")
-		{
-			Debug.Log("Playing collision sound");
-			FMODUnity.RuntimeManager.PlayOneShot(takeDamageSE, transform.position);
-		}
-
-		if (currentHealth < 1 && isDestroyable && !isDestroying)
-		{
-			if (!isMovableOnDestroy)
-				mainRigidbody.isKinematic = true;
-			else 
-				mainRigidbody.isKinematic = false;
-			
-
-			foreach(var obj in ObjectsToDisableOnDestroy)
-			{
-				obj.SetActive(false);
-			}
-
-			if (childRigidbodies.Count > 0)
-			{
-				foreach (var child in childRigidbodies)
-				{
-					child.isKinematic = false;
-					child.gameObject.SetActive(true);
-					child.AddExplosionForce(Random.Range(explosionForce/2, explosionForce), transform.position,0);
-				}
-			}
-			else if (destroyParticleSystem != null)
-			{
-				destroyParticleSystem.transform.position = intersection;
-				destroyParticleSystem.Play();
-			}
-			
-			
-			FMODUnity.RuntimeManager.PlayOneShot(destroySE, transform.position);	
-			isDestroying = true;
-		}
-		else if (isMovable || (isDestroying && isMovableOnDestroy))
-		{
-			Vector3 dir = (transform.position - origin).normalized;
-			dir.y += 0.5f;
-			mainRigidbody.isKinematic = false;
-			mainRigidbody.AddForceAtPosition(dir/2, intersection, ForceMode.Impulse);
-		}
-	}
 }

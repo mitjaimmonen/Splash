@@ -54,6 +54,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4913923692034914}
   - component: {fileID: 136318074262459084}
+  - component: {fileID: 65990295974850860}
+  - component: {fileID: 114781578662246818}
   m_Layer: 10
   m_Name: StreetLamp
   m_TagString: Static Elements
@@ -71,8 +73,6 @@ GameObject:
   - component: {fileID: 4987723721222212}
   - component: {fileID: 33525388987745822}
   - component: {fileID: 23505881610990466}
-  - component: {fileID: 65372270023569076}
-  - component: {fileID: 114916688180545816}
   m_Layer: 10
   m_Name: StreetLamp
   m_TagString: Untagged
@@ -173,7 +173,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1363674685618508}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.05, y: 0.92, z: -11.7}
+  m_LocalPosition: {x: 6.6000004, y: 0.92, z: -20.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4114213496049840}
@@ -362,18 +362,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1522922567094240}
   m_Mesh: {fileID: 4300000, guid: 224802dc13ac64b4aae228d2bb695300, type: 3}
---- !u!65 &65372270023569076
+--- !u!65 &65990295974850860
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1444084627457140}
+  m_GameObject: {fileID: 1363674685618508}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.003, y: 0.032, z: 0.003}
-  m_Center: {x: -0.000006104703, y: 0.006, z: 0.000051538227}
+  m_Size: {x: 0.3, y: 3.2, z: 0.3}
+  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!108 &108363346385931210
 Light:
   m_ObjectHideFlags: 1
@@ -410,19 +410,21 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 1
   m_ShadowAngle: 0
---- !u!114 &114916688180545816
+--- !u!114 &114781578662246818
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1444084627457140}
+  m_GameObject: {fileID: 1363674685618508}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCount: 10
+  maxParticleCollisionCount: 10
   collisionSE: event:/Water Collisions/HitMetalSurface
+  waterSplashSE: 
+  destroySE: 
 --- !u!114 &114976659076603856
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114521716596638750}
   - component: {fileID: 54211709578549170}
   - component: {fileID: 136960586232901296}
+  - component: {fileID: 114861165221811664}
   m_Layer: 15
   m_Name: Melon
   m_TagString: Dynamic Elements
@@ -140,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18f579a7c334d164abf2fcd9ebaa9cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 0
   explosionForce: 0
   isDestroyable: 0
   isMovable: 1
@@ -148,8 +149,22 @@ MonoBehaviour:
   randomizeStartRotation: 1
   mainCollider: {fileID: 136960586232901296}
   ObjectsToDisableOnDestroy: []
+  mainRigidbody: {fileID: 0}
+--- !u!114 &114861165221811664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1384115283196874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxParticleCollisionCount: 10
+  collisionSE: event:/Water Collisions/HitSmallObject
+  waterSplashSE: event:/Water Collisions/WaterSplashSmall
   destroySE: 
-  takeDamageSE: 
 --- !u!136 &136960586232901296
 CapsuleCollider:
   m_ObjectHideFlags: 1

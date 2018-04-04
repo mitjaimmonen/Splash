@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     /*Member Variables*/
 
     [HideInInspector] public int currentPlayers, playerNumber;
-    [HideInInspector] public float rotationV = 0, rotationH, maxRotV = 80f, minRotV = -60f;
+     public float rotationV = 0, rotationH, maxRotV = 65f, minRotV = -60f;
 
 
     #region Weapon
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     public Animator playerAnim;
 
     public LayerMask raycastLayerMask;
-    [FMODUnity.EventRef] public string hitmarkerSE, jumpSE, takeDamageSE, dieSE;
+    [FMODUnity.EventRef] public string hitmarkerSE, jumpSE, takeDamageSE, dieSE, waterSplashSE;
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1f;
     public bool invertSensV = false;
@@ -440,10 +440,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider col)
+    public void OnWaterTrigger()
     {
-        if (isAlive && col.gameObject.layer == LayerMask.NameToLayer("Water"))
+        if (isAlive)
+        {
             Die(null);
+            FMODUnity.RuntimeManager.PlayOneShot(waterSplashSE, transform.position);
+        }
             
     }
 

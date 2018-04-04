@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114480846599763334}
   - component: {fileID: 54194664027958900}
   - component: {fileID: 136291662721521362}
+  - component: {fileID: 114906253491047034}
   m_Layer: 15
   m_Name: Banana
   m_TagString: Dynamic Elements
@@ -140,16 +141,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18f579a7c334d164abf2fcd9ebaa9cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  explosionForce: 1
+  health: 0
+  explosionForce: 0
   isDestroyable: 0
   isMovable: 1
   isMovableOnDestroy: 0
   randomizeStartRotation: 1
   mainCollider: {fileID: 136291662721521362}
   ObjectsToDisableOnDestroy: []
+  mainRigidbody: {fileID: 0}
+--- !u!114 &114906253491047034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1663529189416474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxParticleCollisionCount: 10
+  collisionSE: event:/Water Collisions/HitSmallObject
+  waterSplashSE: event:/Water Collisions/WaterSplashSmall
   destroySE: 
-  takeDamageSE: 
 --- !u!136 &136291662721521362
 CapsuleCollider:
   m_ObjectHideFlags: 1

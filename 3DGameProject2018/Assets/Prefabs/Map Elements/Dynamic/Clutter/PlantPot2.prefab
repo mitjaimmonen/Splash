@@ -113,6 +113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4852218143570804}
   - component: {fileID: 114870802054246458}
+  - component: {fileID: 114781435116503402}
   - component: {fileID: 54174007218221568}
   - component: {fileID: 65111111306598748}
   m_Layer: 10
@@ -194,7 +195,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780323140946632}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.15, y: 0.24099994, z: 18.2}
+  m_LocalPosition: {x: -3.3670003, y: 0.24099994, z: -16.645}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4375371859069048}
@@ -432,7 +433,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780323140946632}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0.25
   m_AngularDrag: 0.75
   m_UseGravity: 1
@@ -553,6 +554,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 1.3, z: 0.6}
   m_Center: {x: 0, y: 0.31, z: 0}
+--- !u!114 &114781435116503402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1780323140946632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxParticleCollisionCount: 10
+  collisionSE: event:/Water Collisions/HitHardSurface
+  waterSplashSE: event:/Water Collisions/WaterSplashBig
+  destroySE: event:/Interactions/BigPotBreak
 --- !u!114 &114870802054246458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -564,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18f579a7c334d164abf2fcd9ebaa9cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
+  health: 20
   explosionForce: 5
   isDestroyable: 1
   isMovable: 1
@@ -573,5 +589,4 @@ MonoBehaviour:
   mainCollider: {fileID: 65111111306598748}
   ObjectsToDisableOnDestroy:
   - {fileID: 1311409497899312}
-  destroySE: event:/Interactions/BigPotBreak
-  takeDamageSE: event:/Water Collisions/Hitmarker
+  mainRigidbody: {fileID: 54174007218221568}
