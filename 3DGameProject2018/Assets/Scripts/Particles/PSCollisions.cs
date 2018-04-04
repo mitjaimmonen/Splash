@@ -25,23 +25,16 @@ public class PSCollisions : MonoBehaviour {
 
 	[FMODUnity.EventRef] public string collisionSE;
     private FMOD.Studio.EventInstance soundEI; 
-    private FMOD.Studio.ParameterInstance FMOD_FadeToBurst, FMOD_Volume;
+    private FMOD.Studio.ParameterInstance FMOD_FlowToBurst, FMOD_Volume;
 	private float vol, soundTimer;
 	private bool isPlaying = false;
 
-
-	 void Awake()
-	 {
-		soundEI = FMODUnity.RuntimeManager.CreateInstance(collisionSE);
-		soundEI.getParameter("MasterVolume", out FMOD_Volume);
-		soundEI.getParameter("FlowToBurst", out FMOD_FadeToBurst);
-	 }
 
 	private void OnParticleCollision(GameObject other)
 	{
 		if (collisionCountTimer <= Time.time - 0.1f)
 		{
-			//Resets loopcount 10 times per second or when collision happens
+			//Resets count 10 times per second or when collision happens
 			oldCount = 0;
 			collisionCountTimer = Time.time;		
 		}
@@ -58,14 +51,20 @@ public class PSCollisions : MonoBehaviour {
 
 	private void PlaySound()
 	{
-		FMOD_Volume.setValue(1f);
 
-
-		if (!isPlaying)
+		if (isPlaying)
+		{
+			FMOD_Volume.setValue(1f);
+			FMOD_FlowToBurst.setValue(count / 10);
+		}
+		else
 		{
 			soundEI = FMODUnity.RuntimeManager.CreateInstance(collisionSE);
 			soundEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(intersection));
-			FMOD_FadeToBurst.setValue(count / 10);
+			soundEI.getParameter("MasterVolume", out FMOD_Volume);
+			soundEI.getParameter("FlowToBurst", out FMOD_FlowToBurst);
+			FMOD_FlowToBurst.setValue(count / 10);
+			FMOD_Volume.setValue(1f);
 			soundEI.start();
 			soundEI.release();
 			isPlaying = true;
@@ -77,16 +76,18 @@ public class PSCollisions : MonoBehaviour {
 	{
 		while (isPlaying)
 		{
+
 			FMOD_Volume.getValue(out vol);
-			FMOD_Volume.setValue(Mathf.Lerp(vol, 0, 0.03f));
+			FMOD_Volume.setValue(Mathf.Lerp(vol, 0, 0.06f));
 			if (vol < 0.1f)
 			{
 				soundEI.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-				Debug.Log("setting false");
 				isPlaying = false;
 				yield break;
 			}
 			yield return new WaitForSeconds(0.03f);
 		}
+
+		yield break;
 	}
 }

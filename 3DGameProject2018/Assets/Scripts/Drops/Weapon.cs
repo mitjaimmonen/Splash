@@ -181,7 +181,7 @@ public class Weapon : MonoBehaviour {
             
 
             //Checks if shoot trigger is no longer called.
-            if ((inputTimer > 0.1f && inputTimer < 0.5f) || !isShooting)
+            if (inputTimer > 0.1f || !isShooting)
             {
                 isShooting = false;
                 FMOD_Shooting.setValue(0);

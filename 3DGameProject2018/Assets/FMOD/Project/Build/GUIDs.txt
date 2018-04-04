@@ -31,9 +31,10 @@
 {fbb3d1a1-b3a1-4d81-93c4-1786462d3411} event:/UI/Move cursor
 {a165d4ef-9ae7-4fd1-8c25-098d85fdd788} event:/UI/Negative
 {552c1dab-e30c-4d9e-a90d-362ad72309c2} event:/UI/Select
+{0b89c783-7337-422b-839c-3777c4ac54bf} event:/Water Collisions/HitHardSurface
 {295dabb0-c42b-4d42-8f62-6557a2d461a3} event:/Water Collisions/HitLeaves
 {0a80392a-d75e-4ccf-a4ba-7e7a321e1f8e} event:/Water Collisions/Hitmarker
-{0b89c783-7337-422b-839c-3777c4ac54bf} event:/Water Collisions/HitHardSurface
+{3f366a64-9d9d-4f63-9b65-390817bbd03e} event:/Water Collisions/HitMetalSurface
 {6556615f-304e-45cb-85ca-a7d4f6c9cdee} event:/Water Collisions/Water balloon
 {f0170c7d-ff4e-4a42-b89e-21671851f192} bus:/
 {65cb3ddc-10e3-4bdc-8ae2-3325fc7fc600} bus:/Reverb

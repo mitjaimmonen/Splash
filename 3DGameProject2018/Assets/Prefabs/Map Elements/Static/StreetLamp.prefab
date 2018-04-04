@@ -72,7 +72,8 @@ GameObject:
   - component: {fileID: 33525388987745822}
   - component: {fileID: 23505881610990466}
   - component: {fileID: 65372270023569076}
-  m_Layer: 0
+  - component: {fileID: 114916688180545816}
+  m_Layer: 10
   m_Name: StreetLamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +107,7 @@ GameObject:
   - component: {fileID: 4261272244195208}
   - component: {fileID: 33638814749894608}
   - component: {fileID: 23211488738818944}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,6 +410,19 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 1
   m_ShadowAngle: 0
+--- !u!114 &114916688180545816
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444084627457140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCount: 10
+  collisionSE: event:/Water Collisions/HitMetalSurface
 --- !u!114 &114976659076603856
 MonoBehaviour:
   m_ObjectHideFlags: 1
