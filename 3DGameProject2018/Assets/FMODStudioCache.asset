@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 114305681537062308}
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   EditorEvents:
   - {fileID: 114213025112249748}
   - {fileID: 114082810571209012}
@@ -35,9 +35,9 @@ MonoBehaviour:
   - {fileID: 114754659437858452}
   - {fileID: 114181064938306126}
   - {fileID: 114459004538838900}
-  MasterBankRef: {fileID: 114148198998946832}
+  MasterBankRef: {fileID: 114813897581084046}
   StringsBankRef: {fileID: 114305681537062308}
-  stringsBankWriteTime: 636573100860488041
+  stringsBankWriteTime: 636576063238162666
   cacheVersion: 2
 --- !u!114 &114006972497252986
 MonoBehaviour:
@@ -553,6 +553,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114077401489483590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
 --- !u!114 &114077434756212660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,14 +672,14 @@ MonoBehaviour:
   Path: event:/Character Movement/Footsteps
   guid: b5f635b59581714f87a2318a5bc7d9d3
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114935723329943446}
-  - {fileID: 114444879476385582}
-  - {fileID: 114610849256207508}
+  - {fileID: 114398703288083166}
+  - {fileID: 114924868344993302}
+  - {fileID: 114176775598604764}
   MinDistance: 1
   MaxDistance: 20
   Length: 490
@@ -963,7 +978,7 @@ MonoBehaviour:
   Path: event:/Water Collisions/Water balloon
   guid: 5f6156654e30cb4585caa7d4f6c9cdee
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 1
   Is3D: 1
   IsOneShot: 1
@@ -1135,7 +1150,7 @@ MonoBehaviour:
   Path: event:/Water Collisions/Hitmarker
   guid: 2a39800a5ed7cf4ca4ba7e7a321e1f8e
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1266,7 +1281,7 @@ MonoBehaviour:
   FileSizes:
   - Name: Desktop
     Value: 1762336
-  Exists: 1
+  Exists: 0
 --- !u!114 &114149614956949434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1414,6 +1429,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114160206254269836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
   Min: 0
   Max: 1
   Default: 0
@@ -1567,6 +1597,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114176775598604764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_ground
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114176781770060744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1596,7 +1641,7 @@ MonoBehaviour:
   Path: event:/Guns/EmptyShotgun
   guid: 522b468b7259df44a65dd7315babe1b8
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1899,12 +1944,12 @@ MonoBehaviour:
   Path: event:/Guns/Shotgun sounds
   guid: 57648ede1ded544c9eceabd317731601
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114655864902042444}
+  - {fileID: 114077401489483590}
   MinDistance: 1
   MaxDistance: 20
   Length: 1000
@@ -2801,7 +2846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\FMOD\Project\Build\Desktop\Master Bank.strings.bank
-  lastModified: 636573100860488041
+  lastModified: 636576063238162666
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -3459,7 +3504,7 @@ MonoBehaviour:
   Path: event:/Character Movement/Jump
   guid: 573b182dec830d4686bf2b2220f66d77
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3662,6 +3707,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114398703288083166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_wood
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114405595793331010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3794,6 +3854,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Surface_wood
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114418917192691858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
   Min: 0
   Max: 1
   Default: 0
@@ -4216,7 +4291,7 @@ MonoBehaviour:
   Path: event:/Guns/EmptyRifle
   guid: cf5fe62ff651e04cacad66dc0241b590
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4914,13 +4989,13 @@ MonoBehaviour:
   Path: event:/Guns/AutoRifle
   guid: 9c359bae94801045b347f75eff8ee667
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114345146591439604}
-  - {fileID: 114903546260782406}
+  - {fileID: 114737118594284832}
+  - {fileID: 114703326803943732}
   MinDistance: 1
   MaxDistance: 20
   Length: 0
@@ -5495,7 +5570,7 @@ MonoBehaviour:
   Path: event:/Character Movement/PlatformJump
   guid: 092099428fff124a88e89e68075da817
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5866,7 +5941,7 @@ MonoBehaviour:
   Path: event:/Guns/Reload auto rifle
   guid: 8b984fc9cdc889408c6d4ced3c554e68
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5993,7 +6068,7 @@ MonoBehaviour:
   Path: event:/Interactions/SpecialPickup
   guid: 4149b392ff442e4ea6a072d5237a3dde
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6158,7 +6233,7 @@ MonoBehaviour:
   Path: event:/Character Movement/Crouch
   guid: 29b29ca0459a784e902293b5b6c54bd6
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6364,7 +6439,7 @@ MonoBehaviour:
   Path: event:/Guns/GrenadeLauncher
   guid: 9f70cf0b1e44c848806b9554d6740ef8
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6448,6 +6523,21 @@ MonoBehaviour:
   Max: 1
   Default: 0
 --- !u!114 &114696908177427850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
+--- !u!114 &114703326803943732
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -6848,6 +6938,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114737118594284832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114737431733109360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7084,7 +7189,7 @@ MonoBehaviour:
   Path: event:/Interactions/HealthPickup
   guid: 88d5af618bbbda4fa8e7d45b2a844fd5
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7612,6 +7717,25 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114813897581084046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: C:\Users\Justin\Desktop\3DGameProject2018\3DGameProject2018\Assets\FMOD\Project\Build\Desktop\Master
+    Bank.bank
+  lastModified: 636576063238152665
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1762336
+  Exists: 1
 --- !u!114 &114816288904215920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7963,7 +8087,7 @@ MonoBehaviour:
   Path: event:/Interactions/SmallPotBreak
   guid: 217fd48fa268d94ba822d1df96e1c8da
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8244,7 +8368,7 @@ MonoBehaviour:
   Path: event:/Character Movement/Throw
   guid: 2ef45ffdffe3e44da71ef13d2cfa09ea
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8360,7 +8484,7 @@ MonoBehaviour:
   Path: event:/Interactions/AmmoPickup
   guid: 8c08328d255db943b868adcc9a340be9
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8547,15 +8671,30 @@ MonoBehaviour:
   Path: event:/Guns/Pistol sounds
   guid: ec50d89b9297d745be2e948eb1eb44d8
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114426954364111620}
+  - {fileID: 114418917192691858}
   MinDistance: 1
   MaxDistance: 20
   Length: 1800
+--- !u!114 &114924868344993302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_metal
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114925775612714666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8630,7 +8769,7 @@ MonoBehaviour:
   Path: event:/Interactions/BigPotBreak
   guid: d55bda973946174c8b3c302afdcf518c
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8817,6 +8956,21 @@ MonoBehaviour:
   Name: Shooting
   Min: 0
   Max: 1
+  Default: 0
+--- !u!114 &114953580129811990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: CollisionStrength
+  Min: 0
+  Max: 100
   Default: 0
 --- !u!114 &114954499387694456
 MonoBehaviour:
@@ -9027,13 +9181,13 @@ MonoBehaviour:
   Path: event:/Water Collisions/Wall water collisions
   guid: 83c7890b37732b42839c3777c4ac54bf
   Banks:
-  - {fileID: 114148198998946832}
+  - {fileID: 114813897581084046}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114236961228531470}
-  - {fileID: 114910543499093182}
+  - {fileID: 114953580129811990}
+  - {fileID: 114160206254269836}
   MinDistance: 1
   MaxDistance: 20
   Length: 3000

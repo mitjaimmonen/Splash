@@ -21,7 +21,7 @@ public class PauseMenu : MonoBehaviour {
     /// </summary>
     public void Resume() {
 
-        controller.IsPaused = false;
+        controller.Unpause();
         gameObject.SetActive(false);
     }
     /// <summary>

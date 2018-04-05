@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /********************************************
  * MatchController class
@@ -15,6 +16,7 @@ public class MatchController : MonoBehaviour, IController{
     public GameObject[] playerSpawns;
     public LayerMask PlayerLayerMask;
     public PauseMenu pauseMenu;
+    public EventSystem es;
     private bool isPaused = false;
     private PlayerController[] instantiatedPlayers = new PlayerController[4];// only public for testing
     private StateHandler stateHandler;
@@ -28,6 +30,8 @@ public class MatchController : MonoBehaviour, IController{
     private bool hasKillLimit = false;
     [SerializeField]
     private int maxKills = 1;
+    private float inputTimer = 0;
+    private bool letInput = true;
 
 
 
@@ -133,7 +137,7 @@ public class MatchController : MonoBehaviour, IController{
     public void InputHandle(string[] input)
     {
         //all input goes to the controllers appropriate player if active
-        if(StateHandler.options.PlayersInfo[int.Parse(input[0]), 2] == 1 && !IsPaused)
+        if(letInput && StateHandler.options.PlayersInfo[int.Parse(input[0]), 2] == 1 )
         {
             if(input[1] == "Start")
             {
@@ -145,17 +149,42 @@ public class MatchController : MonoBehaviour, IController{
         }
     }
 
+    /*****************/
+    /*   Coroutines  */
+    IEnumerator DelayInput()
+    {
+        while(inputTimer <= .1f)
+        {
+            inputTimer += Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log(inputTimer);
+        inputTimer = 0;
+        letInput = true;
+    }
 
 
     #region Public Functions
-    
+
     /// <summary>
     /// Activates pause, and sets pause menu active
     /// </summary>
     public void Pause()
     {
+        letInput = false;
         IsPaused = true;
         pauseMenu.gameObject.SetActive(true);
+        es.SetSelectedGameObject(null);
+        es.SetSelectedGameObject(es.firstSelectedGameObject);
+    }
+    /// <summary>
+    /// Delays input for a few seconds then resumes
+    /// </summary>
+    public void Unpause()
+    {
+        StartCoroutine("DelayInput");
+        IsPaused = false;
+        pauseMenu.gameObject.SetActive(false);
     }
     /// <summary>
     /// Respawns a given player at random unoccupied spawn
