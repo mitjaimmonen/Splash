@@ -66,6 +66,7 @@ public class StateHandler : MonoBehaviour {
     //When loading new scene find a controller
     private void OnLevelWasLoaded(int level)
     {
+        controller = null;
         FindController();
     }
 
@@ -156,6 +157,10 @@ public class StateHandler : MonoBehaviour {
     /// </summary>
     private void FindInputXInput()
     {
+        if(controller == null)
+        {
+            return;
+        }
         string[] input = new string[3];//String[] to hold data of event to be passed
         int skippedplayer = 0;//Tracks if we skip a player, in case of gaps in active players
         for(int i = 0; i < options.CurrentActivePlayers; i++)
@@ -278,6 +283,7 @@ public class StateHandler : MonoBehaviour {
     /// </summary>
     private void FindInputUnity()
     {
+        
         string[] input = new string[3];
         int currentController;
         int skippedplayer = 0;

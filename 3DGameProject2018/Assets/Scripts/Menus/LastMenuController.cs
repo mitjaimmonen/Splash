@@ -29,7 +29,7 @@ public class LastMenuController : MonoBehaviour {
         {
             GameObject temp = Instantiate(visualStatPrefab, transform);
             //position it relative to amount of cards total and canvas size
-            temp.GetComponent<RectTransform>().anchoredPosition = new Vector3((canvas.rect.width / state.stats.Count) * (i + 1) - ((canvas.rect.width / state.stats.Count) / 2), 20, 0);
+            temp.GetComponent<RectTransform>().anchoredPosition = new Vector3((canvas.rect.width / state.stats.Count) * (i + 1) - ((canvas.rect.width / state.stats.Count) / 2), -90, 0);
             //Gets wincard script and sets the texts
             InstatntiatedStats.Add(temp.GetComponent<WinCards>());
             InstatntiatedStats[i].player.text = "Player: " + (state.stats[i].player + 1);
