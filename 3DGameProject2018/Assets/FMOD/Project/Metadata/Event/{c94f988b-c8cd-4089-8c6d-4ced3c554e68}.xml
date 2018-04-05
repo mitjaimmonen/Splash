@@ -139,7 +139,11 @@
             <destination>{efe19900-931c-45ce-90a7-817dd0c17528}</destination>
         </relationship>
     </object>
-    <object class="MixerBusPanner" id="{df05cede-04b6-4ac6-857a-4ed33d12fd62}"/>
+    <object class="MixerBusPanner" id="{df05cede-04b6-4ac6-857a-4ed33d12fd62}">
+        <property name="disabledSpeakers">
+            <value>51</value>
+        </property>
+    </object>
     <object class="MixerBusFader" id="{93cf0663-c103-460c-a038-d40d13db8e75}"/>
     <object class="FadeCurve" id="{f6c7d1d0-da5d-4714-acc2-7ba327f74106}">
         <relationship name="startPoint">

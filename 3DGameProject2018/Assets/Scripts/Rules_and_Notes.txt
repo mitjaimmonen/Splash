@@ -1,28 +1,80 @@
 
 
-//Use to debug, will seperate logs with time codes
-Debug.Log("At " + (int) Time.time + " seconds: " + "");
 
-//Header for every class explaining the purpose
+Header for every class explaining the purpose
 /********************************************
  * (class name) class
  * 
  * 
  */
 
-//Tag to put on changes for later
+
+
+/*Above enums and interfaces*/
+
+
+
+This above member variables, implementations and monobehavior functions. Just change out the name
+/******************/
+/*Member Variables*/
+
+
+
+For getters and setters, public and private functions use a region
+#region x
+#endregion
+
+
+
+Tag to put on changes for later
+//
 //                                                                                                                             ////////////Tagged////////////
 //*****************************************************************************************************************************//////////////To//////////////
 //                                                                                                                             ////////////Change////////////
 
 
 
+General ToDo's at the end of a class
+/******************************
+    *            To Do
+    *  Functions to change settings
+    *  save settings change statehandler
+    *  options setting exit functions 
+    *  to set state icontroller to last 
+    *  controller
+    *  
+    ******************************/
+
 //////////Notes/////////////
 
-All controllers should have a tag so the state handler can attach to it on scene change for
- our input passing and such
+Use to debug, will seperate logs with time codes
+Debug.Log("At " + (int) Time.time + " seconds: " + "");
 
-teams needs to be a list
 
-we need to decide to have all the player elements constant and fixxed or initialized and equally spaced
-equally spaced is nice but obviously more work to smooth transitions ect
+If you wanna be really meticulous you do one blank space inbetween the end of an area and the next tag, except inside a class were everything after the first region gets seperated by 3 lines
+and finish it with one line before the final close. Also starting brackets on the same line.
+Example:
+
+#includes
+
+/********************************************
+ * header
+ */
+class {
+ 
+	/******************/
+	/*Member Variables*/
+
+
+
+	//other tags or regions
+
+
+
+	/******************************
+    *            To Do
+    *  stuff
+	*
+    ******************************/
+
+}

@@ -1,85 +1,149 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using XInputDotNetPure;
 
-public class MainMenuController : MonoBehaviour {
-    private MatchOptions options;
-    private int[,] team;
-    public GameObject[] visualPlayerElements = new GameObject[4];
+/********************************************
+ * MainMenuController class
+ *  Handles activating players
+ *  Sets the game options
+ *  Starts the match
+ */
+public class MainMenuController : MonoBehaviour, IController {
 
-    //stats to track were you are in both menues and a list of prefabs for each option
-    private bool inSettings = false;
-    private int currentSelectionMenu = 0;
-    public GameObject[] menuObjects;
-    private int currentSelectionOptions = 0;
-    public GameObject menuPrefab;
-    public GameObject[] optionsObjects;
+    /******************/
+    /*Member Variables*/
+    private MatchOptions options = new MatchOptions();
+    public TextMeshProUGUI[] visualPlayerElements = new TextMeshProUGUI[4];
+    private StateHandler stateHandler;
 
-    //if the options are prefabs initialize,or we could probably just have them placed in scene already through the editor
-    //Highlight first element and set each input to the default option also assigning that in the match options
-    //start main music at current saved settings volume
+
+
+    /************************/
+    /*MonoBehavior Functions*/
+    //shows the currently active players and starts music
     private void Start()
     {
-        
+        stateHandler = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
+        for(int i = 0; i < stateHandler.options.PlayersInfo.GetLength(0); i++)
+        {
+            if(stateHandler.options.PlayersInfo[i,2]==1)
+            {
+                visualPlayerElements[i].text = "Player " + (i+1) + " Ready";
+            }
+        }
+
     }
-
-
-    //update options to hold the current selections
-    //pass options and team to the state handler along with ativating state change into the game
-    private void StartGame()
+    //Listen for controllers to add them to current players
+    private void Update()
     {
-        //for menuobjects pass oprionobject.label, optionobject.getvalue to the current options
+        for(int i = 0; i < 6; i++)
+        {
+            if(GamePad.GetState((PlayerIndex)i).Buttons.Start == ButtonState.Pressed)//if(Input.GetAxis("Joy" + i + "Start") != 0)
+            {
+                AddPlayer(i);
+            }
+        }
     }
 
 
 
-    //if in settings handle input accordingly else handle input in main menu
-    // eg up goes up down down, left or right changes the selection
-    //if up or down add or subtract currentselection and normalize the old item hightlight the new item
-    //only accept input from a controller thats been added to team
-    //also handle pressing a button to call add to team or remove
-    //should take an array with the first element being the controller number and the second the appropriate button
-    //also any recognized input should have a slight sound effect, selections and joining should be different
-    //for any option navigation ie left and right(or x/y button) movement call menu/settingsobject[currentselectionmenu/settings].optionsobject.increase/decrease
-    //if x on the settings button call settings
-    //if x on the start call start
-    //if x on settings menu exit then save settings
+    /*****************/
+    /*Implementations*/
+    //Icontroller implementation, listens to exit a player
     public void InputHandle(string[] input)
     {
-        
+        if(input[1] == "Y")
+        {
+            RemovePlayer(stateHandler.options.PlayersInfo[int.Parse(input[0]), 3]);
+        }
     }
 
-    
 
-    //add item to the list of players with the number of controller added
-    //and visually update a players presence (update the playerpresence prefabs text and color to active aand team color)
-    //when innitialized everyone will be on seperate teams 1-4
-    //if the player is already in the array cycle its team up one(change its physical color to reflect)
+
+    #region Public Functions
+
+    /// <summary>
+    /// Call state change to game
+    /// Only works if there are active players
+    /// </summary>
+    public void StartGame()
+    {
+        //If there's an active player pass options to StateHandler and change state
+        if(stateHandler.options.CurrentActivePlayers >0)
+        {
+            stateHandler.ChangeState(State.Game);
+        }
+    }
+    /// <summary>
+    /// Change the max game time in options
+    /// </summary>
+    /// <param name="time">Slider that the value is pulled from</param>
+    public void ChangeTime(Slider time)
+    {
+        stateHandler.options.maxTime = time.value;
+    }
+    /// <summary>
+    /// Change the max kills in options
+    /// </summary>
+    /// <param name="time">Slider that the value is pulled from</param>
+    public void ChangeKills(Slider kills)
+    {
+        stateHandler.options.maxKills = kills.value;
+    }
+    /// <summary>
+    /// Quits Game to desktop
+    /// </summary>
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    
+    #endregion
+
+
+
+    #region Private Functions
+
+    /// <summary>
+    /// Binds controller to an activated player
+    /// </summary>
+    /// <param name="controller">Xinput number of controller</param>
     private void AddPlayer(int controller)
     {
-
+        if(stateHandler.options.EnablePlayer(controller))
+        {
+            int currentplayer = stateHandler.options.PlayerFromController(controller);
+            visualPlayerElements[currentplayer].text = "Player " + (currentplayer+1) + " Ready";
+        }
     }
-    //remove team element that has the controller being removed
-    //shift all the players so they are left aligned
+    /// <summary>
+    /// Deactivates player
+    /// </summary>
+    /// <param name="controller">Xinput number of controller</param>
     private void RemovePlayer(int controller)
     {
-
+        int currentplayer = stateHandler.options.PlayerFromController(controller);
+        if(stateHandler.options.DisablePlayer(controller))
+        {
+            visualPlayerElements[currentplayer].text = "Press Start";
+        }
     }
+    
+    #endregion
 
 
-
-    //Brings up settings menu 
-    //fades or puts an opaque object between options and menu
-    //sets insettings to true
-    private void ShowSettings()
-    {
-
-    }
-    //takes settings stats, saves, and exit
-    //adjust current musics and sound effects volume
-    //insettings to false
-    private void SaveSettings()
-    {
-
-    }
+    /******************************
+     *            To Do
+     *  Add settings prefab and
+     *  ShowSettings function
+     *  
+    //Brings up settings menu prefab
+    //changes the states current icontroller to the new settings
+    //makes settings last controller to this object
+    private void ShowSettings(){}
+     ******************************/
+    
 }

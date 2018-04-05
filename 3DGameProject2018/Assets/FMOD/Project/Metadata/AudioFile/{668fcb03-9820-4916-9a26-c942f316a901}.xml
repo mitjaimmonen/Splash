@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{668fcb03-9820-4916-9a26-c942f316a901}">
+        <property name="assetPath">
+            <value>Ambience/Boat in water 1.wav</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>192</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>7.8624739583333332</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{24e8c4c9-5313-4c8e-8870-c3ee5ba89e82}</destination>
+        </relationship>
+    </object>
+</objects>

@@ -4,189 +4,324 @@ using UnityEngine;
 using FMOD.Studio;
 
 /********************************************
- * (class name) Weapon
+ * Weapon
  *
  * General behaviour for all weapons.
  * Controls weapon particle effects, sounds and animations as well.
  * 
  *
  * Other notes:
- * Timer is set for fire rate now.
- * Can be changed if needed.
+ *
+ * Script assumes all weapons are under a parent which has player controller.
  *
  * isContinuous is used to change between real time shoot force and static.
  * Burst weapons shoot with full force always.
  * 
- *
- * Particles startSpeed working but particlesystem needs tweaking.
  */
-
 
 public class Weapon : MonoBehaviour {
     //hold a sound and particle effect along with damage, clip, ammunition size and isshooting, timer, iscontinuous
+    public WeaponData weaponData;
+    public GameObject weaponPickup;
 
-    [Tooltip("How much water in a single magazine")]
-    public int maxMagazineSize = 100;
-    [Tooltip("Amount of water containers at start")]
-    public int startMagazines = 1;
-    [Tooltip("How much one shot consumes water")]
-    public int shotUsage = 1;
-    [Tooltip("How long to wait until shoot input can get called again")]
-    public float fireRate = 0.25f;
-    [Tooltip("Does weapon reload automatically when empty?")]
-    public bool autoReload = true, isContinuous = true;
+    [Tooltip("Does weapon reload automatically when empty.")]
+    public bool autoReload = true;
 
+    [Tooltip("Is weapon burst or continuous (automatic) type.")]
+    public bool isContinuous = true;
+
+    [HideInInspector]
+    public PlayerController playerController;
     private Animator gunAnim;
+    private Rigidbody rb;
+    private Drops dropScript;
+    private Collider dropCollider;
     private ParticleSystem waterParticles;
-    private bool isShooting, isScope;
-    private int currentMagazineSize, currentMagazines;
-    private float timer;
-    private float shootForceMultiplier; //Controls water force according to input axis amounts
-    private float accuracyRandomizer; //How much particle direction is randomized
+    private ParticleLauncher particleLauncher;
+    private bool isShooting, isReloading = false, isActive;
+
+    [Tooltip("What is the gun's local position under player's gunOrigin.")]
+    public Vector3 localPositionOffset;
+
+    //InputTimer checks if shoot trigger has been released
+    //FirerateTimer checks the interval between shots
+    //ShootTimer checks if weapon has been shooting long enough
+    private float inputTimer, fireRateTimer, shootTimer;
     private float shootSpeed; //Particle start speed (=force)
-
+    private Quaternion lookRotation;
+    private Vector3 lookDirection;
     
-
 
     #region FMOD
 
-    //Only shoot sound event is stored in event instance because its parameters need to be accessed during lifetime.
-    //Other sound events are "one shots" which will be released after playing.
-    [FMODUnity.EventRef] public string shootSE, reloadSE, emptyMagSE, takeScopeSE;        
-    private FMOD.Studio.EventInstance shootEI; 
+        //Only shoot soundEvent is stored in event instance because its parameters need to be accessed during lifetime.
+        //Other sound events are "one shots" which will be released after playing.
+        [FMODUnity.EventRef] public string shootSE, reloadSE, emptyMagSE;        
+        private FMOD.Studio.EventInstance shootEI; 
 
-    //Store all fmod variables in code for easier tweaking during playback
-    private FMOD.Studio.ParameterInstance FMOD_Magazine; // amount of water left in magazine, 0-100
-    private FMOD.Studio.ParameterInstance FMOD_Shooting; // Shooting force from Input, 0-100            
+        //Store all fmod variables in code for easier tweaking during playback
+        private FMOD.Studio.ParameterInstance FMOD_Clip; // amount of water left in magazine, 0-100
+        private FMOD.Studio.ParameterInstance FMOD_Shooting; // Shooting force from Input, 0-1           
 
     #endregion
 
+    #region getters & setters
 
-    public void Awake()
+        public int CurrentClipAmmo 
+        {
+            get { return weaponData.currentClipAmmo; }
+            set
+            {
+                if (value < 0)
+                    weaponData.currentClipAmmo = 0;
+                else if (value <= weaponData.clipSize)
+                    weaponData.currentClipAmmo = value;
+                else if (value > weaponData.clipSize)
+                    weaponData.currentClipAmmo = weaponData.clipSize;
+                if (isActive)
+                    playerController.CurrentAmmo = weaponData.currentClipAmmo;
+            }
+        }
+        public int ClipSize
+        {
+            get { return weaponData.clipSize; }
+        }
+
+    #endregion
+
+    //Gets called on picked up
+    public void Initialize()
     {
+        weaponData = GetComponent<WeaponData>();
+        transform.parent = playerController.gunsParent.transform;
+        transform.localPosition = localPositionOffset;
+        
+        if (playerController == null)
+            playerController = GetComponentInParent<PlayerController>();
+        if (!playerController)
+            Debug.LogWarning("No PlayerController found!");
         waterParticles = gameObject.GetComponentInChildren<ParticleSystem>();
-        // gunAnim = gameObject.GetComponent<Animator>();
+        if (!waterParticles)
+            Debug.LogWarning("No ParticleSystem found!");
+        
+        particleLauncher = waterParticles.GetComponent<ParticleLauncher>();
+        if (!particleLauncher)
+            Debug.LogWarning("No ParticleLauncher found!");
+            
+        gunAnim = gameObject.GetComponentInChildren<Animator>();
+        if (!gunAnim)
+            Debug.LogWarning("No Animator found!");
         
         shootSpeed = waterParticles.main.startSpeedMultiplier;
-        accuracyRandomizer = waterParticles.shape.randomDirectionAmount;
-
-        currentMagazineSize = maxMagazineSize;
-        currentMagazines = startMagazines;
+        // weaponData.currentClipAmmo = weaponData.clipSize;
+        // playerController.ClipSize = clipSize;
+        // playerController.CurrentAmmo = currentClipAmmo;
+        // playerController.CurrentDamage = damage;
+        // particleLauncher.HeadshotMultiplier = headshotMultiplier;
 
     }
+
+    //When weapon is picked up or when switched as currentWeapon
+    public void Activate()
+    {
+        if (playerController)
+        {
+            playerController.ClipSize = weaponData.clipSize;
+            playerController.CurrentAmmo = weaponData.currentClipAmmo;
+            playerController.CurrentDamage = weaponData.damage;
+        }
+        else
+        {
+            Debug.Log("No PlayerController on Activate. This should not happen.");
+            
+        }
+        if (particleLauncher)
+        {
+            particleLauncher.HeadshotMultiplier = weaponData.headshotMultiplier;            
+        }
+        else
+        {
+            Debug.Log("No particle launcher on Activate. This should not happen.");
+        }
+        if (!weaponData)
+            Debug.Log("No weaponData on Activate. This should not happen.");
+            
+            
+        isActive = true;
+        gameObject.SetActive(true);
+
+    }
+
+
+    //When no more currentWeapon or when destroyed
+    public void Deactivate()
+    {
+        shootEI.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        isActive = false;
+        gameObject.SetActive(false);
+    }
+
+
 
     private void Update()
     {
-
-        
-        if(timer > 0) 
+        if(gameObject.activeSelf && !playerController.controller.IsPaused && isActive)
         {
-            timer -= Time.deltaTime;
-        }
+            //Set weapon aim to center worldpoint of the viewport.
+            if (playerController.IsAimRaycastHit)
+                lookDirection = (playerController.AimWorldPoint - transform.position).normalized;
+            else 
+                lookDirection = playerController.playerHead.transform.forward;
 
-        //Test inputs temporarily here
-        //If input amount more than 20, call shoot() every frame.
-        float axis = Input.GetAxis("Fire1");
+            lookRotation = Quaternion.LookRotation(lookDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
 
-        if (axis > 0.2f)
-            Shoot(axis);
-        else
-            FMOD_Shooting.setValue(axis * 100f);
+            //Updates sound position.
+            shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
+            
 
-        
+            //Checks if shoot trigger is no longer called.
+            if (inputTimer > 0.1f || !isShooting)
+            {
+                isShooting = false;
+                FMOD_Shooting.setValue(0);
+                    
+            }
+            gunAnim.SetBool("isShooting", isShooting);
 
-
-        
-    }
-
-    public void Shoot(float force)
-    {
-
-        if (timer > 0)
-            return;
-
-        if (currentMagazineSize < shotUsage)
-        {
-
-            FMODUnity.RuntimeManager.PlayOneShotAttached(emptyMagSE, gameObject);
-
-            if(autoReload && currentMagazines>0)
+            if (autoReload && weaponData.currentClipAmmo < weaponData.shotUsage)
+            {
                 Reload();
 
-            //If no ammo or magazines, do not shoot.
-            FMOD_Shooting.setValue(0);
-            return;
+            }
+
+            //Look up "fireRate", "maxShootTime" and "reloadTime" to see the meanings.
+            inputTimer += Time.deltaTime;
+            fireRateTimer += Time.deltaTime;
+            shootTimer += Time.deltaTime;
         }
-
-
-
-        //Set WaterParticle parameters.
-        var main = waterParticles.main;
-        var shape = waterParticles.shape;
-        float currentShootSpeed = shootSpeed;
-        float currentAccuracyRandomizer = accuracyRandomizer;
-
-        if(isContinuous)
-            currentShootSpeed = shootSpeed * force;
-
-        if (!isScope)
-            currentAccuracyRandomizer = 2 * accuracyRandomizer;
-
-        main.startSpeed = currentShootSpeed;
-        shape.randomDirectionAmount = currentAccuracyRandomizer;
-        waterParticles.Play();
-        
-        
-        //SPAGHETTI HELL INC
-        //These checks need to be made for "one-shot" sounds to work
-        //One shots can start on top of each other while continuous continues the old sound without creating new.
-
-        if (!shootEI.isValid() || !isContinuous)
-        {
-            shootEI = FMODUnity.RuntimeManager.CreateInstance(shootSE);
-            shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
-        }
-
-        //Set FMOD sound parameters.
-        shootEI.getParameter("Magazine", out FMOD_Magazine);
-        shootEI.getParameter("Shooting", out FMOD_Shooting);
-        FMOD_Shooting.setValue(force * 100f);
-        float magPercentage = (float)currentMagazineSize / (float)maxMagazineSize * 100f;        
-        FMOD_Magazine.setValue(magPercentage);
-
-        FMOD.Studio.PLAYBACK_STATE playbackState;
-        shootEI.getPlaybackState(out playbackState);
-
-        if (playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING || !isContinuous)
-        {
-            shootEI.start();
-            shootEI.release();
-        }
-
-        
-
-
-        currentMagazineSize -= shotUsage;
-        
-        //Timer starts countdown for next possibility to shoot        
-        timer = fireRate;
-        
-
     }
 
-    private void Reload() {
-        // gunAnim.SetTrigger("reload");
 
+    public void Shoot(float input)
+    {
+        if (gameObject.activeSelf && !playerController.controller.IsPaused && isActive)
+        {
+            if (inputTimer > 0.1f) //First time calling after input trigger
+            {
+                //Call everything here that needs to be called only once.
+
+                shootTimer = 0;
+
+                if (weaponData.currentClipAmmo < weaponData.shotUsage)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShotAttached(emptyMagSE, gameObject);
+                    Debug.Log("empty mag sound");
+                }
+            }
+            //Reset input timer right after the if-check.
+            inputTimer = 0;
+
+
+            if (fireRateTimer < weaponData.fireRate)
+                return;
+            if (weaponData.currentClipAmmo < weaponData.shotUsage || (weaponData.maxShootTime != 0 && shootTimer > weaponData.maxShootTime))
+            {
+                isShooting = false;
+                return;
+            }
+
+            //Tests passed and shooting is allowed, set bool true.
+            isShooting = true;
+            //Reset rest of the timers
+            fireRateTimer = 0;
+            //Reset animation bools making sure shooting animation gets played.
+            gunAnim.SetBool("reload", false);
+
+            //Set WaterParticle parameters.
+            var main = waterParticles.main;
+            float currentShootSpeed = shootSpeed;
+
+            if(isContinuous)
+            {
+                currentShootSpeed = shootSpeed * input;
+                //Stops water particles from just falling down due to too little force. (Usual max speed is around 30-60)
+                if(currentShootSpeed < 7)
+                    currentShootSpeed = 7;
+            }
+            else
+                currentShootSpeed = shootSpeed;
+
+            main.startSpeed = currentShootSpeed;
+            waterParticles.Play();
+            
+            
+
+            //FMOD checks and parameters.
+            //If-checks need to be made for "one-shot" sounds to work
+            //One shots can start on top of each other while continuous continues the old sound without creating new.
+
+            if (!shootEI.isValid() || !isContinuous)
+            {
+                shootEI = FMODUnity.RuntimeManager.CreateInstance(shootSE);
+                shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
+            }
+
+            //Set FMOD sound parameters.
+            shootEI.getParameter("Magazine", out FMOD_Clip);
+            shootEI.getParameter("Shooting", out FMOD_Shooting);
+            FMOD_Shooting.setValue(input);
+            float clipPercentage = (float)weaponData.currentClipAmmo / (float)weaponData.clipSize * 100f;        
+            FMOD_Clip.setValue(clipPercentage);
+
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            shootEI.getPlaybackState(out playbackState);
+
+            if (playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING || !isContinuous)
+            {
+                shootEI.start();
+                shootEI.release();
+            }
+
+
+            weaponData.currentClipAmmo -= weaponData.shotUsage;
+            playerController.CurrentAmmo = weaponData.currentClipAmmo;
+        }
+    }
+
+    public void Reload() {
+        
+        // When animations are fully implemented, clip & ammo are counted at the end of reload.
+        if (!isShooting && playerController.GlobalAmmo > 0 && !gunAnim.GetCurrentAnimatorStateInfo(0).IsName("reload") && weaponData.currentClipAmmo < weaponData.clipSize)
+        {
+            Debug.Log("Reload clip");
+            gunAnim.SetBool("reload", true);
+        }
+    }
+
+
+
+
+    #region In-animation calls
+    public void AnimReloadStarted() {
         FMODUnity.RuntimeManager.PlayOneShotAttached(reloadSE, gameObject);
-        currentMagazines--;
-        currentMagazineSize = maxMagazineSize;
-        timer = 5f;
-    }
+        gunAnim.SetBool("reload", false); //Animation will play till the end anyway if not interrupted.
 
-    void OnDestroy() {
-        waterParticles.Stop();
-        shootEI.release();
-        shootEI.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
+    public void AnimReloadEnded() {
+        int oldClipAmmo = weaponData.currentClipAmmo;
+        int currentGlobalAmmo = playerController.GlobalAmmo;
+        if (currentGlobalAmmo < (weaponData.clipSize - oldClipAmmo))
+            weaponData.currentClipAmmo += currentGlobalAmmo;
+        else
+            weaponData.currentClipAmmo = weaponData.clipSize;
+
+        currentGlobalAmmo -= (weaponData.currentClipAmmo - oldClipAmmo);
+        playerController.GlobalAmmo = currentGlobalAmmo;
+        
+        playerController.CurrentAmmo = weaponData.currentClipAmmo;
+        
+    }
+    #endregion
 
 }

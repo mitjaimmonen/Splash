@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Controller
+  - State Handler
+  - HUD Overlay
+  - Head
+  - Dynamic Elements
+  - Static Elements
+  - Torso
   layers:
   - Default
   - TransparentFX
@@ -13,14 +20,14 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Weapon
+  - Player
+  - Environment
+  - Culling0
+  - Culling1
+  - Culling2
+  - Culling3
+  - Dynamic Elements
   - 
   - 
   - 

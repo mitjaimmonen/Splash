@@ -112,7 +112,7 @@
             <value>0.0050000000000000001</value>
         </property>
         <property name="pitch">
-            <value>7</value>
+            <value>11</value>
         </property>
         <relationship name="modulators">
             <destination>{2e9e7955-4321-4d97-a871-d09d676a6cae}</destination>
@@ -157,7 +157,7 @@
     </object>
     <object class="EventMixerGroup" id="{b3b1768c-f16f-4dcf-a9b3-fd48baf2fe1c}">
         <property name="volume">
-            <value>-29</value>
+            <value>-18</value>
         </property>
         <property name="name">
             <value>Audio 2</value>
@@ -174,11 +174,16 @@
     </object>
     <object class="MixerBusEffectChain" id="{2ecf4e02-b92c-449c-b5a0-1311d425011c}">
         <relationship name="effects">
+            <destination>{46fe00f3-39e6-487c-9770-79d399735fc9}</destination>
             <destination>{a4ff5d6e-f724-4e98-870e-4e0a6ba7bf9c}</destination>
             <destination>{1c9ccd7c-6863-4f00-8029-60d2c7a36b3e}</destination>
         </relationship>
     </object>
-    <object class="MixerBusPanner" id="{cc0ee38f-519b-4b55-879d-2b304c59da14}"/>
+    <object class="MixerBusPanner" id="{cc0ee38f-519b-4b55-879d-2b304c59da14}">
+        <property name="disabledSpeakers">
+            <value>51</value>
+        </property>
+    </object>
     <object class="MixerBusFader" id="{ed239660-8219-4f62-a167-6ca9b851211f}"/>
     <object class="RandomizerModulator" id="{2e9e7955-4321-4d97-a871-d09d676a6cae}">
         <property name="nameOfPropertyBeingModulated">
@@ -209,6 +214,17 @@
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{1bc13cca-df5a-4b0d-8dea-f37477d01caa}"/>
+    <object class="MultibandEqEffect" id="{46fe00f3-39e6-487c-9770-79d399735fc9}">
+        <property name="filterTypeA">
+            <value>7</value>
+        </property>
+        <property name="frequencyA">
+            <value>235.405243</value>
+        </property>
+        <property name="gainA">
+            <value>-30</value>
+        </property>
+    </object>
     <object class="MixerBusFader" id="{a4ff5d6e-f724-4e98-870e-4e0a6ba7bf9c}"/>
     <object class="SpatialiserEffect" id="{1c9ccd7c-6863-4f00-8029-60d2c7a36b3e}"/>
     <object class="AutomationPoint" id="{9bc773a6-63f3-403f-8159-e7f1920cbc69}">

@@ -1,0 +1,167 @@
+fileFormatVersion: 2
+guid: 6f7d79f28b26e434db64e96f5eb4d3f6
+timeCreated: 1522911282
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: gate.001
+    100002: gate.002
+    100004: gate.003
+    100006: gatehouse.001
+    100008: //RootNode
+    100010: terrain
+    100012: wallplant02.001
+    100014: wallplant02.003
+    400000: gate.001
+    400002: gate.002
+    400004: gate.003
+    400006: gatehouse.001
+    400008: //RootNode
+    400010: terrain
+    400012: wallplant02.001
+    400014: wallplant02.003
+    2100000: jump
+    2100002: Gate gatewall ship
+    2100004: Gatewall ship
+    2100006: Gate gatewall warehouse
+    2100008: floor
+    2100010: Gatewall warehouse
+    2300000: gate.001
+    2300002: gate.002
+    2300004: gate.003
+    2300006: gatehouse.001
+    2300008: terrain
+    2300010: wallplant02.001
+    2300012: wallplant02.003
+    3300000: gate.001
+    3300002: gate.002
+    3300004: gate.003
+    3300006: gatehouse.001
+    3300008: terrain
+    3300010: wallplant02.001
+    3300012: wallplant02.003
+    4300000: wallplant02.003
+    4300002: wallplant02.001
+    4300004: gate.003
+    4300006: gate.001
+    4300008: gate.002
+    4300010: terrain
+    4300012: gatehouse.001
+    6400000: gate.001
+    6400002: gate.002
+    6400004: gate.003
+    6400006: gatehouse.001
+    6400008: terrain
+    6400010: wallplant02.001
+    6400012: wallplant02.003
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gate gatewall ship
+    second: {fileID: 2100000, guid: 8cc9c2b72eb28aa48a9164fbcad97f87, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gate gatewall warehouse
+    second: {fileID: 2100000, guid: 835daf885b4457149938f4c4143ba365, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gatewall ship
+    second: {fileID: 2100000, guid: 07fa2ad9cabb15941aaf40455a8f4d54, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gatewall warehouse
+    second: {fileID: 2100000, guid: c82eabe27f2b35e4c9760036900ddf75, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: floor
+    second: {fileID: 2100000, guid: 0a6be7ff3d05f614e9c8f3071f35488c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jump
+    second: {fileID: 2100000, guid: 36f8a85eba7affd4583d658a0721eefc, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -326,7 +326,11 @@
             <destination>{408a7e98-2d0d-4709-9d24-fd8768a54c38}</destination>
         </relationship>
     </object>
-    <object class="MixerBusPanner" id="{688950e0-72f4-4dc9-a2e7-a6fe84025b9b}"/>
+    <object class="MixerBusPanner" id="{688950e0-72f4-4dc9-a2e7-a6fe84025b9b}">
+        <property name="disabledSpeakers">
+            <value>51</value>
+        </property>
+    </object>
     <object class="MixerBusFader" id="{6e4fdfdb-bfde-4d1e-82d0-8878386b7c89}"/>
     <object class="RandomizerModulator" id="{df5f9864-bdb7-49e1-99a3-942ae18174b7}">
         <property name="nameOfPropertyBeingModulated">
