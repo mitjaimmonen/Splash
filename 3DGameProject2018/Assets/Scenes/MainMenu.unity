@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.28711563, g: 0.3358623, b: 0.5218703, a: 1}
+  m_IndirectSpecularColor: {r: 0.28717792, g: 0.33586565, b: 0.5218966, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -942,6 +942,7 @@ MonoBehaviour:
   clouds:
   - {fileID: 105566, guid: decc2ba5add7b984aab134a07b436422, type: 2}
   - {fileID: 171218, guid: e5a9e0b66bb8a8b47a28819231a34fc2, type: 2}
+  initialAmmount: 10
   speed: 10
   frequencyInSeconds: 6
   cloudScale: 0.5
@@ -953,7 +954,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 542509668}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -43.6464, y: -30.169558, z: 222.02647}
+  m_LocalPosition: {x: 10, y: -30.169558, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 308040892}
@@ -969,7 +970,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 880, y: 50, z: 500}
+  m_Size: {x: 880, y: 50, z: 1000}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &600997371
 Prefab:
