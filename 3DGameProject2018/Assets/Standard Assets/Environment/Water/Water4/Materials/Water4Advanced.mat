@@ -136,15 +136,15 @@ Material:
     - _DisplacementXz: {r: 0.6499999, g: -2.9203715, b: 1.6599998, a: -3.9363046}
     - _DistortParams: {r: 2.24, g: 1.98, b: 1.77, a: -2.7}
     - _Extinction: {r: 4.5, g: 75, b: 300, a: 1}
-    - _Foam: {r: -3.75, g: 2.5, b: 0.06, a: 0}
+    - _Foam: {r: -3.75, g: 2.5, b: 0.33, a: -0.02}
     - _FoamWaveParams: {r: 0, g: 0.24918434, b: 3.3395782, a: 1}
     - _Fresnel_ST: {r: 1, g: 1, b: 0, a: 0}
     - _GAmplitude: {r: 0.9, g: 0.72, b: -0.01, a: 0.01}
     - _GDirectionAB: {r: 0.46914357, g: 0.35405126, b: -1.04, a: 0.1}
     - _GDirectionCD: {r: 0.7033888, g: -0.6799999, b: 0.7175735, a: -0.2}
-    - _GFrequency: {r: 0.89, g: 0.89, b: 2.41, a: 8.19}
+    - _GFrequency: {r: 0.49, g: 0.23, b: 0.44, a: 0.63}
     - _GSpeed: {r: 1.62, g: 0.86, b: 1.45, a: 0.01}
-    - _GSteepness: {r: 5.5, g: 5.54, b: 11.68, a: 5.56}
+    - _GSteepness: {r: 1.17, g: 0.33, b: 0.21, a: 0.2}
     - _HorizonColor: {r: 0.052907113, g: 0.24486735, b: 0.2835821, a: 1}
     - _InvFadeParemeter: {r: 2, g: 1, b: 1, a: 0}
     - _MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
