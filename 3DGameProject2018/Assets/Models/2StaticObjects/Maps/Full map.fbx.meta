@@ -54,6 +54,14 @@ ModelImporter:
     4300010: wallplant02
     4300012: terrain
     4300014: gatehouse.001
+    6400000: gate.001
+    6400002: gate.002
+    6400004: gate.003
+    6400006: gatehouse.001
+    6400008: terrain
+    6400010: wallplant02
+    6400012: wallplant02.001
+    6400014: wallplant02.003
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -86,13 +94,13 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

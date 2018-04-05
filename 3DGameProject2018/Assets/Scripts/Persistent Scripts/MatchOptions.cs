@@ -21,8 +21,8 @@ public class MatchOptions {
     /*Member Variables*/
     public GameMode mode = GameMode.DeathMatch;
     public Map map = Map.Arena;
-    public float maxTime = 3;
-    public float maxKills = 10;
+    public float maxTime = 0;
+    public float maxKills = 0;
     public int respawnTime = 5;
     private int currentActivePlayers = 0;
     //[[player #, team, active, controller #]]

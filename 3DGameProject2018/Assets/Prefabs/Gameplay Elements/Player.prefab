@@ -1622,7 +1622,7 @@ MonoBehaviour:
   maxVelocity: 1
   walkSpeed: 7
   runMultiplier: 1.5
-  maxSlope: 0.5
+  maxSlope: 0.8
   climbSpeed: 1
   stepHeight: 0.1
   damageColliders:

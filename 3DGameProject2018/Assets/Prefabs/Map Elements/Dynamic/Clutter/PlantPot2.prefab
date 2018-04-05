@@ -590,3 +590,6 @@ MonoBehaviour:
   ObjectsToDisableOnDestroy:
   - {fileID: 1311409497899312}
   mainRigidbody: {fileID: 54174007218221568}
+  psSplash: {fileID: 0}
+  colSplashSound: {fileID: 0}
+  psSplashSizeMultiplier: 1

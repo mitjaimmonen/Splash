@@ -90,10 +90,11 @@ public class CollisionSounds : MonoBehaviour {
 		yield break;
 	}
 
-	public void OnWaterTrigger()
-	{
+	public void WaterSplashSound(){
+
 		if (soundTimer < Time.time - 1f)
 		{
+			Debug.Log("asd");
 			FMODUnity.RuntimeManager.PlayOneShot(waterSplashSE, transform.position);
 			soundTimer = Time.time;
 		}

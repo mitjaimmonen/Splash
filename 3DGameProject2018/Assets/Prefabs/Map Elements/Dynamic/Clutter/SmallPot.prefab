@@ -258,7 +258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxParticleCollisionCount: 10
   collisionSE: event:/Water Collisions/HitHardSurface
-  waterSplashSE: event:/Water Collisions/WaterSplashSmall
+  waterSplashSE: event:/Water Collisions/WaterSplashBig
   destroySE: event:/Interactions/SmallPotBreak
 --- !u!114 &114643241614402262
 MonoBehaviour:
@@ -282,6 +282,9 @@ MonoBehaviour:
   - {fileID: 1191791137348776}
   - {fileID: 1688043866326688}
   mainRigidbody: {fileID: 0}
+  psSplash: {fileID: 0}
+  colSplashSound: {fileID: 0}
+  psSplashSizeMultiplier: 1
 --- !u!198 &198787995339436460
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -151,6 +151,9 @@ MonoBehaviour:
   mainCollider: {fileID: 136414006908069800}
   ObjectsToDisableOnDestroy: []
   mainRigidbody: {fileID: 0}
+  psSplash: {fileID: 0}
+  colSplashSound: {fileID: 0}
+  psSplashSizeMultiplier: 1
 --- !u!114 &114718648104497110
 MonoBehaviour:
   m_ObjectHideFlags: 1

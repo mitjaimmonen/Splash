@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DynamicItemScript : MonoBehaviour {
+public class DynamicItemScript : MonoBehaviour, IWater {
 
 	public int health = 10;
 	public float explosionForce = 1f;
@@ -21,6 +21,40 @@ public class DynamicItemScript : MonoBehaviour {
 	private bool isDestroying = false;
 
 
+
+        public ParticleSplash psSplash;
+        public CollisionSounds colSplashSound;
+
+		public ParticleSplash particleSplash
+        {
+            get{ return psSplash;}
+            set{ particleSplash = value; }
+        }
+
+        public CollisionSounds colsounds
+        {
+            get{ return colSplashSound;}
+            set{ colsounds = value; }
+        }
+
+        public float psSplashSizeMultiplier = 1;
+        public float splashSizeMultiplier
+        {
+            get{ return psSplashSizeMultiplier; }
+            set{ splashSizeMultiplier = value; }   
+        }
+        public void WaterInteraction(){
+			Destroy(gameObject, 1f);
+        }
+
+
+	void Awake()
+	{
+		colSplashSound = GetComponent<CollisionSounds>();
+		if (!collisionSounds)
+			colSplashSound = GetComponentInChildren<CollisionSounds>();
+		
+	}
 	private void Start()
 	{
 		currentHealth = health;
@@ -46,8 +80,8 @@ public class DynamicItemScript : MonoBehaviour {
 
 	public void ParticleHit(Vector3 origin, Vector3 intersection)
 	{
-		currentHealth -= 1;
-		Debug.Log(currentHealth);
+		if(health != 0)
+			currentHealth -= 1;
 
 		if (currentHealth < 1 && isDestroyable && !isDestroying)
 			StartCoroutine(StartDestroy(origin, intersection));
@@ -123,10 +157,5 @@ public class DynamicItemScript : MonoBehaviour {
 	}
 
 
-	public void OnWaterTrigger()
-	{
-		//Water class calls this.
-		Destroy(gameObject, 1f);
-	}
 
 }

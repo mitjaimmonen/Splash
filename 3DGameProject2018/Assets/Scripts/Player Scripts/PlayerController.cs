@@ -17,7 +17,7 @@ using UnityEngine;
 *   NOTE:
 *   Move canvasOverlay to whichever class instantiates players.
 */
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IWater
 {
 
     /******************/
@@ -206,7 +206,6 @@ public class PlayerController : MonoBehaviour
         }
 
     #endregion
-
 
 
     /************************/
@@ -438,66 +437,87 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnWaterTrigger()
-    {
-        if (isAlive)
+
+    #region Implementations 
+
+        public float psSplashSizeMultiplier = 1;
+        public ParticleSplash psSplash;
+
+        public ParticleSplash particleSplash
         {
-            Die(null);
-            FMODUnity.RuntimeManager.PlayOneShot(waterSplashSE, transform.position);
+            get{ return psSplash;}
+            set{ particleSplash = value; }
         }
-            
-    }
 
-
-
-    /*****************/
-    /*Implementations*/
-    //shoots, moves, interacts, shows scores, pauses if pressed button
-    public void InputHandle(string[] input)
-    {
-        if (isAlive)
+        public CollisionSounds colSplashSound;
+        public CollisionSounds colsounds
         {
-            if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" || input[1] == "L3")
+            get{ return colSplashSound;}
+            set{ colsounds = value; }
+        }
+        public float splashSizeMultiplier
+        {
+            get{ return psSplashSizeMultiplier; }
+            set{ splashSizeMultiplier = value; }   
+        }
+        public void WaterInteraction(){
+            //do interaction
+            if (isAlive)
             {
-                Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
-            }
-            if(input[1] == "RightHorizontal" || input[1] == "RightVertical")
-            {
-                Rotate(input[1],float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
-            }
-            if (input[1] == "Y")
-            {
-                if (pickupAllowed && pickupDrop != null && pickupTimer > 0.1f)
-                    PickupWeapon();
-                pickupTimer = 0;
-            }
-            if (input[1] == "B")
-            {
-                if (interactTimer > 0.1f)
-                {
-                    DropWeapon(false);
-                }
-                interactTimer = 0;
-            }
-            if (input[1] == "R1")
-            {
-                if (interactTimer > 0.1f)
-                {
-                    SwitchWeapon(1+weaponIndex);                
-                }
-                interactTimer = 0;
-            }
-            if (input[1] == "R2")
-            {
-                currentWeapon.Shoot(float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
-            }
-            if (input[1] == "L1")
-            {
-                currentWeapon.Reload();
+                velocity.y = 0;
+                Die(null);
+                FMODUnity.RuntimeManager.PlayOneShot(waterSplashSE, transform.position);
             }
         }
 
-    }
+        //shoots, moves, interacts, shows scores, pauses if pressed button
+        public void InputHandle(string[] input)
+        {
+            if (isAlive)
+            {
+                if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" || input[1] == "L3")
+                {
+                    Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
+                }
+                if(input[1] == "RightHorizontal" || input[1] == "RightVertical")
+                {
+                    Rotate(input[1],float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
+                }
+                if (input[1] == "Y")
+                {
+                    if (pickupAllowed && pickupDrop != null && pickupTimer > 0.1f)
+                        PickupWeapon();
+                    pickupTimer = 0;
+                }
+                if (input[1] == "B")
+                {
+                    if (interactTimer > 0.1f)
+                    {
+                        DropWeapon(false);
+                    }
+                    interactTimer = 0;
+                }
+                if (input[1] == "R1")
+                {
+                    if (interactTimer > 0.1f)
+                    {
+                        SwitchWeapon(1+weaponIndex);                
+                    }
+                    interactTimer = 0;
+                }
+                if (input[1] == "R2")
+                {
+                    currentWeapon.Shoot(float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
+                }
+                if (input[1] == "L1")
+                {
+                    currentWeapon.Reload();
+                }
+            }
+
+        }
+
+    #endregion
 
     private void Rotate(string axis, float magnitude) 
     {
@@ -571,9 +591,6 @@ public class PlayerController : MonoBehaviour
         velocity.y = JumpVelocity * multiplier;
         isGrounded = false;
     }
-
-
-
 
 
     //Gets called when triggered near a gun pickup.
@@ -794,8 +811,6 @@ public class PlayerController : MonoBehaviour
     {
 
     }
-
-
 
 
 
