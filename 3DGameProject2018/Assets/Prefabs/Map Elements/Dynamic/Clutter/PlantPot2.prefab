@@ -195,7 +195,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780323140946632}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.3670003, y: 0.24099994, z: -16.645}
+  m_LocalPosition: {x: -22.001, y: 0.21000004, z: -12.809}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4375371859069048}
@@ -433,7 +433,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780323140946632}
   serializedVersion: 2
-  m_Mass: 10
+  m_Mass: 3
   m_Drag: 0.25
   m_AngularDrag: 0.75
   m_UseGravity: 1
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18f579a7c334d164abf2fcd9ebaa9cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 20
+  health: 8
   explosionForce: 5
   isDestroyable: 1
   isMovable: 1

@@ -41,9 +41,7 @@ public class ParticleLauncher : MonoBehaviour {
 	private void Update()
 	{
 		collisionCountTimer += Time.deltaTime;
-		splashTimer += Time.deltaTime;
 		damageTimer += Time.deltaTime;
-		clutterHitTimer += Time.deltaTime;
 	}
 	private void OnParticleCollision(GameObject other)
 	{
@@ -102,24 +100,26 @@ public class ParticleLauncher : MonoBehaviour {
 						}
 					}
 				}
-				else if (splashTimer > 0.025f || ignoreTimers )
+				else if (splashTimer < Time.time - 0.025f || ignoreTimers )
 				{
-					splashTimer = 0;		
+					splashTimer = Time.time;		
 					particleDecal.ParticleHit (collisionEvents [i]);
 					if (splatterParticleSystem != null)
 						EmitSplashAtCollisionPoint(collisionEvents[i]);
 				}
 				
-				if (collisionEvents[i].colliderComponent.gameObject.tag == "Dynamic Elements" )
+				if (collisionEvents[i].colliderComponent.gameObject.tag == "Dynamic Elements" && (clutterHitTimer < Time.time - 0.05f || ignoreTimers))
 				{
+					clutterHitTimer = Time.time;
 					DynamicItemScript script = collisionEvents[i].colliderComponent.GetComponentInParent<DynamicItemScript>();
 					if (script != null)
 					{
 						script.ParticleHit(thisPlayerController.transform.position, collisionEvents[i].intersection);
 					}
 				}
-				else if (collisionEvents[i].colliderComponent.gameObject.tag == "Static Elements")
+				else if (collisionEvents[i].colliderComponent.gameObject.tag == "Static Elements" && (clutterHitTimer < Time.time - 0.05f || ignoreTimers))
 				{
+					clutterHitTimer = Time.time;
 					BreakableLampScript script;
 					if (script = collisionEvents[i].colliderComponent.GetComponent<BreakableLampScript>())
 					{

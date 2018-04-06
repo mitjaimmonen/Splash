@@ -32,7 +32,7 @@ public class Water : MonoBehaviour {
 	{
 		IWater water = other.GetComponent<IWater>();
 
-		if (water != null && splashTime < Time.time-1f)
+		if (water != null && splashTime < Time.time-0.1f)
 		{
 			splashTime = Time.time;
 			water.WaterInteraction(); //General object specific stuff the class wants to do.

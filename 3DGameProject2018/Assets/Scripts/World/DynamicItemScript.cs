@@ -92,10 +92,11 @@ public class DynamicItemScript : MonoBehaviour, IWater {
 
 	private void Move(Vector3 origin, Vector3 intersection)
 	{
+		Debug.Log("move");
 		Vector3 dir = (transform.position - origin).normalized;
 		dir.y += 0.5f;
 		mainRigidbody.isKinematic = false;
-		mainRigidbody.AddForceAtPosition(dir/2, intersection, ForceMode.Impulse);
+		mainRigidbody.AddForceAtPosition(dir, intersection, ForceMode.Impulse);
 	}
 
 	private IEnumerator StartDestroy(Vector3 origin, Vector3 intersection)

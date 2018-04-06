@@ -245,7 +245,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupValue: 50
   pickupType: 0
-  pickupObjectIfAny: {fileID: 0}
+  pickupWeaponIfAny: {fileID: 0}
+  rb: {fileID: 0}
   pickupSE: event:/Interactions/HealthPickup
 --- !u!135 &135246386976072616
 SphereCollider:
@@ -258,4 +259,4 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.3, z: 0}

@@ -66,8 +66,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1933688626484054}
-  m_LocalRotation: {x: -0, y: 0.2921493, z: -0, w: 0.95637274}
-  m_LocalPosition: {x: 8.53, y: -1.07, z: 27.43}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.9400005, y: -0.849, z: 28.25}
   m_LocalScale: {x: 0.71000004, y: 0.71000004, z: 0.71000004}
   m_Children:
   - {fileID: 4595274766896810}
@@ -122,7 +122,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1933688626484054}
   serializedVersion: 2
-  m_Mass: 8
+  m_Mass: 3
   m_Drag: 0.5
   m_AngularDrag: 0.25
   m_UseGravity: 1
@@ -162,6 +162,9 @@ MonoBehaviour:
   mainCollider: {fileID: 65503050067516696}
   ObjectsToDisableOnDestroy: []
   mainRigidbody: {fileID: 54925106309203742}
+  psSplash: {fileID: 0}
+  colSplashSound: {fileID: 0}
+  psSplashSizeMultiplier: 1
 --- !u!114 &114978833688946836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -173,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxParticleCollisionCount: 10
+  maxParticleCollisionCount: 3
   collisionSE: event:/Water Collisions/HitHardSurface
   waterSplashSE: event:/Water Collisions/WaterSplashBig
   destroySE: 

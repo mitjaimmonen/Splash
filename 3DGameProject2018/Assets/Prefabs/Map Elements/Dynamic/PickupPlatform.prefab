@@ -26,7 +26,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 124
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1370983100653360
 GameObject:
@@ -43,7 +43,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 124
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1486219841049586
 GameObject:
@@ -86,7 +86,7 @@ Transform:
   m_GameObject: {fileID: 1769574499836652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -18.29, y: 9.525, z: 10.28}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 0.99999994, z: 2}
   m_Children:
   - {fileID: 4191289295206382}
   - {fileID: 4884469496725178}
@@ -192,7 +192,7 @@ Light:
     m_Type: 2
     m_Resolution: 1
     m_CustomResolution: -1
-    m_Strength: 0.8
+    m_Strength: 0.5
     m_Bias: 0.05
     m_NormalBias: 0.3
     m_NearPlane: 0.32
@@ -228,7 +228,7 @@ Light:
     m_Type: 2
     m_Resolution: 1
     m_CustomResolution: -1
-    m_Strength: 0.8
+    m_Strength: 0.5
     m_Bias: 0.05
     m_NormalBias: 0.3
     m_NearPlane: 0.32
@@ -258,12 +258,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SampleCount: 5
-  ScatteringCoef: 0.095
-  ExtinctionCoef: 0.0077
+  ScatteringCoef: 0.01
+  ExtinctionCoef: 0.008
   SkyboxExtinctionCoef: 1
   MieG: 0
   HeightFog: 1
-  HeightScale: 0.155
+  HeightScale: 0.153
   GroundLevel: -43.5
   Noise: 1
   NoiseScale: 0.06
@@ -283,12 +283,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SampleCount: 5
-  ScatteringCoef: 0.095
-  ExtinctionCoef: 0.0077
+  ScatteringCoef: 0.01
+  ExtinctionCoef: 0.008
   SkyboxExtinctionCoef: 1
   MieG: 0
   HeightFog: 1
-  HeightScale: 0.155
+  HeightScale: 0.153
   GroundLevel: -43.5
   Noise: 1
   NoiseScale: 0.06
@@ -308,5 +308,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickups:
-  - {fileID: 1598849427160916, guid: 73d83a0a636bfd34a979d5c1a5e09fa5, type: 2}
+  - {fileID: 1083878052978896, guid: 1e4ecddd8e34363408eaeeca3c151e1b, type: 2}
   respawnTime: 15
