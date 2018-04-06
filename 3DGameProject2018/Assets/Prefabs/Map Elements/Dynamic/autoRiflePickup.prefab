@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 114795900914206750}
   - component: {fileID: 135885207134159632}
   m_Layer: 15
-  m_Name: AutoRiflePickup
+  m_Name: autoRiflePickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
