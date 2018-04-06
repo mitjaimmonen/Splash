@@ -1628,6 +1628,9 @@ MonoBehaviour:
   damageColliders:
   - {fileID: 136172752203868750}
   - {fileID: 136785458119969632}
+  psSplashSizeMultiplier: 1
+  psSplash: {fileID: 0}
+  colSplashSound: {fileID: 0}
 --- !u!114 &114466195618453568
 MonoBehaviour:
   m_ObjectHideFlags: 1

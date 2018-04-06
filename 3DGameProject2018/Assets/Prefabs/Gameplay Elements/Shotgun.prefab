@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 4969262406050422}
   - component: {fileID: 114902853403670186}
   - component: {fileID: 114587173704028452}
+  - component: {fileID: 114812898081115000}
   m_Layer: 8
   m_Name: Shotgun
   m_TagString: Untagged
@@ -82,7 +83,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1589165364241330
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -92,6 +93,21 @@ GameObject:
   - component: {fileID: 114211496482690848}
   m_Layer: 0
   m_Name: Shotgun model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1756712786062170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4548808520517490}
+  m_Layer: 8
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,12 +149,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1589165364241330}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.117, z: 0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4737916601451712}
   - {fileID: 4013739235347142}
-  m_Father: {fileID: 4969262406050422}
+  m_Father: {fileID: 4548808520517490}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4431403817589834
@@ -154,6 +170,20 @@ Transform:
   m_Father: {fileID: 4574633967690608}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4548808520517490
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1756712786062170}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4142876025090220}
+  m_Father: {fileID: 4969262406050422}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4574633967690608
 Transform:
   m_ObjectHideFlags: 1
@@ -161,7 +191,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1224248098790608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.06, z: 0.455}
+  m_LocalPosition: {x: 0, y: 0.057, z: 0.805}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4431403817589834}
@@ -191,7 +221,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4142876025090220}
+  - {fileID: 4548808520517490}
   - {fileID: 4574633967690608}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -297,7 +327,26 @@ MonoBehaviour:
   shotUsage: 20
   fireRate: 1.25
   maxShootTime: 0
-  rotationSpeed: 3
+  centerAim: 0
+  lerpAim: 0
+  rotationSpeed: 10
+--- !u!114 &114812898081115000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1399383448485632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed807f0f93d9db846b7e48995d7a8668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectBullets: 1
+  recoilAngle: -5
+  recoilTime: 1.5
+  delay: 0.075
+  body: {fileID: 0}
+  particles: {fileID: 0}
 --- !u!114 &114902853403670186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -315,7 +364,7 @@ MonoBehaviour:
   autoReload: 1
   isContinuous: 0
   playerController: {fileID: 0}
-  localPositionOffset: {x: 0.14, y: -0.1, z: 0.45}
+  localPositionOffset: {x: 0.12, y: -0.28, z: 0.18}
   shootSE: event:/Guns/Shotgun sounds
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: event:/Guns/EmptyShotgun
@@ -425,7 +474,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -495177577
+  randomSeed: 852422310
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -886,7 +935,7 @@ ParticleSystem:
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
     alignToDirection: 0
-    randomDirectionAmount: 0.1
+    randomDirectionAmount: 0.15
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:

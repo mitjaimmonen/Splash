@@ -37,6 +37,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4561921293227108}
   - component: {fileID: 114412804487712570}
+  - component: {fileID: 114469696995639518}
+  - component: {fileID: 114487977569037002}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -113,19 +115,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f2e03f750344843bac64097c4639d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
-  headshotMultiplier: 1.5
-  clipSize: 100
-  shotUsage: 5
-  fireRate: 0.25
-  maxShootTime: 0.1
-  reloadTime: 2
+  weaponData: {fileID: 0}
+  weaponPickup: {fileID: 0}
   autoReload: 1
   isContinuous: 0
-  rotationSpeed: 1
+  playerController: {fileID: 0}
+  localPositionOffset: {x: 0, y: 0, z: 0}
   shootSE: event:/Guns/Pistol sounds
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: 
+--- !u!114 &114469696995639518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1479770213735480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  headshotMultiplier: 1.5
+  currentClipAmmo: 0
+  clipSize: 100
+  shotUsage: 1
+  fireRate: 0.25
+  maxShootTime: 0
+  centerAim: 0
+  lerpAim: 0
+  rotationSpeed: 1
+--- !u!114 &114487977569037002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1479770213735480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed807f0f93d9db846b7e48995d7a8668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectBullets: 1
+  recoilAngle: -0.5
+  recoilTime: 0.2
+  body: {fileID: 0}
+  particles: {fileID: 0}
 --- !u!198 &198423588853237364
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -30,7 +30,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1148651524363924
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 4976715724812360}
   - component: {fileID: 114651251365182740}
   - component: {fileID: 114693319546774848}
+  - component: {fileID: 114269438016941896}
   m_Layer: 8
   m_Name: AutoRifle
   m_TagString: Untagged
@@ -92,6 +93,21 @@ GameObject:
   - component: {fileID: 114354757838172892}
   m_Layer: 8
   m_Name: Particle continuous Sprite (assault rifle)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1781951660162494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4085413779542586}
+  m_Layer: 8
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,6 +162,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4085413779542586
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1781951660162494}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4596675518657482}
+  m_Father: {fileID: 4976715724812360}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4185273867950374
 Transform:
   m_ObjectHideFlags: 1
@@ -153,7 +183,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1507511448006312}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0393, z: 0.465}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4695161861153492}
@@ -193,13 +223,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1148651524363924}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.644, z: 0}
+  m_LocalPosition: {x: 0, y: -0.594, z: 0.162}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4791761845398130}
   - {fileID: 4639115868171354}
   - {fileID: 4263767024726844}
-  m_Father: {fileID: 4976715724812360}
+  m_Father: {fileID: 4085413779542586}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4639115868171354
@@ -252,7 +282,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4596675518657482}
+  - {fileID: 4085413779542586}
   - {fileID: 4185273867950374}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -397,6 +427,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114269438016941896
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1202490026505874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed807f0f93d9db846b7e48995d7a8668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectBullets: 1
+  recoilAngle: -0.5
+  recoilTime: 0.4
+  delay: 0.01
+  body: {fileID: 0}
+  particles: {fileID: 0}
 --- !u!114 &114279059566041112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -439,7 +486,7 @@ MonoBehaviour:
   autoReload: 1
   isContinuous: 1
   playerController: {fileID: 0}
-  localPositionOffset: {x: 0.195, y: -0.265, z: 0.215}
+  localPositionOffset: {x: 0.12, y: -0.265, z: 0.1}
   shootSE: event:/Guns/AutoRifle
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: event:/Guns/EmptyRifle
@@ -461,7 +508,9 @@ MonoBehaviour:
   shotUsage: 1
   fireRate: 0.1
   maxShootTime: 0
-  rotationSpeed: 5
+  centerAim: 0
+  lerpAim: 0
+  rotationSpeed: 20
 --- !u!198 &198071366239969950
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -522,7 +571,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -2070557965
+  randomSeed: 1720963341
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -570,8 +619,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 30
-      minScalar: 25
+      scalar: 45
+      minScalar: 35
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -971,8 +1020,8 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 0
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 88, y: 0, z: 0}
+    m_Position: {x: 0, y: 0.08930001, z: 0.627}
+    m_Rotation: {x: 90, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0

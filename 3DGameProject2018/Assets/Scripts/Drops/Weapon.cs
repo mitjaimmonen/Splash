@@ -19,6 +19,7 @@ using FMOD.Studio;
  * 
  */
 
+[RequireComponent(typeof(Recoil))]
 public class Weapon : MonoBehaviour {
     //hold a sound and particle effect along with damage, clip, ammunition size and isshooting, timer, iscontinuous
     public WeaponData weaponData;
@@ -32,6 +33,8 @@ public class Weapon : MonoBehaviour {
 
     [HideInInspector]
     public PlayerController playerController;
+
+    private Recoil recoil;
     private Animator gunAnim;
     private Rigidbody rb;
     private Drops dropScript;
@@ -92,6 +95,7 @@ public class Weapon : MonoBehaviour {
     //Gets called on picked up
     public void Initialize()
     {
+        recoil = GetComponent<Recoil>();
         weaponData = GetComponent<WeaponData>();
         transform.parent = playerController.gunsParent.transform;
         transform.localPosition = localPositionOffset;
@@ -168,14 +172,21 @@ public class Weapon : MonoBehaviour {
         if(gameObject.activeSelf && !playerController.controller.IsPaused && isActive)
         {
             //Set weapon aim to center worldpoint of the viewport.
-            if (playerController.IsAimRaycastHit)
+
+            if (playerController.IsAimRaycastHit && weaponData.centerAim)
                 lookDirection = (playerController.AimWorldPoint - transform.position).normalized;
             else 
                 lookDirection = playerController.playerHead.transform.forward;
 
-            lookRotation = Quaternion.LookRotation(lookDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
+            Vector3 localEuler = Quaternion.LookRotation(lookDirection).eulerAngles;
+            localEuler.z = 0; //Useless rotation
+            lookRotation = Quaternion.Euler(localEuler);  
 
+            if (weaponData.lerpAim)
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
+            else
+                transform.rotation = lookRotation;
+            
             //Updates sound position.
             shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
             
@@ -255,7 +266,7 @@ public class Weapon : MonoBehaviour {
             main.startSpeed = currentShootSpeed;
             waterParticles.Play();
             
-            
+            recoil.StartRecoil();
 
             //FMOD checks and parameters.
             //If-checks need to be made for "one-shot" sounds to work

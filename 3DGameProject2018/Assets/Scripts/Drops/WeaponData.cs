@@ -23,9 +23,7 @@ public class WeaponData : MonoBehaviour {
     [Tooltip("This force-stops shooting after given time. Use isContinuous = true with this.")]
     public float maxShootTime = 0;
 
-    // [Tooltip("How long it takes to reload this gun.")]
-    // public float reloadTime = 2f;
-
+    public bool centerAim, lerpAim;
 
 
     [Tooltip("How quickly gun rotates towards worldpoint that is in the middle of the camera viewport.")]
