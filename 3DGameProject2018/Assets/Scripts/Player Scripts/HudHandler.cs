@@ -142,7 +142,7 @@ public class HudHandler : MonoBehaviour {
         int lerpHealth = (int)Mathf.Lerp(oldCurrentHealth, currentHealth, healthUpdateTimer);
 
         int healthPercentage = (int)((float)lerpHealth/(float)maxHealth * 100f);
-        int sliderHealth = (int)((float)healthPercentage * 0.6f + 20f);
+        int sliderHealth = (int)((float)healthPercentage * 0.6f + 21f);
         healthSlider.value = sliderHealth;
 
         if (healthUpdateTimer >= 1)

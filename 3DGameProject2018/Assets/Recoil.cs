@@ -12,8 +12,9 @@ public class Recoil : MonoBehaviour {
 	{
 		foreach (Transform trans in GetComponentInChildren<Transform>(true))
 		{
-			if (trans.GetComponent<ParticleSystem>())
-				particles = trans.gameObject;
+			var temp = trans.GetComponentInChildren<ParticleSystem>();
+			if (temp)
+				particles = temp.gameObject;
 			else if (trans.gameObject.name == "Body")
 				body = trans.gameObject;
 		}

@@ -36,13 +36,13 @@ public class PlayerController : MonoBehaviour, IWater
         [SerializeField, Tooltip ("Add initial weapon(s) from prefabs. Should always have at least one weapon.")]
         private List<Weapon> carriedWeapons; //All current weapons under gunsParent.
         [SerializeField]
-        private int maxWeapons = 2;
+        private int maxWeapons = 2, maxGlobalAmmo = 150;
 
         private Weapon currentWeapon; //Active weapon
         private Weapon defaultWeapon; //Reference to a prefab, taken from first carriedWeapons list item.        
         private Drops pickupDrop; //Updates every time weapon drop is nearby
         private WeaponData pickupData; //Updates every time weapon drop is nearby
-        private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
+        private int clipSize, currentAmmo, globalAmmo;
         private int weaponIndex = 0; //Current weapon in carriedWeapons
         private bool pickupAllowed = false;
 
@@ -407,7 +407,6 @@ public class PlayerController : MonoBehaviour, IWater
 
             if(Physics.CheckCapsule(TopSphere+velocity, BotSphere+velocity, capsule.radius, raycastLayerMask))
             {
-                Debug.Log("Triggered");
                 velocity = Vector3.zero;
             }
             /*Apply Velocity*/

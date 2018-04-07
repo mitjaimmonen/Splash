@@ -15,6 +15,8 @@ ModelImporter:
     100014: //RootNode
     100016: step1
     100018: step2
+    100020: balconyThings1.001
+    100022: step1.001
     400000: aqueduc1
     400002: aqueduct2
     400004: balcony1
@@ -25,10 +27,14 @@ ModelImporter:
     400014: //RootNode
     400016: step1
     400018: step2
+    400020: balconyThings1.001
+    400022: step1.001
     2100000: Material.001
     2100002: No Name
     2100004: Material.003
     2100006: Material
+    2100008: Material.004
+    2100010: Material.002
     2300000: aqueduc1
     2300002: aqueduct2
     2300004: balcony1
@@ -38,6 +44,8 @@ ModelImporter:
     2300012: clocktower
     2300014: step1
     2300016: step2
+    2300018: balconyThings1.001
+    2300020: step1.001
     3300000: aqueduc1
     3300002: aqueduct2
     3300004: balcony1
@@ -47,6 +55,8 @@ ModelImporter:
     3300012: clocktower
     3300014: step1
     3300016: step2
+    3300018: balconyThings1.001
+    3300020: step1.001
     4300000: aqueduct2
     4300002: step2
     4300004: step1
@@ -56,6 +66,8 @@ ModelImporter:
     4300012: clocktower
     4300014: balcony2
     4300016: aqueduc1
+    4300018: balconyThings1.001
+    4300020: step1.001
     6400000: aqueduc1
     6400002: aqueduct2
     6400004: balcony1
@@ -65,22 +77,34 @@ ModelImporter:
     6400012: clocktower
     6400014: step1
     6400016: step2
+    6400018: balconyThings1.001
+    6400020: step1.001
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material
-    second: {fileID: 2100000, guid: 0361e68a7d0738c43a3ae7d1c18b4c37, type: 2}
+    second: {fileID: 2100000, guid: 3e096488ac79c424eb99aee398b5a6b6, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material.001
-    second: {fileID: 2100000, guid: 4d1a73af3f9a6f94a84286085f86bc6c, type: 2}
+    second: {fileID: 2100000, guid: 60d24cfe502164041877cfa186a48ce3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 553eda0e578049243894e03b4ca11196, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material.003
-    second: {fileID: 2100000, guid: 9883da8617750824aa1999a5a3bfa46c, type: 2}
+    second: {fileID: 2100000, guid: 6685a03088237b84ab328ebacdbd8c68, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: 8da999387637fc8438b5d4e38f98ed92, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

@@ -31,6 +31,9 @@ public class Weapon : MonoBehaviour {
     [Tooltip("Is weapon burst or continuous (automatic) type.")]
     public bool isContinuous = true;
 
+    [Tooltip("Can be used to center model aim.")]
+    public float rotationOffsetY = -3f;
+
     [HideInInspector]
     public PlayerController playerController;
 
@@ -152,6 +155,7 @@ public class Weapon : MonoBehaviour {
             
             
         isActive = true;
+        transform.localRotation = Quaternion.Euler(0,rotationOffsetY,0);
         gameObject.SetActive(true);
 
     }
@@ -174,7 +178,7 @@ public class Weapon : MonoBehaviour {
             //Set weapon aim to center worldpoint of the viewport.
 
             if (playerController.IsAimRaycastHit && weaponData.centerAim)
-                lookDirection = (playerController.AimWorldPoint - transform.position).normalized;
+                lookDirection = (playerController.AimWorldPoint - waterParticles.transform.parent.position).normalized;
             else 
                 lookDirection = playerController.playerHead.transform.forward;
 
@@ -183,9 +187,9 @@ public class Weapon : MonoBehaviour {
             lookRotation = Quaternion.Euler(localEuler);  
 
             if (weaponData.lerpAim)
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
+                waterParticles.transform.parent.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
             else
-                transform.rotation = lookRotation;
+                waterParticles.transform.parent.rotation = lookRotation;
             
             //Updates sound position.
             shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
