@@ -30,4 +30,7 @@ public class WeaponData : MonoBehaviour {
     public float rotationSpeed = 1f;
 
 
+    public int maxCollisionCountPerFrame = 1;
+
+
 }

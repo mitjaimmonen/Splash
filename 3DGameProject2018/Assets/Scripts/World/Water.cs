@@ -6,12 +6,12 @@ using UnityEngine;
 public interface IWater
 {
 	void WaterInteraction();
-	ParticleSplash particleSplash
+	ParticleSplash ParticleSplash
 	{
 		get;
 		set;
 	}
-	CollisionSounds colsounds
+	CollisionBehaviour ColBehaviour
 	{
 		get;
 		set;
@@ -27,7 +27,7 @@ public interface IWater
 public class Water : MonoBehaviour {
 
 	private float splashTime = 0;
-	public CollisionSounds colsound;
+	public CollisionBehaviour collisionBehaviour;
 	void OnTriggerEnter(Collider other)
 	{
 		IWater water = other.GetComponent<IWater>();
@@ -37,9 +37,9 @@ public class Water : MonoBehaviour {
 			splashTime = Time.time;
 			water.WaterInteraction(); //General object specific stuff the class wants to do.
 			// water.particleSplash.PlaySplash(other, water.splashSizeMultiplier);
-			if(water.colsounds != null)
+			if(water.ColBehaviour != null)
 			{
-				water.colsounds.WaterSplashSound();
+				water.ColBehaviour.soundBehaviour.WaterSplash();
 			}
 
 			//sound

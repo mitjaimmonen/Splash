@@ -359,6 +359,7 @@ MonoBehaviour:
   centerAim: 1
   lerpAim: 0
   rotationSpeed: 10
+  maxCollisionCountPerFrame: 20
 --- !u!114 &114812898081115000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -371,11 +372,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   affectBullets: 1
-  recoilAngle: -2
-  recoilTime: 2
-  delay: 0.05
-  body: {fileID: 0}
-  particles: {fileID: 0}
+  rotationTime: 0.5
+  positionTime: 0.3
+  rotDelay: 0.1
+  posDelay: 0.075
+  recoilAngle: -3
+  recoilPosition: -0.01
 --- !u!114 &114902853403670186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -504,7 +506,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1208608969
+  randomSeed: 628931737
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -2880,7 +2882,7 @@ ParticleSystem:
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
-    multiplyColliderForceByCollisionAngle: 1
+    multiplyColliderForceByCollisionAngle: 0
     plane0: {fileID: 0}
     plane1: {fileID: 0}
     plane2: {fileID: 0}
@@ -2890,7 +2892,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -2931,7 +2933,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -2972,7 +2974,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.25
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3011,7 +3013,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     minKillSpeed: 0
-    maxKillSpeed: 10000
+    maxKillSpeed: 0
     radiusScale: 0.2
     collidesWith:
       serializedVersion: 2
@@ -6279,7 +6281,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 3
     type: 1
     collisionMode: 0
@@ -6296,7 +6298,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -6337,7 +6339,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.25
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6378,7 +6380,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.25
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -6417,12 +6419,12 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     minKillSpeed: 0
-    maxKillSpeed: 10000
+    maxKillSpeed: 0
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
-    maxCollisionShapes: 10
+      m_Bits: 1024
+    maxCollisionShapes: 40
     quality: 2
     voxelSize: 5
     collisionMessages: 0

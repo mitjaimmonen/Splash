@@ -380,6 +380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4331600696781442}
   - component: {fileID: 136785458119969632}
+  - component: {fileID: 114497962918413064}
   m_Layer: 9
   m_Name: Torso
   m_TagString: Untagged
@@ -444,6 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4198909216040822}
   - component: {fileID: 136172752203868750}
+  - component: {fileID: 114526939893878622}
   m_Layer: 9
   m_Name: Head
   m_TagString: Head
@@ -492,6 +494,8 @@ GameObject:
   - component: {fileID: 136302762592438026}
   - component: {fileID: 114148083834518994}
   - component: {fileID: 54622177108944338}
+  - component: {fileID: 114600770065792890}
+  - component: {fileID: 114971550634750604}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1596,7 +1600,7 @@ MonoBehaviour:
   switchOnPickup: 1
   autoPickup: 0
   carriedWeapons:
-  - {fileID: 114902853403670186, guid: 7748f867c99a8e449b40f8350a8f4ce2, type: 2}
+  - {fileID: 114651251365182740, guid: 56cca7690b8b018468bb41591ff435c9, type: 2}
   maxWeapons: 2
   maxGlobalAmmo: 250
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
@@ -1611,9 +1615,8 @@ MonoBehaviour:
     m_Bits: 1024
   hitmarkerSE: event:/Water Collisions/Hitmarker
   jumpSE: event:/Character Movement/Jump
-  takeDamageSE: event:/Character Movement/TakeDamage
+  takeDamageSE: 
   dieSE: event:/Character Movement/Death
-  waterSplashSE: event:/Water Collisions/WaterSplashPlayer
   lookSensV: 180
   lookSensH: 200
   invertSensV: 0
@@ -1631,7 +1634,7 @@ MonoBehaviour:
   - {fileID: 136785458119969632}
   psSplashSizeMultiplier: 1
   psSplash: {fileID: 0}
-  colSplashSound: {fileID: 0}
+  collisionBehaviour: {fileID: 0}
 --- !u!114 &114466195618453568
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1645,6 +1648,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftArm: {fileID: 0}
   rightArm: {fileID: 0}
+--- !u!114 &114497962918413064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1562985379872070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ccda532c9be59428d33971e5896c5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerHead: 0
+--- !u!114 &114526939893878622
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1590808485326396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ccda532c9be59428d33971e5896c5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerHead: 1
+--- !u!114 &114600770065792890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709318612409746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer: 0
+  maxCount: 25
+  soundBehaviour: {fileID: 0}
+--- !u!114 &114971550634750604
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709318612409746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionSE: event:/Character Movement/TakeDamage
+  waterSplashSE: event:/Water Collisions/WaterSplashBig
+  destroySE: 
 --- !u!135 &135046064985107728
 SphereCollider:
   m_ObjectHideFlags: 1

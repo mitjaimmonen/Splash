@@ -17,6 +17,7 @@ using UnityEngine;
 *   NOTE:
 *   Move canvasOverlay to whichever class instantiates players.
 */
+[RequireComponent(typeof(CollisionBehaviour))]
 public class PlayerController : MonoBehaviour, IWater
 {
 
@@ -73,7 +74,7 @@ public class PlayerController : MonoBehaviour, IWater
     public Animator playerAnim;
 
     public LayerMask raycastLayerMask;
-    [FMODUnity.EventRef] public string hitmarkerSE, jumpSE, takeDamageSE, dieSE, waterSplashSE;
+    [FMODUnity.EventRef] public string hitmarkerSE, jumpSE, takeDamageSE, dieSE;
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1f;
     public bool invertSensV = false;
@@ -101,6 +102,11 @@ public class PlayerController : MonoBehaviour, IWater
 
         //Setters now trigger functions in hud when values change.
         //by including values, hud doesnt need to have reference on this script.
+
+        public Weapon CurrentWeapon
+        {
+            get{return currentWeapon;}
+        }
         public int ClipSize
         {
             get { return clipSize; }
@@ -442,17 +448,17 @@ public class PlayerController : MonoBehaviour, IWater
         public float psSplashSizeMultiplier = 1;
         public ParticleSplash psSplash;
 
-        public ParticleSplash particleSplash
+        public ParticleSplash ParticleSplash
         {
             get{ return psSplash;}
-            set{ particleSplash = value; }
+            set{ ParticleSplash = value; }
         }
 
-        public CollisionSounds colSplashSound;
-        public CollisionSounds colsounds
+        public CollisionBehaviour collisionBehaviour;
+        public CollisionBehaviour ColBehaviour
         {
-            get{ return colSplashSound;}
-            set{ colsounds = value; }
+            get{ return collisionBehaviour;}
+            set{ ColBehaviour = value; }
         }
         public float splashSizeMultiplier
         {
@@ -465,7 +471,7 @@ public class PlayerController : MonoBehaviour, IWater
             {
                 velocity.y = 0;
                 Die(null);
-                FMODUnity.RuntimeManager.PlayOneShot(waterSplashSE, transform.position);
+                collisionBehaviour.soundBehaviour.WaterSplash();
             }
         }
 

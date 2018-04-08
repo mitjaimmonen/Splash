@@ -468,11 +468,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   affectBullets: 1
+  rotationTime: 0.2
+  positionTime: 0.2
+  rotDelay: 0.05
+  posDelay: 0.025
   recoilAngle: -0.5
-  recoilTime: 0.4
-  delay: 0.01
-  body: {fileID: 0}
-  particles: {fileID: 0}
+  recoilPosition: -0.01
 --- !u!114 &114279059566041112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -495,7 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 504aaa145ccd715479efd3fc6c987cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageInterval: 0.09
   maxLoopCount: 20
   ignoreTimers: 0
 --- !u!114 &114651251365182740
@@ -541,6 +541,7 @@ MonoBehaviour:
   centerAim: 1
   lerpAim: 0
   rotationSpeed: 20
+  maxCollisionCountPerFrame: 1
 --- !u!198 &198071366239969950
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -601,7 +602,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -2093334982
+  randomSeed: -1485582723
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -1050,7 +1051,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 0
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0.0893, z: 0.627}
+    m_Position: {x: 0, y: 0.09, z: 0.64}
     m_Rotation: {x: 90, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
@@ -2983,7 +2984,7 @@ ParticleSystem:
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
-    multiplyColliderForceByCollisionAngle: 1
+    multiplyColliderForceByCollisionAngle: 0
     plane0: {fileID: 0}
     plane1: {fileID: 0}
     plane2: {fileID: 0}
@@ -2993,7 +2994,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3034,7 +3035,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3075,7 +3076,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3114,12 +3115,12 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     minKillSpeed: 0
-    maxKillSpeed: 10000
-    radiusScale: 0.1
+    maxKillSpeed: 0
+    radiusScale: 0.2
     collidesWith:
       serializedVersion: 2
       m_Bits: 34304
-    maxCollisionShapes: 500
+    maxCollisionShapes: 50
     quality: 0
     voxelSize: 1
     collisionMessages: 1
@@ -6344,7 +6345,7 @@ ParticleSystem:
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
-    multiplyColliderForceByCollisionAngle: 1
+    multiplyColliderForceByCollisionAngle: 0
     plane0: {fileID: 0}
     plane1: {fileID: 0}
     plane2: {fileID: 0}
@@ -6354,7 +6355,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -6395,7 +6396,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6436,7 +6437,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -6475,13 +6476,13 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     minKillSpeed: 0
-    maxKillSpeed: 10000
+    maxKillSpeed: 0
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
       m_Bits: 1024
-    maxCollisionShapes: 30
-    quality: 2
+    maxCollisionShapes: 40
+    quality: 1
     voxelSize: 5
     collisionMessages: 0
     collidesWithDynamic: 1
