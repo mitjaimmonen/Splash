@@ -5372,7 +5372,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 946403388}
   m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 8.46, y: 0.45, z: 31.51}
+  m_LocalPosition: {x: 11.95, y: 0.45, z: 20.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1770569033}
@@ -10257,12 +10257,13 @@ GameObject:
   - component: {fileID: 1938412336}
   - component: {fileID: 1938412335}
   - component: {fileID: 1938412334}
+  - component: {fileID: 1938412337}
   m_Layer: 10
   m_Name: ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1938412333
 Transform:
@@ -10335,6 +10336,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1938412332}
   m_Mesh: {fileID: 4300060, guid: eaece6e57b3acc54280568c171aabda4, type: 3}
+--- !u!114 &1938412337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1938412332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ed072c3883f6ab4798e25cb3430b8ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSize: 0.2
+  zSize: 0.05
+  xSpeed: 1
+  zSpeed: 1
+  origin: {x: 0, y: 0, z: 0}
 --- !u!1 &1948198313
 GameObject:
   m_ObjectHideFlags: 0
@@ -11031,7 +11048,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2084186890
 Transform:
