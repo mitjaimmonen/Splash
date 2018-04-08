@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour, IWater
     public float climbSpeed = 1;
     public float stepHeight = 0;
     private Vector3 velocity = new Vector3(0, 0, 0);
-    private Vector3 prevVelocity;
+    private float prevVelocity;
 
     private Collider prevFloor;
     private Vector3 PrevFloorPos;
@@ -287,7 +287,7 @@ public class PlayerController : MonoBehaviour, IWater
         
     }
     //Physics
-    float velocityDelta;
+    float velocityDelta = 0;
     private void Update()
     {
         //Timers
@@ -306,11 +306,13 @@ public class PlayerController : MonoBehaviour, IWater
 
 
             /*GRAVITY*/
-            velocityDelta = Time.deltaTime * -gravity;
-            velocity.y -= (-velocity.y + (-velocityDelta / 2)) * Time.deltaTime;
+            //velocityDelta = (prevVelocity + -gravity * (Time.deltaTime));
+            //Debug.Log(prevVelocity);
+            //velocity.y += velocityDelta * (Time.deltaTime);
+            //velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
+            //velocity.y += -gravity * (Time.deltaTime);
+            velocity.y += Time.deltaTime * (velocity.y + Time.deltaTime * -gravity / 2);
             
-            //velocity.y -= gravity * Time.deltaTime ;
-            velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
 
             isGrounded = false;
             Vector3 TopSphere = transform.position + new Vector3(0, (capsule.height / 2 - capsule.radius) + 0.5f, 0) + capsule.center; //0.5f is additional offset because capsule does not reach head.
@@ -456,13 +458,12 @@ public class PlayerController : MonoBehaviour, IWater
 
             /*Apply Velocity*/
             transform.position += velocity;
-            prevVelocity = velocity;
-            
+            velocity.y += Time.deltaTime * -gravity;
+
 
 
             /*Next frame vertical velocity calculation & reset*/
             {
-                velocity.y += velocityDelta;
                 velocity.x = 0;
                 velocity.z = 0;
             }
