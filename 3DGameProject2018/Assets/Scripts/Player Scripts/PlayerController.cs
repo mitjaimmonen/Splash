@@ -287,47 +287,48 @@ public class PlayerController : MonoBehaviour, IWater
         
     }
     //Physics
-    float velocityDelta = 0;
-    private void Update()
+    private void FixedUpdate()
     {
         //Timers
         runningTimer += Time.deltaTime;
         movingTimer += Time.deltaTime;
         interactTimer += Time.deltaTime;
         pickupTimer += Time.deltaTime;
-        
-        velocity += new Vector3(tempVel.x*Time.deltaTime, 0, tempVel.z * Time.deltaTime);
+
+        velocity += new Vector3(tempVel.x * Time.deltaTime, 0, tempVel.z * Time.deltaTime);
         tempVel = Vector3.zero;
 
-        if (!controller.IsPaused && isAlive)
+        if(!controller.IsPaused && isAlive)
         {
-            gunsParent.transform.localPosition = transform.InverseTransformPoint(cameraHandler.transform.position);
-            gunsParent.transform.rotation = playerHead.transform.rotation;
+            
 
 
             /*GRAVITY*/
             //velocityDelta = (prevVelocity + -gravity * (Time.deltaTime));
             //Debug.Log(prevVelocity);
             //velocity.y += velocityDelta * (Time.deltaTime);
-            //velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
             //velocity.y += -gravity * (Time.deltaTime);
-            velocity.y += Time.deltaTime * (velocity.y + Time.deltaTime * -gravity / 2);
-            
+            //velocityDelta = velocity.y;
+            //velocity.y += Time.deltaTime * (velocityDelta + Time.deltaTime * -gravity / 2);
+            //velocity.y += (transform.position.y - velocity.y) * (Time.deltaTime / lastDelta - 1) + -gravity * Time.deltaTime * Time.deltaTime;
+            //lastDelta = Time.deltaTime;
 
+            velocity.y = (velocity.y + -gravity * Time.deltaTime) * Time.deltaTime;
+            velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
             isGrounded = false;
             Vector3 TopSphere = transform.position + new Vector3(0, (capsule.height / 2 - capsule.radius) + 0.5f, 0) + capsule.center; //0.5f is additional offset because capsule does not reach head.
             Vector3 BotSphere = transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0) + capsule.center;
             /*Collision Calc*/
-            
 
 
 
-            if(prevFloor!=null)
+
+            if(prevFloor != null)
             {
-                if( Quaternion.Angle(prevFloor.transform.rotation, prevFloorRot) !=0)
+                if(Quaternion.Angle(prevFloor.transform.rotation, prevFloorRot) != 0)
                 {
                     Quaternion relative = Quaternion.Inverse(prevFloorRot) * prevFloor.transform.rotation;
-                    transform.position = PrevFloorPos + ( relative * (transform.position- PrevFloorPos));
+                    transform.position = PrevFloorPos + (relative * (transform.position - PrevFloorPos));
                 }
                 if(prevFloor.transform.position != PrevFloorPos)
                 {
@@ -379,7 +380,7 @@ public class PlayerController : MonoBehaviour, IWater
                 {//Wall or too steep slope
                     if(Physics.CapsuleCast(
                     TopSphere,//Capsule top sphere center
-                    BotSphere+new Vector3(0,stepHeight,0),//bottom sphere center
+                    BotSphere + new Vector3(0, stepHeight, 0),//bottom sphere center
                     capsule.radius,//Capsule Radius
                     velocity.normalized,//Direction vector
                     out hit,
@@ -414,7 +415,7 @@ public class PlayerController : MonoBehaviour, IWater
                         velocity += hit.normal * .001f;
                         isGrounded = true;
                     }
-                        
+
                 }
                 //if last position velocity was the same as the new calculation set velocity to just before collision and exit
                 if(lastMoveVec == velocity)
@@ -426,7 +427,7 @@ public class PlayerController : MonoBehaviour, IWater
             }
 
             playerAnim.SetBool("isGrounded", isGrounded);
-            
+
             Vector3 pushback = new Vector3();
             Vector3 newpos = transform.position + velocity;
             if(Physics.CheckCapsule(TopSphere + velocity, BotSphere + velocity, capsule.radius, raycastLayerMask))
@@ -458,7 +459,9 @@ public class PlayerController : MonoBehaviour, IWater
 
             /*Apply Velocity*/
             transform.position += velocity;
-            velocity.y += Time.deltaTime * -gravity;
+            //velocity.y -= Time.deltaTime * (velocityDelta + Time.deltaTime * -gravity / 2);
+            //velocity.y += Time.deltaTime * -gravity;
+            velocity.y = velocity.y / Time.deltaTime;
 
 
 
@@ -469,19 +472,24 @@ public class PlayerController : MonoBehaviour, IWater
             }
 
 
-                      
 
-            if (runningTimer > 0.1f && isRunning)
+
+            if(runningTimer > 0.1f && isRunning)
             {
                 isRunning = false;
                 cameraHandler.NewFov(1); // 1 = original fov
                 playerSpeed = walkSpeed;
             }
-            if (movingTimer > 0.1f)
+            if(movingTimer > 0.1f)
             {
                 playerAnim.SetBool("isMoving", false);
             }
         }
+    }
+    private void Update()
+    {
+        gunsParent.transform.localPosition = transform.InverseTransformPoint(cameraHandler.transform.position);
+        gunsParent.transform.rotation = playerHead.transform.rotation;
     }
 
 
