@@ -294,8 +294,8 @@ public class PlayerController : MonoBehaviour, IWater
         movingTimer += Time.deltaTime;
         interactTimer += Time.deltaTime;
         pickupTimer += Time.deltaTime;
-
-        velocity += new Vector3(tempVel.x * Time.deltaTime, 0, tempVel.z * Time.deltaTime);
+        /*tempVel = new Vector3(tempVel.x,0, tempVel.z).normalized *playerSpeed;*/
+        velocity += new Vector3(tempVel.x , 0, tempVel.z);
         tempVel = Vector3.zero;
 
         if(!controller.IsPaused && isAlive)
@@ -611,14 +611,14 @@ public class PlayerController : MonoBehaviour, IWater
                 break;
 
             case "LeftHorizontal":
-                tempVel += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed;
+                tempVel += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed*Time.deltaTime;
                 playerAnim.SetBool("isMoving", true);
                 playerAnim.SetFloat("sideways", magnitude);
                 movingTimer = 0;
                 break;
 
             case "LeftVertical":
-                tempVel += -transform.forward * magnitude * playerSpeed;
+                tempVel += -transform.forward * magnitude * playerSpeed * Time.deltaTime;
                 playerAnim.SetBool("isMoving", true);
                 playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
                 if (isRunning)
