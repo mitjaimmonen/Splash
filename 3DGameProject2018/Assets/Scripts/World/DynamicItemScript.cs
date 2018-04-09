@@ -82,23 +82,25 @@ public class DynamicItemScript : MonoBehaviour, IWater {
 	}
 
 
-	public void ParticleHit(Vector3 origin, Vector3 intersection, int count)
+	public void ParticleHit(Vector3 origin, Vector3 intersection, int damage)
 	{
+		
+
 		if(health > 0)
-			currentHealth -= count;
+			currentHealth -= damage;
 
 		if (currentHealth < 1 && isDestroyable && !isDestroying)
 			StartCoroutine(StartDestroy(origin, intersection));
 
 		else if ((isMovable && !isDestroying) || (isDestroying && isMovableOnDestroy))
-			Move(origin, intersection);
+			Move(origin, intersection, damage);
 	}
 
-	private void Move(Vector3 origin, Vector3 intersection)
+	private void Move(Vector3 origin, Vector3 intersection, int damage)
 	{
 		Debug.Log("move");
-		Vector3 dir = (transform.position - origin).normalized;
-		dir.y += 0.5f;
+		Vector3 dir = (transform.position - origin).normalized * damage;
+		dir.y += 0.5f * damage;
 		mainRigidbody.isKinematic = false;
 		mainRigidbody.AddForceAtPosition(dir, intersection, ForceMode.Impulse);
 	}
@@ -111,7 +113,7 @@ public class DynamicItemScript : MonoBehaviour, IWater {
 		mainRigidbody.isKinematic = isMovableOnDestroy ? false : true; //dynamic if isMovableOnDestroy
 		mainCollider.enabled = isMovableOnDestroy ? true : false;
 		if (collisionBehaviour)
-			collisionBehaviour.soundBehaviour.PlayDestroy();
+			collisionBehaviour.soundBehaviour.PlayDestroy(transform.position);
 		
 		if (childRigidbodies.Count > 0)
 		{

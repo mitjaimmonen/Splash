@@ -36,10 +36,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4598892195997302}
-  - component: {fileID: 114643241614402262}
-  - component: {fileID: 114510883037561770}
   - component: {fileID: 65653752613374108}
   - component: {fileID: 54180119676748438}
+  - component: {fileID: 114643241614402262}
+  - component: {fileID: 114510883037561770}
   - component: {fileID: 114724610745356072}
   m_Layer: 15
   m_Name: SmallPot
@@ -226,7 +226,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1303909819408260}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 5
   m_Drag: 0.25
   m_AngularDrag: 0.25
   m_UseGravity: 1
@@ -258,7 +258,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  maxCount: 10
+  allowMaxCountOverride: 1
+  maxCount: 5
   soundBehaviour: {fileID: 0}
 --- !u!114 &114643241614402262
 MonoBehaviour:
@@ -299,6 +300,7 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitCeramicSurface
   waterSplashSE: event:/Water Collisions/WaterSplashSmall
   destroySE: event:/Interactions/SmallPotBreak
+  dealDamageSE: 
 --- !u!198 &198787995339436460
 ParticleSystem:
   m_ObjectHideFlags: 1

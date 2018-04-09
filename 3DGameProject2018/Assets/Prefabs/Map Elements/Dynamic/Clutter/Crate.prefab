@@ -19,12 +19,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4908199740673120}
+  - component: {fileID: 65503050067516696}
+  - component: {fileID: 54925106309203742}
   - component: {fileID: 114608712326719320}
   - component: {fileID: 114978833688946836}
-  - component: {fileID: 54925106309203742}
-  - component: {fileID: 65503050067516696}
   - component: {fileID: 114217860291356396}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Crate
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 4595274766896810}
   - component: {fileID: 33897251481539930}
   - component: {fileID: 23780825742423368}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: tcrate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,9 +154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSE: 
-  waterSplashSE: 
+  collisionSE: event:/Water Collisions/HitHardSurface
+  waterSplashSE: event:/Water Collisions/WaterSplashBig
   destroySE: 
+  dealDamageSE: 
 --- !u!114 &114608712326719320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,5 +193,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  allowMaxCountOverride: 1
   maxCount: 10
   soundBehaviour: {fileID: 0}

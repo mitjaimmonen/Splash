@@ -36,10 +36,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4397481884948214}
-  - component: {fileID: 114881585933476660}
-  - component: {fileID: 114199200151824234}
   - component: {fileID: 65688345047642570}
   - component: {fileID: 54537587929320112}
+  - component: {fileID: 114881585933476660}
+  - component: {fileID: 114199200151824234}
   - component: {fileID: 114018577691709056}
   m_Layer: 10
   m_Name: GardenFrame
@@ -158,6 +158,7 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitHardSurface
   waterSplashSE: event:/Water Collisions/WaterSplashHuge
   destroySE: 
+  dealDamageSE: 
 --- !u!114 &114199200151824234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  allowMaxCountOverride: 1
   maxCount: 10
   soundBehaviour: {fileID: 0}
 --- !u!114 &114881585933476660

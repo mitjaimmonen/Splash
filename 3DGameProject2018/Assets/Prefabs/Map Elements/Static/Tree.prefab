@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4421182747518500}
   - component: {fileID: 65693293570972824}
   - component: {fileID: 114032203716319232}
+  - component: {fileID: 114820422433842980}
   m_Layer: 10
   m_Name: Trunk (collider)
   m_TagString: Untagged
@@ -55,6 +56,7 @@ GameObject:
   - component: {fileID: 136526893830285958}
   - component: {fileID: 136925255924021742}
   - component: {fileID: 114965360570014086}
+  - component: {fileID: 114790004158239448}
   m_Layer: 10
   m_Name: Leaves (colliders)
   m_TagString: Untagged
@@ -199,8 +201,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCount: 10
+  isPlayer: 0
+  maxCount: 5
+  soundBehaviour: {fileID: 0}
+--- !u!114 &114790004158239448
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1526454378295422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionSE: event:/Water Collisions/HitLeaves
+  waterSplashSE: 
+  destroySE: 
+--- !u!114 &114820422433842980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1204984640624768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   collisionSE: event:/Water Collisions/HitHardSurface
+  waterSplashSE: 
+  destroySE: 
 --- !u!114 &114965360570014086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,8 +243,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCount: 10
-  collisionSE: event:/Water Collisions/HitHardSurface
+  isPlayer: 0
+  maxCount: 5
+  soundBehaviour: {fileID: 0}
 --- !u!136 &136221990593758810
 CapsuleCollider:
   m_ObjectHideFlags: 1

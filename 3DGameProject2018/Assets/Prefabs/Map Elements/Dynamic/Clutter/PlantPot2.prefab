@@ -112,9 +112,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4852218143570804}
-  - component: {fileID: 114870802054246458}
-  - component: {fileID: 54174007218221568}
   - component: {fileID: 65111111306598748}
+  - component: {fileID: 54174007218221568}
+  - component: {fileID: 114870802054246458}
   - component: {fileID: 114739123383719584}
   - component: {fileID: 114162624256542252}
   m_Layer: 10
@@ -434,7 +434,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780323140946632}
   serializedVersion: 2
-  m_Mass: 3
+  m_Mass: 10
   m_Drag: 0.25
   m_AngularDrag: 0.75
   m_UseGravity: 1
@@ -569,6 +569,7 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitCeramicSurface
   waterSplashSE: event:/Water Collisions/WaterSplashBig
   destroySE: event:/Interactions/BigPotBreak
+  dealDamageSE: 
 --- !u!114 &114739123383719584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -581,6 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  allowMaxCountOverride: 1
   maxCount: 10
   soundBehaviour: {fileID: 0}
 --- !u!114 &114870802054246458

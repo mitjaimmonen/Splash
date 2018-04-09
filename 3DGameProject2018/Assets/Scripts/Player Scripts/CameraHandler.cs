@@ -11,7 +11,8 @@ public class CameraHandler : MonoBehaviour {
 
     private Camera currentCamera; 
     public float fovLerpTime = 0.2f;
-    public float forwardOffset = -0.1f, upOffset = -0.2f, rotRadius = 0.1f;
+    public float rotRadius = 0.1f;
+    public Vector3 offsetFromHead = new Vector3(0, -0.2f, -0.1f);
 
     private float fov, newFov, oldFov;
     private float fovTimer = 1f;
@@ -50,7 +51,7 @@ public class CameraHandler : MonoBehaviour {
             var pos = target.transform.position; //Player's head position
             Vector3 forw = playerController.transform.forward.normalized; //Player's forward (never looking up or down)
             Vector3 up = playerController.transform.up.normalized; //Player's up vector (should always be straight upwards)
-            pos += forwardOffset * forw + upOffset * up; //Add offsets to camera position
+            pos += offsetFromHead.z * forw + offsetFromHead.y * up; //Add offsets to camera position
             forw = target.transform.forward.normalized; //Change forward vector to head's forward, which can also be upwards/downwards
             pos += rotRadius * forw; //Add radius into offset
 

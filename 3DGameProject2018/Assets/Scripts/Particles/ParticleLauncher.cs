@@ -44,34 +44,45 @@ public class ParticleLauncher : MonoBehaviour {
 
 	private void OnParticleCollision(GameObject other)
 	{
-		if (collisionCountTimer < Time.time - 0.1f)
+		if (other.layer == LayerMask.NameToLayer("Environment"))
 		{
-			oldLoopCount = 0;
-			collisionCountTimer= Time.time;
-		}
-
-		ParticlePhysicsExtensions.GetCollisionEvents (thisParticleSystem, other, collisionEvents);
-
-		int loopCount = Mathf.Clamp(collisionEvents.Count, 0, maxLoopCount-oldLoopCount);
-
-		if (loopCount > 0)
-		{
-			oldLoopCount += loopCount;
-
-			for (int i = 0; i < loopCount;i++)
+			if (collisionCountTimer < Time.time - 0.1f)
 			{
-				if (!collisionEvents[i].colliderComponent)
-					continue;
-				
-				if (splashTimer < Time.time - 0.025f || ignoreTimers )
+				oldLoopCount = 0;
+				collisionCountTimer= Time.time;
+			}
+
+			ParticlePhysicsExtensions.GetCollisionEvents (thisParticleSystem, other, collisionEvents);
+
+			int loopCount = Mathf.Clamp(collisionEvents.Count, 0, maxLoopCount-oldLoopCount);
+
+			if (loopCount > 0)
+			{
+				oldLoopCount += loopCount;
+
+				if (ignoreTimers)
+				{
+					for (int i = 0; i < loopCount;i++)
+					{
+						if (!collisionEvents[i].colliderComponent)
+							continue;
+
+						splashTimer = Time.time;		
+						particleDecal.ParticleHit (collisionEvents [i]);
+						if (splatterParticleSystem != null)
+							EmitSplashAtCollisionPoint(collisionEvents[i]);
+					}
+				}
+				else if (splashTimer < Time.time - 0.025f && collisionEvents[0].colliderComponent )
 				{
 					splashTimer = Time.time;		
-					particleDecal.ParticleHit (collisionEvents [i]);
+					particleDecal.ParticleHit (collisionEvents[0]);
 					if (splatterParticleSystem != null)
-						EmitSplashAtCollisionPoint(collisionEvents[i]);
+						EmitSplashAtCollisionPoint(collisionEvents[0]);
 				}
 			}
 		}
+
 	}
 
 	private void EmitSplashAtCollisionPoint(ParticleCollisionEvent collisionEvent)

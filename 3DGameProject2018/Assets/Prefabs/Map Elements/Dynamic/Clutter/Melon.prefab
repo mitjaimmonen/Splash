@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4562067838458336}
-  - component: {fileID: 114521716596638750}
-  - component: {fileID: 54211709578549170}
   - component: {fileID: 136960586232901296}
+  - component: {fileID: 54211709578549170}
+  - component: {fileID: 114521716596638750}
   - component: {fileID: 114861165221811664}
   - component: {fileID: 114842277873955844}
   m_Layer: 15
@@ -168,6 +168,7 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitSmallObject
   waterSplashSE: event:/Water Collisions/WaterSplashSmall
   destroySE: 
+  dealDamageSE: 
 --- !u!114 &114861165221811664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -180,7 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  maxCount: 10
+  allowMaxCountOverride: 0
+  maxCount: 1
   soundBehaviour: {fileID: 0}
 --- !u!136 &136960586232901296
 CapsuleCollider:

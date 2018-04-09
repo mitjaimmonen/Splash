@@ -1353,7 +1353,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1371622987980496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.959, z: 0}
+  m_LocalPosition: {x: 0, y: 1.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4338802512630830}
@@ -1613,7 +1613,7 @@ MonoBehaviour:
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  hitmarkerSE: event:/Water Collisions/Hitmarker
+  hitmarkerSE: 
   jumpSE: event:/Character Movement/Jump
   takeDamageSE: 
   dieSE: event:/Character Movement/Death
@@ -1683,7 +1683,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
+  isPlayer: 1
+  allowMaxCountOverride: 1
   maxCount: 25
   soundBehaviour: {fileID: 0}
 --- !u!114 &114971550634750604
@@ -1699,7 +1700,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionSE: event:/Character Movement/TakeDamage
   waterSplashSE: event:/Water Collisions/WaterSplashBig
-  destroySE: 
+  destroySE: event:/Character Movement/Death
+  dealDamageSE: event:/Water Collisions/Hitmarker
 --- !u!135 &135046064985107728
 SphereCollider:
   m_ObjectHideFlags: 1

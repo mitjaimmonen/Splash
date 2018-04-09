@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  allowMaxCountOverride: 1
   maxCount: 10
   soundBehaviour: {fileID: 0}
 --- !u!114 &114713186242598602
@@ -173,6 +174,7 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitmetalSurface
   waterSplashSE: event:/Water Collisions/WaterSplashBig
   destroySE: 
+  dealDamageSE: 
 --- !u!114 &114811151478750022
 MonoBehaviour:
   m_ObjectHideFlags: 1

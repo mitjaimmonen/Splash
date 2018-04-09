@@ -15,8 +15,10 @@ using UnityEngine;
 [RequireComponent(typeof(SoundBehaviour))]
 public class CollisionBehaviour : MonoBehaviour {
 
-	public bool isPlayer = false;
+	public bool isPlayer = false, allowMaxCountOverride = false;
+	
 	public int maxCount = 5;
+
 
 	private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
 	private DynamicItemScript dynamicItem;
@@ -26,7 +28,7 @@ public class CollisionBehaviour : MonoBehaviour {
 	private bool isHead = false;
 	private float headshotMultiplier = 1f, stackedDamage = 0;
 	private int defaultDamage;
-	private int oldCount = 0, count = 0;
+	private int oldCount = 0, count = 0, tempCount = 0;
 
 	private float collisionCountTimer;
 
@@ -40,7 +42,6 @@ public class CollisionBehaviour : MonoBehaviour {
 		if (playerController != null)
 		{
 			isPlayer = true;
-			maxCount = playerController.CurrentWeapon.weaponData.maxCollisionCountPerFrame;
 		}
 		
 		soundBehaviour = GetComponent<SoundBehaviour>();
@@ -49,42 +50,41 @@ public class CollisionBehaviour : MonoBehaviour {
 
 
 	private void OnParticleCollision(GameObject other)
-	{
+	{		
+		ParticleLauncher otherParticleLauncher = other.GetComponent<ParticleLauncher>();
+		PlayerController otherPlayerController = null;
+
+		if (otherParticleLauncher)
+			otherPlayerController = otherParticleLauncher.Controller;
+		else
+			return;
+		if (allowMaxCountOverride)
+			maxCount = otherPlayerController.CurrentWeapon.weaponData.maxCollisionCountPerFrame;
+
+
 		if (collisionCountTimer < Time.time - 0.1f)
 		{
 			oldCount = 0;
 			collisionCountTimer= Time.time;
 		}
+
 		ParticlePhysicsExtensions.GetCollisionEvents (other.GetComponent<ParticleSystem>(), this.gameObject, collisionEvents);
 		count = Mathf.Clamp(collisionEvents.Count, 0, maxCount-oldCount);
-
 
 		if (count > 0)
 		{
 			oldCount += count;
 			
 			Vector3 intersection = collisionEvents[0].intersection;
-			soundBehaviour.PlayCollisionSound(count, intersection);
+			tempCount = Mathf.Max(5, maxCount); //Sound works better with bigger maxCount
+			soundBehaviour.PlayCollisionSound(count/tempCount, intersection);
 
 			if (dynamicItem != null)
-				dynamicItem.ParticleHit(other.transform.position, intersection, count);
+				dynamicItem.ParticleHit(other.transform.position, intersection, count * otherPlayerController.CurrentDamage);
 			
 			else if (isPlayer)
 			{
-				ParticleLauncher otherParticleLauncher = other.GetComponent<ParticleLauncher>();
-				PlayerController otherPlayerController = null;
-
-				if (otherParticleLauncher)
-				{
-					otherPlayerController = otherParticleLauncher.Controller;
-					if (!otherPlayerController)
-						Debug.LogWarning("Playercontroller not found!");
-				}
-				else
-					Debug.LogWarning("ParticleLauncher not found!");
-
-				if (playerController != null && otherPlayerController != null && playerController != otherPlayerController)
-					PlayerDamage(otherPlayerController, otherParticleLauncher, collisionEvents);
+				PlayerDamage(otherPlayerController, otherParticleLauncher, collisionEvents);
 			}
 
 			
@@ -109,9 +109,9 @@ public class CollisionBehaviour : MonoBehaviour {
 			stackedDamage += defaultDamage * headshotMultiplier;
 
 		}
+			Debug.Log("Stacked damage: " + stackedDamage + ", count: " + count);
 
 		attacker.DealDamage();
-		Debug.Log(stackedDamage);
 		playerController.TakeDamage((int)stackedDamage, attacker);
 				
 	}

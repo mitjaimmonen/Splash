@@ -4569,7 +4569,7 @@ Prefab:
     - target: {fileID: 114981359564351386, guid: ef5f46a1cefaeb943844a0c7cdf487dc,
         type: 2}
       propertyPath: pickups.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4181689519207860, guid: ef5f46a1cefaeb943844a0c7cdf487dc, type: 2}
       propertyPath: m_LocalPosition.x
@@ -8351,14 +8351,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 1933688626484054, guid: e3a45cf9f818d84499c44f59d72b4fda, type: 2}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1979754524240856, guid: e3a45cf9f818d84499c44f59d72b4fda, type: 2}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e3a45cf9f818d84499c44f59d72b4fda, type: 2}
   m_IsPrefabParent: 0
@@ -9259,39 +9251,6 @@ Prefab:
       propertyPath: m_Name
       value: StreetLamp (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 1157019500006200, guid: 52487dc87376d984e927397ffa32a142, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 1363674685618508, guid: 52487dc87376d984e927397ffa32a142, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 108363346385931210, guid: 52487dc87376d984e927397ffa32a142,
-        type: 2}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1523907023279112, guid: 52487dc87376d984e927397ffa32a142, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522922567094240, guid: 52487dc87376d984e927397ffa32a142, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 1047708671422812, guid: 52487dc87376d984e927397ffa32a142, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 52487dc87376d984e927397ffa32a142, type: 2}
   m_IsPrefabParent: 0
@@ -9564,11 +9523,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4371386574922418, guid: f91c1cbb9abf4fe4fb66d6e3f92599a4, type: 2}
       propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 64314063705254812, guid: f91c1cbb9abf4fe4fb66d6e3f92599a4,
-        type: 2}
-      propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -11031,14 +10985,6 @@ Prefab:
     - target: {fileID: 4304557982426362, guid: 0e061c69e96655b47b8d49066693ae8e, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1458260192308378, guid: 0e061c69e96655b47b8d49066693ae8e, type: 2}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1792746285171254, guid: 0e061c69e96655b47b8d49066693ae8e, type: 2}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e061c69e96655b47b8d49066693ae8e, type: 2}

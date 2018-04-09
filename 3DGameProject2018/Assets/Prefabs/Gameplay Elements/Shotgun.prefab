@@ -262,7 +262,7 @@ MeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1080565755865646}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -324,7 +324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 504aaa145ccd715479efd3fc6c987cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageInterval: 0
   maxLoopCount: 20
   ignoreTimers: 1
 --- !u!114 &114211496482690848
@@ -349,8 +348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 3
-  headshotMultiplier: 1.35
+  damage: 1
+  headshotMultiplier: 2
   currentClipAmmo: 100
   clipSize: 100
   shotUsage: 20
@@ -359,7 +358,7 @@ MonoBehaviour:
   centerAim: 1
   lerpAim: 0
   rotationSpeed: 10
-  maxCollisionCountPerFrame: 20
+  maxCollisionCountPerFrame: 40
 --- !u!114 &114812898081115000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -407,7 +406,7 @@ SkinnedMeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1898344153826854}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -440,7 +439,8 @@ SkinnedMeshRenderer:
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 4300000, guid: 4144968d47dac7347857606917cecc5e, type: 3}
   m_Bones: []
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 0, y: 0.0012213681, z: -0.0012549192}
@@ -967,7 +967,7 @@ ParticleSystem:
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
     alignToDirection: 0
-    randomDirectionAmount: 0.15
+    randomDirectionAmount: 0.2
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
@@ -1152,7 +1152,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 20
+        scalar: 25
         minScalar: 0
         maxCurve:
           serializedVersion: 2

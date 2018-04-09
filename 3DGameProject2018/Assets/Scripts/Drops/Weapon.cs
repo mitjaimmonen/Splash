@@ -164,11 +164,14 @@ public class Weapon : MonoBehaviour {
     //When no more currentWeapon or when destroyed
     public void Deactivate()
     {
-        shootEI.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        shootEI.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         isActive = false;
         gameObject.SetActive(false);
     }
-
+    private void OnDestroy()
+    {
+        shootEI.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);        
+    }
 
 
     private void Update()
@@ -178,16 +181,16 @@ public class Weapon : MonoBehaviour {
             //Set weapon aim to center worldpoint of the viewport.
 
             if (playerController.IsAimRaycastHit && weaponData.centerAim)
+            {
                 lookDirection = (playerController.AimWorldPoint - waterParticles.transform.parent.position).normalized;
+                lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+            }
             else 
-                lookDirection = playerController.playerHead.transform.forward;
+               lookRotation = Quaternion.LookRotation(playerController.playerHead.transform.forward);
 
-            Vector3 localEuler = Quaternion.LookRotation(lookDirection).eulerAngles;
-            localEuler.z = 0; //Useless rotation
-            lookRotation = Quaternion.Euler(localEuler);  
 
             if (weaponData.lerpAim)
-                waterParticles.transform.parent.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
+                waterParticles.transform.parent.rotation = Quaternion.Slerp(waterParticles.transform.parent.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
             else
                 waterParticles.transform.parent.rotation = lookRotation;
             
@@ -196,11 +199,10 @@ public class Weapon : MonoBehaviour {
             
 
             //Checks if shoot trigger is no longer called.
-            if (inputTimer > 0.1f || !isShooting)
+            if (inputTimer < Time.time - 0.1f || !isShooting)
             {
                 isShooting = false;
                 FMOD_Shooting.setValue(0);
-                    
             }
             gunAnim.SetBool("isShooting", isShooting);
 
@@ -211,7 +213,6 @@ public class Weapon : MonoBehaviour {
             }
 
             //Look up "fireRate", "maxShootTime" and "reloadTime" to see the meanings.
-            inputTimer += Time.deltaTime;
             fireRateTimer += Time.deltaTime;
             shootTimer += Time.deltaTime;
         }
@@ -222,7 +223,7 @@ public class Weapon : MonoBehaviour {
     {
         if (gameObject.activeSelf && !playerController.controller.IsPaused && isActive)
         {
-            if (inputTimer > 0.1f) //First time calling after input trigger
+            if (inputTimer < Time.time - 0.1f) //First time calling after input trigger
             {
                 //Call everything here that needs to be called only once.
 
@@ -235,7 +236,7 @@ public class Weapon : MonoBehaviour {
                 }
             }
             //Reset input timer right after the if-check.
-            inputTimer = 0;
+            inputTimer = Time.time;
 
 
             if (fireRateTimer < weaponData.fireRate)

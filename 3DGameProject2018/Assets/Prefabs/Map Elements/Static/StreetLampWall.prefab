@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 65727893101351446}
   - component: {fileID: 65282050732932312}
   - component: {fileID: 114603589057877756}
+  - component: {fileID: 114099856638478814}
   m_Layer: 10
   m_Name: StreetLampWall
   m_TagString: Untagged
@@ -423,6 +424,21 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114099856638478814
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1941334826592340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionSE: event:/Water Collisions/HitmetalSurface
+  waterSplashSE: event:/Water Collisions/WaterSplashBig
+  destroySE: 
+  dealDamageSE: 
 --- !u!114 &114293553368397256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -459,10 +475,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxParticleCollisionCount: 10
-  collisionSE: event:/Water Collisions/HitMetalSurface
-  waterSplashSE: 
-  destroySE: 
+  isPlayer: 0
+  allowMaxCountOverride: 0
+  maxCount: 10
+  soundBehaviour: {fileID: 0}
 --- !u!136 &136915966209879506
 CapsuleCollider:
   m_ObjectHideFlags: 1

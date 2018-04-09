@@ -249,6 +249,7 @@ public class PlayerController : MonoBehaviour, IWater
         cameraHandler.SetViewport(currentPlayers, playerNumber);
         
         rigController = GetComponentInChildren<RigController>();
+        collisionBehaviour = GetComponent<CollisionBehaviour>();
 
         stats = new PlayerStats {
             player = playerNumber
@@ -284,6 +285,7 @@ public class PlayerController : MonoBehaviour, IWater
         rotationH = transform.localEulerAngles.y;
         hud.UpdateAmmo();
         capsule = GetComponent<CapsuleCollider>();
+        gunsParent.transform.localPosition += cameraHandler.offsetFromHead;
         
     }
     //Physics
@@ -300,7 +302,6 @@ public class PlayerController : MonoBehaviour, IWater
 
         if (!controller.IsPaused && isAlive)
         {
-            gunsParent.transform.localPosition = transform.InverseTransformPoint(cameraHandler.transform.position);
             gunsParent.transform.rotation = playerHead.transform.rotation;
 
             /*Problems left:(/ == think its fixxed X = definitly fixed)
@@ -457,8 +458,8 @@ public class PlayerController : MonoBehaviour, IWater
         public CollisionBehaviour collisionBehaviour;
         public CollisionBehaviour ColBehaviour
         {
-            get{ return collisionBehaviour;}
-            set{ ColBehaviour = value; }
+            get{ return collisionBehaviour; }
+            set{ collisionBehaviour = value; }
         }
         public float splashSizeMultiplier
         {
@@ -717,14 +718,13 @@ public class PlayerController : MonoBehaviour, IWater
     public void TakeDamage(int damage, PlayerController attacker)
     {
         hud.TakeDamage(attacker.transform.position);
-        FMODUnity.RuntimeManager.PlayOneShotAttached(takeDamageSE, gameObject);
+        ColBehaviour.soundBehaviour.PlayTakeDamage();
 
         CurrentHealth -= damage;
         if(currentHealth<1 && isAlive)
         {
             attacker.stats.kills++;
             Die(attacker);
-            // controller.Spawn(playerNumber);
         }
     }
 
@@ -732,7 +732,7 @@ public class PlayerController : MonoBehaviour, IWater
     //Can be used for score system later on.
     public void DealDamage()
     {
-        FMODUnity.RuntimeManager.PlayOneShotAttached(hitmarkerSE, gameObject);
+        ColBehaviour.soundBehaviour.PlayDealDamage();
         hud.DealDamage();
     }
 
@@ -742,7 +742,7 @@ public class PlayerController : MonoBehaviour, IWater
         if (isAlive)
         {
             isAlive = false;
-            FMODUnity.RuntimeManager.PlayOneShotAttached(dieSE, rigController.gameObject); //Arm is part of rig, so sound updates wherever rig has ragdolled.
+            ColBehaviour.soundBehaviour.PlayDestroy(rigController.transform.position);
             cameraHandler.Die(attacker);
             rigController.Die();
 

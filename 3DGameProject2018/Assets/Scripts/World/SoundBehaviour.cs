@@ -6,20 +6,23 @@ public class SoundBehaviour : MonoBehaviour {
 
 
 
-	[FMODUnity.EventRef] public string collisionSE, waterSplashSE, destroySE;
+	[FMODUnity.EventRef] public string collisionSE, waterSplashSE, destroySE, dealDamageSE;
     private FMOD.Studio.EventInstance soundEI; 
     private FMOD.Studio.ParameterInstance FMOD_FlowToBurst, FMOD_Volume;
 	private float volume, soundTimer, collisionCountTimer;
 
 
 	#region Sound Functionality
-		public void PlayDestroy()
+		public void PlayDestroy(Vector3 position)
 		{
-			FMODUnity.RuntimeManager.PlayOneShot(destroySE, transform.position);
+			Debug.Log("PlaySound: " + destroySE);
+			FMODUnity.RuntimeManager.PlayOneShot(destroySE, position);
 		}
 
-		public void PlayCollisionSound(int countByMaxCount, Vector3 intersection)
+		public void PlayCollisionSound(float countByMaxCount, Vector3 intersection)
 		{
+			//Collision sound must have volume and flowToBurst parameters defined, otherwise it wont play at all.
+			Debug.Log("PlaySound: " + collisionSE);
 
 			if (soundEI.isValid())
 			{
@@ -40,6 +43,30 @@ public class SoundBehaviour : MonoBehaviour {
 			}
 		}
 
+		public void PlayDealDamage()
+		{
+			Debug.Log("PlaySound: " + dealDamageSE);
+			//Oneshot. For example dealDamage sound effect.
+			FMODUnity.RuntimeManager.PlayOneShot(dealDamageSE, transform.position);
+			
+		}
+		public void PlayTakeDamage()
+		{
+			Debug.Log("PlaySound: " + collisionSE);
+			//Oneshot. For example dealDamage sound effect.
+			FMODUnity.RuntimeManager.PlayOneShot(collisionSE, transform.position);
+		}
+
+		public void WaterSplash(){
+
+			if (soundTimer < Time.time - 0.25f)
+			{
+				Debug.Log("PlaySound: " + waterSplashSE);
+				FMODUnity.RuntimeManager.PlayOneShot(waterSplashSE, transform.position);
+				soundTimer = Time.time;
+			}
+		}
+
 		private IEnumerator FadeOut()
 		{
 			while (soundEI.isValid())
@@ -57,14 +84,6 @@ public class SoundBehaviour : MonoBehaviour {
 			yield break;
 		}
 
-		public void WaterSplash(){
-
-			if (soundTimer < Time.time - 0.25f)
-			{
-				FMODUnity.RuntimeManager.PlayOneShot(waterSplashSE, transform.position);
-				soundTimer = Time.time;
-			}
-		}
 	#endregion
 
 }

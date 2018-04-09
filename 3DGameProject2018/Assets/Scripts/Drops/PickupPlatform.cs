@@ -34,8 +34,9 @@ public class PickupPlatform : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (respawnTimer > respawnTime)
-		{
+		{				
 			int index = Random.Range (0, pickups.Length);
+			
 			currentPickup = pickups[index];
 
 			currentPickup = Instantiate(currentPickup, transform.position, transform.rotation);
