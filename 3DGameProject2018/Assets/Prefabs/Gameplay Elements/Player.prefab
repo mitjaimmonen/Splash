@@ -1684,7 +1684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 1
-  allowMaxCountOverride: 1
+  allowMaxCountOverrideByWeapons: 1
   maxCount: 25
   soundBehaviour: {fileID: 0}
 --- !u!114 &114971550634750604

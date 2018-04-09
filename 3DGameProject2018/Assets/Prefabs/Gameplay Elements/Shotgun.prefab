@@ -358,7 +358,7 @@ MonoBehaviour:
   centerAim: 1
   lerpAim: 0
   rotationSpeed: 10
-  maxCollisionCountPerFrame: 40
+  maxCollisionCount: 30
 --- !u!114 &114812898081115000
 MonoBehaviour:
   m_ObjectHideFlags: 1

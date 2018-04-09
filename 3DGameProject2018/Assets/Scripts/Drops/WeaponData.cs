@@ -29,8 +29,7 @@ public class WeaponData : MonoBehaviour {
     [Tooltip("How quickly gun rotates towards worldpoint that is in the middle of the camera viewport.")]
     public float rotationSpeed = 1f;
 
-
-    public int maxCollisionCountPerFrame = 1;
+    public int maxCollisionCount = 1;
 
 
 }

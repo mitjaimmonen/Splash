@@ -15,7 +15,7 @@ using UnityEngine;
 [RequireComponent(typeof(SoundBehaviour))]
 public class CollisionBehaviour : MonoBehaviour {
 
-	public bool isPlayer = false, allowMaxCountOverride = false;
+	public bool isPlayer = false, allowMaxCountOverrideByWeapons = false;
 	
 	public int maxCount = 5;
 
@@ -58,8 +58,9 @@ public class CollisionBehaviour : MonoBehaviour {
 			otherPlayerController = otherParticleLauncher.Controller;
 		else
 			return;
-		if (allowMaxCountOverride)
-			maxCount = otherPlayerController.CurrentWeapon.weaponData.maxCollisionCountPerFrame;
+
+		if (allowMaxCountOverrideByWeapons)
+			maxCount = otherPlayerController.CurrentWeapon.weaponData.maxCollisionCount;
 
 
 		if (collisionCountTimer < Time.time - 0.1f)
@@ -82,7 +83,7 @@ public class CollisionBehaviour : MonoBehaviour {
 			if (dynamicItem != null)
 				dynamicItem.ParticleHit(other.transform.position, intersection, count * otherPlayerController.CurrentDamage);
 			
-			else if (isPlayer)
+			else if (isPlayer && playerController != otherPlayerController)
 			{
 				PlayerDamage(otherPlayerController, otherParticleLauncher, collisionEvents);
 			}

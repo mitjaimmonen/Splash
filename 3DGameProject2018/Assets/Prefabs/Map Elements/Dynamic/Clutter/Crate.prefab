@@ -193,6 +193,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  allowMaxCountOverride: 1
+  allowMaxCountOverrideByWeapons: 1
   maxCount: 10
   soundBehaviour: {fileID: 0}
