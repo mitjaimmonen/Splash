@@ -16,7 +16,7 @@ public interface IWater
 		get;
 		set;
 	}
-	float splashSizeMultiplier
+	float SplashSizeMultiplier
 	{
 		get;
 		set;
@@ -26,21 +26,33 @@ public interface IWater
 
 public class Water : MonoBehaviour {
 
+	private ParticleSplash psSplash;
 	private float splashTime = 0;
 	public CollisionBehaviour collisionBehaviour;
-	void OnTriggerEnter(Collider other)
+
+	private void Awake()
 	{
-		IWater water = other.GetComponent<IWater>();
+		psSplash = GameObject.Find("SplashParticles").GetComponent<ParticleSplash>();
+		Debug.Log(psSplash);
+		
+	}
+	void OnTriggerEnter(Collider otherCol)
+	{
+		IWater water = otherCol.GetComponent<IWater>();
 
 		if (water != null && splashTime < Time.time-0.1f)
 		{
 			splashTime = Time.time;
 			water.WaterInteraction(); //General object specific stuff the class wants to do.
-			// water.particleSplash.PlaySplash(other, water.splashSizeMultiplier);
+
+			
 			if(water.ColBehaviour != null)
-			{
 				water.ColBehaviour.soundBehaviour.WaterSplash();
-			}
+			if (water.ParticleSplash == null && psSplash)
+				water.ParticleSplash = psSplash;
+			if (water.ParticleSplash != null)
+				water.ParticleSplash.PlaySplash(otherCol, water.SplashSizeMultiplier);
+
 
 			//sound
 

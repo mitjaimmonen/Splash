@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4768689019430742}
   - component: {fileID: 198442892801041942}
   - component: {fileID: 199711661961140278}
-  - component: {fileID: 114209151723489186}
   m_Layer: 8
   m_Name: Sprite continuous (assault rifle)
   m_TagString: Untagged
@@ -73,19 +72,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114209151723489186
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165360950769862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 504aaa145ccd715479efd3fc6c987cce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxLoopCount: 20
-  ignoreTimers: 0
 --- !u!198 &198442892801041942
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -146,7 +132,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1862466514
+  randomSeed: -1287083641
   InitialModule:
     serializedVersion: 3
     enabled: 1

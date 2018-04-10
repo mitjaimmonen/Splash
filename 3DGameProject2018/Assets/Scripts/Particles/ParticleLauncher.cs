@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class ParticleLauncher : MonoBehaviour {
 
-	public int maxLoopCount = 20;
+
+	[Tooltip("Do collisions have cooldown or not.")]
 	public bool ignoreTimers = false;
 
 	private ParticleDecal particleDecal;
@@ -16,6 +17,7 @@ public class ParticleLauncher : MonoBehaviour {
 	private List<ParticleCollisionEvent> collisionEvents;
 	private float collisionCountTimer = 0, splashTimer = 0;
 	private int oldLoopCount = 0;
+	private int maxLoopCount = 20;
 
 
 	private float headshotMultiplier;
@@ -28,6 +30,11 @@ public class ParticleLauncher : MonoBehaviour {
 	public PlayerController Controller
 	{
 		get {return thisPlayerController;}
+	}
+	public int MaxLoopCount
+	{
+		get{return maxLoopCount;}
+		set {maxLoopCount = value;}
 	}
 
 	private void Start()
@@ -54,13 +61,13 @@ public class ParticleLauncher : MonoBehaviour {
 
 			ParticlePhysicsExtensions.GetCollisionEvents (thisParticleSystem, other, collisionEvents);
 
-			int loopCount = Mathf.Clamp(collisionEvents.Count, 0, maxLoopCount-oldLoopCount);
+			int loopCount = Mathf.Clamp(collisionEvents.Count, 0, MaxLoopCount-oldLoopCount);
 
 			if (loopCount > 0)
 			{
 				oldLoopCount += loopCount;
 
-				if (ignoreTimers)
+				if (ignoreTimers || splashTimer < Time.time - 0.025f)
 				{
 					for (int i = 0; i < loopCount;i++)
 					{
@@ -69,29 +76,11 @@ public class ParticleLauncher : MonoBehaviour {
 
 						splashTimer = Time.time;		
 						particleDecal.ParticleHit (collisionEvents [i]);
-						if (splatterParticleSystem != null)
-							EmitSplashAtCollisionPoint(collisionEvents[i]);
+						if (!ignoreTimers)
+							break; //We only need one decal because area of effect is not big
 					}
-				}
-				else if (splashTimer < Time.time - 0.025f && collisionEvents[0].colliderComponent )
-				{
-					splashTimer = Time.time;		
-					particleDecal.ParticleHit (collisionEvents[0]);
-					if (splatterParticleSystem != null)
-						EmitSplashAtCollisionPoint(collisionEvents[0]);
 				}
 			}
 		}
-
 	}
-
-	private void EmitSplashAtCollisionPoint(ParticleCollisionEvent collisionEvent)
-	{
-		splatterParticleSystem.transform.position = collisionEvent.intersection;
-		splatterParticleSystem.transform.localEulerAngles = Quaternion.LookRotation(collisionEvent.normal).eulerAngles;
-
-		splatterParticleSystem.Emit(1);
-	}
-
-
 }

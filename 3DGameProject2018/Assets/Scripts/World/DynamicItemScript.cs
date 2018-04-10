@@ -29,20 +29,21 @@ public class DynamicItemScript : MonoBehaviour, IWater {
 		public ParticleSplash ParticleSplash
 		{
 			get{ return psSplash;}
-			set{ ParticleSplash = value; }
+			set{ psSplash = value; }
 		}
 
 		public CollisionBehaviour ColBehaviour
 		{
 			get{ return collisionBehaviour;}
-			set{ ColBehaviour = value; }
+			set{ collisionBehaviour = value; }
 		}
 
-		public float psSplashSizeMultiplier = 1;
-		public float splashSizeMultiplier
+		//How big particle splash
+		private float psSplashSizeMultiplier = 1;
+		public float SplashSizeMultiplier 
 		{
 			get{ return psSplashSizeMultiplier; }
-			set{ splashSizeMultiplier = value; }   
+			set{ psSplashSizeMultiplier = value; }   
 		}
 		public void WaterInteraction(){
 			Destroy(gameObject, 1f);
@@ -75,9 +76,10 @@ public class DynamicItemScript : MonoBehaviour, IWater {
 				childRigidbodies.Add(child);
 		}
 		if (randomizeStartRotation)
-		{
 			transform.rotation = Quaternion.Euler(Random.Range(0,360), Random.Range(0,360), Random.Range(0,360));
-		}
+		
+		if (mainRigidbody)
+			SplashSizeMultiplier = mainRigidbody.mass; //Set mass to define splash size.
 
 	}
 

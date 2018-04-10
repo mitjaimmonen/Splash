@@ -1602,7 +1602,7 @@ MonoBehaviour:
   carriedWeapons:
   - {fileID: 114651251365182740, guid: 56cca7690b8b018468bb41591ff435c9, type: 2}
   maxWeapons: 2
-  maxGlobalAmmo: 250
+  maxGlobalAmmo: 500
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
     type: 2}
   playerHead: {fileID: 1590808485326396}

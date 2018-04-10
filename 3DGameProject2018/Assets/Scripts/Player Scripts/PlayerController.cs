@@ -446,13 +446,13 @@ public class PlayerController : MonoBehaviour, IWater
 
     #region Implementations 
 
-        public float psSplashSizeMultiplier = 1;
+        public float psSplashSizeMultiplier = 10f;
         public ParticleSplash psSplash;
 
         public ParticleSplash ParticleSplash
         {
             get{ return psSplash;}
-            set{ ParticleSplash = value; }
+            set{ psSplash = value; }
         }
 
         public CollisionBehaviour collisionBehaviour;
@@ -461,10 +461,10 @@ public class PlayerController : MonoBehaviour, IWater
             get{ return collisionBehaviour; }
             set{ collisionBehaviour = value; }
         }
-        public float splashSizeMultiplier
+        public float SplashSizeMultiplier
         {
             get{ return psSplashSizeMultiplier; }
-            set{ splashSizeMultiplier = value; }   
+            set{ psSplashSizeMultiplier = value; }   
         }
         public void WaterInteraction(){
             //do interaction

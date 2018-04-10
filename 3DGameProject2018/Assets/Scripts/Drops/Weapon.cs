@@ -119,12 +119,12 @@ public class Weapon : MonoBehaviour {
         if (!gunAnim)
             Debug.LogWarning("No Animator found!");
         
+        waterParticles.transform.localPosition = -waterParticles.transform.parent.transform.localPosition; //Inverse the muzzle position to get origin position
+        var shape = waterParticles.shape; //Access particles component
+        shape.position = -waterParticles.transform.localPosition; //change position where particles get emitted to muzzle position.
         shootSpeed = waterParticles.main.startSpeedMultiplier;
-        // weaponData.currentClipAmmo = weaponData.clipSize;
-        // playerController.ClipSize = clipSize;
-        // playerController.CurrentAmmo = currentClipAmmo;
-        // playerController.CurrentDamage = damage;
-        // particleLauncher.HeadshotMultiplier = headshotMultiplier;
+
+        particleLauncher.MaxLoopCount = weaponData.maxCollisionCount;
 
     }
 
@@ -176,7 +176,7 @@ public class Weapon : MonoBehaviour {
 
     private void Update()
     {
-        if(gameObject.activeSelf && !playerController.controller.IsPaused && isActive)
+        if(gameObject.activeSelf && isActive && !playerController.controller.IsPaused)
         {
             //Set weapon aim to center worldpoint of the viewport.
 
