@@ -93,6 +93,11 @@ public class Weapon : MonoBehaviour {
             get { return weaponData.clipSize; }
         }
 
+        public Recoil RecoilScript
+        {
+            get { return recoil; }
+        }
+
     #endregion
 
     //Gets called on picked up

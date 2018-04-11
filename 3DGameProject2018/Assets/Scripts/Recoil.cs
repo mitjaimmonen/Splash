@@ -15,6 +15,12 @@ public class Recoil : MonoBehaviour {
 	private float posZ, newPosZ, posTime, posEaseInTime, posEaseOutTime;
 	private Vector3 oldPosBody, oldPosParticles, oldRot;
 
+
+	public GameObject WeaponBody
+	{
+		get { return body.gameObject; }
+	}
+
 	private void Awake()
 	{
 		foreach (Transform trans in GetComponentInChildren<Transform>(true))
@@ -107,7 +113,7 @@ public class Recoil : MonoBehaviour {
 
 			body.transform.localPosition = localPosBody;
 
-			if (affectBullets)
+			// if (affectBullets)
 				// particles.transform.localPosition = localPosParticles;
 			
 			yield return null;

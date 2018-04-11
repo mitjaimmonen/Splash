@@ -31,7 +31,8 @@ public class StateHandler : MonoBehaviour {
     public MatchOptions options = new MatchOptions();
     [SerializeField, Tooltip("Default initialized players when starting in game")]
     private int players = 0;
-    private IController controller;
+    [HideInInspector]
+    public IController controller;
     public State state;
     private GamePadState[] gamepads = new GamePadState[4];
     public List<PlayerStats> stats = new List<PlayerStats>();

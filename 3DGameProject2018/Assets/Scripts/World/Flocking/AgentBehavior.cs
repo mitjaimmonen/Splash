@@ -54,7 +54,6 @@ public class AgentBehavior : MonoBehaviour {
             direction = -transform.forward;
         }
         Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, direction.normalized);
-        Debug.Log("rot: " + average + " new rot: " + cohesion);
         if(rotation != currentRotation)
         {
             transform.rotation = Quaternion.Slerp(rotation, currentRotation, Mathf.Exp(-4.0f * Time.deltaTime));

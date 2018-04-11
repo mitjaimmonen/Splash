@@ -297,7 +297,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1535098015538426}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0893, z: 0.681}
+  m_LocalPosition: {x: 0, y: 0.0966, z: 0.685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4721887390160208}
@@ -510,13 +510,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed807f0f93d9db846b7e48995d7a8668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  affectBullets: 1
-  rotationTime: 0.2
+  affectBullets: 0
+  rotationTime: 0.3
   positionTime: 0.2
   rotDelay: 0.05
   posDelay: 0.025
-  recoilAngle: -0.5
-  recoilPosition: -0.01
+  recoilAngle: -0.45
+  recoilPosition: -0.02
 --- !u!114 &114279059566041112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -785,7 +785,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0.15
-      minScalar: 0.1
+      minScalar: 0.13
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -826,7 +826,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0.15
-      minScalar: 0.1
+      minScalar: 0.13
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1306,9 +1306,9 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.05
+          value: 0.07531433
           inSlope: 0.19197144
-          outSlope: 3.169269
+          outSlope: 2.398119
           tangentMode: 5
         - serializedVersion: 2
           time: 0.2703934

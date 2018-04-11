@@ -49,14 +49,20 @@ public class CameraHandler : MonoBehaviour {
             }
 
             var pos = target.transform.position; //Player's head position
+            var localPosOffset = Vector3.zero;
             Vector3 forw = playerController.transform.forward.normalized; //Player's forward (never looking up or down)
             Vector3 up = playerController.transform.up.normalized; //Player's up vector (should always be straight upwards)
             pos += offsetFromHead.z * forw + offsetFromHead.y * up; //Add offsets to camera position
-            forw = target.transform.forward.normalized; //Change forward vector to head's forward, which can also be upwards/downwards
-            pos += rotRadius * forw; //Add radius into offset
+            Vector3 localForw = target.transform.forward.normalized; //Change forward vector to head's forward, which can also be upwards/downwards
+            pos += rotRadius * localForw; //Add radius into offset
 
+            Vector3 faceForw = playerController.playerHead.transform.forward;
+        
             transform.position = pos;
+            localPosOffset = faceForw * playerController.RecoilScript.WeaponBody.transform.localPosition.z;
+            transform.localPosition += localPosOffset;
             transform.rotation = target.transform.rotation;
+            transform.localEulerAngles += playerController.RecoilScript.WeaponBody.transform.localEulerAngles;
         }
 
     }

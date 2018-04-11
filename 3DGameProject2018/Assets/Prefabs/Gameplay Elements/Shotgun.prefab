@@ -389,12 +389,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   affectBullets: 1
-  rotationTime: 0.5
-  positionTime: 0.3
+  rotationTime: 1
+  positionTime: 1
   rotDelay: 0.1
   posDelay: 0.075
   recoilAngle: -3
-  recoilPosition: -0.01
+  recoilPosition: -0.02
 --- !u!114 &114902853403670186
 MonoBehaviour:
   m_ObjectHideFlags: 1

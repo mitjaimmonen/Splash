@@ -217,6 +217,11 @@ public class PlayerController : MonoBehaviour, IWater
             }
         }
 
+        public Recoil RecoilScript
+        {
+            get {return currentWeapon.RecoilScript;}
+        }
+
     #endregion
 
 
@@ -450,7 +455,7 @@ public class PlayerController : MonoBehaviour, IWater
                 }
                 if(Physics.CheckBox(newpos + pushback.normalized * Time.deltaTime + new Vector3(0, -capsule.height / 4, 0), new Vector3(capsule.radius, capsule.height / 4, capsule.radius), Quaternion.identity, raycastLayerMask))
                 {
-                    pushback += new Vector3(0, .01f, 0);
+                    pushback += new Vector3(0, .001f, 0);
                     velocity.y = 0;
                 }
                 Debug.Log(pushback);

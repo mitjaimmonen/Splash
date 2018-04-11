@@ -13,6 +13,7 @@ public class MatchController : MonoBehaviour, IController{
     /******************/
     /*Member Variables*/
     public GameObject playerPrefab;
+    public LastMenuController lastmenu;
     public GameObject[] playerSpawns;
     public LayerMask PlayerLayerMask;
     public PauseMenu pauseMenu;
@@ -203,14 +204,15 @@ public class MatchController : MonoBehaviour, IController{
 
         for(int i = 0; i < playerSpawns.Length; i++)
         {
-            if(!Physics.CheckSphere(playerSpawns[i].transform.position, 1, PlayerLayerMask))
+            if(!Physics.CheckSphere(playerSpawns[i].transform.position, 5, PlayerLayerMask, QueryTriggerInteraction.Collide))
             {
                 unocupiedSpawns.Add(playerSpawns[i]);
             }
         }
+        Debug.Log(unocupiedSpawns.Count);
         int spawn = Random.Range(0, unocupiedSpawns.Count);
-        instantiatedPlayers[playerIndex].transform.position = playerSpawns[spawn].transform.position;
-        instantiatedPlayers[playerIndex].transform.rotation = playerSpawns[spawn].transform.rotation;
+        instantiatedPlayers[playerIndex].transform.position = unocupiedSpawns[spawn].transform.position;
+        instantiatedPlayers[playerIndex].transform.rotation = unocupiedSpawns[spawn].transform.rotation;
         instantiatedPlayers[playerIndex].Reset();
     }
 
@@ -228,7 +230,14 @@ public class MatchController : MonoBehaviour, IController{
         {
             StateHandler.stats.Add(instantiatedPlayers[i].stats);
         }
-        StateHandler.ChangeState(State.EndMenu);
+
+        stateHandler.controller = lastmenu;
+        lastmenu.gameObject.SetActive(true);
+        es.SetSelectedGameObject(null);
+        es.SetSelectedGameObject(lastmenu.firstSelectedGameObject.gameObject);
+        lastmenu.Finish();
+        //StateHandler.ChangeState(State.EndMenu);
+        Destroy(gameObject);
     }
 
     #endregion
