@@ -1591,8 +1591,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayers: 2
-  playerNumber: 1
+  currentPlayers: 4
+  playerNumber: 3
   rotationV: 0
   rotationH: 0
   maxRotV: 70
@@ -1632,7 +1632,7 @@ MonoBehaviour:
   damageColliders:
   - {fileID: 136172752203868750}
   - {fileID: 136785458119969632}
-  psSplashSizeMultiplier: 1
+  psSplashSizeMultiplier: 10
   psSplash: {fileID: 0}
   collisionBehaviour: {fileID: 0}
 --- !u!114 &114466195618453568

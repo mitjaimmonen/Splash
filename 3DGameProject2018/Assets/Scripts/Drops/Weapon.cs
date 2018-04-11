@@ -154,6 +154,7 @@ public class Weapon : MonoBehaviour {
             Debug.Log("No weaponData on Activate. This should not happen.");
             
             
+        gunAnim.Rebind();
         isActive = true;
         transform.localRotation = Quaternion.Euler(0,rotationOffsetY,0);
         gameObject.SetActive(true);
@@ -164,6 +165,7 @@ public class Weapon : MonoBehaviour {
     //When no more currentWeapon or when destroyed
     public void Deactivate()
     {
+        gunAnim.Rebind();
         shootEI.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         isActive = false;
         gameObject.SetActive(false);
