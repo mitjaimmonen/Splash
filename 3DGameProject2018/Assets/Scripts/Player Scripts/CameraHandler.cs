@@ -77,6 +77,7 @@ public class CameraHandler : MonoBehaviour {
             float time = Time.time + 2f;        
             while (time > Time.time || (!playerController.IsAlive && !attacker))
             {
+                yield return new WaitForEndOfFrame();
                 //If suicide (= !Attacker), look at dying player until respawned.
                 posOffset = (playerController.transform.right * 0.5f) + (-playerController.transform.forward * 2f) + (playerController.transform.up *2f);            
 
@@ -84,21 +85,20 @@ public class CameraHandler : MonoBehaviour {
                 Quaternion lerpRot = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(playerController.playerHead.transform.position - lerpPos, playerController.transform.up), Time.deltaTime * 5f);
                 transform.position = lerpPos;
                 transform.rotation = lerpRot;
-                yield return new WaitForEndOfFrame();
             }
 
             while (!playerController.IsAlive && attacker)
             {
+                yield return new WaitForEndOfFrame();
                 posOffset =(attacker.transform.forward * 1.5f) + (attacker.transform.up * 0.8f) + (-attacker.transform.right);                
                 //Look at attacker until respawn
                 Vector3 lerpPos = Vector3.Lerp(transform.position, attacker.transform.position + posOffset, Time.deltaTime *8f);
                 Quaternion lerpRot = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(attacker.playerHead.transform.position - lerpPos, attacker.transform.up),Time.deltaTime*8f);
                 transform.position = lerpPos;
                 transform.rotation = lerpRot;
-                yield return new WaitForEndOfFrame();
             }
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
         
 

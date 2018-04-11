@@ -32,7 +32,9 @@ public class Water : MonoBehaviour {
 
 	private void Awake()
 	{
-		psSplash = GameObject.Find("SplashParticles").GetComponent<ParticleSplash>();
+		var temp = GameObject.Find("SplashParticles");
+		if (temp)
+			psSplash = temp.GetComponent<ParticleSplash>();
 		Debug.Log(psSplash);
 		
 	}

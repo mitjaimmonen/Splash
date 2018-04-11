@@ -89,7 +89,13 @@ public class PlayerController : MonoBehaviour, IWater
     public float climbSpeed = 1;
     public float stepHeight = 0;
     private Vector3 velocity = new Vector3(0, 0, 0);
-    private Vector3 prevVelocity;
+    private float prevVelocity;
+
+    private Collider prevFloor;
+    private Vector3 PrevFloorPos;
+    private Quaternion prevFloorRot;
+    private float prevGroundPoint;
+
     [SerializeField] private Collider[] damageColliders; //Colliders that take damage
     private CapsuleCollider capsule;
     //possibly a list of who damaged you as well so we could give people assists and stuff
@@ -289,158 +295,198 @@ public class PlayerController : MonoBehaviour, IWater
         
     }
     //Physics
-    private void Update()
+    private void FixedUpdate()
     {
         //Timers
         runningTimer += Time.deltaTime;
         movingTimer += Time.deltaTime;
         interactTimer += Time.deltaTime;
         pickupTimer += Time.deltaTime;
-        
-        velocity += new Vector3(tempVel.x*Time.deltaTime, tempVel.y, tempVel.z * Time.deltaTime);
+        /*tempVel = new Vector3(tempVel.x,0, tempVel.z).normalized *playerSpeed;*/
+        velocity += new Vector3(tempVel.x , 0, tempVel.z);
         tempVel = Vector3.zero;
 
-        if (!controller.IsPaused && isAlive)
+        if(!controller.IsPaused && isAlive)
         {
-            gunsParent.transform.rotation = playerHead.transform.rotation;
-
-            /*Problems left:(/ == think its fixxed X = definitly fixed)
-             * [/]when hitting a 90degree meeting while jumping with the sphere of the collider it slows down y velocity
-             * [/]very occasional clipping when jumping into 90 with head and then pushing into the object
-             * [/]windowsils always clip???
-             * [/]some occasional thru floor(seems only infront of the first spawn when walking towards the house, possibly also only when looking down)
-             * []no real step function
-             * []halway of nightmares
-            */
 
 
             /*GRAVITY*/
-            velocity.y -= gravity * Time.deltaTime;
+            velocity.y = (velocity.y + -gravity * Time.deltaTime) * Time.deltaTime;
+            velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
 
 
             isGrounded = false;
             Vector3 TopSphere = transform.position + new Vector3(0, (capsule.height / 2 - capsule.radius) + 0.5f, 0) + capsule.center; //0.5f is additional offset because capsule does not reach head.
             Vector3 BotSphere = transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0) + capsule.center;
             /*Collision Calc*/
+
+
+
+
+            if(prevFloor != null)
             {
-                int ohshitcounter = 0;
-                RaycastHit hit;
-                Vector3 lastMoveVec;
-                while(Physics.CapsuleCast(
-                        TopSphere,//Capsule top sphere center
-                        BotSphere,//bottom sphere center
-                        capsule.radius,//Capsule Radius
-                        velocity.normalized,//Direction vector
-                        out hit,
-                        Mathf.Abs(velocity.magnitude),
-                        raycastLayerMask
-                        ))//Distance to cast
-
+                if(Quaternion.Angle(prevFloor.transform.rotation, prevFloorRot) != 0)
                 {
-                    ohshitcounter++;//Loop count Tracker
-                    lastMoveVec = velocity;
+                    Quaternion relative = Quaternion.Inverse(prevFloorRot) * prevFloor.transform.rotation;
+                    transform.position = PrevFloorPos + (relative * (transform.position - PrevFloorPos));
+                }
+                if(prevFloor.transform.position != PrevFloorPos)
+                {
+                    transform.position += prevFloor.transform.position - PrevFloorPos;
+                }
+                prevFloor = null;
+            }
 
-                    //if we loop too much just exit and set velocity to just before collision and exit
-                    if(ohshitcounter == 10)
+            int ohshitcounter = 0;
+            RaycastHit hit;
+            Vector3 lastMoveVec;
+            while(Physics.CapsuleCast(
+                    TopSphere,//Capsule top sphere center
+                    BotSphere,//bottom sphere center
+                    capsule.radius,//Capsule Radius
+                    velocity.normalized,//Direction vector
+                    out hit,
+                    Mathf.Abs(velocity.magnitude),
+                    raycastLayerMask
+                    ))//Distance to cast
+            {
+                ohshitcounter++;//Loop count Tracker
+                lastMoveVec = velocity;
+
+                //if we loop too much just exit and set velocity to just before collision and exit
+                if(ohshitcounter == 5)
+                {
+                    Debug.Log("max loops");
+                    velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
+                    break;
+                }
+
+                Vector3 XZ = new Vector3(velocity.x, 0, velocity.z);
+                if(hit.normal.y > maxSlope)
+                {//Traversable slope
+                    //currently will step over anything less than 1/4th the radius of capsule
+                    Vector3 perpPlaneDir = Vector3.Cross(hit.normal, XZ);//this is a vector that will be parrallel to the slope but it will be perpindicular to the direction we want to go
+                    Vector3 planeDir = Vector3.Cross(perpPlaneDir, hit.normal);//This will be the an axis line of were we are walking, but we dont know if its forwards or backwards right now
+                    planeDir = planeDir * Mathf.Sign(Vector3.Dot(planeDir, XZ));//dot returns pos if they are headed in the same direction. so multiplying the planedir by its sign will give us the correct direction on the vector
+                    velocity = velocity.normalized * (hit.distance);//this will set velocity to go the un obstructed amount of the cast
+                    XZ -= new Vector3(velocity.x, 0, velocity.z);//this makes xv the remainder xv distance
+                    velocity += planeDir.normalized * XZ.magnitude;// / Mathf.Cos(Vector3.Angle(XV, planeDir.normalized)));//adds our plane direction of lenght xv if it were strethced to cover the same xv distance on our plane(so it doesnt slow down on slopes)
+                    velocity.y += Mathf.Sign(hit.normal.y) * .001f;
+                    prevFloor = hit.collider;
+                    PrevFloorPos = hit.collider.transform.position;
+                    prevFloorRot = hit.collider.transform.rotation;
+                    isGrounded = true;
+                } else
+                {//Wall or too steep slope
+                    if(Physics.CapsuleCast(
+                    TopSphere,//Capsule top sphere center
+                    BotSphere + new Vector3(0, stepHeight, 0),//bottom sphere center
+                    capsule.radius,//Capsule Radius
+                    velocity.normalized,//Direction vector
+                    out hit,
+                    Mathf.Abs(velocity.magnitude),
+                    raycastLayerMask
+                    ))
                     {
-                        Debug.Log("max loops");
-                        velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
-                        break;
-                    }
-
-                    Vector3 XZ = new Vector3(velocity.x, 0, velocity.z);
-                    if(hit.normal.y > maxSlope)
-                    {//Traversable slope
-                     //currently will step over anything less than 1/4th the radius of capsule
-                        Vector3 perpPlaneDir = Vector3.Cross(hit.normal, XZ);//this is a vector that will be parrallel to the slope but it will be perpindicular to the direction we want to go
-                        Vector3 planeDir = Vector3.Cross(perpPlaneDir, hit.normal);//This will be the an axis line of were we are walking, but we dont know if its forwards or backwards right now
-                        planeDir = planeDir * Mathf.Sign(Vector3.Dot(planeDir, XZ));//dot returns pos if they are headed in the same direction. so multiplying the planedir by its sign will give us the correct direction on the vector
-                        velocity = velocity.normalized * (hit.distance);//this will set velocity to go the un obstructed amount of the cast
-                        XZ -= new Vector3(velocity.x, 0, velocity.z);//this makes xv the remainder xv distance
-                        velocity += planeDir.normalized * XZ.magnitude;// / Mathf.Cos(Vector3.Angle(XV, planeDir.normalized)));//adds our plane direction of lenght xv if it were strethced to cover the same xv distance on our plane(so it doesnt slow down on slopes)
-                        velocity.y += Mathf.Sign(hit.normal.y) * .001f;
-                        isGrounded = true;
-                    } else
-                    {//Wall or too steep slope
-                        if(Physics.CapsuleCast(
-                        TopSphere,//Capsule top sphere center
-                        BotSphere+new Vector3(0,stepHeight,0),//bottom sphere center
-                        capsule.radius,//Capsule Radius
-                        velocity.normalized,//Direction vector
-                        out hit,
-                        Mathf.Abs(velocity.magnitude),
-                        raycastLayerMask
-                        ))
+                        Vector3 parallelSide = Vector3.Cross(Vector3.up, hit.normal);
+                        Vector3 parallelDown = Vector3.Cross(parallelSide, hit.normal);
+                        parallelSide = parallelSide * Mathf.Sign(Vector3.Dot(parallelSide, XZ));
+                        float angle = Vector3.Angle(-new Vector3(velocity.x, 0, velocity.z).normalized, hit.normal);
+                        float VerticalRemainder = velocity.y;
+                        float XZPlaneRemainder = XZ.magnitude;
+                        velocity = velocity.normalized * (hit.distance);
+                        VerticalRemainder -= velocity.y;
+                        XZPlaneRemainder -= new Vector3(velocity.x, 0, velocity.z).magnitude;
+                        if(velocity.y <= 0)
                         {
-                            Vector3 parallelSide = Vector3.Cross(Vector3.up, hit.normal);
-                            Vector3 parallelDown = Vector3.Cross(parallelSide, hit.normal);
-                            parallelSide = parallelSide * Mathf.Sign(Vector3.Dot(parallelSide, XZ));
-                            float angle = Vector3.Angle(-new Vector3(velocity.x, 0, velocity.z).normalized, hit.normal);
-                            float VerticalRemainder = velocity.y;
-                            float XZPlaneRemainder = XZ.magnitude;
-                            velocity = velocity.normalized * (hit.distance);
-                            VerticalRemainder -= velocity.y;
-                            XZPlaneRemainder -= new Vector3(velocity.x, 0, velocity.z).magnitude;
-                            if(velocity.y <= 0)
-                            {
-                                velocity += parallelDown.normalized * Mathf.Abs(VerticalRemainder);
-                            } else
-                            {
-                                velocity.y += VerticalRemainder;
-                            }
-                            velocity += parallelSide.normalized * (XZPlaneRemainder * (angle / 90));
-                            velocity += hit.normal * .001f;
-                            isGrounded = false;
+                            velocity += parallelDown.normalized * Mathf.Abs(VerticalRemainder);
                         } else
                         {
-
-                            velocity = velocity.normalized * (hit.distance);
-                            velocity.y += stepHeight;
-                            velocity += hit.normal * .001f;
-                            isGrounded = true;
+                            velocity.y += VerticalRemainder;
                         }
-                        
-                    }
-                    //if last position velocity was the same as the new calculation set velocity to just before collision and exit
-                    if(lastMoveVec == velocity)
+                        velocity += parallelSide.normalized * (XZPlaneRemainder * (angle / 90));
+                        velocity += hit.normal * .001f;
+                        isGrounded = false;
+                    } else
                     {
-                        velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
-                        Debug.Log("Same vector");
-                        break;
+
+                        velocity = velocity.normalized * (hit.distance);
+                        velocity.y += stepHeight;
+                        velocity += hit.normal * .001f;
+                        isGrounded = true;
                     }
+
                 }
-                playerAnim.SetBool("isGrounded", isGrounded);
+                //if last position velocity was the same as the new calculation set velocity to just before collision and exit
+                if(lastMoveVec == velocity)
+                {
+                    Debug.Log("Same vector");
+                    velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
+                    break;
+                }
             }
 
-            if(Physics.CheckCapsule(TopSphere+velocity, BotSphere+velocity, capsule.radius, raycastLayerMask))
+            playerAnim.SetBool("isGrounded", isGrounded);
+
+            Vector3 pushback = new Vector3();
+            Vector3 newpos = transform.position + velocity;
+            if(Physics.CheckCapsule(TopSphere + velocity, BotSphere + velocity, capsule.radius, raycastLayerMask))
             {
-                velocity = Vector3.zero;
+                if(Physics.CheckBox(newpos + new Vector3(capsule.radius / 2, 0, capsule.radius / 2), new Vector3(capsule.radius / 2, capsule.height / 2, capsule.radius / 2), Quaternion.identity, raycastLayerMask))
+                {
+                    pushback += new Vector3(-1, 0, -1);
+                }
+                if(Physics.CheckBox(newpos + new Vector3(-capsule.radius / 2, 0, capsule.radius / 2), new Vector3(capsule.radius / 2, capsule.height / 2, capsule.radius / 2), Quaternion.identity, raycastLayerMask))
+                {
+                    pushback += new Vector3(1, 0, -1);
+                }
+                if(Physics.CheckBox(newpos + new Vector3(-capsule.radius / 2, 0, -capsule.radius / 2), new Vector3(capsule.radius / 2, capsule.height / 2, capsule.radius / 2), Quaternion.identity, raycastLayerMask))
+                {
+                    pushback += new Vector3(1, 0, 1);
+                }
+                if(Physics.CheckBox(newpos + new Vector3(capsule.radius / 2, 0, -capsule.radius / 2), new Vector3(capsule.radius / 2, capsule.height / 2, capsule.radius / 2), Quaternion.identity, raycastLayerMask))
+                {
+                    pushback += new Vector3(-1, 0, 1);
+                }
+                if(Physics.CheckBox(newpos + pushback.normalized * Time.deltaTime + new Vector3(0, -capsule.height / 4, 0), new Vector3(capsule.radius, capsule.height / 4, capsule.radius), Quaternion.identity, raycastLayerMask))
+                {
+                    pushback += new Vector3(0, .01f, 0);
+                    velocity.y = 0;
+                }
+                Debug.Log(pushback);
+                velocity += pushback.normalized * Time.deltaTime;
             }
+
             /*Apply Velocity*/
             transform.position += velocity;
-            prevVelocity = velocity;
+            velocity.y = velocity.y / Time.deltaTime;
+
+
 
             /*Next frame vertical velocity calculation & reset*/
             {
-                velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
                 velocity.x = 0;
                 velocity.z = 0;
             }
 
 
-                      
 
-            if (runningTimer > 0.1f && isRunning)
+
+            if(runningTimer > 0.1f && isRunning)
             {
                 isRunning = false;
                 cameraHandler.NewFov(1); // 1 = original fov
                 playerSpeed = walkSpeed;
             }
-            if (movingTimer > 0.1f)
+            if(movingTimer > 0.1f)
             {
                 playerAnim.SetBool("isMoving", false);
             }
         }
+    }
+    private void Update()
+    {
+        gunsParent.transform.rotation = playerHead.transform.rotation;
     }
 
 
@@ -562,14 +608,14 @@ public class PlayerController : MonoBehaviour, IWater
                 break;
 
             case "LeftHorizontal":
-                tempVel += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed;
+                tempVel += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed*Time.deltaTime;
                 playerAnim.SetBool("isMoving", true);
                 playerAnim.SetFloat("sideways", magnitude);
                 movingTimer = 0;
                 break;
 
             case "LeftVertical":
-                tempVel += -transform.forward * magnitude * playerSpeed;
+                tempVel += -transform.forward * magnitude * playerSpeed * Time.deltaTime;
                 playerAnim.SetBool("isMoving", true);
                 playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
                 if (isRunning)
