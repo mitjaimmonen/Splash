@@ -13,7 +13,6 @@ public class ParticleLauncher : MonoBehaviour {
 	private ParticleDecal particleDecal;
 	private PlayerController thisPlayerController;
 	private ParticleSystem thisParticleSystem;
-	private ParticleSystem splatterParticleSystem;
 	private List<ParticleCollisionEvent> collisionEvents;
 	private float collisionCountTimer = 0, splashTimer = 0;
 	private int oldLoopCount = 0;
@@ -43,7 +42,6 @@ public class ParticleLauncher : MonoBehaviour {
 		if (particleDecal == null)
 			particleDecal = Instantiate(particleDecal, Vector3.zero,Quaternion.identity);
 
-		splatterParticleSystem = GameObject.Find("SplatterParticles").GetComponent<ParticleSystem>();
 		thisPlayerController = GetComponentInParent<PlayerController>();
 		thisParticleSystem = GetComponent<ParticleSystem>();
 		collisionEvents = new List<ParticleCollisionEvent>();

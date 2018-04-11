@@ -40,6 +40,13 @@ public class Recoil : MonoBehaviour {
 		 
 	}
 
+	void OnDisable()
+	{
+		//Set everything back just in case.
+		body.transform.localEulerAngles = oldRot;
+		particles.transform.localEulerAngles = oldRot;
+	}
+
 	public void StartRecoil()
 	{
 		StartCoroutine(PlayKnockback());

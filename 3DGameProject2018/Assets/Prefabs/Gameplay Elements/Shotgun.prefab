@@ -389,11 +389,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   affectBullets: 1
-  rotationTime: 1
+  rotationTime: 0.8
   positionTime: 1
   rotDelay: 0.1
   posDelay: 0.075
-  recoilAngle: -3
+  recoilAngle: -2
   recoilPosition: -0.02
 --- !u!114 &114902853403670186
 MonoBehaviour:
@@ -488,7 +488,7 @@ ParticleSystem:
   stopAction: 0
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 0
@@ -3942,7 +3942,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1685844967
+  randomSeed: 1171801676
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -7280,7 +7280,7 @@ ParticleSystem:
   stopAction: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
