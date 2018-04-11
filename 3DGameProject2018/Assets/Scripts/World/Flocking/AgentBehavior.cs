@@ -3,24 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AgentBehavior : MonoBehaviour {
-
+    [HideInInspector]
     public AgentController controller;
     private Vector3 currentPosition;
     private Quaternion currentRotation;
+    [HideInInspector]
     public Vector3 separation, alignment, cohesion;
     public float Velocity;
+    public Animator animloop;
+
+
+    private void Start()
+    {
+        animloop.Play("rig|rigAction", -1, Random.value);
+    }
+
     private void Update()
     {
         currentPosition = transform.position;
         currentRotation = transform.rotation;
         float Velocity = controller.f_velocity;
         separation = Vector3.zero;
-        alignment = controller.transform.forward;
+        alignment = (controller.transform.position- currentPosition).normalized;
         cohesion = controller.transform.position;
         Collider[] collisions = Physics.OverlapSphere(transform.position, controller.f_neighborDist, controller.lm_layer);
         foreach(var agent in collisions)
         {
-            if(agent.gameObject != this.gameObject)
+            if(agent.gameObject != gameObject)
             {
                 AgentBehavior currentagent = agent.GetComponentInParent<AgentBehavior>();
                 separation += GetSeparationVector(agent.transform);

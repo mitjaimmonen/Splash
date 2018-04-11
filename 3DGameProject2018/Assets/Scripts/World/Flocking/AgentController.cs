@@ -24,6 +24,7 @@ public class AgentController : MonoBehaviour {
         for(int i = 0; i < count; i++)
         {
             GameObject temp = Instantiate(go_agent, Random.insideUnitSphere * f_flockRadius, Quaternion.identity);
+            temp.transform.position = transform.position;
             temp.GetComponent<AgentBehavior>().controller = this;
         }
     }

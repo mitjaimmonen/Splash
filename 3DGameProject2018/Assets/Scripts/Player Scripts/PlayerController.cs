@@ -304,17 +304,10 @@ public class PlayerController : MonoBehaviour, IWater
 
 
             /*GRAVITY*/
-            //velocityDelta = (prevVelocity + -gravity * (Time.deltaTime));
-            //Debug.Log(prevVelocity);
-            //velocity.y += velocityDelta * (Time.deltaTime);
-            //velocity.y += -gravity * (Time.deltaTime);
-            //velocityDelta = velocity.y;
-            //velocity.y += Time.deltaTime * (velocityDelta + Time.deltaTime * -gravity / 2);
-            //velocity.y += (transform.position.y - velocity.y) * (Time.deltaTime / lastDelta - 1) + -gravity * Time.deltaTime * Time.deltaTime;
-            //lastDelta = Time.deltaTime;
-
             velocity.y = (velocity.y + -gravity * Time.deltaTime) * Time.deltaTime;
             velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
+
+
             isGrounded = false;
             Vector3 TopSphere = transform.position + new Vector3(0, (capsule.height / 2 - capsule.radius) + 0.5f, 0) + capsule.center; //0.5f is additional offset because capsule does not reach head.
             Vector3 BotSphere = transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0) + capsule.center;
@@ -459,8 +452,6 @@ public class PlayerController : MonoBehaviour, IWater
 
             /*Apply Velocity*/
             transform.position += velocity;
-            //velocity.y -= Time.deltaTime * (velocityDelta + Time.deltaTime * -gravity / 2);
-            //velocity.y += Time.deltaTime * -gravity;
             velocity.y = velocity.y / Time.deltaTime;
 
 
@@ -488,7 +479,7 @@ public class PlayerController : MonoBehaviour, IWater
     }
     private void Update()
     {
-        gunsParent.transform.localPosition = transform.InverseTransformPoint(cameraHandler.transform.position);
+        //gunsParent.transform.localPosition = transform.InverseTransformPoint(cameraHandler.transform.position);
         gunsParent.transform.rotation = playerHead.transform.rotation;
     }
 
