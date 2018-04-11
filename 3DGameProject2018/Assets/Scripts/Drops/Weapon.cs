@@ -54,8 +54,10 @@ public class Weapon : MonoBehaviour {
     //ShootTimer checks if weapon has been shooting long enough
     private float inputTimer, fireRateTimer, shootTimer;
     private float shootSpeed; //Particle start speed (=force)
+
+    private float muzzleToWeaponMagnitude;
     private Quaternion lookRotation;
-    private Vector3 lookDirection;
+    private Vector3 lookDirection, particlesLocalOffsetY;
     
 
     #region FMOD
@@ -130,6 +132,8 @@ public class Weapon : MonoBehaviour {
         shootSpeed = waterParticles.main.startSpeedMultiplier;
 
         particleLauncher.MaxLoopCount = weaponData.maxCollisionCount;
+        particlesLocalOffsetY = new Vector3(0,waterParticles.transform.parent.transform.localPosition.y,0);
+        muzzleToWeaponMagnitude = (RecoilScript.WeaponBody.transform.position - waterParticles.transform.parent.transform.position).magnitude;
 
     }
 
@@ -191,15 +195,23 @@ public class Weapon : MonoBehaviour {
             {
                 lookDirection = (playerController.AimWorldPoint - waterParticles.transform.parent.position).normalized;
                 lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+                if (weaponData.lerpAim)
+                    waterParticles.transform.parent.rotation = Quaternion.Slerp(waterParticles.transform.parent.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
+                else
+                    waterParticles.transform.parent.rotation = lookRotation;
             }
             else 
-               lookRotation = Quaternion.LookRotation(playerController.playerHead.transform.forward);
+                waterParticles.transform.parent.localEulerAngles = RecoilScript.WeaponBody.transform.localEulerAngles - transform.localEulerAngles;
 
 
-            if (weaponData.lerpAim)
-                waterParticles.transform.parent.rotation = Quaternion.Slerp(waterParticles.transform.parent.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
-            else
-                waterParticles.transform.parent.rotation = lookRotation;
+            //Awful code to keep the water particles Muzzle position at its place during recoils.
+            Vector3 newPosition = transform.position + (muzzleToWeaponMagnitude * RecoilScript.WeaponBody.transform.forward);
+            waterParticles.transform.parent.transform.position = newPosition;
+            waterParticles.transform.parent.transform.localPosition += particlesLocalOffsetY;
+
+
+
             
             //Updates sound position.
             shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));

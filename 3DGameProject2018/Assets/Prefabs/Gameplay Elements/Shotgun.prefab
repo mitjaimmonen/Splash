@@ -373,7 +373,7 @@ MonoBehaviour:
   shotUsage: 20
   fireRate: 0.75
   maxShootTime: 0
-  centerAim: 1
+  centerAim: 0
   lerpAim: 0
   rotationSpeed: 10
   maxCollisionCount: 30
