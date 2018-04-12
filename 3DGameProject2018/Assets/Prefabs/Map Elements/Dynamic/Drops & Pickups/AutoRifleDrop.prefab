@@ -288,7 +288,7 @@ MonoBehaviour:
   pickupWeaponIfAny: {fileID: 114651251365182740, guid: 56cca7690b8b018468bb41591ff435c9,
     type: 2}
   rb: {fileID: 0}
-  pickupSE: 
+  pickupSE: event:/Interactions/AmmoPickup
 --- !u!136 &136748123584002550
 CapsuleCollider:
   m_ObjectHideFlags: 1

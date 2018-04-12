@@ -98,7 +98,7 @@ public class CameraHandler : MonoBehaviour {
                 yield return new WaitForEndOfFrame();
                 posOffset =(attacker.transform.forward * 1.5f) + (attacker.transform.up * 0.8f) + (-attacker.transform.right);                
                 //Look at attacker until respawn
-                Vector3 lerpPos = Vector3.Lerp(transform.position, attacker.transform.position + posOffset, Time.deltaTime *8f);
+                Vector3 lerpPos = Vector3.Lerp(transform.position, attacker.transform.position + posOffset, Time.deltaTime *10f);
                 Quaternion lerpRot = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(attacker.playerHead.transform.position - lerpPos, attacker.transform.up),Time.deltaTime*8f);
                 transform.position = lerpPos;
                 transform.rotation = lerpRot;

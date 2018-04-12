@@ -25,7 +25,7 @@ public class CollisionBehaviour : MonoBehaviour {
 	private PlayerController playerController;
 	public SoundBehaviour soundBehaviour;
 
-	private bool isHead = false;
+	private bool isHead = false, hitmarkerPlayed = false;
 	private float headshotMultiplier = 1f, stackedDamage = 0;
 	private int defaultDamage;
 	private int oldCount = 0, count = 0, tempCount = 0;
@@ -110,10 +110,13 @@ public class CollisionBehaviour : MonoBehaviour {
 			stackedDamage += defaultDamage * headshotMultiplier;
 
 		}
-			Debug.Log("Stacked damage: " + stackedDamage + ", count: " + count);
+		
+		Debug.Log("Stacked damage: " + stackedDamage + ", count: " + count);
 
+		soundBehaviour.PlayHitmarker(attacker, isHead);
 		attacker.DealDamage();
 		playerController.TakeDamage((int)stackedDamage, attacker);
+		hitmarkerPlayed = false;
 				
 	}
 }

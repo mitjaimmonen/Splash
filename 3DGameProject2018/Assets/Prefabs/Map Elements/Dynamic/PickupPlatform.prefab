@@ -257,15 +257,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafc90245bfe9e2408e358f71deace2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SampleCount: 5
-  ScatteringCoef: 0.01
-  ExtinctionCoef: 0.008
+  SampleCount: 2
+  ScatteringCoef: 0.634
+  ExtinctionCoef: 0.0135
   SkyboxExtinctionCoef: 1
-  MieG: 0
-  HeightFog: 1
-  HeightScale: 0.153
-  GroundLevel: -43.5
-  Noise: 1
+  MieG: 0.155
+  HeightFog: 0
+  HeightScale: 0
+  GroundLevel: 0
+  Noise: 0
   NoiseScale: 0.06
   NoiseIntensity: 1.2
   NoiseIntensityOffset: 0.24
@@ -282,15 +282,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafc90245bfe9e2408e358f71deace2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SampleCount: 5
-  ScatteringCoef: 0.01
-  ExtinctionCoef: 0.008
+  SampleCount: 2
+  ScatteringCoef: 0.634
+  ExtinctionCoef: 0.0135
   SkyboxExtinctionCoef: 1
-  MieG: 0
-  HeightFog: 1
-  HeightScale: 0.153
-  GroundLevel: -43.5
-  Noise: 1
+  MieG: 0.155
+  HeightFog: 0
+  HeightScale: 0
+  GroundLevel: 0
+  Noise: 0
   NoiseScale: 0.06
   NoiseIntensity: 1.2
   NoiseIntensityOffset: 0.24

@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour, IWater
     public Animator playerAnim;
 
     public LayerMask raycastLayerMask;
-    [FMODUnity.EventRef] public string hitmarkerSE, jumpSE, takeDamageSE, dieSE;
+    [FMODUnity.EventRef] public string jumpSE;
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1f;
     public bool invertSensV = false;
@@ -783,7 +783,6 @@ public class PlayerController : MonoBehaviour, IWater
     //Can be used for score system later on.
     public void DealDamage()
     {
-        ColBehaviour.soundBehaviour.PlayDealDamage();
         hud.DealDamage();
     }
 

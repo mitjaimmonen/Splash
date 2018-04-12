@@ -1591,14 +1591,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayers: 1
-  playerNumber: 0
+  currentPlayers: 2
+  playerNumber: 1
   rotationV: 0
   rotationH: 0
   maxRotV: 70
   minRotV: -60
   switchOnPickup: 1
-  autoPickup: 0
+  autoPickup: 1
   carriedWeapons:
   - {fileID: 114651251365182740, guid: 56cca7690b8b018468bb41591ff435c9, type: 2}
   maxWeapons: 2
@@ -1617,16 +1617,16 @@ MonoBehaviour:
   jumpSE: event:/Character Movement/Jump
   takeDamageSE: 
   dieSE: event:/Character Movement/Death
-  lookSensV: 180
-  lookSensH: 200
+  lookSensV: 220
+  lookSensH: 230
   invertSensV: 0
   tempVel: {x: 0, y: 0, z: 0}
-  JumpVelocity: 30
-  gravity: 50
+  JumpVelocity: 14
+  gravity: 25
   maxVelocity: 1
   walkSpeed: 7
   runMultiplier: 1.5
-  maxSlope: 0.8
+  maxSlope: 0.6
   climbSpeed: 1
   stepHeight: 0.1
   damageColliders:
@@ -1701,7 +1701,8 @@ MonoBehaviour:
   collisionSE: event:/Character Movement/TakeDamage
   waterSplashSE: event:/Water Collisions/WaterSplashBig
   destroySE: event:/Character Movement/Death
-  dealDamageSE: event:/Water Collisions/Hitmarker
+  hitmarkerSE: event:/Water Collisions/Hitmarker
+  hitmarkerHeadshotSE: event:/Water Collisions/Hitmarker Headshot
 --- !u!135 &135046064985107728
 SphereCollider:
   m_ObjectHideFlags: 1

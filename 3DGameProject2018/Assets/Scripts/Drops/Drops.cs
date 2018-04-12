@@ -57,7 +57,7 @@ public class Drops : MonoBehaviour {
                 if (tempHealth != playerController.CurrentHealth)
                 {
                     //Play sound
-                    FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
+                    // FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
 
                     Destroy(this.gameObject);
                 }
@@ -71,7 +71,7 @@ public class Drops : MonoBehaviour {
                 if (tempAmmo != playerController.GlobalAmmo)
                 {
                     //Play sound
-                    FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
+                    // FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
                     
                     Destroy(this.gameObject);
                 }
@@ -101,5 +101,11 @@ public class Drops : MonoBehaviour {
                 
             }
         }
+    }
+
+    void OnDestroy()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
+        
     }
 }

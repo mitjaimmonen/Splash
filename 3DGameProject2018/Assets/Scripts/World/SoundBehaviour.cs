@@ -6,7 +6,7 @@ public class SoundBehaviour : MonoBehaviour {
 
 
 
-	[FMODUnity.EventRef] public string collisionSE, waterSplashSE, destroySE, dealDamageSE;
+	[FMODUnity.EventRef] public string collisionSE, waterSplashSE, destroySE, hitmarkerSE, hitmarkerHeadshotSE;
     private FMOD.Studio.EventInstance soundEI; 
     private FMOD.Studio.ParameterInstance FMOD_FlowToBurst, FMOD_Volume;
 	private float volume, soundTimer, collisionCountTimer;
@@ -17,6 +17,14 @@ public class SoundBehaviour : MonoBehaviour {
 		{
 			Debug.Log("PlaySound: " + destroySE);
 			FMODUnity.RuntimeManager.PlayOneShot(destroySE, position);
+		}
+
+		public void PlayHitmarker(PlayerController attacker, bool isHead)
+		{
+			if (isHead)
+				FMODUnity.RuntimeManager.PlayOneShotAttached(hitmarkerHeadshotSE, attacker.gameObject);
+			else
+				FMODUnity.RuntimeManager.PlayOneShotAttached(hitmarkerSE, attacker.gameObject);
 		}
 
 		public void PlayCollisionSound(float countByMaxCount, Vector3 intersection)
@@ -43,13 +51,6 @@ public class SoundBehaviour : MonoBehaviour {
 			}
 		}
 
-		public void PlayDealDamage()
-		{
-			Debug.Log("PlaySound: " + dealDamageSE);
-			//Oneshot. For example dealDamage sound effect.
-			FMODUnity.RuntimeManager.PlayOneShot(dealDamageSE, transform.position);
-			
-		}
 		public void PlayTakeDamage()
 		{
 			Debug.Log("PlaySound: " + collisionSE);
