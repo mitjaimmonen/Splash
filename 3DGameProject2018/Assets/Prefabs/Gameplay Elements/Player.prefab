@@ -1613,10 +1613,7 @@ MonoBehaviour:
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  hitmarkerSE: 
   jumpSE: event:/Character Movement/Jump
-  takeDamageSE: 
-  dieSE: event:/Character Movement/Death
   lookSensV: 220
   lookSensH: 230
   invertSensV: 0

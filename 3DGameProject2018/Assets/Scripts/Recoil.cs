@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Recoil : MonoBehaviour {
 
-	public bool affectBullets = true;
+	[Range(0f,1f)]
+	public float recoilStartTimeDivider = 0.5f;
+
+	// public bool affectBullets = true;
     public float rotationTime = 0.3f, positionTime = 0.1f;
 	public float rotDelay = 0.05f, posDelay = 0.05f;
 	public float recoilAngle = 1f, recoilPosition = 0.5f;
 	private GameObject body, particles;
 
 
-	private float rotX, newRotX, rotTime, rotEaseInTime, rotEaseOutTime;
+	private float rotX, newRotX, rotTime, rotEndTime, rotStartTime;
 	private float posZ, newPosZ, posTime, posEaseInTime, posEaseOutTime;
 	private Vector3 oldPosBody, oldPosParticles, oldRot;
 
@@ -49,8 +52,10 @@ public class Recoil : MonoBehaviour {
 
 	public void StartRecoil()
 	{
-		StartCoroutine(PlayKnockback());
-		StartCoroutine(PlayRecoil());
+		if (recoilPosition != 0)
+			StartCoroutine(PlayKnockback());
+		if (recoilAngle != 0)
+			StartCoroutine(PlayRecoil());
 	}	
 
 	private IEnumerator PlayRecoil()
@@ -65,9 +70,9 @@ public class Recoil : MonoBehaviour {
 		{
 			rotX = localRot.x;
 
-			rotTime = (Time.time - timer)/rotationTime; 			//Lerp timer
-			rotEaseOutTime = Mathf.Sin(rotTime * Mathf.PI * 0.5f); 	//Curves the lerp with ease out
-			rotEaseInTime = rotTime*rotTime; 						//Exponential curve (ease in)
+			rotTime = (Time.time - timer)/rotationTime; //Lerp timer
+			rotStartTime = Mathf.Sin(rotTime * Mathf.PI * 0.5f) / recoilStartTimeDivider; //Ease out
+			rotEndTime = rotTime*rotTime; //Ease in
 
 			//Eulers fuckup if they are negative, this converts them to positive
 			rotX%=360;  
@@ -75,16 +80,15 @@ public class Recoil : MonoBehaviour {
 				rotX-= 360;
 
 			newRotX = rotX + recoilAngle;
-			rotX = Mathf.Lerp(rotX, newRotX, rotEaseOutTime); 		//Recoil rotation start
-			rotX = Mathf.Lerp(newRotX, oldRot.x, rotEaseInTime); 	//Recoil rotation return
+			if (rotStartTime <= 1)
+				rotX = Mathf.Lerp(rotX, newRotX, rotStartTime); //Recoil rotation start
+			rotX = Mathf.Lerp(newRotX, oldRot.x, rotTime); 		//Recoil rotation return
 			localRot.x = rotX;
-
-
 
 			body.transform.localEulerAngles = localRot;
 
-			if (affectBullets)
-				particles.transform.localEulerAngles = localRot;
+			// if (affectBullets)
+			// 	particles.transform.localEulerAngles = localRot;
 			
 			
 			yield return null;
@@ -92,7 +96,7 @@ public class Recoil : MonoBehaviour {
 
 		//Set everything back just in case.
 		body.transform.localEulerAngles = oldRot;
-		particles.transform.localEulerAngles = oldRot;
+		// particles.transform.localEulerAngles = oldRot;
 		yield break;
 	}
 
@@ -108,13 +112,15 @@ public class Recoil : MonoBehaviour {
 
 		while (timer > Time.time - positionTime)
 		{
-			posTime = (Time.time - timer)/positionTime; 			//Lerp timer
-			posEaseOutTime = Mathf.Sin(posTime * Mathf.PI * 0.5f); 	//Curves the lerp with ease out
-			posEaseInTime = posTime*posTime; 						//Exponential curve (ease in)
+			posTime = (Time.time - timer)/positionTime;
+			posEaseOutTime = Mathf.Sin(posTime * Mathf.PI * 0.5f) / recoilStartTimeDivider;
+			posEaseInTime = posTime*posTime;
 
-			newPosZ = posZ + recoilPosition;
-			posZ = Mathf.Lerp(posZ, newPosZ, posEaseOutTime);
-			posZ = Mathf.Lerp(newPosZ, oldPosBody.z, posEaseInTime);
+			newPosZ = oldPosBody.z + recoilPosition;
+			if (posEaseOutTime <= 1)
+				posZ = Mathf.Lerp(posZ, newPosZ, posEaseOutTime);
+				
+			posZ = Mathf.Lerp(posZ, oldPosBody.z, posEaseInTime);
 			localPosBody.z = posZ;
 			// localPosParticles.z = posZ;
 

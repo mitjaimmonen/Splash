@@ -35,7 +35,6 @@ public class Water : MonoBehaviour {
 		var temp = GameObject.Find("SplashParticles");
 		if (temp)
 			psSplash = temp.GetComponent<ParticleSplash>();
-		Debug.Log(psSplash);
 		
 	}
 	void OnTriggerEnter(Collider otherCol)

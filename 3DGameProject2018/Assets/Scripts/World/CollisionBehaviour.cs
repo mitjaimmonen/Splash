@@ -111,7 +111,7 @@ public class CollisionBehaviour : MonoBehaviour {
 
 		}
 		
-		Debug.Log("Stacked damage: " + stackedDamage + ", count: " + count);
+		// Debug.Log("Stacked damage: " + stackedDamage + ", count: " + count);
 
 		soundBehaviour.PlayHitmarker(attacker, isHead);
 		attacker.DealDamage();

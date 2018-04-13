@@ -100,7 +100,7 @@ public class DynamicItemScript : MonoBehaviour, IWater {
 
 	private void Move(Vector3 origin, Vector3 intersection, int damage)
 	{
-		Debug.Log("move");
+		// Debug.Log("move");
 		Vector3 dir = (transform.position - origin).normalized * damage;
 		dir.y += 0.5f * damage;
 		mainRigidbody.isKinematic = false;

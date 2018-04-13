@@ -15,7 +15,7 @@ public class SoundBehaviour : MonoBehaviour {
 	#region Sound Functionality
 		public void PlayDestroy(Vector3 position)
 		{
-			Debug.Log("PlaySound: " + destroySE);
+			// Debug.Log("PlaySound: " + destroySE);
 			FMODUnity.RuntimeManager.PlayOneShot(destroySE, position);
 		}
 
@@ -30,7 +30,7 @@ public class SoundBehaviour : MonoBehaviour {
 		public void PlayCollisionSound(float countByMaxCount, Vector3 intersection)
 		{
 			//Collision sound must have volume and flowToBurst parameters defined, otherwise it wont play at all.
-			Debug.Log("PlaySound: " + collisionSE);
+			// Debug.Log("PlaySound: " + collisionSE);
 
 			if (soundEI.isValid())
 			{
@@ -53,7 +53,7 @@ public class SoundBehaviour : MonoBehaviour {
 
 		public void PlayTakeDamage()
 		{
-			Debug.Log("PlaySound: " + collisionSE);
+			// Debug.Log("PlaySound: " + collisionSE);
 			//Oneshot. For example dealDamage sound effect.
 			FMODUnity.RuntimeManager.PlayOneShot(collisionSE, transform.position);
 		}

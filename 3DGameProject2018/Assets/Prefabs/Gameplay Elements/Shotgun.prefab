@@ -388,13 +388,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed807f0f93d9db846b7e48995d7a8668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  affectBullets: 1
-  rotationTime: 0.7
-  positionTime: 0.7
-  rotDelay: 0.025
+  recoilStartTimeDivider: 0.15
+  rotationTime: 1
+  positionTime: 1.5
+  rotDelay: 0.05
   posDelay: 0.01
-  recoilAngle: -3
-  recoilPosition: -0.05
+  recoilAngle: -4
+  recoilPosition: -0.1
 --- !u!114 &114902853403670186
 MonoBehaviour:
   m_ObjectHideFlags: 1
