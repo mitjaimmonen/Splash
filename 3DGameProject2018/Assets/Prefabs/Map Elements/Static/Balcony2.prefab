@@ -26,7 +26,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1349669104258846
 GameObject:
@@ -79,9 +79,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1997177063276562}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.32, y: 5.81, z: 20.94}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.02, y: 5.81, z: 20.869999}
+  m_LocalScale: {x: 0.79999995, y: 0.79999995, z: 0.79999995}
   m_Children:
   - {fileID: 4300792751396836}
   - {fileID: 4745301347947210}
@@ -115,9 +115,9 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 5ef3ec758b64963479a0051c171a32d4, type: 2}
+  - {fileID: 2100000, guid: 1bfd6eda238062d4d82d2eff134d1a88, type: 2}
   - {fileID: 2100000, guid: b682b1bc26ada314591da61b5dfa44f0, type: 2}
-  - {fileID: 2100000, guid: 486256eaafda4e6439f96653d8c0ed5d, type: 2}
+  - {fileID: 2100000, guid: 985d4713ae4a3d742ae2e2de5fa413f2, type: 2}
   - {fileID: 2100000, guid: 5ec4d4c2e9d60c5409a28ac1026dde94, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxParticleCollisionCount: 10
-  collisionSE: event:/Water Collisions/HitGlassSurface
-  waterSplashSE: 
-  destroySE: 
+  isPlayer: 0
+  allowMaxCountOverrideByWeapons: 0
+  maxCount: 5
+  soundBehaviour: {fileID: 0}

@@ -24,6 +24,7 @@ public class Weapon : MonoBehaviour {
     //hold a sound and particle effect along with damage, clip, ammunition size and isshooting, timer, iscontinuous
     public WeaponData weaponData;
     public GameObject weaponPickup;
+    public GameObject leftArmPoint, rightArmPoint;
 
     [Tooltip("Does weapon reload automatically when empty.")]
     public bool autoReload = true;
@@ -125,6 +126,9 @@ public class Weapon : MonoBehaviour {
         gunAnim = gameObject.GetComponentInChildren<Animator>();
         if (!gunAnim)
             Debug.LogWarning("No Animator found!");
+
+        if (!leftArmPoint || !rightArmPoint)
+            Debug.LogWarning("Arm points not assigned. Arms wont be moved.");
         
         waterParticles.transform.localPosition = -waterParticles.transform.parent.transform.localPosition; //Inverse the muzzle position to get origin position
         var shape = waterParticles.shape; //Access particles component
@@ -145,6 +149,7 @@ public class Weapon : MonoBehaviour {
             playerController.ClipSize = weaponData.clipSize;
             playerController.CurrentAmmo = weaponData.currentClipAmmo;
             playerController.CurrentDamage = weaponData.damage;
+            playerController.rigController.SwitchArmPoints(leftArmPoint, rightArmPoint);
         }
         else
         {

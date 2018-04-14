@@ -24,7 +24,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: WINDOW
-    second: {fileID: 2100000, guid: 5cb63275edeb2184bab15468241b523f, type: 2}
+    second: {fileID: 2100000, guid: b682b1bc26ada314591da61b5dfa44f0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

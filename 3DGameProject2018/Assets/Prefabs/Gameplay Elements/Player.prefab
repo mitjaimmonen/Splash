@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 4359681180659874}
   - component: {fileID: 95016888741616598}
   - component: {fileID: 114466195618453568}
+  - component: {fileID: 114846308794897092}
   m_Layer: 0
   m_Name: shark player with tpose
   m_TagString: Untagged
@@ -1608,6 +1609,7 @@ MonoBehaviour:
   playerHead: {fileID: 1590808485326396}
   gunsParent: {fileID: 1371622987980496}
   hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
+  rigController: {fileID: 0}
   controller: {fileID: 0}
   playerAnim: {fileID: 95016888741616598}
   raycastLayerMask:
@@ -1643,8 +1645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3004eb8968bea84ab9ce95c80ef468f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftArm: {fileID: 0}
-  rightArm: {fileID: 0}
 --- !u!114 &114497962918413064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1684,6 +1684,137 @@ MonoBehaviour:
   allowMaxCountOverrideByWeapons: 1
   maxCount: 25
   soundBehaviour: {fileID: 0}
+--- !u!114 &114846308794897092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1194647738156178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ead50f9ad7a8441ba7a95bdc843979, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  solver: 1
+  rArm:
+    target: {fileID: 0}
+    weight: 0
+    iterations: 2
+    joints: []
+  lArm:
+    target: {fileID: 0}
+    weight: 0
+    iterations: 2
+    joints: []
+  rLeg:
+    target: {fileID: 0}
+    weight: 0
+    iterations: 2
+    joints: []
+  lLeg:
+    target: {fileID: 0}
+    weight: 0
+    iterations: 2
+    joints: []
+  otherChains:
+  - target: {fileID: 0}
+    weight: 0.75
+    iterations: 2
+    joints:
+    - motionFreedom: 2
+      joint: {fileID: 4848723648494352}
+      weight: 0
+      length: 0
+      pos: {x: 0, y: 0, z: 0}
+      rot: {x: 0, y: 0, z: 0, w: 0}
+      localAxis: {x: 0, y: 0, z: 0}
+      axis: {x: 0, y: 0, z: 0}
+      hingLimit: {x: 0, y: 0}
+      maxAngle: 0
+      maxTwist: 0
+    - motionFreedom: 0
+      joint: {fileID: 4465967631326374}
+      weight: 0.435
+      length: 0
+      pos: {x: 0, y: 0, z: 0}
+      rot: {x: 0, y: 0, z: 0, w: 0}
+      localAxis: {x: 0, y: 0, z: 0}
+      axis: {x: 0, y: 0, z: 0}
+      hingLimit: {x: 0, y: 0}
+      maxAngle: 0
+      maxTwist: 0
+    - motionFreedom: 0
+      joint: {fileID: 4979004111490394}
+      weight: 0.597
+      length: 0
+      pos: {x: 0, y: 0, z: 0}
+      rot: {x: 0, y: 0, z: 0, w: 0}
+      localAxis: {x: 0, y: 0, z: 0}
+      axis: {x: 0, y: 0, z: 0}
+      hingLimit: {x: 0, y: 0}
+      maxAngle: 0
+      maxTwist: 0
+    - motionFreedom: 0
+      joint: {fileID: 4589464126199888}
+      weight: 0.816
+      length: 0
+      pos: {x: 0, y: 0, z: 0}
+      rot: {x: 0, y: 0, z: 0, w: 0}
+      localAxis: {x: 0, y: 0, z: 0}
+      axis: {x: 0, y: 0, z: 0}
+      hingLimit: {x: 0, y: 0}
+      maxAngle: 0
+      maxTwist: 0
+  - target: {fileID: 0}
+    weight: 0.75
+    iterations: 2
+    joints:
+    - motionFreedom: 2
+      joint: {fileID: 4900758727665934}
+      weight: 0
+      length: 0
+      pos: {x: 0, y: 0, z: 0}
+      rot: {x: 0, y: 0, z: 0, w: 0}
+      localAxis: {x: 0, y: 0, z: 0}
+      axis: {x: 0, y: 0, z: 0}
+      hingLimit: {x: 0, y: 0}
+      maxAngle: 0
+      maxTwist: 0
+    - motionFreedom: 0
+      joint: {fileID: 4522829602325718}
+      weight: 0.256
+      length: 0
+      pos: {x: 0, y: 0, z: 0}
+      rot: {x: 0, y: 0, z: 0, w: 0}
+      localAxis: {x: 0, y: 0, z: 0}
+      axis: {x: 0, y: 0, z: 0}
+      hingLimit: {x: 0, y: 0}
+      maxAngle: 0
+      maxTwist: 0
+    - motionFreedom: 0
+      joint: {fileID: 4016681021553076}
+      weight: 0.476
+      length: 0
+      pos: {x: 0, y: 0, z: 0}
+      rot: {x: 0, y: 0, z: 0, w: 0}
+      localAxis: {x: 0, y: 0, z: 0}
+      axis: {x: 0, y: 0, z: 0}
+      hingLimit: {x: 0, y: 0}
+      maxAngle: 0
+      maxTwist: 0
+    - motionFreedom: 0
+      joint: {fileID: 4724407771554930}
+      weight: 0.695
+      length: 0
+      pos: {x: 0, y: 0, z: 0}
+      rot: {x: 0, y: 0, z: 0, w: 0}
+      localAxis: {x: 0, y: 0, z: 0}
+      axis: {x: 0, y: 0, z: 0}
+      hingLimit: {x: 0, y: 0}
+      maxAngle: 0
+      maxTwist: 0
+  otherKChains: []
+  animator: {fileID: 95016888741616598}
 --- !u!114 &114971550634750604
 MonoBehaviour:
   m_ObjectHideFlags: 1

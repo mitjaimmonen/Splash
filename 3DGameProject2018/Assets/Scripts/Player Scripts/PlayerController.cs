@@ -65,8 +65,7 @@ public class PlayerController : MonoBehaviour, IWater
     public GameObject playerHead; //Has head collider for headshots.
     public GameObject gunsParent; //Position always same as camera. Weapon script uses this to parent guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
-
-    private RigController rigController; //Controls player model animator state & physics (ragdoll)
+    public RigController rigController; //Controls player model animator state & physics (ragdoll)
     private CameraHandler cameraHandler;
     [HideInInspector]
     public MatchController controller;
@@ -285,14 +284,14 @@ public class PlayerController : MonoBehaviour, IWater
 
             //Create gun from the first item in carriedWeapons list & give parameters 
             currentWeapon = carriedWeapons[weaponIndex];
-            //Make weapon as current active weapon 
-            currentWeapon.Activate(); 
+
         }
 
     }
 
     private void Start()
     {
+        currentWeapon.Activate();         
         rotationH = transform.localEulerAngles.y;
         hud.UpdateAmmo();
         capsule = GetComponent<CapsuleCollider>();

@@ -18,12 +18,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: BALONY DOOR
-    second: {fileID: 2100000, guid: de6fd5ad8075b7942bc4d3308b9e7692, type: 2}
+    second: {fileID: 2100000, guid: 985d4713ae4a3d742ae2e2de5fa413f2, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: WINDOW
-    second: {fileID: 2100000, guid: c402e6b23c76a2448afc6da8cf259d41, type: 2}
+    second: {fileID: 2100000, guid: b682b1bc26ada314591da61b5dfa44f0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

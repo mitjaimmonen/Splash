@@ -4,25 +4,21 @@ using UnityEngine;
 
 public class RigController : MonoBehaviour {
 
-	public Transform leftArm, rightArm;
-	private Vector3 leftRot, rightRot;
+
 	private PlayerController playerController;
+	private Generics.Dynamics.InverseKinematics inverseKinematics;
 	private Animator anim;
 	private float vRotation;
 	private int layer;
-	private bool isAlive;
+	private bool isAlive = false;
 
 
 
 	// Use this for initialization
 	void Awake () {
 		playerController = GetComponentInParent<PlayerController>();
-		if (leftArm && rightArm)
-		{
-			leftRot = leftArm.localRotation.eulerAngles;
-			rightRot = rightArm.localRotation.eulerAngles;
-		}
-
+		inverseKinematics = GetComponent<Generics.Dynamics.InverseKinematics>();
+		Debug.Log(inverseKinematics);
 		anim = GetComponent<Animator>();
 
 		//Cameras have each one culling mask which they wont render
@@ -34,11 +30,31 @@ public class RigController : MonoBehaviour {
 		}	
 		foreach (Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>(true)) {
 			rb.isKinematic = true;
+			rb.sleepThreshold = 0;
 		}
 		transform.localPosition = Vector3.zero;
 		anim.enabled = true;
 
 		
+	}
+
+	public void SwitchArmPoints(GameObject left, GameObject right)
+	{
+		if (left && right && inverseKinematics)
+		{
+			inverseKinematics.otherChains[0].target = left.transform;
+			inverseKinematics.otherChains[1].target = right.transform;		
+		}
+		else if (inverseKinematics)
+		{
+			inverseKinematics.otherChains[0].target = null;
+			inverseKinematics.otherChains[1].target = null;		
+		}
+		else
+		{
+			Debug.Log("No inverseKinematics script found.");
+		}
+
 	}
 
 	
@@ -47,18 +63,6 @@ public class RigController : MonoBehaviour {
 		if (!isAlive && playerController.IsAlive)
 		{
 			Reset();
-		}
-
-		if (isAlive && rightArm && leftArm)
-		{
-			vRotation = playerController.rotationV;
-			Vector3 leftArmRot = leftRot;
-			leftArmRot.x -= Mathf.Clamp(vRotation,-90, 25);
-			leftArm.localEulerAngles = leftArmRot;
-			
-			Vector3 rightArmRot = rightRot;
-			rightArmRot.x -= vRotation;
-			rightArm.localEulerAngles = rightArmRot;
 		}
 	}
 
