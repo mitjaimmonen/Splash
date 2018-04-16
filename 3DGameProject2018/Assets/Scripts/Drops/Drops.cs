@@ -105,6 +105,7 @@ public class Drops : MonoBehaviour {
 
     void OnDestroy()
     {
+        Debug.Log("This might cause fmod error on application exit");
         FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
         
     }

@@ -2344,7 +2344,7 @@ MonoBehaviour:
   switchOnPickup: 1
   autoPickup: 1
   carriedWeapons:
-  - {fileID: 114651251365182740, guid: 56cca7690b8b018468bb41591ff435c9, type: 2}
+  - {fileID: 114412804487712570, guid: a8d838a278610b141b7f5d1f361aee96, type: 2}
   maxWeapons: 2
   maxGlobalAmmo: 500
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,

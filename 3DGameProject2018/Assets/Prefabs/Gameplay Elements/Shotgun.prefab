@@ -427,6 +427,7 @@ MonoBehaviour:
   damage: 1
   headshotMultiplier: 2
   currentClipAmmo: 100
+  alwaysPlayWaterOnShoot: 1
   clipSize: 100
   shotUsage: 20
   fireRate: 0.75
@@ -6513,7 +6514,7 @@ ParticleSystem:
     radiusScale: 0.2
     collidesWith:
       serializedVersion: 2
-      m_Bits: 34304
+      m_Bits: 525824
     maxCollisionShapes: 50
     quality: 0
     voxelSize: 1

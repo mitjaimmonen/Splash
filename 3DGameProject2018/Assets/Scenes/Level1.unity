@@ -4457,7 +4457,7 @@ Prefab:
     - target: {fileID: 114981359564351386, guid: ef5f46a1cefaeb943844a0c7cdf487dc,
         type: 2}
       propertyPath: pickups.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4181689519207860, guid: ef5f46a1cefaeb943844a0c7cdf487dc, type: 2}
       propertyPath: m_LocalPosition.x
@@ -4504,11 +4504,17 @@ Prefab:
     - target: {fileID: 114981359564351386, guid: ef5f46a1cefaeb943844a0c7cdf487dc,
         type: 2}
       propertyPath: respawnTime
-      value: 60
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 114981359564351386, guid: ef5f46a1cefaeb943844a0c7cdf487dc,
         type: 2}
       propertyPath: pickups.Array.data[1]
+      value: 
+      objectReference: {fileID: 1520809010065642, guid: efe4ded6191751b4ba540439f24a708c,
+        type: 2}
+    - target: {fileID: 114981359564351386, guid: ef5f46a1cefaeb943844a0c7cdf487dc,
+        type: 2}
+      propertyPath: pickups.Array.data[2]
       value: 
       objectReference: {fileID: 1593175078492508, guid: 4275e6d1d3213494f9944b0a6108b807,
         type: 2}

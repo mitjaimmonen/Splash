@@ -10,6 +10,8 @@ public class WeaponData : MonoBehaviour {
     public float headshotMultiplier = 1.5f;
     public int currentClipAmmo;
 	
+    [Tooltip ("Allows waterParticles to start playing even when it is playing already.")]
+    public bool alwaysPlayWaterOnShoot = true;
 
     [Tooltip("How much water fits in a clip")]
     public int clipSize = 100;

@@ -224,8 +224,9 @@ public class Weapon : MonoBehaviour {
             
 
             //Checks if shoot trigger is no longer called.
-            if (inputTimer < Time.time - 0.1f || !isShooting)
+            if (inputTimer < Time.time - 0.05f || !isShooting)
             {
+                waterParticles.Stop();
                 isShooting = false;
                 FMOD_Shooting.setValue(0);
             }
@@ -268,6 +269,7 @@ public class Weapon : MonoBehaviour {
                 return;
             if (weaponData.currentClipAmmo < weaponData.shotUsage || (weaponData.maxShootTime != 0 && shootTimer > weaponData.maxShootTime))
             {
+                waterParticles.Stop();
                 isShooting = false;
                 return;
             }
@@ -287,14 +289,15 @@ public class Weapon : MonoBehaviour {
             {
                 currentShootSpeed = shootSpeed * input;
                 //Stops water particles from just falling down due to too little force. (Usual max speed is around 30-60)
-                if(currentShootSpeed < 7)
-                    currentShootSpeed = 7;
+                if(currentShootSpeed < 5)
+                    currentShootSpeed = 5;
             }
             else
                 currentShootSpeed = shootSpeed;
 
-            main.startSpeed = currentShootSpeed;
-            waterParticles.Play();
+            main.startSpeedMultiplier = currentShootSpeed;
+            if (!waterParticles.isPlaying || weaponData.alwaysPlayWaterOnShoot)
+                waterParticles.Play();
             
             recoil.StartRecoil();
 
