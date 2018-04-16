@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4745301347947210}
   - component: {fileID: 65592476242896798}
   - component: {fileID: 114882573520060182}
+  - component: {fileID: 114888191789114774}
   m_Layer: 10
   m_Name: Window
   m_TagString: Untagged
@@ -80,7 +81,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1997177063276562}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.02, y: 5.81, z: 20.869999}
+  m_LocalPosition: {x: 3.32, y: 5.81, z: 20.87}
   m_LocalScale: {x: 0.79999995, y: 0.79999995, z: 0.79999995}
   m_Children:
   - {fileID: 4300792751396836}
@@ -172,3 +173,19 @@ MonoBehaviour:
   allowMaxCountOverrideByWeapons: 0
   maxCount: 5
   soundBehaviour: {fileID: 0}
+--- !u!114 &114888191789114774
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1064154205220154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionSE: event:/Water Collisions/HitGlassSurface
+  waterSplashSE: 
+  destroySE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
