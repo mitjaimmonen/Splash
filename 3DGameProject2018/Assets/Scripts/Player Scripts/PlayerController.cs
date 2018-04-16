@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour, IWater
     private bool isAlive = true;
     private bool isAimRaycastHit = false; //Used for aiming the center of screen
     private int currentDamage = 0;
-    private float runningTimer = 0, movingTimer = 0, interactTimer = 0, pickupTimer = 0;
+    private float runningTimer = 0, movingTimer = 0, interactTimer = 0, pickupTimer = 0, swapTimer = 0;
     private int maxHealth = 100;
     //Classes
     public CanvasOverlayHandler canvasOverlay;
@@ -543,13 +543,34 @@ public class PlayerController : MonoBehaviour, IWater
                 }
                 if (input[1] == "Y")
                 {
-                    if (pickupAllowed && pickupDrop != null && pickupTimer > 0.1f)
-                        PickupWeapon();
-                    pickupTimer = 0;
+                    if (interactTimer > 0.05f)
+                        swapTimer = 0;
+                    else
+                    {
+                        swapTimer += Time.deltaTime;
+                        //Hud update swaptimer ui
+                    }
+                    interactTimer = 0;
+
+                    if (pickupAllowed && pickupDrop != null && pickupTimer > 0.05f)
+                    {
+                        if (carriedWeapons.Count < maxWeapons)
+                        {
+                            pickupTimer = 0;
+                            PickupWeapon();
+                        } else if (carriedWeapons.Count >= maxWeapons && swapTimer > 0.75f)
+                        {
+                            pickupTimer = 0;
+                            swapTimer = 0;
+                            SwapWeapon();
+                        }
+                    }
+
+
                 }
                 if (input[1] == "B")
                 {
-                    if (interactTimer > 0.1f)
+                    if (interactTimer > 0.05f)
                     {
                         DropWeapon(false);
                     }
@@ -557,7 +578,7 @@ public class PlayerController : MonoBehaviour, IWater
                 }
                 if (input[1] == "R1")
                 {
-                    if (interactTimer > 0.1f)
+                    if (interactTimer > 0.05f)
                     {
                         SwitchWeapon(1+weaponIndex);                
                     }
@@ -654,6 +675,7 @@ public class PlayerController : MonoBehaviour, IWater
     //Gets called when triggered near a gun pickup.
     public void AllowPickup(Drops drop, bool isAllowed, WeaponData data)
     {
+        // Debug.Log("AllowPickup called. drop: " + drop + ", isAllowed: " + isAllowed + ", weapondata: " + data);
         pickupDrop = drop;
         pickupAllowed = isAllowed;
         pickupData = data;
@@ -670,9 +692,10 @@ public class PlayerController : MonoBehaviour, IWater
     //Picks up new weapon to carry
     public void PickupWeapon()
     {
+        Debug.Log("PickupWEapon called");
         foreach (var weapon in carriedWeapons)
         {
-            if (weapon.name == pickupDrop.pickupWeaponIfAny.name)
+            if (weapon.name == pickupDrop.pickupWeapon.name)
             {
                 Debug.Log("Carrying this weapon already.");
                 //Already have this weapon, trying to take ammo
@@ -697,9 +720,9 @@ public class PlayerController : MonoBehaviour, IWater
         if (carriedWeapons.Count < maxWeapons)
         {
             Debug.Log("New weapon picked up");
-            carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny, transform.position, transform.rotation));
+            carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position, transform.rotation));
             PersonalExtensions.CopyComponentValues<WeaponData>(pickupData, carriedWeapons[carriedWeapons.Count-1].gameObject);
-            carriedWeapons[carriedWeapons.Count-1].gameObject.name = pickupDrop.pickupWeaponIfAny.gameObject.name;
+            carriedWeapons[carriedWeapons.Count-1].gameObject.name = pickupDrop.pickupWeapon.gameObject.name;
             carriedWeapons[carriedWeapons.Count-1].playerController = this;
             carriedWeapons[carriedWeapons.Count-1].Initialize();
             carriedWeapons[carriedWeapons.Count-1].Deactivate();
@@ -709,13 +732,12 @@ public class PlayerController : MonoBehaviour, IWater
             if (switchOnPickup)
                 SwitchWeapon(carriedWeapons.Count-1);
         }
-        else if (!autoPickup)
-            SwapWeapon();  
     }
 
     //Switches between carried weapons
     public void SwitchWeapon(int index)
     {
+        Debug.Log("Switch weapon called");
         if (index > carriedWeapons.Count-1)
             weaponIndex = 0;
         else
@@ -737,11 +759,12 @@ public class PlayerController : MonoBehaviour, IWater
     public void SwapWeapon()
     {
         //Create weapon pickup and remove weapon from player.
+        Debug.Log("SwapWEapon called");
         DropWeapon(true);
-        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny, transform.position, transform.rotation));
+        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position, transform.rotation));
         weaponIndex = carriedWeapons.Count-1; //Index updates to be list's last item
         currentWeapon = carriedWeapons[weaponIndex];
-        currentWeapon.name = pickupDrop.pickupWeaponIfAny.name; //Prevents name to be a "(clone)"
+        currentWeapon.name = pickupDrop.pickupWeapon.name; //Prevents name to be a "(clone)"
         PersonalExtensions.CopyComponentValues<WeaponData>(pickupData, currentWeapon.gameObject);
         currentWeapon.playerController = this;
         currentWeapon.Initialize(); // Picked up weapons need to set some initial values
@@ -753,8 +776,9 @@ public class PlayerController : MonoBehaviour, IWater
     public void DropWeapon(bool isReplaced)
     {
         
-        if (carriedWeapons.Count > 1 || isReplaced) // Player must have at least one weapon
+        if ((carriedWeapons.Count > 1 && !autoPickup) || isReplaced) // Player must have at least one weapon
         {
+            Debug.Log("Dropping current weapon");
             GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, currentWeapon.transform.position, transform.rotation);
             PersonalExtensions.CopyComponentValues<WeaponData>(currentWeapon.weaponData, swappedGunPickup);
             Destroy(currentWeapon.gameObject);

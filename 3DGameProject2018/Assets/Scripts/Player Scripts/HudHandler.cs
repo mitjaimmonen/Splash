@@ -23,6 +23,8 @@ public class HudHandler : MonoBehaviour {
         public Image healthIcon, throwableIcon, damageIndicator, hitmarker, crosshair;
         public Slider healthSlider;
         public Slider clipSlider;
+        public Slider circleTimer;
+        public Text instructionText;
         public Text clipAmmoText;
         public Text globalAmmoText;
         public Text timerText;
@@ -49,14 +51,11 @@ public class HudHandler : MonoBehaviour {
         oldCurrentHealth = playerController.CurrentHealth;
         hitmarkerScale = crosshair.transform.localScale;
         oldCurrentAmmo = playerController.CurrentAmmo;
+        UpdatePickupUI(false);
     }
 
     private void Update() 
     {
-        fpsDeltaTime += (Time.unscaledDeltaTime - fpsDeltaTime) * 0.1f;
-        int fps = (int)(1f/fpsDeltaTime);
-        playerNumberText.text = "FPS: " + fps;
-
         if (timerText.color.a != 0)
         {
             noAlpha = timerText.color;
@@ -107,6 +106,17 @@ public class HudHandler : MonoBehaviour {
         hitmarkerTimer = 0;
         UpdateHitmarker();
     }
+
+
+    public void UpdatePickupUI(bool setElementsActive)
+    {
+        if (!setElementsActive)
+        {
+            circleTimer.gameObject.SetActive(false);
+            instructionText.gameObject.SetActive(false);
+        }
+    }
+
     private void UpdateHitmarker()
     {
         Vector3 newScale = hitmarkerScale + hitmarkerScale/2 * Mathf.Sin(Mathf.PI*hitmarkerTimer/hitMarkerTime);

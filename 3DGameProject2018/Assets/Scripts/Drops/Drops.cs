@@ -26,7 +26,7 @@ public class Drops : MonoBehaviour {
     public int pickupValue;
     public PickupEnum pickupType = PickupEnum.healthPickup;
     private PlayerController playerController;
-    public Weapon pickupWeaponIfAny;
+    public Weapon pickupWeapon;
     public Rigidbody rb;
 
     private WeaponData weaponData;
@@ -38,9 +38,9 @@ public class Drops : MonoBehaviour {
     {
         rb = GetComponent<Rigidbody>();
         weaponData = GetComponent<WeaponData>();
-        if (!weaponData && pickupWeaponIfAny)
+        if (!weaponData && pickupWeapon)
         {
-            weaponData = PersonalExtensions.CopyComponentValues(pickupWeaponIfAny.weaponData, this.gameObject);
+            weaponData = PersonalExtensions.CopyComponentValues(pickupWeapon.weaponData, this.gameObject);
         }
     }
 

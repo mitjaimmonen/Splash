@@ -232,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupValue: 0
   pickupType: 2
-  pickupWeaponIfAny: {fileID: 114412804487712570, guid: a8d838a278610b141b7f5d1f361aee96,
+  pickupWeapon: {fileID: 114412804487712570, guid: a8d838a278610b141b7f5d1f361aee96,
     type: 2}
   rb: {fileID: 0}
   pickupSE: event:/Interactions/AmmoPickup
