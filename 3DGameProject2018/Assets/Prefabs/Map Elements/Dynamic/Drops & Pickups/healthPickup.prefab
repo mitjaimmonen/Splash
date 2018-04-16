@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4218869654244414}
   - component: {fileID: 33607770482763352}
   - component: {fileID: 23988099569411194}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4324411021893782}
   - component: {fileID: 135246386976072616}
   - component: {fileID: 114878002339287556}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: healthPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4736175426192650}
   - component: {fileID: 95536860180528854}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: healthPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 4144625281135668}
   - component: {fileID: 33304225619852884}
   - component: {fileID: 23810043669891840}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: halo
   m_TagString: Untagged
   m_Icon: {fileID: 0}

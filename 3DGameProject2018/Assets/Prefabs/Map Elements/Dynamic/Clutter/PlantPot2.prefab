@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23286808899626138}
   - component: {fileID: 64869784338655558}
   - component: {fileID: 54014167806448942}
-  m_Layer: 10
+  m_Layer: 19
   m_Name: PLANT POT 2 Piece 3
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 23786932337303182}
   - component: {fileID: 64018228607783394}
   - component: {fileID: 54402484806079584}
-  m_Layer: 10
+  m_Layer: 19
   m_Name: PLANT POT 2 Piece 1
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 4375371859069048}
   - component: {fileID: 33128376621595588}
   - component: {fileID: 23723339048810384}
-  m_Layer: 10
+  m_Layer: 19
   m_Name: PLANT POT 2
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 23452723505516822}
   - component: {fileID: 64108418247098666}
   - component: {fileID: 54915758955885604}
-  m_Layer: 10
+  m_Layer: 19
   m_Name: PLANT POT 2 Piece 4
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 23019819151091602}
   - component: {fileID: 64776565012296440}
   - component: {fileID: 54541781171754574}
-  m_Layer: 10
+  m_Layer: 19
   m_Name: PLANT POT 2 Piece 2
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 114870802054246458}
   - component: {fileID: 114739123383719584}
   - component: {fileID: 114162624256542252}
-  m_Layer: 10
+  m_Layer: 19
   m_Name: PlantPot2
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -569,7 +569,8 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitCeramicSurface
   waterSplashSE: event:/Water Collisions/WaterSplashBig
   destroySE: event:/Interactions/BigPotBreak
-  dealDamageSE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!114 &114739123383719584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -608,4 +609,3 @@ MonoBehaviour:
   mainRigidbody: {fileID: 54174007218221568}
   psSplash: {fileID: 0}
   collisionBehaviour: {fileID: 0}
-  psSplashSizeMultiplier: 1

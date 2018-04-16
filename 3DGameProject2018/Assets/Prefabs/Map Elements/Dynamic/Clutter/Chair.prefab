@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4056657009240696}
   - component: {fileID: 33508937882267228}
   - component: {fileID: 23671542190843092}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: tchair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 54788048180507316}
   - component: {fileID: 64200173384902586}
   - component: {fileID: 114713186242598602}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Chair
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -174,7 +174,8 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitmetalSurface
   waterSplashSE: event:/Water Collisions/WaterSplashBig
   destroySE: 
-  dealDamageSE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!114 &114811151478750022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,4 +198,3 @@ MonoBehaviour:
   mainRigidbody: {fileID: 54788048180507316}
   psSplash: {fileID: 0}
   collisionBehaviour: {fileID: 0}
-  psSplashSizeMultiplier: 1

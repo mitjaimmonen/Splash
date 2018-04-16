@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour, IWater
     public GameObject gunsParent; //Position always same as camera. Weapon script uses this to parent guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
     public RigController rigController; //Controls player model animator state & physics (ragdoll)
+    public ArmRigController armRigController; //Controls first-person arms.
     private CameraHandler cameraHandler;
     [HideInInspector]
     public MatchController controller;
@@ -259,6 +260,7 @@ public class PlayerController : MonoBehaviour, IWater
         cameraHandler.SetViewport(currentPlayers, playerNumber);
         
         rigController = GetComponentInChildren<RigController>();
+        armRigController = GetComponentInChildren<ArmRigController>();
         collisionBehaviour = GetComponent<CollisionBehaviour>();
 
         stats = new PlayerStats {
@@ -794,6 +796,7 @@ public class PlayerController : MonoBehaviour, IWater
             ColBehaviour.soundBehaviour.PlayDestroy(rigController.transform.position);
             cameraHandler.Die(attacker);
             rigController.Die();
+            armRigController.Die();
 
             foreach(Collider col in damageColliders)
             {

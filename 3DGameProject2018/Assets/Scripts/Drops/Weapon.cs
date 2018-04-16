@@ -150,6 +150,7 @@ public class Weapon : MonoBehaviour {
             playerController.CurrentAmmo = weaponData.currentClipAmmo;
             playerController.CurrentDamage = weaponData.damage;
             playerController.rigController.SwitchArmPoints(leftArmPoint, rightArmPoint);
+            playerController.armRigController.SwitchArmPoints(leftArmPoint, rightArmPoint);
         }
         else
         {

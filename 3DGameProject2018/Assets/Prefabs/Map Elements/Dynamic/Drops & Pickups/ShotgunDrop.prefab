@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4613913597039350}
   - component: {fileID: 137102857011218882}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Gun_low.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,7 +35,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4715102623759508}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 54228965795116086}
   - component: {fileID: 136856379495512262}
   - component: {fileID: 65138374364391096}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: ShotgunDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 4263055902425282}
   - component: {fileID: 33693129038021526}
   - component: {fileID: 23304629466919144}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

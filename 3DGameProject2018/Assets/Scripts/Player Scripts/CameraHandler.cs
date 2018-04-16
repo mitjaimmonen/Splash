@@ -121,7 +121,23 @@ public class CameraHandler : MonoBehaviour {
         //Each camera has one cullingMask which no other camera has.
         //Can be used to show player specific in-world elements.
         // currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("Culling" + player);
-        currentCamera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Culling" + player));
+        for(int i = 0; i < playerAmount; i++)
+        {
+            if (i != player)
+            {
+                Debug.Log("PlayerNumber: " + player + ", Culling" +i + " off");
+                currentCamera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Culling" + i)); //Turn bit off
+                currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("NonCulling" + i); //Turn bit on
+
+            }
+            else
+            {
+                currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("Culling" + i); //Turn bit on
+                currentCamera.cullingMask &=  ~(1 << LayerMask.NameToLayer("NonCulling" + i)); //Turn bit off
+            }
+
+            
+        }
 
         var rect = currentCamera.rect;
         fov = currentCamera.fieldOfView;

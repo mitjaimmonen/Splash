@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4254649332581836}
   - component: {fileID: 33602276288175480}
   - component: {fileID: 23794530080822882}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114643241614402262}
   - component: {fileID: 114510883037561770}
   - component: {fileID: 114724610745356072}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: SmallPot
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 4293689295460376}
   - component: {fileID: 198787995339436460}
   - component: {fileID: 199299858702155198}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: DestroyParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 4242582587627754}
   - component: {fileID: 33301532626510070}
   - component: {fileID: 23007729361753626}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  allowMaxCountOverride: 1
+  allowMaxCountOverrideByWeapons: 0
   maxCount: 5
   soundBehaviour: {fileID: 0}
 --- !u!114 &114643241614402262
@@ -285,7 +285,6 @@ MonoBehaviour:
   mainRigidbody: {fileID: 0}
   psSplash: {fileID: 0}
   collisionBehaviour: {fileID: 0}
-  psSplashSizeMultiplier: 1
 --- !u!114 &114724610745356072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -300,7 +299,8 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitCeramicSurface
   waterSplashSE: event:/Water Collisions/WaterSplashSmall
   destroySE: event:/Interactions/SmallPotBreak
-  dealDamageSE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!198 &198787995339436460
 ParticleSystem:
   m_ObjectHideFlags: 1

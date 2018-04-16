@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114377211978194394}
   - component: {fileID: 114718648104497110}
   - component: {fileID: 114526806374367668}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: Apple
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 4429720518742274}
   - component: {fileID: 33221890575305958}
   - component: {fileID: 23866764360023638}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: apple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,6 @@ MonoBehaviour:
   mainRigidbody: {fileID: 0}
   psSplash: {fileID: 0}
   collisionBehaviour: {fileID: 0}
-  psSplashSizeMultiplier: 1
 --- !u!114 &114526806374367668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -169,7 +168,8 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitSmallObject
   waterSplashSE: event:/Water Collisions/WaterSplashSmall
   destroySE: 
-  dealDamageSE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!114 &114718648104497110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  allowMaxCountOverride: 0
+  allowMaxCountOverrideByWeapons: 0
   maxCount: 1
   soundBehaviour: {fileID: 0}
 --- !u!136 &136414006908069800

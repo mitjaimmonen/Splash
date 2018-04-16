@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114521716596638750}
   - component: {fileID: 114861165221811664}
   - component: {fileID: 114842277873955844}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: Melon
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 4946128674212724}
   - component: {fileID: 33469758164348172}
   - component: {fileID: 23683391124284254}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: melon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,7 +153,6 @@ MonoBehaviour:
   mainRigidbody: {fileID: 0}
   psSplash: {fileID: 0}
   collisionBehaviour: {fileID: 0}
-  psSplashSizeMultiplier: 1
 --- !u!114 &114842277873955844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,7 +167,8 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitSmallObject
   waterSplashSE: event:/Water Collisions/WaterSplashSmall
   destroySE: 
-  dealDamageSE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!114 &114861165221811664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  allowMaxCountOverride: 0
+  allowMaxCountOverrideByWeapons: 0
   maxCount: 1
   soundBehaviour: {fileID: 0}
 --- !u!136 &136960586232901296

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4580026903398530}
   - component: {fileID: 33704049761289508}
   - component: {fileID: 23470618753650738}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Tambor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4453250609797738}
   - component: {fileID: 95203000992080048}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: gun origin changed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 4377882680131596}
   - component: {fileID: 33896924022205426}
   - component: {fileID: 23867657983399836}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 4580905360492220}
   - component: {fileID: 114795900914206750}
   - component: {fileID: 135885207134159632}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: autoRiflePickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4769107520720832}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Empty
   m_TagString: Untagged
   m_Icon: {fileID: 0}

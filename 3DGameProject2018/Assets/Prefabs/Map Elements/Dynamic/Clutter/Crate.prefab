@@ -157,7 +157,8 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitHardSurface
   waterSplashSE: event:/Water Collisions/WaterSplashBig
   destroySE: 
-  dealDamageSE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!114 &114608712326719320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -180,7 +181,6 @@ MonoBehaviour:
   mainRigidbody: {fileID: 54925106309203742}
   psSplash: {fileID: 0}
   collisionBehaviour: {fileID: 0}
-  psSplashSizeMultiplier: 1
 --- !u!114 &114978833688946836
 MonoBehaviour:
   m_ObjectHideFlags: 1
