@@ -600,6 +600,7 @@ MonoBehaviour:
   weaponData: {fileID: 114693319546774848}
   weaponPickup: {fileID: 1593175078492508, guid: 5d300b83127b08945aa2cafa876cfa52,
     type: 2}
+  MuzzleTransform: {fileID: 0}
   leftArmPoint: {fileID: 1628750113199926}
   rightArmPoint: {fileID: 1972385385372672}
   autoReload: 1
@@ -624,7 +625,10 @@ MonoBehaviour:
   damage: 7
   headshotMultiplier: 1.75
   currentClipAmmo: 100
+  isLauncher: 0
+  launcherProjectile: {fileID: 0}
   alwaysPlayWaterOnShoot: 1
+  shootSpeed: 0
   clipSize: 100
   shotUsage: 1
   fireRate: 0.1
@@ -693,7 +697,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 446588143
+  randomSeed: 381675293
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4193,7 +4197,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.134}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.435}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

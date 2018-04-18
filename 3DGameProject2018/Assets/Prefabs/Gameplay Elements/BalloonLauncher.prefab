@@ -35,7 +35,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4590489582709566}
   - component: {fileID: 33237568259386664}
-  - component: {fileID: 65264778700510400}
   - component: {fileID: 23273010528531186}
   - component: {fileID: 95545405159137032}
   - component: {fileID: 114266215291154278}
@@ -233,18 +232,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1129254157833744}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65264778700510400
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1129254157833744}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95545405159137032
 Animator:
   serializedVersion: 3
@@ -298,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 4
+  damage: 3
   headshotMultiplier: 1
   currentClipAmmo: 100
   isLauncher: 1
@@ -307,8 +294,8 @@ MonoBehaviour:
   alwaysPlayWaterOnShoot: 0
   shootSpeed: 80
   clipSize: 100
-  shotUsage: 10
-  fireRate: 0.25
+  shotUsage: 25
+  fireRate: 1
   maxShootTime: 0
   centerAim: 0
   lerpAim: 0
