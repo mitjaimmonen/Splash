@@ -10,8 +10,17 @@ public class WeaponData : MonoBehaviour {
     public float headshotMultiplier = 1.5f;
     public int currentClipAmmo;
 	
+    [Tooltip("If gun shoots projectiles instead of water.")]
+    public bool isLauncher = false;
+
+    [Tooltip("If isLauncher=true, launcher needs a projectile.")]    
+    public GameObject launcherProjectile;
+
     [Tooltip ("Allows waterParticles to start playing even when it is playing already.")]
     public bool alwaysPlayWaterOnShoot = true;
+
+    [Tooltip("Impulse force when shot. Only affects projectiles.")]
+    public float shootSpeed; //Particle start speed (=force)
 
     [Tooltip("How much water fits in a clip")]
     public int clipSize = 100;

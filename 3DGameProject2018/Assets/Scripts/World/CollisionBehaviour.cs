@@ -51,7 +51,7 @@ public class CollisionBehaviour : MonoBehaviour {
 
 	private void OnParticleCollision(GameObject other)
 	{		
-		ParticleLauncher otherParticleLauncher = other.GetComponent<ParticleLauncher>();
+		ParticleLauncher otherParticleLauncher = other.GetComponentInChildren<ParticleLauncher>();
 		PlayerController otherPlayerController = null;
 
 		if (otherParticleLauncher)

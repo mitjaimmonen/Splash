@@ -258,7 +258,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 107864140
+  randomSeed: 79438053
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3573,7 +3573,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &91497639
 Transform:
   m_ObjectHideFlags: 0
@@ -3702,7 +3702,7 @@ ParticleSystem:
   lengthInSec: 0.75
   simulationSpeed: 1
   stopAction: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -3752,15 +3752,15 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 454583549
+  randomSeed: -775353293
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 1
-      scalar: 1
-      minScalar: 5
+      minMaxState: 3
+      scalar: 1.2
+      minScalar: 0.85
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3772,7 +3772,7 @@ ParticleSystem:
           tangentMode: 0
         - serializedVersion: 2
           time: 1
-          value: 0.28346395
+          value: 0.55373526
           inSlope: -0.5774888
           outSlope: -0.5774888
           tangentMode: 0
@@ -6263,9 +6263,9 @@ ParticleSystem:
     radiusScale: 0.05
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 525825
     maxCollisionShapes: 10
-    quality: 2
+    quality: 0
     voxelSize: 0.5
     collisionMessages: 0
     collidesWithDynamic: 1

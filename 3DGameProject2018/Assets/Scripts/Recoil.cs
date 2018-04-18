@@ -11,12 +11,12 @@ public class Recoil : MonoBehaviour {
     public float rotationTime = 0.3f, positionTime = 0.1f;
 	public float rotDelay = 0.05f, posDelay = 0.05f;
 	public float recoilAngle = 1f, recoilPosition = 0.5f;
-	private GameObject body, particles;
+	private GameObject body;
 
 
 	private float rotX, newRotX, rotTime, rotEndTime, rotStartTime;
 	private float posZ, newPosZ, posTime, posEaseInTime, posEaseOutTime;
-	private Vector3 oldPosBody, oldPosParticles, oldRot;
+	private Vector3 oldPosBody, oldRot;
 
 
 	public GameObject WeaponBody
@@ -28,26 +28,20 @@ public class Recoil : MonoBehaviour {
 	{
 		foreach (Transform trans in GetComponentInChildren<Transform>(true))
 		{
-			var temp = trans.GetComponentInChildren<ParticleSystem>();
-			if (temp)
-				particles = temp.gameObject;
-			else if (trans.gameObject.name == "Body")
+			if (trans.gameObject.name == "Body")
 				body = trans.gameObject;
 		}
-		if (!body || !particles)
-			Debug.LogWarning("Recoil script is missing references. Gun model: " + body + ", gun particles: " + particles);
+		if (!body)
+			Debug.LogWarning("Recoil script is missing references. Gun model: " + body);
 
 		oldRot = body.transform.localEulerAngles;
-		oldPosBody = body.transform.localPosition;
-		oldPosParticles = particles.transform.localPosition;
-		 
+		oldPosBody = body.transform.localPosition;		 
 	}
 
 	void OnDisable()
 	{
 		//Set everything back just in case.
 		body.transform.localEulerAngles = oldRot;
-		particles.transform.localEulerAngles = oldRot;
 	}
 
 	public void StartRecoil()
@@ -85,18 +79,13 @@ public class Recoil : MonoBehaviour {
 			rotX = Mathf.Lerp(newRotX, oldRot.x, rotTime); 		//Recoil rotation return
 			localRot.x = rotX;
 
-			body.transform.localEulerAngles = localRot;
-
-			// if (affectBullets)
-			// 	particles.transform.localEulerAngles = localRot;
-			
+			body.transform.localEulerAngles = localRot;			
 			
 			yield return null;
 		}
 
 		//Set everything back just in case.
 		body.transform.localEulerAngles = oldRot;
-		// particles.transform.localEulerAngles = oldRot;
 		yield break;
 	}
 
@@ -107,8 +96,6 @@ public class Recoil : MonoBehaviour {
 
 		float timer = Time.time;
 		Vector3 localPosBody = body.transform.localPosition;
-		Vector3 localPosParticles = particles.transform.localPosition;
-
 
 		while (timer > Time.time - positionTime)
 		{
@@ -122,18 +109,12 @@ public class Recoil : MonoBehaviour {
 				
 			posZ = Mathf.Lerp(posZ, oldPosBody.z, posEaseInTime);
 			localPosBody.z = posZ;
-			// localPosParticles.z = posZ;
-
 			body.transform.localPosition = localPosBody;
 
-			// if (affectBullets)
-				// particles.transform.localPosition = localPosParticles;
-			
 			yield return null;
 
 		}
 		body.transform.localPosition = oldPosBody;
-		// particles.transform.localPosition = oldPosParticles;
 		yield break;
 
 	}

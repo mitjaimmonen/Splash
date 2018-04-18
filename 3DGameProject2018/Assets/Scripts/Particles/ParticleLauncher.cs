@@ -29,6 +29,7 @@ public class ParticleLauncher : MonoBehaviour {
 	public PlayerController Controller
 	{
 		get {return thisPlayerController;}
+		set {thisPlayerController = value; }
 	}
 	public int MaxLoopCount
 	{
@@ -42,7 +43,8 @@ public class ParticleLauncher : MonoBehaviour {
 		if (particleDecal == null)
 			particleDecal = Instantiate(particleDecal, Vector3.zero,Quaternion.identity);
 
-		thisPlayerController = GetComponentInParent<PlayerController>();
+		if (!thisPlayerController)
+			thisPlayerController = GetComponentInParent<PlayerController>();
 		thisParticleSystem = GetComponent<ParticleSystem>();
 		collisionEvents = new List<ParticleCollisionEvent>();
 	}

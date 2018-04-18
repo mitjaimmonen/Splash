@@ -28,7 +28,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: window 2 frame
-    second: {fileID: 2100000, guid: 56c84822c1a4b72458c3ebb9a796beb2, type: 2}
+    second: {fileID: 2100000, guid: cc73742fd8abbce4e9232640e0cc27f0, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

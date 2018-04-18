@@ -24,6 +24,7 @@ public class Weapon : MonoBehaviour {
     //hold a sound and particle effect along with damage, clip, ammunition size and isshooting, timer, iscontinuous
     public WeaponData weaponData;
     public GameObject weaponPickup;
+    public Transform MuzzleTransform;
     public GameObject leftArmPoint, rightArmPoint;
 
     [Tooltip("Does weapon reload automatically when empty.")]
@@ -54,8 +55,6 @@ public class Weapon : MonoBehaviour {
     //FirerateTimer checks the interval between shots
     //ShootTimer checks if weapon has been shooting long enough
     private float inputTimer, fireRateTimer, shootTimer;
-    private float shootSpeed; //Particle start speed (=force)
-
     private float muzzleToWeaponMagnitude;
     private Quaternion lookRotation;
     private Vector3 lookDirection, particlesLocalOffsetY;
@@ -115,13 +114,18 @@ public class Weapon : MonoBehaviour {
             playerController = GetComponentInParent<PlayerController>();
         if (!playerController)
             Debug.LogWarning("No PlayerController found!");
-        waterParticles = gameObject.GetComponentInChildren<ParticleSystem>();
-        if (!waterParticles)
-            Debug.LogWarning("No ParticleSystem found!");
-        
-        particleLauncher = waterParticles.GetComponent<ParticleLauncher>();
-        if (!particleLauncher)
-            Debug.LogWarning("No ParticleLauncher found!");
+
+        if (!weaponData.isLauncher)
+        {
+            waterParticles = gameObject.GetComponentInChildren<ParticleSystem>();
+            if (!waterParticles)
+                Debug.LogWarning("No ParticleSystem found!");
+            
+            particleLauncher = waterParticles.GetComponent<ParticleLauncher>();
+            if (!particleLauncher)
+                Debug.LogWarning("No ParticleLauncher found!");
+        }
+
             
         gunAnim = gameObject.GetComponentInChildren<Animator>();
         if (!gunAnim)
@@ -129,15 +133,26 @@ public class Weapon : MonoBehaviour {
 
         if (!leftArmPoint || !rightArmPoint)
             Debug.LogWarning("Arm points not assigned. Arms wont be moved.");
+        if (MuzzleTransform == null)
+        {
+            foreach (Transform trans in GetComponentInChildren<Transform>(true))
+            {
+                if (trans.gameObject.name == "Muzzle")
+                    MuzzleTransform = trans;
+            }
+        }
         
-        waterParticles.transform.localPosition = -waterParticles.transform.parent.transform.localPosition; //Inverse the muzzle position to get origin position
-        var shape = waterParticles.shape; //Access particles component
-        shape.position = -waterParticles.transform.localPosition; //change position where particles get emitted to muzzle position.
-        shootSpeed = waterParticles.main.startSpeedMultiplier;
+        if (!weaponData.isLauncher)
+        {
+            waterParticles.transform.localPosition = -MuzzleTransform.localPosition; //Inverse the muzzle position to get origin position
+            var shape = waterParticles.shape; //Access particles component
+            shape.position = -waterParticles.transform.localPosition; //change position where particles get emitted to muzzle position.
+            weaponData.shootSpeed = waterParticles.main.startSpeedMultiplier;
+            particleLauncher.MaxLoopCount = weaponData.maxCollisionCount;
+        }
 
-        particleLauncher.MaxLoopCount = weaponData.maxCollisionCount;
-        particlesLocalOffsetY = new Vector3(0,waterParticles.transform.parent.transform.localPosition.y,0);
-        muzzleToWeaponMagnitude = (RecoilScript.WeaponBody.transform.position - waterParticles.transform.parent.transform.position).magnitude;
+        particlesLocalOffsetY = new Vector3(0,MuzzleTransform.localPosition.y,0);
+        muzzleToWeaponMagnitude = (RecoilScript.WeaponBody.transform.position - MuzzleTransform.position).magnitude;
 
     }
 
@@ -199,22 +214,24 @@ public class Weapon : MonoBehaviour {
 
             if (playerController.IsAimRaycastHit && weaponData.centerAim)
             {
-                lookDirection = (playerController.AimWorldPoint - waterParticles.transform.parent.position).normalized;
+                lookDirection = (playerController.AimWorldPoint - MuzzleTransform.position).normalized;
                 lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
                 if (weaponData.lerpAim)
-                    waterParticles.transform.parent.rotation = Quaternion.Slerp(waterParticles.transform.parent.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
+                    MuzzleTransform.rotation = Quaternion.Slerp(MuzzleTransform.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
                 else
-                    waterParticles.transform.parent.rotation = lookRotation;
+                    MuzzleTransform.rotation = lookRotation;
             }
             else 
-                waterParticles.transform.parent.localEulerAngles = RecoilScript.WeaponBody.transform.localEulerAngles - transform.localEulerAngles;
+                MuzzleTransform.localEulerAngles = RecoilScript.WeaponBody.transform.localEulerAngles - transform.localEulerAngles;
 
 
-            //Awful code to keep the water particles Muzzle position at its place during recoils.
+            //keep the water particles Muzzle position at its place during recoils.
             Vector3 newPosition = transform.position + (muzzleToWeaponMagnitude * RecoilScript.WeaponBody.transform.forward);
-            waterParticles.transform.parent.transform.position = newPosition;
-            waterParticles.transform.parent.transform.localPosition += particlesLocalOffsetY;
+            MuzzleTransform.position = newPosition;
+            MuzzleTransform.localPosition += particlesLocalOffsetY;
+            
+
 
 
 
@@ -226,7 +243,8 @@ public class Weapon : MonoBehaviour {
             //Checks if shoot trigger is no longer called.
             if (inputTimer < Time.time - 0.05f || !isShooting)
             {
-                waterParticles.Stop();
+                if (!weaponData.isLauncher)
+                    waterParticles.Stop();
                 isShooting = false;
                 FMOD_Shooting.setValue(0);
             }
@@ -269,7 +287,8 @@ public class Weapon : MonoBehaviour {
                 return;
             if (weaponData.currentClipAmmo < weaponData.shotUsage || (weaponData.maxShootTime != 0 && shootTimer > weaponData.maxShootTime))
             {
-                waterParticles.Stop();
+                if (!weaponData.isLauncher)
+                    waterParticles.Stop();
                 isShooting = false;
                 return;
             }
@@ -281,23 +300,43 @@ public class Weapon : MonoBehaviour {
             //Reset animation bools making sure shooting animation gets played.
             gunAnim.SetBool("reload", false);
 
-            //Set WaterParticle parameters.
-            var main = waterParticles.main;
-            float currentShootSpeed = shootSpeed;
-
-            if(isContinuous)
+            if (!weaponData.isLauncher)
             {
-                currentShootSpeed = shootSpeed * input;
-                //Stops water particles from just falling down due to too little force. (Usual max speed is around 30-60)
-                if(currentShootSpeed < 5)
-                    currentShootSpeed = 5;
+                //Set WaterParticle parameters.
+                var main = waterParticles.main;
+                float currentShootSpeed = weaponData.shootSpeed;
+
+                if(isContinuous)
+                {
+                    currentShootSpeed = weaponData.shootSpeed * input;
+                    //Stops water particles from just falling down due to too little force. (Usual max speed is around 30-60)
+                    if(currentShootSpeed < 5)
+                        currentShootSpeed = 5;
+                }
+                else
+                    currentShootSpeed = weaponData.shootSpeed;
+
+                main.startSpeedMultiplier = currentShootSpeed;
+                if (!waterParticles.isPlaying || weaponData.alwaysPlayWaterOnShoot)
+                    waterParticles.Play();
             }
             else
-                currentShootSpeed = shootSpeed;
+            {
+                Quaternion randRot = new Quaternion(Random.Range(0,360),Random.Range(0,360),Random.Range(0,360),Random.Range(0,360));
+                Balloon balloon = Instantiate(weaponData.launcherProjectile, MuzzleTransform.position, randRot).GetComponent<Balloon>();
+                balloon.playerController = playerController;
+                balloon.Instantiate();
 
-            main.startSpeedMultiplier = currentShootSpeed;
-            if (!waterParticles.isPlaying || weaponData.alwaysPlayWaterOnShoot)
-                waterParticles.Play();
+                balloon.rb.AddForce(MuzzleTransform.forward * weaponData.shootSpeed, ForceMode.Impulse);
+                
+                //Grenade launcher stuff
+                //Instantiate balloon
+                //Set weapondata such as damage & collision amounts
+                //Give force to aimed direction
+                
+            }
+
+
             
             recoil.StartRecoil();
 
