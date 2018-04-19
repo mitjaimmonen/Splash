@@ -9,10 +9,13 @@ public class Balloon : MonoBehaviour {
 	public ParticleSystem trailEffect;
 	public Rigidbody rb;
 	public PlayerController playerController;
+	public float destroyTime = 5f;
+	[FMODUnity.EventRef] public string balloonSplashSE;
 
-	private ParticleLauncher particleLauncher;
+	public ParticleLauncher particleLauncher;
 	private Collider col;
 	private bool isInstantiated = false, isDestroying = false;
+	private float destroyTimer;
 
 	// Use this for initialization
 	public void Instantiate () {
@@ -29,7 +32,6 @@ public class Balloon : MonoBehaviour {
 		if (trailEffect)
 			trailEffect.Play();
 			
-		particleLauncher = balloonSplashParticles.GetComponent<ParticleLauncher>();
 		particleLauncher.Controller = playerController;
 		col = GetComponent<Collider>();
 		isInstantiated = true;
@@ -39,6 +41,15 @@ public class Balloon : MonoBehaviour {
 	{
 		if (isInstantiated)
 		{
+			BlowUp(other);
+		}
+
+	}
+
+	private void BlowUp(Collision other)
+	{
+		if (other != null)
+		{
 			var otherController = other.gameObject.GetComponent<PlayerController>();
 			if (otherController != null && otherController != playerController)
 			{
@@ -46,21 +57,32 @@ public class Balloon : MonoBehaviour {
 				otherController.TakeDamage(500, playerController);
 				playerController.DealDamage();
 			}
-			rb.isKinematic = true;
-			col.enabled = false;
-			model.SetActive(false);
-			trailEffect.Stop();
-			balloonSplashParticles.Play();
-			isDestroying = true;
 		}
 
+		rb.isKinematic = true;
+		col.enabled = false;
+		model.SetActive(false);
+		FMODUnity.RuntimeManager.PlayOneShot(balloonSplashSE, transform.position);
+		trailEffect.Stop();
+		balloonSplashParticles.Play();
+		isDestroying = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (isDestroying && !balloonSplashParticles.isPlaying)
+
+		if (isInstantiated)
 		{
-			Destroy(gameObject, 1f);
+			destroyTimer += Time.deltaTime;
+
+			if (destroyTimer > destroyTime && !isDestroying)
+				BlowUp(null);
+
+			if (isDestroying && !balloonSplashParticles.isPlaying)
+			{
+				Destroy(gameObject, 1f);
+			}
 		}
+
 	}
 }

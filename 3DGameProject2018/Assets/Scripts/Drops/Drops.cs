@@ -30,6 +30,7 @@ public class Drops : MonoBehaviour {
     public Rigidbody rb;
 
     private WeaponData weaponData;
+    private float triggerTimer = 0;
 
     [FMODUnity.EventRef] public string pickupSE;
 
@@ -44,10 +45,12 @@ public class Drops : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {        
-        if (other.gameObject.CompareTag("Player"))
+        Debug.Log("Trigger");
+        if (other.gameObject.CompareTag("Player") && triggerTimer < Time.time-0.25f)
         {
+            triggerTimer = Time.time;
             playerController = other.GetComponent<PlayerController>();
             if (pickupType == PickupEnum.healthPickup)
             {
@@ -55,12 +58,8 @@ public class Drops : MonoBehaviour {
                 playerController.CurrentHealth += pickupValue;
 
                 if (tempHealth != playerController.CurrentHealth)
-                {
-                    //Play sound
-                    // FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
-
                     Destroy(this.gameObject);
-                }
+                
                     
             } 
             else if (pickupType == PickupEnum.ammoPickup)
@@ -69,12 +68,8 @@ public class Drops : MonoBehaviour {
                 playerController.GlobalAmmo += pickupValue;
 
                 if (tempAmmo != playerController.GlobalAmmo)
-                {
-                    //Play sound
-                    // FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
-                    
                     Destroy(this.gameObject);
-                }
+                
             }
             else if (pickupType == PickupEnum.gunPickup)
             {
@@ -105,7 +100,7 @@ public class Drops : MonoBehaviour {
 
     void OnDestroy()
     {
-        Debug.Log("This might cause fmod error on application exit");
+        // Debug.Log("This might cause fmod error on application exit");
         FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
         
     }

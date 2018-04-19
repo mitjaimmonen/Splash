@@ -1007,7 +1007,8 @@ MonoBehaviour:
   crosshair: {fileID: 114523744916762582}
   healthSlider: {fileID: 114021276419553772}
   clipSlider: {fileID: 114984372668901308}
-  circleTimer: {fileID: 114293139055093160}
+  circleTimerSlider: {fileID: 114293139055093160}
+  circleSliderImage: {fileID: 114793999203770252}
   instructionText: {fileID: 114119195237098064}
   clipAmmoText: {fileID: 114989285849589684}
   globalAmmoText: {fileID: 114257647888127082}

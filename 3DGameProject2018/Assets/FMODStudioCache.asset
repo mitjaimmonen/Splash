@@ -55,7 +55,7 @@ MonoBehaviour:
   - {fileID: 114097349179239544}
   MasterBankRef: {fileID: 114900338470612820}
   StringsBankRef: {fileID: 114305681537062308}
-  stringsBankWriteTime: 636596561508865794
+  stringsBankWriteTime: 636597446677805064
   cacheVersion: 2
 --- !u!114 &114000559169655656
 MonoBehaviour:
@@ -252,6 +252,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114015823084465164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114016044414708790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,6 +444,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114026745999080294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114027017102567122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_wood
   Min: 0
   Max: 1
   Default: 0
@@ -846,6 +891,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114043585634475688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_ground
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114044976010170918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -996,6 +1056,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114056168456716260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114056603181651076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1071,6 +1146,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114060291343323202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114060518215922276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1143,6 +1233,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114062353785918226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
   Min: 0
   Max: 1
   Default: 0
@@ -1337,6 +1442,21 @@ MonoBehaviour:
   Max: 100
   Default: 0
 --- !u!114 &114073648207652368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114073778925665518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -1595,12 +1715,27 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114804762013343532}
-  - {fileID: 114068746213803358}
-  - {fileID: 114349567286581770}
+  - {fileID: 114646437699850174}
+  - {fileID: 114083996453641908}
+  - {fileID: 114507903162705722}
   MinDistance: 1
   MaxDistance: 20
   Length: 490
+--- !u!114 &114083996453641908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_metal
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114086463841754194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2410,13 +2545,13 @@ MonoBehaviour:
   guid: 5f6156654e30cb4585caa7d4f6c9cdee
   Banks:
   - {fileID: 114900338470612820}
-  IsStream: 1
+  IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
-  Length: 5000
+  MaxDistance: 35
+  Length: 1250
 --- !u!114 &114122687011197486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2551,6 +2686,21 @@ MonoBehaviour:
   Name: Shooting
   Min: 0
   Max: 1
+  Default: 0
+--- !u!114 &114129557392518470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
   Default: 0
 --- !u!114 &114129874875750034
 MonoBehaviour:
@@ -2968,6 +3118,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114151704598954378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114152153718493354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3178,6 +3343,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114159951031375656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114160259493993714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3235,6 +3415,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Surface_wood
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114163008223786610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_ground
   Min: 0
   Max: 1
   Default: 0
@@ -3448,6 +3643,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114171346722618972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114172028128227500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3597,6 +3807,21 @@ MonoBehaviour:
   Name: Magazine
   Min: 0
   Max: 100
+  Default: 0
+--- !u!114 &114179199264930158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
   Default: 0
 --- !u!114 &114179307920799034
 MonoBehaviour:
@@ -4340,10 +4565,10 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114892591116849386}
+  - {fileID: 114810705804150804}
   MinDistance: 1
   MaxDistance: 20
-  Length: 1000
+  Length: 991
 --- !u!114 &114213080466093618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4636,6 +4861,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114228205991488774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114228216047034472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4816,6 +5056,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114241413970110578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114244077978473946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4846,6 +5101,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114245045326681392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114245661559028406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4873,6 +5143,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Surface_hard
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114245800103208956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
   Min: 0
   Max: 1
   Default: 0
@@ -4913,6 +5198,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 280
+--- !u!114 &114247196653869480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_metal
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114247755535316738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4927,6 +5227,21 @@ MonoBehaviour:
   Name: Magazine
   Min: 0
   Max: 100
+  Default: 0
+--- !u!114 &114248347434111582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
   Default: 0
 --- !u!114 &114249774918726272
 MonoBehaviour:
@@ -5015,6 +5330,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114253727945894392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_wood
   Min: 0
   Max: 1
   Default: 0
@@ -5242,6 +5572,21 @@ MonoBehaviour:
   Name: CollisionStrength
   Min: 0
   Max: 100
+  Default: 0
+--- !u!114 &114264867403071584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
   Default: 0
 --- !u!114 &114265044386308544
 MonoBehaviour:
@@ -5508,8 +5853,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114625131464076018}
-  - {fileID: 114962352130643516}
+  - {fileID: 114073778925665518}
+  - {fileID: 114340654323026188}
   MinDistance: 1
   MaxDistance: 20
   Length: 2100
@@ -5585,6 +5930,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114277732898323686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_metal
   Min: 0
   Max: 1
   Default: 0
@@ -6114,7 +6474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\FMOD\Project\Build\Desktop\Master Bank.strings.bank
-  lastModified: 636596561508865794
+  lastModified: 636597446677805064
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -6450,6 +6810,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114320903851991424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_metal
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114320946161529990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6479,6 +6854,21 @@ MonoBehaviour:
   Name: MasterVolume
   Min: 0
   Max: 1
+  Default: 0
+--- !u!114 &114321479369876518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
   Default: 0
 --- !u!114 &114322160021594182
 MonoBehaviour:
@@ -6540,6 +6930,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114323215331384888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114323275961731370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6567,6 +6972,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Surface_metal
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114323445507855688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
   Min: 0
   Max: 1
   Default: 0
@@ -6769,6 +7189,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114331142374040378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
 --- !u!114 &114331948396302302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6919,6 +7354,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114339678987955600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
 --- !u!114 &114340198051670786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6946,6 +7396,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114340654323026188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
   Min: 0
   Max: 1
   Default: 0
@@ -7069,6 +7534,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114348686938149046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114349380313768386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7171,6 +7651,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114350992083335666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
   Min: 0
   Max: 1
   Default: 0
@@ -7336,6 +7831,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Surface_ground
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114360612487820910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
   Min: 0
   Max: 1
   Default: 0
@@ -7767,6 +8277,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114382129323847332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_ground
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114382136484769104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7906,6 +8431,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114387424602532384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
   Min: 0
   Max: 1
   Default: 0
@@ -9060,6 +9600,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114434270322065520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114434395106746900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9783,6 +10338,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114466785031172052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
 --- !u!114 &114467136891013538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9829,6 +10399,21 @@ MonoBehaviour:
   Max: 1
   Default: 0
 --- !u!114 &114468819824370898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
+--- !u!114 &114468823479755902
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -9933,6 +10518,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114474274693966724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114474494423579940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10023,6 +10623,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114477964919036050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114479266057483786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10087,10 +10702,25 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114142526036764492}
+  - {fileID: 114561817661132014}
   MinDistance: 1
   MaxDistance: 20
   Length: 6155
+--- !u!114 &114480830116686576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114481186836074888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10375,6 +11005,21 @@ MonoBehaviour:
   Name: Magazine
   Min: 0
   Max: 100
+  Default: 0
+--- !u!114 &114495695266838294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
   Default: 0
 --- !u!114 &114496544323786726
 MonoBehaviour:
@@ -10676,6 +11321,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114507903162705722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_ground
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114508334676451262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10778,6 +11438,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Surface_wood
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114513811846427118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
   Min: 0
   Max: 1
   Default: 0
@@ -10973,6 +11648,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114522569396877116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
   Min: 0
   Max: 1
   Default: 0
@@ -11175,8 +11865,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114842902239898706}
-  - {fileID: 114807523299966904}
+  - {fileID: 114350992083335666}
+  - {fileID: 114339678987955600}
   MinDistance: 1
   MaxDistance: 20
   Length: 0
@@ -11540,6 +12230,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114548668328706476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_wood
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114548798569882460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11627,7 +12332,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114702748067535114}
+  - {fileID: 114015823084465164}
   MinDistance: 1
   MaxDistance: 20
   Length: 500
@@ -11823,6 +12528,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114561817661132014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
   Min: 0
   Max: 1
   Default: 0
@@ -13177,6 +13897,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114626674170178476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114628136741274694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13446,6 +14181,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 115679
+--- !u!114 &114636744040127476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114637551271808946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13544,8 +14294,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114457104326166322}
-  - {fileID: 114265044386308544}
+  - {fileID: 114726065438100028}
+  - {fileID: 114434270322065520}
   MinDistance: 1
   MaxDistance: 20
   Length: 3591
@@ -13670,6 +14420,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114646437699850174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_wood
   Min: 0
   Max: 1
   Default: 0
@@ -13955,6 +14720,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Surface_ground
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114666770492423372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
   Min: 0
   Max: 1
   Default: 0
@@ -14520,6 +15300,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114701506002401478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114701858159459812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14607,6 +15402,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114705252592203682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_metal
   Min: 0
   Max: 1
   Default: 0
@@ -14821,6 +15631,21 @@ MonoBehaviour:
   Max: 1
   Default: 0
 --- !u!114 &114714083973171102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114714772869127672
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -15078,6 +15903,36 @@ MonoBehaviour:
   Name: CollisionStrength
   Min: 0
   Max: 100
+  Default: 0
+--- !u!114 &114726065438100028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114726786321750554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
   Default: 0
 --- !u!114 &114727050703426658
 MonoBehaviour:
@@ -15360,6 +16215,21 @@ MonoBehaviour:
   - Name: Desktop
     Value: 1590880
   Exists: 1
+--- !u!114 &114738164649510100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114738545666434724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15653,7 +16523,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114638813488442542}
+  - {fileID: 114848317607679270}
   MinDistance: 1
   MaxDistance: 20
   Length: 5000
@@ -15684,6 +16554,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Surface_metal
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114752582794370952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
   Min: 0
   Max: 1
   Default: 0
@@ -15833,6 +16718,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114761154448388380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114761229668777468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15924,6 +16824,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114768346790693218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_wood
   Min: 0
   Max: 1
   Default: 0
@@ -16414,6 +17329,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114789046790000296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114791420448428480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16458,6 +17388,36 @@ MonoBehaviour:
   Name: Magazine
   Min: 0
   Max: 100
+  Default: 0
+--- !u!114 &114793008943620390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114794716995051382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
+  Min: 0
+  Max: 1
   Default: 0
 --- !u!114 &114795307337116456
 MonoBehaviour:
@@ -16787,6 +17747,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114810705804150804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
 --- !u!114 &114811466400484556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16851,6 +17826,21 @@ MonoBehaviour:
   - Name: Desktop
     Value: 1762336
   Exists: 1
+--- !u!114 &114815429758100406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114816288904215920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16941,6 +17931,36 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114820037865490042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114820293288568254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114821356306762322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16955,6 +17975,21 @@ MonoBehaviour:
   Name: Surface_ground
   Min: 0
   Max: 1
+  Default: 0
+--- !u!114 &114821422715534438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
   Default: 0
 --- !u!114 &114821734909043108
 MonoBehaviour:
@@ -17125,6 +18160,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114829714184919590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
   Min: 0
   Max: 1
   Default: 0
@@ -17428,7 +18478,37 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114845907683582032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
 --- !u!114 &114846294719857608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114848317607679270
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -17653,6 +18733,21 @@ MonoBehaviour:
   Min: 0
   Max: 100
   Default: 0
+--- !u!114 &114854695244057332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114855838037811566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17788,6 +18883,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114860212546372486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FlowToBurst
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114860485500291662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17900,6 +19010,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114865834897615868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114867526301447510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18005,6 +19130,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114870709101351362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114871646441835906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18034,6 +19174,21 @@ MonoBehaviour:
   Name: Magazine
   Min: 0
   Max: 100
+  Default: 0
+--- !u!114 &114873906955922886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Shooting
+  Min: 0
+  Max: 1
   Default: 0
 --- !u!114 &114874423978071278
 MonoBehaviour:
@@ -18580,11 +19735,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: C:\Users\Laptop\Documents\Git\3DGameProject2018\3DGameProject2018\Assets\FMOD\Project\Build\Desktop\Master
     Bank.bank
-  lastModified: 636596561508805630
+  lastModified: 636597446677704794
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 9546560
+    Value: 8718336
   Exists: 1
 --- !u!114 &114900933848390334
 MonoBehaviour:
@@ -19092,7 +20247,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114746302652588648}
+  - {fileID: 114794716995051382}
   MinDistance: 1
   MaxDistance: 20
   Length: 1220
@@ -19110,6 +20265,36 @@ MonoBehaviour:
   Name: CollisionStrength
   Min: 0
   Max: 100
+  Default: 0
+--- !u!114 &114924573696055878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MasterVolume
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114925161577388560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Surface_ground
+  Min: 0
+  Max: 1
   Default: 0
 --- !u!114 &114925775612714666
 MonoBehaviour:
@@ -19695,6 +20880,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1350
+--- !u!114 &114947586584785750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Magazine
+  Min: 0
+  Max: 100
+  Default: 0
 --- !u!114 &114947728165511592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19774,8 +20974,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114025980253863990}
-  - {fileID: 114422462668254772}
+  - {fileID: 114738164649510100}
+  - {fileID: 114474274693966724}
   MinDistance: 1
   MaxDistance: 20
   Length: 3000

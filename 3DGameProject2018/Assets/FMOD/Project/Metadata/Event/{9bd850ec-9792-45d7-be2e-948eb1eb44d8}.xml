@@ -176,7 +176,7 @@
     </object>
     <object class="MixerBusEffectChain" id="{81738a95-c87f-45b2-8b83-8e137a012931}">
         <relationship name="effects">
-            <destination>{ad09361b-d8c0-48e0-b050-5d4d20585710}</destination>
+            <destination>{b22a2573-3cd6-4f7c-822b-3f5d869c0956}</destination>
             <destination>{aa8286c9-3104-4b14-b3b7-dd896c8fa276}</destination>
         </relationship>
     </object>
@@ -213,9 +213,18 @@
             <value>0</value>
         </property>
     </object>
-    <object class="LowpassEffect" id="{ad09361b-d8c0-48e0-b050-5d4d20585710}">
-        <property name="cutoff">
-            <value>9000</value>
+    <object class="MultibandEqEffect" id="{b22a2573-3cd6-4f7c-822b-3f5d869c0956}">
+        <property name="filterTypeA">
+            <value>7</value>
+        </property>
+        <property name="frequencyA">
+            <value>1068.27954</value>
+        </property>
+        <property name="qualityA">
+            <value>0.497689635</value>
+        </property>
+        <property name="gainA">
+            <value>19.1379299</value>
         </property>
     </object>
     <object class="MixerBusFader" id="{aa8286c9-3104-4b14-b3b7-dd896c8fa276}"/>

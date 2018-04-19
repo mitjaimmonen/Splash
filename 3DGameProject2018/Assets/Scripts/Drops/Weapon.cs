@@ -26,6 +26,7 @@ public class Weapon : MonoBehaviour {
     public GameObject weaponPickup;
     public Transform MuzzleTransform;
     public GameObject leftArmPoint, rightArmPoint;
+    public GameObject arms;
 
     [Tooltip("Does weapon reload automatically when empty.")]
     public bool autoReload = true;
@@ -132,7 +133,7 @@ public class Weapon : MonoBehaviour {
             Debug.LogWarning("No Animator found!");
 
         if (!leftArmPoint || !rightArmPoint)
-            Debug.LogWarning("Arm points not assigned. Arms wont be moved.");
+                Debug.LogWarning("Arm points not assigned. Arms wont be moved.");
         if (MuzzleTransform == null)
         {
             foreach (Transform trans in GetComponentInChildren<Transform>(true))
@@ -141,6 +142,9 @@ public class Weapon : MonoBehaviour {
                     MuzzleTransform = trans;
             }
         }
+
+        if (arms)
+            arms.layer = LayerMask.NameToLayer("Culling" + playerController.playerNumber);
         
         if (!weaponData.isLauncher)
         {
@@ -165,7 +169,7 @@ public class Weapon : MonoBehaviour {
             playerController.CurrentAmmo = weaponData.currentClipAmmo;
             playerController.CurrentDamage = weaponData.damage;
             playerController.rigController.SwitchArmPoints(leftArmPoint, rightArmPoint);
-            playerController.armRigController.SwitchArmPoints(leftArmPoint, rightArmPoint);
+            // playerController.armRigController.SwitchArmPoints(leftArmPoint, rightArmPoint);
         }
         else
         {
@@ -325,8 +329,10 @@ public class Weapon : MonoBehaviour {
                 Quaternion randRot = new Quaternion(Random.Range(0,360),Random.Range(0,360),Random.Range(0,360),Random.Range(0,360));
                 Balloon balloon = Instantiate(weaponData.launcherProjectile, MuzzleTransform.position, randRot).GetComponent<Balloon>();
                 balloon.playerController = playerController;
+                balloon.particleLauncher.MaxLoopCount = 3;
                 balloon.Instantiate();
 
+                balloon.rb.AddTorque(new Vector3(Random.Range(-100,100), Random.Range(-100,100), Random.Range(-100,100)), ForceMode.Impulse);
                 balloon.rb.AddForce(MuzzleTransform.forward * weaponData.shootSpeed, ForceMode.Impulse);
                 
                 //Grenade launcher stuff

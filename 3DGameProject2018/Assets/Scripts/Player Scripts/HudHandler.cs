@@ -23,7 +23,9 @@ public class HudHandler : MonoBehaviour {
         public Image healthIcon, throwableIcon, damageIndicator, hitmarker, crosshair;
         public Slider healthSlider;
         public Slider clipSlider;
-        public Slider circleTimer;
+        public Slider circleTimerSlider;
+        public Image circleSliderImage;
+        
         public Text instructionText;
         public Text clipAmmoText;
         public Text globalAmmoText;
@@ -36,6 +38,7 @@ public class HudHandler : MonoBehaviour {
     public float hitMarkerTime = 0.15f, damageIndicatorTime = 1f;
     public Color damageIndicatorColor;
     public PlayerController playerController;
+
 
     private int maxHealth, currentHealth;
     private int globalAmmo, clipSize, currentAmmo;
@@ -51,7 +54,7 @@ public class HudHandler : MonoBehaviour {
         oldCurrentHealth = playerController.CurrentHealth;
         hitmarkerScale = crosshair.transform.localScale;
         oldCurrentAmmo = playerController.CurrentAmmo;
-        UpdatePickupUI(false);
+        UpdatePickupUI(false, 0);
     }
 
     private void Update() 
@@ -69,6 +72,14 @@ public class HudHandler : MonoBehaviour {
             noAlpha.a = 0;
             UpdateDamageIndicator();
             damageIndicator.color = Color.Lerp(damageIndicator.color, noAlpha, Time.deltaTime * 5f);
+        }
+
+        if (circleSliderImage.color.a != 0)
+        {
+            noAlpha = circleSliderImage.color;
+            noAlpha.a = 0;
+            circleSliderImage.color = Color.Lerp(circleSliderImage.color, noAlpha, Time.deltaTime * 5f);
+            instructionText.color = Color.Lerp(instructionText.color, noAlpha, Time.deltaTime * 5f);
         }
         
         if (hitmarkerTimer < hitMarkerTime)
@@ -108,12 +119,21 @@ public class HudHandler : MonoBehaviour {
     }
 
 
-    public void UpdatePickupUI(bool setElementsActive)
+    public void UpdatePickupUI(bool setElementsActive, float time)
     {
         if (!setElementsActive)
         {
-            circleTimer.gameObject.SetActive(false);
             instructionText.gameObject.SetActive(false);
+            circleTimerSlider.gameObject.SetActive(false);
+        }
+        else
+        {
+            circleTimerSlider.gameObject.SetActive(true);
+            instructionText.gameObject.SetActive(true);
+            
+            instructionText.color = Color.white;
+            circleSliderImage.color = Color.white;
+            circleTimerSlider.value = time;
         }
     }
 

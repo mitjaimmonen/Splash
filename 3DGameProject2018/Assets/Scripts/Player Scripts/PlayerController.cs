@@ -548,21 +548,29 @@ public class PlayerController : MonoBehaviour, IWater
                     else
                     {
                         swapTimer += Time.deltaTime;
+                        swapTimer = Mathf.Clamp(swapTimer,0f,1f);
                         //Hud update swaptimer ui
                     }
                     interactTimer = 0;
 
-                    if (pickupAllowed && pickupDrop != null && pickupTimer > 0.05f)
+                    if (pickupTimer > 0.05f)
                     {
                         if (carriedWeapons.Count < maxWeapons)
                         {
                             pickupTimer = 0;
                             PickupWeapon();
-                        } else if (carriedWeapons.Count >= maxWeapons && swapTimer > 0.75f)
+                        } else if (carriedWeapons.Count >= maxWeapons)
                         {
-                            pickupTimer = 0;
-                            swapTimer = 0;
-                            SwapWeapon();
+                            if (swapTimer == 1f)
+                            {
+                                pickupTimer = 0;
+                                SwapWeapon();
+                            }
+                            else
+                            {
+                                hud.UpdatePickupUI(true,swapTimer);
+                            }
+
                         }
                     }
 
@@ -680,58 +688,58 @@ public class PlayerController : MonoBehaviour, IWater
         pickupAllowed = isAllowed;
         pickupData = data;
 
-        if (pickupAllowed && isAlive)
-        {
-            if (autoPickup && pickupDrop != null)
-            {
-                PickupWeapon();
-            }
-        }
+        if (autoPickup)
+            PickupWeapon();
+        
     }
 
     //Picks up new weapon to carry
     public void PickupWeapon()
     {
-        Debug.Log("PickupWEapon called");
-        foreach (var weapon in carriedWeapons)
+        if (isAlive && pickupDrop != null && pickupAllowed)
         {
-            if (weapon.name == pickupDrop.pickupWeapon.name)
+            Debug.Log("PickupWEapon called");
+            foreach (var weapon in carriedWeapons)
             {
-                Debug.Log("Carrying this weapon already.");
-                //Already have this weapon, trying to take ammo
-                int oldGlobalAmmo = GlobalAmmo;
-                GlobalAmmo += pickupData.currentClipAmmo;
-                if (oldGlobalAmmo != GlobalAmmo)
+                if (weapon.name == pickupDrop.pickupWeapon.name)
                 {
-                    Debug.Log("Took ammo, destroying pickup.");
-                    Destroy(pickupDrop.gameObject);
-                    return;
-                }
-                else
-                {
-                    Debug.Log("Ammo full. Cannot pick up.");
-                    return;
+                    Debug.Log("Carrying this weapon already.");
+                    //Already have this weapon, trying to take ammo
+                    int oldGlobalAmmo = GlobalAmmo;
+                    GlobalAmmo += pickupData.currentClipAmmo;
+                    if (oldGlobalAmmo != GlobalAmmo)
+                    {
+                        Debug.Log("Took ammo, destroying pickup.");
+                        Destroy(pickupDrop.gameObject);
+                        return;
+                    }
+                    else
+                    {
+                        Debug.Log("Ammo full. Cannot pick up.");
+                        return;
+                    }
+
                 }
 
             }
 
+            if (carriedWeapons.Count < maxWeapons)
+            {
+                Debug.Log("New weapon picked up");
+                carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position, transform.rotation));
+                PersonalExtensions.CopyComponentValues<WeaponData>(pickupData, carriedWeapons[carriedWeapons.Count-1].gameObject);
+                carriedWeapons[carriedWeapons.Count-1].gameObject.name = pickupDrop.pickupWeapon.gameObject.name;
+                carriedWeapons[carriedWeapons.Count-1].playerController = this;
+                carriedWeapons[carriedWeapons.Count-1].Initialize();
+                carriedWeapons[carriedWeapons.Count-1].Deactivate();
+
+                Destroy(pickupDrop.gameObject);
+
+                if (switchOnPickup)
+                    SwitchWeapon(carriedWeapons.Count-1);
+            }
         }
-
-        if (carriedWeapons.Count < maxWeapons)
-        {
-            Debug.Log("New weapon picked up");
-            carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position, transform.rotation));
-            PersonalExtensions.CopyComponentValues<WeaponData>(pickupData, carriedWeapons[carriedWeapons.Count-1].gameObject);
-            carriedWeapons[carriedWeapons.Count-1].gameObject.name = pickupDrop.pickupWeapon.gameObject.name;
-            carriedWeapons[carriedWeapons.Count-1].playerController = this;
-            carriedWeapons[carriedWeapons.Count-1].Initialize();
-            carriedWeapons[carriedWeapons.Count-1].Deactivate();
-
-            Destroy(pickupDrop.gameObject);
-
-            if (switchOnPickup)
-                SwitchWeapon(carriedWeapons.Count-1);
-        }
+       
     }
 
     //Switches between carried weapons
@@ -760,6 +768,17 @@ public class PlayerController : MonoBehaviour, IWater
     {
         //Create weapon pickup and remove weapon from player.
         Debug.Log("SwapWEapon called");
+
+        foreach (var weapon in carriedWeapons)
+        {
+            if (weapon.name == pickupDrop.pickupWeapon.name)
+            {
+                Debug.Log("Carrying this weapon already.");
+                return;
+            }
+        }
+
+
         DropWeapon(true);
         carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position, transform.rotation));
         weaponIndex = carriedWeapons.Count-1; //Index updates to be list's last item
@@ -820,7 +839,7 @@ public class PlayerController : MonoBehaviour, IWater
             ColBehaviour.soundBehaviour.PlayDestroy(rigController.transform.position);
             cameraHandler.Die(attacker);
             rigController.Die();
-            armRigController.Die();
+            // armRigController.Die();
 
             foreach(Collider col in damageColliders)
             {

@@ -172,10 +172,10 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1978878069188386}
   serializedVersion: 2
-  m_Mass: 5
+  m_Mass: 2
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -213,6 +213,9 @@ MonoBehaviour:
   trailEffect: {fileID: 198841915862306758}
   rb: {fileID: 54546764050668602}
   playerController: {fileID: 0}
+  destroyTime: 5
+  balloonSplashSE: event:/Water Collisions/Water balloon
+  particleLauncher: {fileID: 114739318833858566}
 --- !u!114 &114739318833858566
 MonoBehaviour:
   m_ObjectHideFlags: 1

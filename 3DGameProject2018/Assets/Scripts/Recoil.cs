@@ -14,8 +14,8 @@ public class Recoil : MonoBehaviour {
 	private GameObject body;
 
 
-	private float rotX, newRotX, rotTime, rotEndTime, rotStartTime;
-	private float posZ, newPosZ, posTime, posEaseInTime, posEaseOutTime;
+	private float rotX, newRotX, rotTime, rotReturnTime, rotBeginTime;
+	private float posZ, newPosZ, posTime, posReturnTime, posBeginTime;
 	private Vector3 oldPosBody, oldRot;
 
 
@@ -57,28 +57,46 @@ public class Recoil : MonoBehaviour {
 		if (rotDelay >0)
 			yield return new WaitForSeconds(rotDelay);
 
-		float timer = Time.time;
+		float timer = Time.time, rotEndTime = 0;
 		Vector3 localRot = body.transform.localEulerAngles;
+		float startRotX = localRot.x;
+		newRotX = startRotX + recoilAngle;
 
 		while (timer > Time.time - rotationTime)
 		{
-			rotX = localRot.x;
+			// rotX = localRot.x;
 
 			rotTime = (Time.time - timer)/rotationTime; //Lerp timer
-			rotStartTime = Mathf.Sin(rotTime * Mathf.PI * 0.5f) / recoilStartTimeDivider; //Ease out
-			rotEndTime = rotTime*rotTime; //Ease in
+			rotEndTime = (rotTime - recoilStartTimeDivider) / (1-recoilStartTimeDivider);
+
+			rotBeginTime = Mathf.Sin((rotTime/recoilStartTimeDivider) * Mathf.PI * 0.5f); //Ease out
+			rotReturnTime = rotEndTime*rotEndTime * (3f - 2f*rotEndTime); //SmoothStep
 
 			//Eulers fuckup if they are negative, this converts them to positive
-			rotX%=360;  
-			if(rotX >180)
-				rotX-= 360;
+			startRotX%=360;  
+			if(startRotX >180)
+				startRotX-= 360;
+			
+			newRotX%=360;
+			if (newRotX > 180)
+				newRotX-=360;
+			if (newRotX < -85)
+				newRotX = -85f;
+			
+			if (rotTime < recoilStartTimeDivider)
+			{
+				//Recoil up
+				rotX = Mathf.Lerp(startRotX, newRotX, rotBeginTime);
+			}
+			else if (rotTime <= 1f)
+			{
+				//Recoil return
+				rotX = Mathf.Lerp(newRotX, oldRot.x, rotReturnTime);
+			}
 
-			newRotX = rotX + recoilAngle;
-			if (rotStartTime <= 1)
-				rotX = Mathf.Lerp(rotX, newRotX, rotStartTime); //Recoil rotation start
-			rotX = Mathf.Lerp(newRotX, oldRot.x, rotTime); 		//Recoil rotation return
+			rotX = Mathf.Lerp(rotX, oldRot.x, rotTime);
+
 			localRot.x = rotX;
-
 			body.transform.localEulerAngles = localRot;			
 			
 			yield return null;
@@ -94,20 +112,25 @@ public class Recoil : MonoBehaviour {
 		if (posDelay >0)
 			yield return new WaitForSeconds(posDelay);
 
-		float timer = Time.time;
+		float timer = Time.time, posEndTime=0;
 		Vector3 localPosBody = body.transform.localPosition;
+		float startPosZ = localPosBody.z;
+		newPosZ = startPosZ + recoilPosition;
+
 
 		while (timer > Time.time - positionTime)
 		{
 			posTime = (Time.time - timer)/positionTime;
-			posEaseOutTime = Mathf.Sin(posTime * Mathf.PI * 0.5f) / recoilStartTimeDivider;
-			posEaseInTime = posTime*posTime;
+			posEndTime = (posTime - recoilStartTimeDivider) / (1-recoilStartTimeDivider);
 
-			newPosZ = oldPosBody.z + recoilPosition;
-			if (posEaseOutTime <= 1)
-				posZ = Mathf.Lerp(posZ, newPosZ, posEaseOutTime);
-				
-			posZ = Mathf.Lerp(posZ, oldPosBody.z, posEaseInTime);
+			posBeginTime = Mathf.Sin((posTime / recoilStartTimeDivider) * Mathf.PI * 0.5f); //Ease out
+			posReturnTime = posEndTime * posEndTime * (3f - 2f*posEndTime); //SmoothStep
+
+			if (posTime < recoilStartTimeDivider)
+				posZ = Mathf.Lerp(startPosZ, newPosZ, posBeginTime);
+			else
+				posZ = Mathf.Lerp(newPosZ, oldPosBody.z, posReturnTime);
+
 			localPosBody.z = posZ;
 			body.transform.localPosition = localPosBody;
 
