@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour, IWater
 
 
     #region Weapon
-        
+
         [SerializeField, Tooltip ("Switches to picked up weapon instantly.")]
         private bool switchOnPickup;
         [SerializeField, Tooltip ("Picks up new weapon instantly if space available")]
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour, IWater
         private int maxWeapons = 2, maxGlobalAmmo = 150;
 
         private Weapon currentWeapon; //Active weapon
-        private Weapon defaultWeapon; //Reference to a prefab, taken from first carriedWeapons list item.        
+        private Weapon defaultWeapon; //Reference to a prefab, taken from first carriedWeapons list item.
         private Drops pickupDrop; //Updates every time weapon drop is nearby
         private WeaponData pickupData; //Updates every time weapon drop is nearby
         private int clipSize, currentAmmo, globalAmmo;
@@ -58,7 +58,8 @@ public class PlayerController : MonoBehaviour, IWater
     private bool isAlive = true;
     private bool isAimRaycastHit = false; //Used for aiming the center of screen
     private int currentDamage = 0;
-    private float runningTimer = 0, movingTimer = 0, interactTimer = 0, pickupTimer = 0, swapTimer = 0;
+    private float runningTimer = 0, movingTimer = 0, interactTimer = 0, swapTimer = 0;
+    private bool isSwapped = false; //Was weapon swapped already
     private int maxHealth = 100;
     //Classes
     public CanvasOverlayHandler canvasOverlay;
@@ -234,7 +235,7 @@ public class PlayerController : MonoBehaviour, IWater
             canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
             canvasOverlay.SetOverlay(currentPlayers);
         }
-        
+
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
         hud.playerController = this;
 
@@ -258,7 +259,7 @@ public class PlayerController : MonoBehaviour, IWater
         cameraHandler.playerController = this;
         cameraHandler.target = playerHead;
         cameraHandler.SetViewport(currentPlayers, playerNumber);
-        
+
         rigController = GetComponentInChildren<RigController>();
         armRigController = GetComponentInChildren<ArmRigController>();
         collisionBehaviour = GetComponent<CollisionBehaviour>();
@@ -271,7 +272,7 @@ public class PlayerController : MonoBehaviour, IWater
             Debug.LogError("CarriedWeapons count should always be at least 1!");
         else
         {
-            weaponIndex = 0; 
+            weaponIndex = 0;
             defaultWeapon = carriedWeapons[weaponIndex]; //Default weapon always asset reference, not instantiated object
 
             for(int i = 0; i < carriedWeapons.Count; i++)
@@ -284,7 +285,7 @@ public class PlayerController : MonoBehaviour, IWater
                 carriedWeapons[i].Deactivate();
             }
 
-            //Create gun from the first item in carriedWeapons list & give parameters 
+            //Create gun from the first item in carriedWeapons list & give parameters
             currentWeapon = carriedWeapons[weaponIndex];
 
         }
@@ -293,12 +294,12 @@ public class PlayerController : MonoBehaviour, IWater
 
     private void Start()
     {
-        currentWeapon.Activate();         
+        currentWeapon.Activate();
         rotationH = transform.localEulerAngles.y;
         hud.UpdateAmmo();
         capsule = GetComponent<CapsuleCollider>();
         gunsParent.transform.localPosition += cameraHandler.offsetFromHead;
-        
+
     }
     //Physics
     private void FixedUpdate()
@@ -306,8 +307,6 @@ public class PlayerController : MonoBehaviour, IWater
         //Timers
         runningTimer += Time.deltaTime;
         movingTimer += Time.deltaTime;
-        interactTimer += Time.deltaTime;
-        pickupTimer += Time.deltaTime;
         /*tempVel = new Vector3(tempVel.x,0, tempVel.z).normalized *playerSpeed;*/
         velocity += new Vector3(tempVel.x , 0, tempVel.z);
         tempVel = Vector3.zero;
@@ -496,7 +495,7 @@ public class PlayerController : MonoBehaviour, IWater
     }
 
 
-    #region Implementations 
+    #region Implementations
 
         public float psSplashSizeMultiplier = 10f;
         public ParticleSplash psSplash;
@@ -516,7 +515,7 @@ public class PlayerController : MonoBehaviour, IWater
         public float SplashSizeMultiplier
         {
             get{ return psSplashSizeMultiplier; }
-            set{ psSplashSizeMultiplier = value; }   
+            set{ psSplashSizeMultiplier = value; }
         }
         public void WaterInteraction(){
             //do interaction
@@ -541,56 +540,58 @@ public class PlayerController : MonoBehaviour, IWater
                 {
                     Rotate(input[1],float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
                 }
-                if (input[1] == "Y")
+                if (input[1] == "Y") //Used for world interactions such as pickup and swapping weapons
                 {
-                    if (interactTimer > 0.05f)
-                        swapTimer = 0;
-                    else
+                    if (interactTimer < Time.time - 0.1f) // If button has been released
                     {
-                        swapTimer += Time.deltaTime;
-                        swapTimer = Mathf.Clamp(swapTimer,0f,1f);
-                        //Hud update swaptimer ui
-                    }
-                    interactTimer = 0;
-
-                    if (pickupTimer > 0.05f)
-                    {
+                        swapTimer = Time.time;
+                        isSwapped = false;
                         if (carriedWeapons.Count < maxWeapons)
                         {
-                            pickupTimer = 0;
                             PickupWeapon();
-                        } else if (carriedWeapons.Count >= maxWeapons)
+                        }
+                    }
+                    else // If button is being held down
+                    {
+                        if (carriedWeapons.Count >= maxWeapons && !isSwapped && pickupAllowed)
                         {
-                            if (swapTimer == 1f)
+                            if (swapTimer < Time.time - 1f)
                             {
-                                pickupTimer = 0;
+                                isSwapped = true;
                                 SwapWeapon();
                             }
                             else
                             {
-                                hud.UpdatePickupUI(true,swapTimer);
+                                float uiTime = Mathf.Clamp((Time.time - swapTimer),0f,1f);
+                                hud.UpdateCircleTimer(uiTime);
                             }
-
+                        }
+                        else
+                        {
+                            swapTimer = Time.time;
                         }
                     }
 
-
+                    interactTimer = Time.time;
+                    
                 }
+
+                    
                 if (input[1] == "B")
                 {
-                    if (interactTimer > 0.05f)
+                    if (Time.time - interactTimer > 0.1f)
                     {
                         DropWeapon(false);
                     }
-                    interactTimer = 0;
+                    interactTimer = Time.time;
                 }
                 if (input[1] == "R1")
                 {
-                    if (interactTimer > 0.05f)
+                    if (Time.time - interactTimer > 0.1f)
                     {
-                        SwitchWeapon(1+weaponIndex);                
+                        SwitchWeapon(1+weaponIndex);
                     }
-                    interactTimer = 0;
+                    interactTimer = Time.time;
                 }
                 if (input[1] == "R2")
                 {
@@ -606,7 +607,7 @@ public class PlayerController : MonoBehaviour, IWater
 
     #endregion
 
-    private void Rotate(string axis, float magnitude) 
+    private void Rotate(string axis, float magnitude)
     {
         switch(axis)
         {
@@ -674,7 +675,7 @@ public class PlayerController : MonoBehaviour, IWater
 
 
     public void PlatformJump(float multiplier) {
-        
+
         velocity.y = JumpVelocity * multiplier;
         isGrounded = false;
     }
@@ -688,9 +689,42 @@ public class PlayerController : MonoBehaviour, IWater
         pickupAllowed = isAllowed;
         pickupData = data;
 
-        if (autoPickup)
-            PickupWeapon();
-        
+        if (pickupAllowed)
+        {
+            //Check if you have this weapon & if space for ammo. Destroy pickup if took any ammo
+            foreach (var weapon in carriedWeapons)
+            {
+                if (weapon.name == pickupDrop.pickupWeapon.name)
+                {
+                    //Already have this weapon, trying to take ammo
+                    int oldGlobalAmmo = GlobalAmmo;
+                    GlobalAmmo += pickupData.currentClipAmmo;
+                    if (oldGlobalAmmo != GlobalAmmo)
+                    {
+                        Destroy(pickupDrop.gameObject);
+                    }
+                    return;
+                }
+            }
+
+            //If no space in inventory, update instruction text for swapping.
+            if (carriedWeapons.Count >= maxWeapons)
+                hud.UpdateInstructions(pickupAllowed,pickupDrop.pickupWeapon.gameObject.name, GamepadButton.Y);
+
+            else if (carriedWeapons.Count < maxWeapons)
+            {
+                if (autoPickup)
+                    PickupWeapon();
+                else
+                    hud.UpdateInstructions(pickupAllowed, pickupDrop.pickupWeapon.gameObject.name, GamepadButton.Y);
+            }
+
+        }
+        else
+        {
+            //If pickup not allowed, disable instruction text
+            hud.UpdateInstructions(pickupAllowed,"", GamepadButton.Y);
+        }
     }
 
     //Picks up new weapon to carry
@@ -698,31 +732,6 @@ public class PlayerController : MonoBehaviour, IWater
     {
         if (isAlive && pickupDrop != null && pickupAllowed)
         {
-            Debug.Log("PickupWEapon called");
-            foreach (var weapon in carriedWeapons)
-            {
-                if (weapon.name == pickupDrop.pickupWeapon.name)
-                {
-                    Debug.Log("Carrying this weapon already.");
-                    //Already have this weapon, trying to take ammo
-                    int oldGlobalAmmo = GlobalAmmo;
-                    GlobalAmmo += pickupData.currentClipAmmo;
-                    if (oldGlobalAmmo != GlobalAmmo)
-                    {
-                        Debug.Log("Took ammo, destroying pickup.");
-                        Destroy(pickupDrop.gameObject);
-                        return;
-                    }
-                    else
-                    {
-                        Debug.Log("Ammo full. Cannot pick up.");
-                        return;
-                    }
-
-                }
-
-            }
-
             if (carriedWeapons.Count < maxWeapons)
             {
                 Debug.Log("New weapon picked up");
@@ -739,13 +748,12 @@ public class PlayerController : MonoBehaviour, IWater
                     SwitchWeapon(carriedWeapons.Count-1);
             }
         }
-       
+
     }
 
     //Switches between carried weapons
     public void SwitchWeapon(int index)
     {
-        Debug.Log("Switch weapon called");
         if (index > carriedWeapons.Count-1)
             weaponIndex = 0;
         else
@@ -756,31 +764,30 @@ public class PlayerController : MonoBehaviour, IWater
         {
             if (currentWeapon)
                 currentWeapon.Deactivate();
-            
+
             currentWeapon = carriedWeapons[weaponIndex];
             currentWeapon.Activate();
 
         }
-        
+
     }
     //Swaps current weapon to new and throws current away
     public void SwapWeapon()
     {
-        //Create weapon pickup and remove weapon from player.
-        Debug.Log("SwapWEapon called");
-
+        if (!pickupAllowed)
+            return;
+     
         foreach (var weapon in carriedWeapons)
         {
             if (weapon.name == pickupDrop.pickupWeapon.name)
             {
-                Debug.Log("Carrying this weapon already.");
                 return;
             }
         }
 
 
         DropWeapon(true);
-        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position, transform.rotation));
+        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position + transform.forward, Quaternion.Euler(transform.right)));
         weaponIndex = carriedWeapons.Count-1; //Index updates to be list's last item
         currentWeapon = carriedWeapons[weaponIndex];
         currentWeapon.name = pickupDrop.pickupWeapon.name; //Prevents name to be a "(clone)"
@@ -792,13 +799,12 @@ public class PlayerController : MonoBehaviour, IWater
         Destroy(pickupDrop.gameObject);
     }
 
+    //Autopickup must be disabled to use this function
     public void DropWeapon(bool isReplaced)
     {
-        
         if ((carriedWeapons.Count > 1 && !autoPickup) || isReplaced) // Player must have at least one weapon
         {
-            Debug.Log("Dropping current weapon");
-            GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, currentWeapon.transform.position, transform.rotation);
+            GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, transform.position + transform.forward, Quaternion.LookRotation(transform.right));
             PersonalExtensions.CopyComponentValues<WeaponData>(currentWeapon.weaponData, swappedGunPickup);
             Destroy(currentWeapon.gameObject);
             carriedWeapons.RemoveAt(weaponIndex);
@@ -856,14 +862,14 @@ public class PlayerController : MonoBehaviour, IWater
             StartCoroutine(RespawnTimer());
         }
 
-        
+
     }
     private IEnumerator RespawnTimer()
     {
         int time = 0;
         while (time <= controller.RespawnTime)
         {
-            hud.UpdateTimer(controller.RespawnTime - time);
+            hud.UpdateTimerText(controller.RespawnTime - time);
             time++;
             yield return new WaitForSeconds(1);
         }
@@ -894,7 +900,7 @@ public class PlayerController : MonoBehaviour, IWater
             currentWeapon.Initialize();
             //Make weapon as current active weapon
             currentWeapon.Activate();
-            isAlive = true;        
+            isAlive = true;
         }
 
 
@@ -917,9 +923,9 @@ public class PlayerController : MonoBehaviour, IWater
     /******************************
      *            To Do
      *  Make associated camera follow the
-     *  killer until death timer is up and 
+     *  killer until death timer is up and
      *  call respawn
-     *  
+     *
      ******************************/
 
 }

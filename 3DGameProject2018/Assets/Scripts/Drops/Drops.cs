@@ -47,9 +47,9 @@ public class Drops : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {        
-        Debug.Log("Trigger");
-        if (other.gameObject.CompareTag("Player") && triggerTimer < Time.time-0.25f)
+        if (other.gameObject.CompareTag("Player") && triggerTimer < Time.time-0.1f)
         {
+            Debug.Log("asdasd");
             triggerTimer = Time.time;
             playerController = other.GetComponent<PlayerController>();
             if (pickupType == PickupEnum.healthPickup)
@@ -100,6 +100,12 @@ public class Drops : MonoBehaviour {
 
     void OnDestroy()
     {
+        if (pickupType == PickupEnum.gunPickup && playerController)
+        {
+            Debug.Log("voi vitun vittu");
+            playerController.AllowPickup(this, false, null);
+            
+        }
         // Debug.Log("This might cause fmod error on application exit");
         FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
         

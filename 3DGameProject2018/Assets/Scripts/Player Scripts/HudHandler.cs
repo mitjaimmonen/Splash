@@ -17,10 +17,17 @@ using UnityEngine.UI;
 *
 */
 
+public enum GamepadButton
+{
+    None = 0,
+    Y = 1
+}
+
 public class HudHandler : MonoBehaviour {     
 
     #region canvasReferences
-        public Image healthIcon, throwableIcon, damageIndicator, hitmarker, crosshair;
+        public Image healthIcon, throwableIcon, damageIndicator, hitmarker, crosshair, buttonIndicator;
+        public List<Sprite> buttonSprites;
         public Slider healthSlider;
         public Slider clipSlider;
         public Slider circleTimerSlider;
@@ -42,8 +49,8 @@ public class HudHandler : MonoBehaviour {
 
     private int maxHealth, currentHealth;
     private int globalAmmo, clipSize, currentAmmo;
-    private float healthUpdateTimer = 0, ammoUpdateTimer = 0, damageIndicatorTimer = 0, hitmarkerTimer = 0;
-    private bool isHealthUpdating = false, isAmmoUpdating = false;
+    private float healthUpdateTimer = 0, ammoUpdateTimer = 0, damageIndicatorTimer = 0, hitmarkerTimer = 1;
+    private bool isHealthUpdating = false, isAmmoUpdating = false , instructionsFade = false;
     private int oldCurrentHealth, oldCurrentAmmo;
     private Vector3 lastDamageOrigin, hitmarkerScale;
     private float fpsDeltaTime=0;
@@ -54,7 +61,9 @@ public class HudHandler : MonoBehaviour {
         oldCurrentHealth = playerController.CurrentHealth;
         hitmarkerScale = crosshair.transform.localScale;
         oldCurrentAmmo = playerController.CurrentAmmo;
-        UpdatePickupUI(false, 0);
+        buttonIndicator.color = Color.clear;
+        instructionText.text = "";
+        circleTimerSlider.value = 0;
     }
 
     private void Update() 
@@ -79,7 +88,14 @@ public class HudHandler : MonoBehaviour {
             noAlpha = circleSliderImage.color;
             noAlpha.a = 0;
             circleSliderImage.color = Color.Lerp(circleSliderImage.color, noAlpha, Time.deltaTime * 5f);
+        }
+        if (instructionText.color.a != 0 && instructionsFade)
+        {
+            noAlpha = instructionText.color;
+            noAlpha.a = 0;
             instructionText.color = Color.Lerp(instructionText.color, noAlpha, Time.deltaTime * 5f);
+            buttonIndicator.color = Color.Lerp(buttonIndicator.color, noAlpha, Time.deltaTime * 5f);
+            
         }
         
         if (hitmarkerTimer < hitMarkerTime)
@@ -119,27 +135,29 @@ public class HudHandler : MonoBehaviour {
     }
 
 
-    public void UpdatePickupUI(bool setElementsActive, float time)
-    {
-        if (!setElementsActive)
+    public void UpdateInstructions(bool active,string textContent, GamepadButton btn)
+    {   
+        if (active)
         {
-            instructionText.gameObject.SetActive(false);
-            circleTimerSlider.gameObject.SetActive(false);
+            instructionsFade = false;
+            instructionText.color = Color.white;
+            instructionText.text = textContent;
+            buttonIndicator.sprite = buttonSprites[(int)btn];
+            buttonIndicator.color = Color.white;
         }
         else
-        {
-            circleTimerSlider.gameObject.SetActive(true);
-            instructionText.gameObject.SetActive(true);
-            
-            instructionText.color = Color.white;
-            circleSliderImage.color = Color.white;
-            circleTimerSlider.value = time;
-        }
+            instructionsFade = true;
+    }
+    
+    public void UpdateCircleTimer(float time)
+    {
+        circleSliderImage.color = Color.white;
+        circleTimerSlider.value = time;
     }
 
     private void UpdateHitmarker()
     {
-        Vector3 newScale = hitmarkerScale + hitmarkerScale/2 * Mathf.Sin(Mathf.PI*hitmarkerTimer/hitMarkerTime);
+        Vector3 newScale = hitmarkerScale + (hitmarkerScale/2) * Mathf.Sin(Mathf.PI*hitmarkerTimer/hitMarkerTime);
         crosshair.transform.localScale = newScale;
 
         if (hitmarker.isActiveAndEnabled)
@@ -156,7 +174,7 @@ public class HudHandler : MonoBehaviour {
         damageIndicator.transform.localEulerAngles = new Vector3(0, 0, angle);
     }
 
-    public void UpdateTimer(int time)
+    public void UpdateTimerText(int time)
     {
         timerText.color = Color.white;
         timerText.text = time.ToString();

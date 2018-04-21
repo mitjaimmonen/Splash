@@ -1592,17 +1592,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayers: 1
-  playerNumber: 0
+  currentPlayers: 2
+  playerNumber: 1
   rotationV: 0
   rotationH: 0
   maxRotV: 70
   minRotV: -60
   switchOnPickup: 1
-  autoPickup: 1
+  autoPickup: 0
   carriedWeapons:
   - {fileID: 114412804487712570, guid: a8d838a278610b141b7f5d1f361aee96, type: 2}
-  maxWeapons: 4
+  maxWeapons: 2
   maxGlobalAmmo: 500
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
     type: 2}
@@ -1658,6 +1658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerHead: 0
+  collisionBehaviour: {fileID: 0}
 --- !u!114 &114526939893878622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1670,6 +1671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerHead: 1
+  collisionBehaviour: {fileID: 0}
 --- !u!114 &114600770065792890
 MonoBehaviour:
   m_ObjectHideFlags: 1
