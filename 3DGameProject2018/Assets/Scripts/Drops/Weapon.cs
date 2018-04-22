@@ -28,8 +28,6 @@ public class Weapon : MonoBehaviour {
     public GameObject leftArmPoint, rightArmPoint;
     public GameObject arms;
 
-    [Tooltip("Does weapon reload automatically when empty.")]
-    public bool autoReload = true;
 
     [Tooltip("Is weapon burst or continuous (automatic) type.")]
     public bool isContinuous = true;
@@ -254,7 +252,7 @@ public class Weapon : MonoBehaviour {
             }
             gunAnim.SetBool("isShooting", isShooting);
 
-            if (autoReload && weaponData.currentClipAmmo < weaponData.shotUsage)
+            if (playerController.autoReload && weaponData.currentClipAmmo < weaponData.shotUsage)
             {
                 Reload();
 
@@ -329,7 +327,8 @@ public class Weapon : MonoBehaviour {
                 Quaternion randRot = new Quaternion(Random.Range(0,360),Random.Range(0,360),Random.Range(0,360),Random.Range(0,360));
                 Balloon balloon = Instantiate(weaponData.launcherProjectile, MuzzleTransform.position, randRot).GetComponent<Balloon>();
                 balloon.playerController = playerController;
-                balloon.particleLauncher.MaxLoopCount = 3;
+                balloon.particleLauncher.MaxLoopCount = weaponData.maxCollisionCount;
+                balloon.particleLauncher.HeadshotMultiplier = weaponData.headshotMultiplier;
                 balloon.Instantiate();
 
                 balloon.rb.AddTorque(new Vector3(Random.Range(-100,100), Random.Range(-100,100), Random.Range(-100,100)), ForceMode.Impulse);

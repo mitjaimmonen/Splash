@@ -19,12 +19,8 @@ using UnityEngine.UI;
 
 public enum GamepadButton
 {
-    None = 0,
-    Y = 1,
-    R1 = 2,
-    R2 = 3,
-    L1 = 4,
-    L3 = 5
+    None,
+    A, Y, R1, R2, L1, L3
 
 }
 
@@ -63,6 +59,8 @@ public class HudHandler : MonoBehaviour {
     private float tipTimer =0;
     private Color noAlpha;
 
+
+    public bool hasJumped = false;
     public bool hasShot = false;
     public bool hasReloaded = false;
     public bool hasSprinted = false;
@@ -147,7 +145,16 @@ public class HudHandler : MonoBehaviour {
         if (instructionsFade) //Means no other more important instructions are being displayed.
         {
 
-            if (playerController.CurrentAmmo <= 0)
+            if (playerController.GlobalAmmo + playerController.CurrentAmmo < playerController.CurrentWeapon.weaponData.shotUsage)
+            {
+                instructionText.color = Color.white;
+                buttonIndicator.color = Color.clear;
+                instructionText.text = "Not enough ammo";
+                buttonIndicator.sprite = buttonSprites[(int)GamepadButton.None];
+                return;
+            }
+
+            if (playerController.CurrentAmmo < playerController.CurrentWeapon.weaponData.shotUsage && !playerController.autoReload)
             {
                 instructionText.color = Color.white;
                 buttonIndicator.color = Color.white;
@@ -159,7 +166,7 @@ public class HudHandler : MonoBehaviour {
 
             if (!playerController.hasShot)
             {
-                if (tipTimer < Time.time - 5f)
+                if (tipTimer < Time.time - 5f && Time.time > 5f)
                 {
                     instructionText.color = Color.white;
                     buttonIndicator.color = Color.white;
@@ -175,6 +182,24 @@ public class HudHandler : MonoBehaviour {
                 return;
             }
 
+            if (!playerController.hasJumped)
+            {
+                if (tipTimer < Time.time - 5f)
+                {
+                    instructionText.color = Color.white;
+                    buttonIndicator.color = Color.white;
+                    instructionText.text = "Jump";
+                    buttonIndicator.sprite = buttonSprites[(int)GamepadButton.A];
+                }
+                return;
+            }
+            else if (playerController.hasJumped && !hasJumped)
+            {
+                hasJumped = true;
+                tipTimer = Time.time;
+                return;
+            }
+            
             if (!playerController.hasSwitchedWeapon)
             {
                 if (playerController.carriedWeapons.Count > 1 && tipTimer < Time.time - 5f)

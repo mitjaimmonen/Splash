@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour, IWater
         private bool switchOnPickup;
         [SerializeField, Tooltip ("Picks up new weapon instantly if space available")]
         private bool autoPickup;
+        [Tooltip("Does weapon reload automatically when empty.")]
+        public bool autoReload;
         [Tooltip ("Add initial weapon(s) from prefabs. Should always have at least one weapon.")]
         public List<Weapon> carriedWeapons; //All current weapons under gunsParent.
         [SerializeField]
@@ -50,6 +52,7 @@ public class PlayerController : MonoBehaviour, IWater
     #endregion
     #region Player Data
 
+        [HideInInspector]public bool hasJumped = false;
         [HideInInspector]public bool hasShot = false;
         [HideInInspector]public bool hasReloaded = false;
         [HideInInspector]public bool hasSprinted = false;
@@ -540,13 +543,17 @@ public class PlayerController : MonoBehaviour, IWater
         {
             if (isAlive)
             {
-                if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" || input[1] == "L3")
+                if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical"|| input[1] == "L3")
                 {
                     Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
                 }
                 if(input[1] == "RightHorizontal" || input[1] == "RightVertical")
                 {
                     Rotate(input[1],float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
+                }
+                if (input[1] == "A" || input[1] == "L2")
+                {
+                    Jump();
                 }
                 if (input[1] == "Y") //Used for world interactions such as pickup and swapping weapons
                 {
@@ -583,8 +590,6 @@ public class PlayerController : MonoBehaviour, IWater
                     interactTimer = Time.time;
                     
                 }
-
-                    
                 if (input[1] == "B")
                 {
                     if (Time.time - interactTimer > 0.1f)
@@ -639,6 +644,18 @@ public class PlayerController : MonoBehaviour, IWater
         }
     }
     //apply nongravity movements
+
+    private void Jump()
+    {
+        if(isGrounded)
+        {
+            playerAnim.SetTrigger("isJumping");
+            velocity.y += JumpVelocity;
+            FMODUnity.RuntimeManager.PlayOneShotAttached(jumpSE, gameObject);
+            isGrounded = false;
+            hasJumped = true;
+        }
+    }
     private void Move(string axis, float magnitude)
     {
         switch(axis)
@@ -669,15 +686,7 @@ public class PlayerController : MonoBehaviour, IWater
                     playerAnim.SetFloat("forward", -magnitude);
                 movingTimer = 0;
                 break;
-            case "A":
-                if(isGrounded)
-                {
-                    playerAnim.SetTrigger("isJumping");
-                    velocity.y += JumpVelocity;
-                    FMODUnity.RuntimeManager.PlayOneShotAttached(jumpSE, gameObject);
-                    isGrounded = false;
-                }
-                break;
+
 
             default:
                 break;

@@ -1052,6 +1052,7 @@ MonoBehaviour:
   buttonIndicator: {fileID: 114586481779732386}
   buttonSprites:
   - {fileID: 0}
+  - {fileID: 21300000, guid: f2d0ab15776d9394b804c6442b01adbb, type: 3}
   - {fileID: 21300000, guid: 2e083415c675c434cb38748634cb9fb1, type: 3}
   - {fileID: 21300000, guid: cc1f72de85acc454589a276364c22887, type: 3}
   - {fileID: 21300000, guid: 7b66ed8607fbcb74ca8bd109cdd7e8d1, type: 3}
@@ -1076,6 +1077,11 @@ MonoBehaviour:
   damageIndicatorTime: 1
   damageIndicatorColor: {r: 0.13738108, g: 0.57839906, b: 0.8897059, a: 1}
   playerController: {fileID: 0}
+  hasJumped: 0
+  hasShot: 0
+  hasReloaded: 0
+  hasSprinted: 0
+  hasSwitchedWeapon: 0
 --- !u!114 &114978109359613490
 MonoBehaviour:
   m_ObjectHideFlags: 1
