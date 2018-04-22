@@ -126,16 +126,16 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1401610286106170}
-  m_LocalRotation: {x: 0.000000020237188, y: -0.37765735, z: 0.000000008253964, w: 0.92594546}
-  m_LocalPosition: {x: 12.639999, y: 2.46, z: 5.17}
-  m_LocalScale: {x: 0.8234973, y: 1.0035461, z: 0.82349735}
+  m_LocalRotation: {x: 0.00000001329622, y: -0.7936584, z: 0.000000017345963, w: 0.60836375}
+  m_LocalPosition: {x: -8.1, y: 3.6, z: -4.4}
+  m_LocalScale: {x: 1, y: 1.3524837, z: 1}
   m_Children:
   - {fileID: 4171280226565336}
   - {fileID: 4421182747518500}
   - {fileID: 4194538310976274}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -105.05701, z: 0}
 --- !u!23 &23667325886151326
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -202,7 +202,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  allowMaxCountOverrideByWeapons: 0
   maxCount: 5
+  collisionParticles: 0
   soundBehaviour: {fileID: 0}
 --- !u!114 &114790004158239448
 MonoBehaviour:
@@ -218,6 +220,8 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitLeaves
   waterSplashSE: 
   destroySE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!114 &114820422433842980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -232,6 +236,8 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitHardSurface
   waterSplashSE: 
   destroySE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!114 &114965360570014086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -244,7 +250,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  allowMaxCountOverrideByWeapons: 0
   maxCount: 5
+  collisionParticles: 1
   soundBehaviour: {fileID: 0}
 --- !u!136 &136221990593758810
 CapsuleCollider:

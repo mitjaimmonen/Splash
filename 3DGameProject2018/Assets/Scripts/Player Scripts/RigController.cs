@@ -80,6 +80,7 @@ public class RigController : MonoBehaviour {
 		}
 		anim.enabled = true;		
 		anim.Rebind();
+		inverseKinematics.enabled = true;
 		transform.localPosition = Vector3.zero;
 		isAlive = true;
 	}
@@ -91,6 +92,7 @@ public class RigController : MonoBehaviour {
 		isAlive = false;
 		anim.enabled = false;
 		layer = LayerMask.NameToLayer("Player");
+		inverseKinematics.enabled = false;
 		foreach (Transform trans in gameObject.GetComponentInChildren<Transform>(true))
 		{
 			trans.gameObject.layer = layer;

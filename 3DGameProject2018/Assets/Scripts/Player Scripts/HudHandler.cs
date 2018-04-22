@@ -20,7 +20,12 @@ using UnityEngine.UI;
 public enum GamepadButton
 {
     None = 0,
-    Y = 1
+    Y = 1,
+    R1 = 2,
+    R2 = 3,
+    L1 = 4,
+    L3 = 5
+
 }
 
 public class HudHandler : MonoBehaviour {     
@@ -42,6 +47,7 @@ public class HudHandler : MonoBehaviour {
         
     #endregion
 
+
     public float hitMarkerTime = 0.15f, damageIndicatorTime = 1f;
     public Color damageIndicatorColor;
     public PlayerController playerController;
@@ -50,12 +56,17 @@ public class HudHandler : MonoBehaviour {
     private int maxHealth, currentHealth;
     private int globalAmmo, clipSize, currentAmmo;
     private float healthUpdateTimer = 0, ammoUpdateTimer = 0, damageIndicatorTimer = 0, hitmarkerTimer = 1;
-    private bool isHealthUpdating = false, isAmmoUpdating = false , instructionsFade = false;
+    private bool isHealthUpdating = false, isAmmoUpdating = false , instructionsFade = true;
     private int oldCurrentHealth, oldCurrentAmmo;
     private Vector3 lastDamageOrigin, hitmarkerScale;
-    private float fpsDeltaTime=0;
+    private float delta=0;
+    private float tipTimer =0;
     private Color noAlpha;
 
+    public bool hasShot = false;
+    public bool hasReloaded = false;
+    public bool hasSprinted = false;
+    public bool hasSwitchedWeapon = false;
 
     private void Start() {
         oldCurrentHealth = playerController.CurrentHealth;
@@ -66,13 +77,43 @@ public class HudHandler : MonoBehaviour {
         circleTimerSlider.value = 0;
     }
 
+    #region Updates
     private void Update() 
     {
+        delta = Time.deltaTime;
+        UpdateColorAlphas();
+
+        if (playerController.helpfulTips)
+            UpdateTips();
+
+        if (hitmarkerTimer < hitMarkerTime)
+        {
+            hitmarkerTimer += delta;
+            UpdateHitmarker();
+        }
+
+        if (isHealthUpdating)
+        {
+            healthUpdateTimer += delta * 3.5f;
+            UpdateHealth();
+
+        }
+        if (isAmmoUpdating)
+        {
+            ammoUpdateTimer += delta * 3.5f;
+            UpdateAmmo();
+        }
+        
+    }
+
+    void UpdateColorAlphas()
+    {
+
         if (timerText.color.a != 0)
         {
             noAlpha = timerText.color;
             noAlpha.a = 0;
-            timerText.color = Color.Lerp(timerText.color, noAlpha, Time.deltaTime * 5f);
+            timerText.color = Color.Lerp(timerText.color, noAlpha, delta * 5f);
         }
 
         if (damageIndicator.color.a != 0)
@@ -80,46 +121,99 @@ public class HudHandler : MonoBehaviour {
             noAlpha = damageIndicator.color;
             noAlpha.a = 0;
             UpdateDamageIndicator();
-            damageIndicator.color = Color.Lerp(damageIndicator.color, noAlpha, Time.deltaTime * 5f);
+            damageIndicator.color = Color.Lerp(damageIndicator.color, noAlpha, delta * 5f);
         }
 
         if (circleSliderImage.color.a != 0)
         {
             noAlpha = circleSliderImage.color;
             noAlpha.a = 0;
-            circleSliderImage.color = Color.Lerp(circleSliderImage.color, noAlpha, Time.deltaTime * 5f);
+            circleSliderImage.color = Color.Lerp(circleSliderImage.color, noAlpha, delta * 5f);
         }
         if (instructionText.color.a != 0 && instructionsFade)
         {
             noAlpha = instructionText.color;
             noAlpha.a = 0;
-            instructionText.color = Color.Lerp(instructionText.color, noAlpha, Time.deltaTime * 5f);
-            buttonIndicator.color = Color.Lerp(buttonIndicator.color, noAlpha, Time.deltaTime * 5f);
+            instructionText.color = Color.Lerp(instructionText.color, noAlpha, delta * 5f);
+            buttonIndicator.color = Color.Lerp(buttonIndicator.color, noAlpha, delta * 5f);
             
         }
         
-        if (hitmarkerTimer < hitMarkerTime)
-        {
-            UpdateHitmarker();
-            hitmarkerTimer += Time.deltaTime;
-        }
 
+    }
 
-        if (isHealthUpdating || isAmmoUpdating)
+    void UpdateTips()
+    {
+        if (instructionsFade) //Means no other more important instructions are being displayed.
         {
-            if (isHealthUpdating)
+
+            if (playerController.CurrentAmmo <= 0)
             {
-                healthUpdateTimer += Time.deltaTime * 3.5f;
-                UpdateHealth();
+                instructionText.color = Color.white;
+                buttonIndicator.color = Color.white;
+                instructionText.text = "Reload";
+                buttonIndicator.sprite = buttonSprites[(int)GamepadButton.L1];
 
             }
-            if (isAmmoUpdating)
+
+
+            if (!playerController.hasShot)
             {
-                ammoUpdateTimer += Time.deltaTime * 3.5f;
-                UpdateAmmo();
+                if (tipTimer < Time.time - 5f)
+                {
+                    instructionText.color = Color.white;
+                    buttonIndicator.color = Color.white;
+                    instructionText.text = "Shoot";
+                    buttonIndicator.sprite = buttonSprites[(int)GamepadButton.R2];
+                }
+                return;
+            }
+            else if (playerController.hasShot && !hasShot)
+            {
+                hasShot = true;
+                tipTimer = Time.time;
+                return;
+            }
+
+            if (!playerController.hasSwitchedWeapon)
+            {
+                if (playerController.carriedWeapons.Count > 1 && tipTimer < Time.time - 5f)
+                {
+                    instructionText.color = Color.white;
+                    buttonIndicator.color = Color.white;
+                    instructionText.text = "Switch weapon";
+                    buttonIndicator.sprite = buttonSprites[(int)GamepadButton.R1];
+                }
+                return;
+            }
+            else if (playerController.hasSwitchedWeapon && !hasSwitchedWeapon)
+            {
+                hasSwitchedWeapon = true;
+                tipTimer = Time.time;
+                return;
+            }
+
+            if (!playerController.hasSprinted)
+            {
+                if (tipTimer < Time.time - 5f && tipTimer > Time.time -10f)
+                {
+                    instructionText.color = Color.white;
+                    buttonIndicator.color = Color.white;
+                    instructionText.text = "Sprint";
+                    buttonIndicator.sprite = buttonSprites[(int)GamepadButton.L3];
+                }
+                return;
+            }
+            else if (playerController.hasSprinted && !hasSprinted)
+            {
+                hasSprinted = true;
+                tipTimer = Time.time;
+                return;
             }
         }
     }
+
+    #endregion
 
     public void TakeDamage(Vector3 origin) 
     {
@@ -146,7 +240,10 @@ public class HudHandler : MonoBehaviour {
             buttonIndicator.color = Color.white;
         }
         else
+        {
             instructionsFade = true;
+            tipTimer = Time.time; // Prevents tips from appearing right away
+        }
     }
     
     public void UpdateCircleTimer(float time)

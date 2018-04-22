@@ -49,7 +49,6 @@ public class Drops : MonoBehaviour {
     {        
         if (other.gameObject.CompareTag("Player") && triggerTimer < Time.time-0.1f)
         {
-            Debug.Log("asdasd");
             triggerTimer = Time.time;
             playerController = other.GetComponent<PlayerController>();
             if (pickupType == PickupEnum.healthPickup)
@@ -71,7 +70,7 @@ public class Drops : MonoBehaviour {
                     Destroy(this.gameObject);
                 
             }
-            else if (pickupType == PickupEnum.gunPickup)
+            else if (pickupType == PickupEnum.gunPickup && playerController.IsAlive)
             {
                 if (!weaponData)
                 {

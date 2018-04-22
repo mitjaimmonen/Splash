@@ -599,7 +599,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Pickup instructions
+  m_Text: instructions
 --- !u!114 &114195018854568466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1052,7 +1052,11 @@ MonoBehaviour:
   buttonIndicator: {fileID: 114586481779732386}
   buttonSprites:
   - {fileID: 0}
-  - {fileID: 21300000, guid: 4134881e82cec854899a3623aef36fa0, type: 3}
+  - {fileID: 21300000, guid: 2e083415c675c434cb38748634cb9fb1, type: 3}
+  - {fileID: 21300000, guid: cc1f72de85acc454589a276364c22887, type: 3}
+  - {fileID: 21300000, guid: 7b66ed8607fbcb74ca8bd109cdd7e8d1, type: 3}
+  - {fileID: 21300000, guid: 3b14f7fea1d259c4f9cfd8cd013a7af0, type: 3}
+  - {fileID: 21300000, guid: 15a94d5588f611c41a63b4ac827b26c0, type: 3}
   healthSlider: {fileID: 114021276419553772}
   clipSlider: {fileID: 114984372668901308}
   circleTimerSlider: {fileID: 114293139055093160}

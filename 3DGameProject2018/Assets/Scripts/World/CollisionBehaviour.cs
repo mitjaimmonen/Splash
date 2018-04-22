@@ -12,19 +12,27 @@ using UnityEngine;
  * Coroutine is used instead of Update to keep script faster even in case of dozens of instances in scene.
  */
 
+ public enum CollisionParticles
+ {
+	 None = 0,
+	 LeafParticles = 1
+ }
+
 [RequireComponent(typeof(SoundBehaviour))]
 public class CollisionBehaviour : MonoBehaviour {
 
 	public bool isPlayer = false, allowMaxCountOverrideByWeapons = false;
-	
 	public int maxCount = 5;
+	public CollisionParticles collisionParticles;
 
-
+	public SoundBehaviour soundBehaviour;
 	private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
 	private DynamicItemScript dynamicItem;
 	private PlayerController playerController;
-	public SoundBehaviour soundBehaviour;
+	private ParticleSystem hitParticles;
 
+
+	private float hitParticlesSize;
 	private bool isHead = false, hitmarkerPlayed = false;
 	private float headshotMultiplier = 1f, stackedDamage = 0;
 	private int defaultDamage;
@@ -42,6 +50,13 @@ public class CollisionBehaviour : MonoBehaviour {
 		if (playerController != null)
 		{
 			isPlayer = true;
+		}
+
+		switch (collisionParticles) 
+		{
+			case CollisionParticles.LeafParticles:
+				hitParticles = GameObject.Find("LeafParticles").GetComponent<ParticleSystem>();
+			break;
 		}
 		
 		soundBehaviour = GetComponent<SoundBehaviour>();
@@ -80,6 +95,9 @@ public class CollisionBehaviour : MonoBehaviour {
 			tempCount = Mathf.Max(5, maxCount); //Sound works better with bigger maxCount
 			soundBehaviour.PlayCollisionSound(count/tempCount, intersection);
 
+			if (hitParticles != null)
+				PlayParticleEffect(intersection);
+
 			if (dynamicItem != null)
 				dynamicItem.ParticleHit(other.transform.position, intersection, count * otherPlayerController.CurrentDamage);
 			
@@ -90,6 +108,12 @@ public class CollisionBehaviour : MonoBehaviour {
 
 			
 		}
+	}
+
+	private void PlayParticleEffect(Vector3 intersection)
+	{
+		hitParticles.transform.position = intersection;
+		hitParticles.Play();
 	}
 
 	public void PlayerDamage(PlayerController attacker, ParticleLauncher attackerParticles,List<ParticleCollisionEvent> collisionEvents)

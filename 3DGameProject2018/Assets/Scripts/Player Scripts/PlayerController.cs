@@ -34,8 +34,8 @@ public class PlayerController : MonoBehaviour, IWater
         private bool switchOnPickup;
         [SerializeField, Tooltip ("Picks up new weapon instantly if space available")]
         private bool autoPickup;
-        [SerializeField, Tooltip ("Add initial weapon(s) from prefabs. Should always have at least one weapon.")]
-        private List<Weapon> carriedWeapons; //All current weapons under gunsParent.
+        [Tooltip ("Add initial weapon(s) from prefabs. Should always have at least one weapon.")]
+        public List<Weapon> carriedWeapons; //All current weapons under gunsParent.
         [SerializeField]
         private int maxWeapons = 2, maxGlobalAmmo = 150;
 
@@ -48,7 +48,14 @@ public class PlayerController : MonoBehaviour, IWater
         private bool pickupAllowed = false;
 
     #endregion
+    #region Player Data
 
+        [HideInInspector]public bool hasShot = false;
+        [HideInInspector]public bool hasReloaded = false;
+        [HideInInspector]public bool hasSprinted = false;
+        [HideInInspector]public bool hasSwitchedWeapon = false;
+
+    #endregion
 
     private int currentHealth;
     private int deaths = 0, kills = 0;
@@ -91,6 +98,7 @@ public class PlayerController : MonoBehaviour, IWater
     public float stepHeight = 0;
     private Vector3 velocity = new Vector3(0, 0, 0);
     private float prevVelocity;
+    public bool helpfulTips = true;
 
     private Collider prevFloor;
     private Vector3 PrevFloorPos;
@@ -589,17 +597,19 @@ public class PlayerController : MonoBehaviour, IWater
                 {
                     if (Time.time - interactTimer > 0.1f)
                     {
-                        SwitchWeapon(1+weaponIndex);
+                        SwitchWeapon(1+weaponIndex, true);
                     }
                     interactTimer = Time.time;
                 }
                 if (input[1] == "R2")
                 {
                     currentWeapon.Shoot(float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
+                    hasShot = true;
                 }
                 if (input[1] == "L1")
                 {
                     currentWeapon.Reload();
+                    hasReloaded = true;
                 }
             }
 
@@ -640,6 +650,7 @@ public class PlayerController : MonoBehaviour, IWater
                     isRunning = true;
                     cameraHandler.NewFov(1.2f);
                     playerSpeed = walkSpeed * runMultiplier;
+                    hasSprinted = true;
                 }
                 break;
 
@@ -745,14 +756,14 @@ public class PlayerController : MonoBehaviour, IWater
                 Destroy(pickupDrop.gameObject);
 
                 if (switchOnPickup)
-                    SwitchWeapon(carriedWeapons.Count-1);
+                    SwitchWeapon(carriedWeapons.Count-1, false);
             }
         }
 
     }
 
     //Switches between carried weapons
-    public void SwitchWeapon(int index)
+    public void SwitchWeapon(int index, bool manualSwitch)
     {
         if (index > carriedWeapons.Count-1)
             weaponIndex = 0;
@@ -767,6 +778,9 @@ public class PlayerController : MonoBehaviour, IWater
 
             currentWeapon = carriedWeapons[weaponIndex];
             currentWeapon.Activate();
+        
+            if (!hasSwitchedWeapon && manualSwitch)
+                hasSwitchedWeapon = true;
 
         }
 
@@ -810,7 +824,7 @@ public class PlayerController : MonoBehaviour, IWater
             carriedWeapons.RemoveAt(weaponIndex);
 
             if (!isReplaced)
-                SwitchWeapon(weaponIndex+1);
+                SwitchWeapon(weaponIndex+1, false);
         }
 
     }
