@@ -1214,11 +1214,10 @@ MonoBehaviour:
   leftArmPoint: {fileID: 1628750113199926}
   rightArmPoint: {fileID: 1972385385372672}
   arms: {fileID: 1040865087430250}
-  autoReload: 1
   isContinuous: 1
   rotationOffsetY: -3
   playerController: {fileID: 0}
-  localPositionOffset: {x: 0.2, y: -0.26, z: 0.2}
+  localPositionOffset: {x: 0.2, y: -0.3, z: 0.2}
   shootSE: event:/Guns/AutoRifle
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: event:/Guns/EmptyRifle
@@ -1233,6 +1232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 2
   damage: 7
   headshotMultiplier: 1.75
   currentClipAmmo: 100

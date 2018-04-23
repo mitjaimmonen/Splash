@@ -1053,7 +1053,6 @@ MonoBehaviour:
   leftArmPoint: {fileID: 1791742300562658}
   rightArmPoint: {fileID: 1899801271030348}
   arms: {fileID: 1711977926452072}
-  autoReload: 1
   isContinuous: 0
   rotationOffsetY: -3
   playerController: {fileID: 0}
@@ -1072,6 +1071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 0
   damage: 3
   headshotMultiplier: 1.5
   currentClipAmmo: 100

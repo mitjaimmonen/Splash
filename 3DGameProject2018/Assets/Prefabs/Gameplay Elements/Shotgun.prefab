@@ -1034,6 +1034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd72cf73b50c104583b1a70f736daae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 1
   damage: 1
   headshotMultiplier: 2
   currentClipAmmo: 100
@@ -1085,11 +1086,10 @@ MonoBehaviour:
   leftArmPoint: {fileID: 1290934636097242}
   rightArmPoint: {fileID: 1998279579628448}
   arms: {fileID: 1684623384548240}
-  autoReload: 1
   isContinuous: 0
   rotationOffsetY: -3
   playerController: {fileID: 0}
-  localPositionOffset: {x: 0.26, y: -0.23, z: 0.37}
+  localPositionOffset: {x: 0.26, y: -0.26, z: 0.3}
   shootSE: event:/Guns/Shotgun sounds
   reloadSE: event:/Guns/Reload auto rifle
   emptyMagSE: event:/Guns/EmptyShotgun

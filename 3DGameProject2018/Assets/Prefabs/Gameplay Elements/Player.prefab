@@ -381,7 +381,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4331600696781442}
   - component: {fileID: 136785458119969632}
-  - component: {fileID: 114497962918413064}
+  - component: {fileID: 65698014922489816}
+  - component: {fileID: 65138884215114132}
   m_Layer: 9
   m_Name: Torso
   m_TagString: Untagged
@@ -446,7 +447,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4198909216040822}
   - component: {fileID: 136172752203868750}
-  - component: {fileID: 114526939893878622}
   m_Layer: 9
   m_Name: Head
   m_TagString: Head
@@ -1540,6 +1540,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65138884215114132
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1562985379872070}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.17211795, y: 0.25668, z: 0.39178848}
+  m_Center: {x: 0, y: 0.5099263, z: -0.25141}
 --- !u!65 &65570842940692240
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1564,6 +1576,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.0034019358, y: 0.0044975416, z: 0.0022487715}
   m_Center: {x: -0.0000036065467, y: 0.0022487722, z: 0.00007169484}
+--- !u!65 &65698014922489816
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1562985379872070}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.29096395, y: 0.58, z: 0.20999998}
+  m_Center: {x: 0, y: 0.21, z: 0.03}
 --- !u!95 &95016888741616598
 Animator:
   serializedVersion: 3
@@ -1592,18 +1616,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayers: 2
-  playerNumber: 1
+  currentPlayers: 1
+  playerNumber: 0
   rotationV: 0
   rotationH: 0
   maxRotV: 70
   minRotV: -60
   switchOnPickup: 1
   autoPickup: 0
+  autoReload: 0
   carriedWeapons:
   - {fileID: 114412804487712570, guid: a8d838a278610b141b7f5d1f361aee96, type: 2}
   maxWeapons: 2
   maxGlobalAmmo: 500
+  hasJumped: 0
+  hasShot: 0
+  hasReloaded: 0
+  hasSprinted: 0
+  hasSwitchedWeapon: 0
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
     type: 2}
   playerHead: {fileID: 1590808485326396}
@@ -1629,6 +1659,7 @@ MonoBehaviour:
   maxSlope: 0.6
   climbSpeed: 1
   stepHeight: 0.1
+  helpfulTips: 1
   damageColliders:
   - {fileID: 136172752203868750}
   - {fileID: 136785458119969632}
@@ -1646,32 +1677,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3004eb8968bea84ab9ce95c80ef468f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114497962918413064
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1562985379872070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1ccda532c9be59428d33971e5896c5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayerHead: 0
-  collisionBehaviour: {fileID: 0}
---- !u!114 &114526939893878622
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1590808485326396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1ccda532c9be59428d33971e5896c5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayerHead: 1
-  collisionBehaviour: {fileID: 0}
 --- !u!114 &114600770065792890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1686,6 +1691,7 @@ MonoBehaviour:
   isPlayer: 1
   allowMaxCountOverrideByWeapons: 1
   maxCount: 25
+  collisionParticles: 0
   soundBehaviour: {fileID: 0}
 --- !u!114 &114846308794897092
 MonoBehaviour:
@@ -1959,10 +1965,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.225
-  m_Height: 1.1
+  m_Radius: 0.23912933
+  m_Height: 0.61000013
   m_Direction: 1
-  m_Center: {x: 0, y: 0.39, z: 0}
+  m_Center: {x: 0, y: 0.72, z: 0.04}
 --- !u!136 &136960763928950290
 CapsuleCollider:
   m_ObjectHideFlags: 1

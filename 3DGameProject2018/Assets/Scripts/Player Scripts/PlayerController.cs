@@ -305,7 +305,7 @@ public class PlayerController : MonoBehaviour, IWater
 
     private void Start()
     {
-        currentWeapon.Activate();
+        ActivateWeapon();
         rotationH = transform.localEulerAngles.y;
         hud.UpdateAmmo();
         capsule = GetComponent<CapsuleCollider>();
@@ -701,6 +701,8 @@ public class PlayerController : MonoBehaviour, IWater
     }
 
 
+    #region Weapon Functions
+
     //Gets called when triggered near a gun pickup.
     public void AllowPickup(Drops drop, bool isAllowed, WeaponData data)
     {
@@ -786,7 +788,7 @@ public class PlayerController : MonoBehaviour, IWater
                 currentWeapon.Deactivate();
 
             currentWeapon = carriedWeapons[weaponIndex];
-            currentWeapon.Activate();
+            ActivateWeapon();
         
             if (!hasSwitchedWeapon && manualSwitch)
                 hasSwitchedWeapon = true;
@@ -810,14 +812,14 @@ public class PlayerController : MonoBehaviour, IWater
 
 
         DropWeapon(true);
-        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position + transform.forward, Quaternion.Euler(transform.right)));
+        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position, transform.rotation));
         weaponIndex = carriedWeapons.Count-1; //Index updates to be list's last item
         currentWeapon = carriedWeapons[weaponIndex];
         currentWeapon.name = pickupDrop.pickupWeapon.name; //Prevents name to be a "(clone)"
         PersonalExtensions.CopyComponentValues<WeaponData>(pickupData, currentWeapon.gameObject);
         currentWeapon.playerController = this;
         currentWeapon.Initialize(); // Picked up weapons need to set some initial values
-        currentWeapon.Activate(); //SwapWeapon makes swapped weapon current & active
+        ActivateWeapon(); //SwapWeapon makes swapped weapon current & active
 
         Destroy(pickupDrop.gameObject);
     }
@@ -827,8 +829,11 @@ public class PlayerController : MonoBehaviour, IWater
     {
         if ((carriedWeapons.Count > 1 && !autoPickup) || isReplaced) // Player must have at least one weapon
         {
-            GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, transform.position + transform.forward, Quaternion.LookRotation(transform.right));
+            GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, transform.position + (transform.forward + Vector3.up)*0.7f, Quaternion.LookRotation(transform.right));
             PersonalExtensions.CopyComponentValues<WeaponData>(currentWeapon.weaponData, swappedGunPickup);
+            var tempRB = swappedGunPickup.GetComponent<Rigidbody>();
+            if (tempRB)
+                tempRB.AddForce(transform.forward*6f, ForceMode.Impulse);
             Destroy(currentWeapon.gameObject);
             carriedWeapons.RemoveAt(weaponIndex);
 
@@ -837,6 +842,14 @@ public class PlayerController : MonoBehaviour, IWater
         }
 
     }
+
+    private void ActivateWeapon()
+    {
+        currentWeapon.Activate();
+        hud.hudWeaponsHandler.SetWeaponUI(maxWeapons, carriedWeapons, weaponIndex);
+    }
+
+    #endregion
 
 
     public void TakeDamage(int damage, PlayerController attacker)
@@ -922,7 +935,7 @@ public class PlayerController : MonoBehaviour, IWater
             //Initialize basically a start function but had to be called after parameters are set
             currentWeapon.Initialize();
             //Make weapon as current active weapon
-            currentWeapon.Activate();
+            ActivateWeapon();
             isAlive = true;
         }
 

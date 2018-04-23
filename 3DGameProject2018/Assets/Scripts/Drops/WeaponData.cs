@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum WeaponType
+{
+    pistol, shotgun, autorifle, launcher
+}
 public class WeaponData : MonoBehaviour {
+
+    public WeaponType weaponType = WeaponType.pistol;
 
     [Tooltip("How much damage per shot.")]
     public int damage = 5;

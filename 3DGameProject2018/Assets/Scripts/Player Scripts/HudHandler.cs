@@ -20,7 +20,7 @@ using UnityEngine.UI;
 public enum GamepadButton
 {
     None,
-    A, Y, R1, R2, L1, L3
+    A, Y, R1, R2, L1, L2, L3
 
 }
 
@@ -47,7 +47,7 @@ public class HudHandler : MonoBehaviour {
     public float hitMarkerTime = 0.15f, damageIndicatorTime = 1f;
     public Color damageIndicatorColor;
     public PlayerController playerController;
-
+    public HudWeaponsHandler hudWeaponsHandler;
 
     private int maxHealth, currentHealth;
     private int globalAmmo, clipSize, currentAmmo;
@@ -55,7 +55,7 @@ public class HudHandler : MonoBehaviour {
     private bool isHealthUpdating = false, isAmmoUpdating = false , instructionsFade = true;
     private int oldCurrentHealth, oldCurrentAmmo;
     private Vector3 lastDamageOrigin, hitmarkerScale;
-    private float delta=0;
+    private float delta=0, sceneTime = 0;
     private float tipTimer =0;
     private Color noAlpha;
 
@@ -79,6 +79,7 @@ public class HudHandler : MonoBehaviour {
     private void Update() 
     {
         delta = Time.deltaTime;
+        sceneTime = Time.timeSinceLevelLoad;
         UpdateColorAlphas();
 
         if (playerController.helpfulTips)
@@ -151,6 +152,7 @@ public class HudHandler : MonoBehaviour {
                 buttonIndicator.color = Color.clear;
                 instructionText.text = "Not enough ammo";
                 buttonIndicator.sprite = buttonSprites[(int)GamepadButton.None];
+                tipTimer = sceneTime;
                 return;
             }
 
@@ -160,13 +162,15 @@ public class HudHandler : MonoBehaviour {
                 buttonIndicator.color = Color.white;
                 instructionText.text = "Reload";
                 buttonIndicator.sprite = buttonSprites[(int)GamepadButton.L1];
+                tipTimer = sceneTime;
+                return;
 
             }
 
 
             if (!playerController.hasShot)
             {
-                if (tipTimer < Time.time - 5f && Time.time > 5f)
+                if (tipTimer < sceneTime - 5f && sceneTime > 5f)
                 {
                     instructionText.color = Color.white;
                     buttonIndicator.color = Color.white;
@@ -178,31 +182,15 @@ public class HudHandler : MonoBehaviour {
             else if (playerController.hasShot && !hasShot)
             {
                 hasShot = true;
-                tipTimer = Time.time;
+                tipTimer = sceneTime;
                 return;
             }
 
-            if (!playerController.hasJumped)
-            {
-                if (tipTimer < Time.time - 5f)
-                {
-                    instructionText.color = Color.white;
-                    buttonIndicator.color = Color.white;
-                    instructionText.text = "Jump";
-                    buttonIndicator.sprite = buttonSprites[(int)GamepadButton.A];
-                }
-                return;
-            }
-            else if (playerController.hasJumped && !hasJumped)
-            {
-                hasJumped = true;
-                tipTimer = Time.time;
-                return;
-            }
+
             
             if (!playerController.hasSwitchedWeapon)
             {
-                if (playerController.carriedWeapons.Count > 1 && tipTimer < Time.time - 5f)
+                if (playerController.carriedWeapons.Count > 1 && tipTimer < sceneTime - 5f)
                 {
                     instructionText.color = Color.white;
                     buttonIndicator.color = Color.white;
@@ -214,13 +202,30 @@ public class HudHandler : MonoBehaviour {
             else if (playerController.hasSwitchedWeapon && !hasSwitchedWeapon)
             {
                 hasSwitchedWeapon = true;
-                tipTimer = Time.time;
+                tipTimer = sceneTime;
                 return;
             }
 
+            if (!playerController.hasJumped)
+            {
+                if (tipTimer < sceneTime - 10f && tipTimer > sceneTime - 15f)
+                {
+                    instructionText.color = Color.white;
+                    buttonIndicator.color = Color.white;
+                    instructionText.text = "Jump";
+                    buttonIndicator.sprite = buttonSprites[(int)GamepadButton.L2];
+                }
+                return;
+            }
+            else if (playerController.hasJumped && !hasJumped)
+            {
+                hasJumped = true;
+                tipTimer = sceneTime;
+                return;
+            }
             if (!playerController.hasSprinted)
             {
-                if (tipTimer < Time.time - 5f && tipTimer > Time.time -10f)
+                if (tipTimer < sceneTime - 10f && tipTimer > sceneTime - 15f)
                 {
                     instructionText.color = Color.white;
                     buttonIndicator.color = Color.white;
@@ -232,7 +237,7 @@ public class HudHandler : MonoBehaviour {
             else if (playerController.hasSprinted && !hasSprinted)
             {
                 hasSprinted = true;
-                tipTimer = Time.time;
+                tipTimer = sceneTime;
                 return;
             }
         }
@@ -267,7 +272,7 @@ public class HudHandler : MonoBehaviour {
         else
         {
             instructionsFade = true;
-            tipTimer = Time.time; // Prevents tips from appearing right away
+            tipTimer = sceneTime; // Prevents tips from appearing right away
         }
     }
     
