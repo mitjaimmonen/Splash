@@ -474,7 +474,7 @@ MonoBehaviour:
   playerController: {fileID: 0}
   fovLerpTime: 0.2
   rotRadius: 0
-  offsetFromHead: {x: 0, y: -0.2, z: -0.1}
+  offsetFromHead: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &114154549000546710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -490,7 +490,7 @@ MonoBehaviour:
   playerController: {fileID: 0}
   fovLerpTime: 0.2
   rotRadius: 0
-  offsetFromHead: {x: 0, y: -0.2, z: -0.1}
+  offsetFromHead: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &114168662326135348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -543,7 +543,7 @@ MonoBehaviour:
   playerController: {fileID: 0}
   fovLerpTime: 0.2
   rotRadius: 0
-  offsetFromHead: {x: 0, y: -0.2, z: -0.1}
+  offsetFromHead: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &114357480037767126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -632,7 +632,7 @@ MonoBehaviour:
   playerController: {fileID: 0}
   fovLerpTime: 0.2
   rotRadius: 0
-  offsetFromHead: {x: 0, y: -0.2, z: -0.1}
+  offsetFromHead: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &114776245986901562
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1620,8 +1620,8 @@ MonoBehaviour:
   playerNumber: 0
   rotationV: 0
   rotationH: 0
-  maxRotV: 70
-  minRotV: -60
+  maxRotV: 65
+  minRotV: -70
   switchOnPickup: 1
   autoPickup: 0
   autoReload: 0

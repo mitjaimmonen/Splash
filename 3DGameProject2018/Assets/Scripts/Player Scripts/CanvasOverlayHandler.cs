@@ -19,6 +19,17 @@ public class CanvasOverlayHandler : MonoBehaviour {
 	public Sprite[] overlaySprites;
 	public Image splitter;
 	public GameObject filler;
+	public Text GameTimerText;
+	public GameObject GameTimerContainer;
+
+	private MatchController matchController;
+	private StateHandler stateHandler;
+
+	void Start()
+	{
+		matchController = GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchController>();
+		stateHandler = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
+	}
 
 	public void SetOverlay(int players) 
 	{
@@ -44,6 +55,22 @@ public class CanvasOverlayHandler : MonoBehaviour {
 		{
 			splitter.enabled = false;
 			filler.SetActive(false);
+		}
+	}
+
+	void Update()
+	{
+		if (matchController && stateHandler)
+		{
+			if (matchController.GameCountdown != 0 && stateHandler.options.CurrentActivePlayers > 1)
+			{
+				GameTimerText.text = matchController.GameCountdown.ToString();
+			}
+			else
+			{
+				GameTimerContainer.SetActive(false);
+				GameTimerText.text = "";
+			}
 		}
 	}
 }

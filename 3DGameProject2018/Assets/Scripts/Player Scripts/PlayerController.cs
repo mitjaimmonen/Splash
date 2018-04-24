@@ -263,7 +263,6 @@ public class PlayerController : MonoBehaviour, IWater
                 playerCamera.SetActive(true);
                 var canvas = hud.GetComponent<Canvas>();
                 canvas.worldCamera = playerCamera.GetComponent<Camera>();
-                hud.playerNumberText.text = "<HUD debug messages>";
             }
         }
         cameraHandler = playerCamera.GetComponent<CameraHandler>();
@@ -731,21 +730,21 @@ public class PlayerController : MonoBehaviour, IWater
 
             //If no space in inventory, update instruction text for swapping.
             if (carriedWeapons.Count >= maxWeapons)
-                hud.UpdateInstructions(pickupAllowed,pickupDrop.pickupWeapon.gameObject.name, GamepadButton.Y);
+                hud.UpdateMiddleInstructions(pickupAllowed,pickupDrop.pickupWeapon.gameObject.name, GamepadButton.Y);
 
             else if (carriedWeapons.Count < maxWeapons)
             {
                 if (autoPickup)
                     PickupWeapon();
                 else
-                    hud.UpdateInstructions(pickupAllowed, pickupDrop.pickupWeapon.gameObject.name, GamepadButton.Y);
+                    hud.UpdateMiddleInstructions(pickupAllowed, pickupDrop.pickupWeapon.gameObject.name, GamepadButton.Y);
             }
 
         }
         else
         {
             //If pickup not allowed, disable instruction text
-            hud.UpdateInstructions(pickupAllowed,"", GamepadButton.Y);
+            hud.UpdateMiddleInstructions(pickupAllowed,"", GamepadButton.Y);
         }
     }
 

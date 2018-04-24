@@ -64,6 +64,17 @@ public class MatchController : MonoBehaviour, IController{
         }
     }
 
+    public int GameCountdown
+    {
+        get {return (int)(gameLength-gameTimer);}
+
+    }
+
+    public int PlayerCount
+    {
+        get { return instantiatedPlayers.Length; }
+    }
+
     #endregion
 
 

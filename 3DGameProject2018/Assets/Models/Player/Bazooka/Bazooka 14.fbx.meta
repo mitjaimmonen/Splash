@@ -1,0 +1,567 @@
+fileFormatVersion: 2
+guid: 6581212c912706344949ef12c4174e02
+timeCreated: 1524554041
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Armature.001
+    100002: Armatureclip
+    100004: Armaturelauncher
+    100006: b_hand1.L
+    100008: b_hand1.R
+    100010: b_hand2.L
+    100012: b_hand2.L_end
+    100014: b_hand2.L_end_end
+    100016: b_hand2.R
+    100018: b_hand2.R_end
+    100020: b_hand2.R_end_end
+    100022: b_lowerarm.L
+    100024: b_lowerarm.R
+    100026: b_shoulder.L
+    100028: b_shoulder.R
+    100030: b_thumb1.L
+    100032: b_thumb1.R
+    100034: b_thumb2.L
+    100036: b_thumb2.L_end
+    100038: b_thumb2.L_end_end
+    100040: b_thumb2.R
+    100042: b_thumb2.R_end
+    100044: b_thumb2.R_end_end
+    100046: b_upperarm.L
+    100048: b_upperarm.R
+    100050: balloon launcher
+    100052: Balloon1
+    100054: Balloon1_end
+    100056: Balloon2
+    100058: Balloon2_end
+    100060: Balloon3
+    100062: Balloon3_end
+    100064: //RootNode
+    100066: BorderLeft
+    100068: BorderLeft_end
+    100070: BorderLow
+    100072: BorderLow_end
+    100074: BorderRight
+    100076: BorderRight_end
+    100078: BorderUp
+    100080: BorderUp_end
+    100082: Clip
+    100084: Cube.000
+    100086: Master
+    100088: Master 1
+    100090: Master 2
+    100092: Piston
+    100094: Piston_end
+    100096: Ring
+    100098: Ring_end
+    100100: Rotator
+    400000: Armature.001
+    400002: Armatureclip
+    400004: Armaturelauncher
+    400006: b_hand1.L
+    400008: b_hand1.R
+    400010: b_hand2.L
+    400012: b_hand2.L_end
+    400014: b_hand2.L_end_end
+    400016: b_hand2.R
+    400018: b_hand2.R_end
+    400020: b_hand2.R_end_end
+    400022: b_lowerarm.L
+    400024: b_lowerarm.R
+    400026: b_shoulder.L
+    400028: b_shoulder.R
+    400030: b_thumb1.L
+    400032: b_thumb1.R
+    400034: b_thumb2.L
+    400036: b_thumb2.L_end
+    400038: b_thumb2.L_end_end
+    400040: b_thumb2.R
+    400042: b_thumb2.R_end
+    400044: b_thumb2.R_end_end
+    400046: b_upperarm.L
+    400048: b_upperarm.R
+    400050: balloon launcher
+    400052: Balloon1
+    400054: Balloon1_end
+    400056: Balloon2
+    400058: Balloon2_end
+    400060: Balloon3
+    400062: Balloon3_end
+    400064: //RootNode
+    400066: BorderLeft
+    400068: BorderLeft_end
+    400070: BorderLow
+    400072: BorderLow_end
+    400074: BorderRight
+    400076: BorderRight_end
+    400078: BorderUp
+    400080: BorderUp_end
+    400082: Clip
+    400084: Cube.000
+    400086: Master
+    400088: Master 1
+    400090: Master 2
+    400092: Piston
+    400094: Piston_end
+    400096: Ring
+    400098: Ring_end
+    400100: Rotator
+    2100000: face.001
+    2100002: Material
+    2100004: TT_checker_2048x2048_UV_GRID
+    4300000: Cube.000
+    4300002: balloon launcher
+    4300004: Clip
+    7400000: defautl ammo2
+    7400002: Armature.001|Key|Gun_low.001|Gun_low.001Action|Gun_low.001|Gun_low.001Action
+    7400004: Armaturelauncher|Key.001|Armature|ArmaturePose|Armature|ArmaturePose
+    7400006: default ammo3
+    7400008: Armaturelauncher|Launcher
+    7400010: Armatureclip|clip
+    7400012: Armatureclip|Key.001|Armature|ArmaturePose|Armature|ArmaturePose
+    7400014: Armatureclip|Key|Gun_low.001|Gun_low.001Action|Gun_low.001|Gun_low.001Action
+    7400016: Armatureclip|clip ammo3
+    7400018: Armatureclip|clip ammo2
+    7400020: Armatureclip|clip ammo1
+    7400022: Armatureclip|clip ammo3 shoot
+    7400024: Armatureclip|clip ammo2 shoot
+    7400026: Armatureclip|clip ammo1 shoot
+    7400028: default ammo2
+    7400030: default ammo1
+    7400032: default ammo0
+    9500000: //RootNode
+    13700000: balloon launcher
+    13700002: Clip
+    13700004: Cube.000
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: f81f8786e25085840a0f56d02fe2491a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TT_checker_2048x2048_UV_GRID
+    second: {fileID: 2100000, guid: c8e1859d626696f42abc9a0619046b1f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: face.001
+    second: {fileID: 2100000, guid: 1181bf17a405d394d9df20022dbb17c7, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: default ammo3
+      takeName: Armaturelauncher|Key|Gun_low.001|Gun_low.001Action|Gun_low.001|Gun_low.001Action
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armaturelauncher|Launcher
+      takeName: Armaturelauncher|Launcher
+      firstFrame: 15
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armatureclip|clip
+      takeName: Armatureclip|clip
+      firstFrame: 0
+      lastFrame: 31
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armatureclip|clip ammo3
+      takeName: Armatureclip|clip
+      firstFrame: 2
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armatureclip|clip ammo2
+      takeName: Armatureclip|clip
+      firstFrame: 17
+      lastFrame: 25
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armatureclip|clip ammo3 shoot
+      takeName: Armatureclip|clip
+      firstFrame: 0
+      lastFrame: 2
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armatureclip|clip ammo2 shoot
+      takeName: Armatureclip|clip
+      firstFrame: 13.5
+      lastFrame: 17
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armatureclip|clip ammo1 shoot
+      takeName: Armatureclip|clip
+      firstFrame: 27
+      lastFrame: 31
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armatureclip|clip ammo1
+      takeName: Armatureclip|clip
+      firstFrame: 30.7
+      lastFrame: 31
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: default ammo2
+      takeName: Armatureclip|clip
+      firstFrame: 9
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: default ammo1
+      takeName: Armatureclip|clip
+      firstFrame: 16
+      lastFrame: 17
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: default ammo0
+      takeName: Armatureclip|clip
+      firstFrame: 30
+      lastFrame: 31
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

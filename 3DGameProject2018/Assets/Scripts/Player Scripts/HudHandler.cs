@@ -27,19 +27,19 @@ public enum GamepadButton
 public class HudHandler : MonoBehaviour {     
 
     #region canvasReferences
-        public Image healthIcon, throwableIcon, damageIndicator, hitmarker, crosshair, buttonIndicator;
+        public Image healthIcon, damageIndicator, hitmarker, crosshair, buttonIndicatorMiddle, buttonIndicatorLeft;
         public List<Sprite> buttonSprites;
         public Slider healthSlider;
         public Slider clipSlider;
         public Slider circleTimerSlider;
         public Image circleSliderImage;
         
-        public Text instructionText;
+        public Text deathCountText, killCountText;
+        public Text instructionTextMiddle, instructionTextLeft;
         public Text clipAmmoText;
         public Text globalAmmoText;
         public Text timerText;
         public Sprite[] healthIcons, thorwableIcons;
-        public Text playerNumberText;
         
     #endregion
 
@@ -52,26 +52,31 @@ public class HudHandler : MonoBehaviour {
     private int maxHealth, currentHealth;
     private int globalAmmo, clipSize, currentAmmo;
     private float healthUpdateTimer = 0, ammoUpdateTimer = 0, damageIndicatorTimer = 0, hitmarkerTimer = 1;
-    private bool isHealthUpdating = false, isAmmoUpdating = false , instructionsFade = true;
+    private bool isHealthUpdating = false, isAmmoUpdating = false , instructionsFadeMiddle = true, instructionsFadeLeft = true;
     private int oldCurrentHealth, oldCurrentAmmo;
     private Vector3 lastDamageOrigin, hitmarkerScale;
     private float delta=0, sceneTime = 0;
-    private float tipTimer =0;
+    private float tipTimerLeftSide =0;
     private Color noAlpha;
 
 
-    public bool hasJumped = false;
-    public bool hasShot = false;
-    public bool hasReloaded = false;
-    public bool hasSprinted = false;
-    public bool hasSwitchedWeapon = false;
+    private bool hasJumped = false;
+    private bool hasShot = false;
+    private bool hasReloaded = false;
+    private bool hasSprinted = false;
+    private bool hasSwitchedWeapon = false;
 
     private void Start() {
         oldCurrentHealth = playerController.CurrentHealth;
         hitmarkerScale = crosshair.transform.localScale;
         oldCurrentAmmo = playerController.CurrentAmmo;
-        buttonIndicator.color = Color.clear;
-        instructionText.text = "";
+        killCountText.text = playerController.stats.kills.ToString();
+        deathCountText.text = playerController.stats.deaths.ToString();
+
+        buttonIndicatorMiddle.color = Color.clear;
+        buttonIndicatorLeft.color = Color.clear;
+        instructionTextMiddle.text = "";
+        instructionTextLeft.text = "";
         circleTimerSlider.value = 0;
     }
 
@@ -81,6 +86,7 @@ public class HudHandler : MonoBehaviour {
         delta = Time.deltaTime;
         sceneTime = Time.timeSinceLevelLoad;
         UpdateColorAlphas();
+        UpdateStats();
 
         if (playerController.helpfulTips)
             UpdateTips();
@@ -105,6 +111,11 @@ public class HudHandler : MonoBehaviour {
         
     }
 
+    void UpdateStats()
+    {
+        killCountText.text = playerController.stats.kills.ToString();
+        deathCountText.text = playerController.stats.deaths.ToString();
+    }
     void UpdateColorAlphas()
     {
 
@@ -129,115 +140,119 @@ public class HudHandler : MonoBehaviour {
             noAlpha.a = 0;
             circleSliderImage.color = Color.Lerp(circleSliderImage.color, noAlpha, delta * 5f);
         }
-        if (instructionText.color.a != 0 && instructionsFade)
+        if (instructionTextMiddle.color.a != 0 && instructionsFadeMiddle)
         {
-            noAlpha = instructionText.color;
+            noAlpha = instructionTextMiddle.color;
             noAlpha.a = 0;
-            instructionText.color = Color.Lerp(instructionText.color, noAlpha, delta * 5f);
-            buttonIndicator.color = Color.Lerp(buttonIndicator.color, noAlpha, delta * 5f);
+            instructionTextMiddle.color = Color.Lerp(instructionTextMiddle.color, noAlpha, delta * 5f);
+            buttonIndicatorMiddle.color = Color.Lerp(buttonIndicatorMiddle.color, noAlpha, delta * 5f);
             
         }
-        
+        if (instructionTextLeft.color.a != 0 && instructionsFadeMiddle)
+        {
+            noAlpha = instructionTextLeft.color;
+            noAlpha.a = 0;
+            instructionTextLeft.color = Color.Lerp(instructionTextLeft.color, noAlpha, delta * 5f);
+            buttonIndicatorLeft.color = Color.Lerp(buttonIndicatorLeft.color, noAlpha, delta * 5f);
+            
+        }
 
     }
 
     void UpdateTips()
     {
-        if (instructionsFade) //Means no other more important instructions are being displayed.
+        if (instructionsFadeMiddle) //Middle has ONLY aggressive instructions (kinda blocks the view)
         {
 
             if (playerController.GlobalAmmo + playerController.CurrentAmmo < playerController.CurrentWeapon.weaponData.shotUsage)
             {
-                instructionText.color = Color.white;
-                buttonIndicator.color = Color.clear;
-                instructionText.text = "Not enough ammo";
-                buttonIndicator.sprite = buttonSprites[(int)GamepadButton.None];
-                tipTimer = sceneTime;
+                instructionTextMiddle.color = Color.white;
+                buttonIndicatorMiddle.color = Color.clear;
+                instructionTextMiddle.text = "Not enough ammo";
+                buttonIndicatorMiddle.sprite = buttonSprites[(int)GamepadButton.None];
                 return;
             }
 
             if (playerController.CurrentAmmo < playerController.CurrentWeapon.weaponData.shotUsage && !playerController.autoReload)
             {
-                instructionText.color = Color.white;
-                buttonIndicator.color = Color.white;
-                instructionText.text = "Reload";
-                buttonIndicator.sprite = buttonSprites[(int)GamepadButton.L1];
-                tipTimer = sceneTime;
+                instructionTextMiddle.color = Color.white;
+                buttonIndicatorMiddle.color = Color.white;
+                instructionTextMiddle.text = "Reload";
+                buttonIndicatorMiddle.sprite = buttonSprites[(int)GamepadButton.L1];
                 return;
 
             }
-
-
+        }
+        if (instructionsFadeLeft) //Left has less important tips and texts
+        {
             if (!playerController.hasShot)
             {
-                if (tipTimer < sceneTime - 5f && sceneTime > 5f)
+                if (tipTimerLeftSide < sceneTime - 5f && sceneTime > 5f)
                 {
-                    instructionText.color = Color.white;
-                    buttonIndicator.color = Color.white;
-                    instructionText.text = "Shoot";
-                    buttonIndicator.sprite = buttonSprites[(int)GamepadButton.R2];
+                    instructionTextLeft.color = Color.white;
+                    buttonIndicatorLeft.color = Color.white;
+                    instructionTextLeft.text = "Shoot";
+                    buttonIndicatorLeft.sprite = buttonSprites[(int)GamepadButton.R2];
                 }
                 return;
             }
             else if (playerController.hasShot && !hasShot)
             {
                 hasShot = true;
-                tipTimer = sceneTime;
+                tipTimerLeftSide = sceneTime;
                 return;
             }
 
-
-            
             if (!playerController.hasSwitchedWeapon)
             {
-                if (playerController.carriedWeapons.Count > 1 && tipTimer < sceneTime - 5f)
+                if (playerController.carriedWeapons.Count > 1)
                 {
-                    instructionText.color = Color.white;
-                    buttonIndicator.color = Color.white;
-                    instructionText.text = "Switch weapon";
-                    buttonIndicator.sprite = buttonSprites[(int)GamepadButton.R1];
+                    instructionTextLeft.color = Color.white;
+                    buttonIndicatorLeft.color = Color.white;
+                    instructionTextLeft.text = "Switch weapon";
+                    buttonIndicatorLeft.sprite = buttonSprites[(int)GamepadButton.R1];
                 }
                 return;
             }
             else if (playerController.hasSwitchedWeapon && !hasSwitchedWeapon)
             {
                 hasSwitchedWeapon = true;
-                tipTimer = sceneTime;
+                tipTimerLeftSide = sceneTime;
                 return;
             }
 
             if (!playerController.hasJumped)
             {
-                if (tipTimer < sceneTime - 10f && tipTimer > sceneTime - 15f)
+                if (tipTimerLeftSide < sceneTime - 5f)
                 {
-                    instructionText.color = Color.white;
-                    buttonIndicator.color = Color.white;
-                    instructionText.text = "Jump";
-                    buttonIndicator.sprite = buttonSprites[(int)GamepadButton.L2];
+                    instructionTextLeft.color = Color.white;
+                    buttonIndicatorLeft.color = Color.white;
+                    instructionTextLeft.text = "Jump";
+                    buttonIndicatorLeft.sprite = buttonSprites[(int)GamepadButton.L2];
                 }
                 return;
             }
             else if (playerController.hasJumped && !hasJumped)
             {
                 hasJumped = true;
-                tipTimer = sceneTime;
+                tipTimerLeftSide = sceneTime;
                 return;
             }
             if (!playerController.hasSprinted)
             {
-                if (tipTimer < sceneTime - 10f && tipTimer > sceneTime - 15f)
+                if (tipTimerLeftSide < sceneTime - 5f)
                 {
-                    instructionText.color = Color.white;
-                    buttonIndicator.color = Color.white;
-                    instructionText.text = "Sprint";
-                    buttonIndicator.sprite = buttonSprites[(int)GamepadButton.L3];
+                    instructionTextLeft.color = Color.white;
+                    buttonIndicatorLeft.color = Color.white;
+                    instructionTextLeft.text = "Sprint";
+                    buttonIndicatorLeft.sprite = buttonSprites[(int)GamepadButton.L3];
                 }
                 return;
             }
             else if (playerController.hasSprinted && !hasSprinted)
             {
                 hasSprinted = true;
-                tipTimer = sceneTime;
+                tipTimerLeftSide = sceneTime;
                 return;
             }
         }
@@ -259,20 +274,19 @@ public class HudHandler : MonoBehaviour {
     }
 
 
-    public void UpdateInstructions(bool active,string textContent, GamepadButton btn)
+    public void UpdateMiddleInstructions(bool active,string textContent, GamepadButton btn)
     {   
         if (active)
         {
-            instructionsFade = false;
-            instructionText.color = Color.white;
-            instructionText.text = textContent;
-            buttonIndicator.sprite = buttonSprites[(int)btn];
-            buttonIndicator.color = Color.white;
+            instructionsFadeMiddle = false;
+            instructionTextMiddle.color = Color.white;
+            instructionTextMiddle.text = textContent;
+            buttonIndicatorMiddle.sprite = buttonSprites[(int)btn];
+            buttonIndicatorMiddle.color = Color.white;
         }
         else
         {
-            instructionsFade = true;
-            tipTimer = sceneTime; // Prevents tips from appearing right away
+            instructionsFadeMiddle = true;
         }
     }
     
@@ -366,13 +380,5 @@ public class HudHandler : MonoBehaviour {
 
     }
 
-    public void UpdateThrowable(string name) {
-        throwableIcon.enabled = true;
-        if (name == "balloon")
-            throwableIcon.sprite = thorwableIcons[0];
-        else
-            throwableIcon.enabled = false;
-
-    }
 
 }

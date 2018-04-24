@@ -176,7 +176,9 @@ public class Weapon : MonoBehaviour {
         }
         if (particleLauncher)
         {
-            particleLauncher.HeadshotMultiplier = weaponData.headshotMultiplier;            
+            particleLauncher.HeadshotMultiplier = weaponData.headshotMultiplier;       
+            int ammo = Mathf.CeilToInt(CurrentClipAmmo/weaponData.shotUsage);
+            gunAnim.SetFloat("ammo", ammo+1);
         }
         else
         {
@@ -190,6 +192,8 @@ public class Weapon : MonoBehaviour {
         isActive = true;
         transform.localRotation = Quaternion.Euler(0,rotationOffsetY,0);
         gameObject.SetActive(true);
+
+
 
     }
 
@@ -247,9 +251,11 @@ public class Weapon : MonoBehaviour {
             {
                 if (!weaponData.isLauncher)
                     waterParticles.Stop();
+
                 isShooting = false;
                 FMOD_Shooting.setValue(0);
             }
+
             gunAnim.SetBool("isShooting", isShooting);
 
             if (playerController.autoReload && weaponData.currentClipAmmo < weaponData.shotUsage)
@@ -334,6 +340,10 @@ public class Weapon : MonoBehaviour {
                 balloon.rb.AddTorque(new Vector3(Random.Range(-100,100), Random.Range(-100,100), Random.Range(-100,100)), ForceMode.Impulse);
                 balloon.rb.AddForce(MuzzleTransform.forward * weaponData.shootSpeed, ForceMode.Impulse);
                 
+                int ammo = Mathf.CeilToInt(CurrentClipAmmo/weaponData.shotUsage);
+                Debug.Log(ammo);
+                gunAnim.SetFloat("ammo", ammo);
+
                 //Grenade launcher stuff
                 //Instantiate balloon
                 //Set weapondata such as damage & collision amounts
@@ -408,8 +418,9 @@ public class Weapon : MonoBehaviour {
         playerController.GlobalAmmo = currentGlobalAmmo;
         
         playerController.CurrentAmmo = weaponData.currentClipAmmo;
-        
+        gunAnim.SetFloat("ammo", 4);
     }
+
     #endregion
 
 }
