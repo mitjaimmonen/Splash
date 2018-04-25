@@ -1616,8 +1616,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayers: 1
-  playerNumber: 0
+  currentPlayers: 4
+  playerNumber: 3
   rotationV: 0
   rotationH: 0
   maxRotV: 65
@@ -1625,6 +1625,7 @@ MonoBehaviour:
   switchOnPickup: 1
   autoPickup: 0
   autoReload: 0
+  toggleRun: 1
   carriedWeapons:
   - {fileID: 114412804487712570, guid: a8d838a278610b141b7f5d1f361aee96, type: 2}
   maxWeapons: 2
@@ -1637,6 +1638,7 @@ MonoBehaviour:
   canvasOverlay: {fileID: 114030764479644478, guid: 5cc16acd98aca0a4f9b1210f405b496b,
     type: 2}
   playerHead: {fileID: 1590808485326396}
+  playerTorso: {fileID: 1562985379872070}
   gunsParent: {fileID: 1371622987980496}
   hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
   rigController: {fileID: 0}
@@ -1660,9 +1662,6 @@ MonoBehaviour:
   climbSpeed: 1
   stepHeight: 0.1
   helpfulTips: 1
-  damageColliders:
-  - {fileID: 136172752203868750}
-  - {fileID: 136785458119969632}
   psSplashSizeMultiplier: 10
   psSplash: {fileID: 0}
   collisionBehaviour: {fileID: 0}

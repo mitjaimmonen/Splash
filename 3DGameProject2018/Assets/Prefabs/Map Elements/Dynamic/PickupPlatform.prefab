@@ -84,8 +84,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1769574499836652}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.02, y: -3.5499997, z: -3.06}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.29, y: 9.525, z: 10.28}
   m_LocalScale: {x: 2, y: 0.99999994, z: 2}
   m_Children:
   - {fileID: 4191289295206382}
@@ -308,7 +308,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickups:
-  - {fileID: 1276350154424002, guid: c8f6fd7a010364246a4af6b7ae178f51, type: 2}
-  - {fileID: 1223394373145606, guid: 05bd6cd203b3f22439ab78c249f57c60, type: 2}
-  - {fileID: 1593175078492508, guid: 4275e6d1d3213494f9944b0a6108b807, type: 2}
+  - {fileID: 1083878052978896, guid: 1e4ecddd8e34363408eaeeca3c151e1b, type: 2}
   respawnTime: 10

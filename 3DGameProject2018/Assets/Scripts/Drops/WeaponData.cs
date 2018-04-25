@@ -12,7 +12,7 @@ public class WeaponData : MonoBehaviour {
     public WeaponType weaponType = WeaponType.pistol;
 
     [Tooltip("How much damage per shot.")]
-    public int damage = 5;
+    public float damage = 5;
     [Tooltip("How much basic damage multiplies per headshot.")]
     public float headshotMultiplier = 1.5f;
     public int currentClipAmmo;

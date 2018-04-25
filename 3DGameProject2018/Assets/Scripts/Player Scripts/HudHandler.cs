@@ -39,7 +39,7 @@ public class HudHandler : MonoBehaviour {
         public Text clipAmmoText;
         public Text globalAmmoText;
         public Text timerText;
-        public Sprite[] healthIcons, thorwableIcons;
+        public Sprite[] healthIcons;
         
     #endregion
 

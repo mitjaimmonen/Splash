@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 198248192720406720}
   - component: {fileID: 199118271630450066}
   m_Layer: 8
-  m_Name: Water Sprite Particles (assault rifle)
+  m_Name: Water Sprite Particles (pistol)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -664,7 +664,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1155469018299844}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4279210219138194}
@@ -732,7 +732,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1479770213735480}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4772112302280730}
@@ -1072,7 +1072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 0
-  damage: 3
+  damage: 1.25
   headshotMultiplier: 1.5
   currentClipAmmo: 100
   isLauncher: 0
@@ -1086,7 +1086,7 @@ MonoBehaviour:
   centerAim: 0
   lerpAim: 0
   rotationSpeed: 20
-  maxCollisionCount: 3
+  maxCollisionCount: 5
 --- !u!114 &114487977569037002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1362,7 +1362,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.134}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.534}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5331,15 +5331,15 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.034067497
-          inSlope: 0.8769115
-          outSlope: 0.8769115
+          value: 0.055116996
+          inSlope: 0.66384846
+          outSlope: 0.66384846
           tangentMode: 0
         - serializedVersion: 2
           time: 1
-          value: 0.31339943
-          inSlope: 0.097944
-          outSlope: 0.097944
+          value: 0.14497878
+          inSlope: -0.118503906
+          outSlope: -0.118503906
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -7043,7 +7043,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.2
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -7084,7 +7084,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.15
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -7164,7 +7164,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     minKillSpeed: 0
-    maxKillSpeed: 0
+    maxKillSpeed: 1000
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
@@ -7986,7 +7986,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1155469018299844}
   serializedVersion: 5
-  lengthInSec: 0.2
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
   looping: 0
@@ -8039,15 +8039,15 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -717347391
+  randomSeed: 1882365198
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.85
-      minScalar: 0.75
+      scalar: 0.5
+      minScalar: 0.4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -8087,26 +8087,26 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 2
-      scalar: 40
+      scalar: 45.098476
       minScalar: 35
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.41176796
+          value: 0.53808266
           inSlope: 3.069352
           outSlope: 3.069352
           tangentMode: 0
         - serializedVersion: 2
-          time: 0.5274233
-          value: 0.94101834
-          inSlope: -0.98422134
-          outSlope: -0.98422134
+          time: 0.5546713
+          value: 0.9831236
+          inSlope: -0.4457713
+          outSlope: -0.4457713
           tangentMode: 0
         - serializedVersion: 2
           time: 1
-          value: 0.3699665
+          value: 0.7278614
           inSlope: -0.4596547
           outSlope: -0.4596547
           tangentMode: 0
@@ -8118,13 +8118,13 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.3665123
+          value: 0.40861893
           inSlope: 2.6351159
           outSlope: 2.6351159
           tangentMode: 0
         - serializedVersion: 2
           time: 1
-          value: 0.32126427
+          value: 0.5528431
           inSlope: -0.31772387
           outSlope: -0.31772387
           tangentMode: 0
@@ -8495,7 +8495,7 @@ ParticleSystem:
     radiusThickness: 0
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 90, y: 0, z: 0}
+    m_Rotation: {x: 89, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -8506,7 +8506,7 @@ ParticleSystem:
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
     alignToDirection: 0
-    randomDirectionAmount: 0.01
+    randomDirectionAmount: 0.03
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
@@ -8729,7 +8729,7 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 0
-      cycleCount: 10
+      cycleCount: 8
       repeatInterval: 0.025
   SizeModule:
     enabled: 1
@@ -9015,7 +9015,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 43176
+        atime1: 65535
         atime2: 65535
         atime3: 0
         atime4: 0
@@ -11544,7 +11544,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_RenderMode: 1
   m_SortMode: 0
   m_MinParticleSize: 0

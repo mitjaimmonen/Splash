@@ -1036,7 +1036,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 1
   damage: 1
-  headshotMultiplier: 2
+  headshotMultiplier: 1.25
   currentClipAmmo: 100
   isLauncher: 0
   launcherProjectile: {fileID: 0}
@@ -4678,7 +4678,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1860864538
+  randomSeed: 334512890
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -5618,7 +5618,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 3277
-        atime1: 50886
+        atime1: 63029
         atime2: 50886
         atime3: 0
         atime4: 0
@@ -11445,7 +11445,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 10
   m_RenderMode: 1
   m_SortMode: 1
   m_MinParticleSize: 0

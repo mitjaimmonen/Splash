@@ -48,16 +48,16 @@ public class Balloon : MonoBehaviour {
 
 	private void BlowUp(Collision other)
 	{
-		if (other != null)
-		{
-			var otherController = other.gameObject.GetComponent<PlayerController>();
-			if (otherController != null && otherController != playerController)
-			{
-				//Player collision. Instakill.
-				otherController.TakeDamage(500, playerController);
-				playerController.DealDamage();
-			}
-		}
+		// if (other != null)
+		// {
+		// 	var otherController = other.gameObject.GetComponent<PlayerController>();
+		// 	if (otherController != null && otherController != playerController)
+		// 	{
+		// 		//Player collision. Instakill.
+		// 		otherController.TakeDamage(50, playerController);
+		// 		playerController.DealDamage();
+		// 	}
+		// }
 
 		rb.isKinematic = true;
 		col.enabled = false;

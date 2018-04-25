@@ -24,21 +24,19 @@ public class HudWeaponsHandler : MonoBehaviour {
 		{
 			if (i >= maxWeapons)
 			{
-				Debug.Log("if");
+				Debug.Log("setting weapon icon false");
 				weaponIconImages[i].gameObject.SetActive(false);
 				backgroundImages[i].gameObject.SetActive(false);
 				continue;
 			}
 			else
 			{
-				
 				weaponIconImages[i].gameObject.SetActive(false);
 
 				backgroundImages[i].gameObject.SetActive(true);
 
 				if (i < carriedWeapons.Count)
 				{
-					Debug.Log("if2");
 					switch (carriedWeapons[i].weaponData.weaponType)
 					{
 						case WeaponType.pistol :

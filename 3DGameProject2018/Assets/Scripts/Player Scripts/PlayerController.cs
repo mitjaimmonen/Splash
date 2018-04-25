@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour, IWater
         [Tooltip("Does weapon reload automatically when empty.")]
         public bool autoReload;
         [Tooltip ("Add initial weapon(s) from prefabs. Should always have at least one weapon.")]
+        public bool toggleRun;
         public List<Weapon> carriedWeapons; //All current weapons under gunsParent.
         [SerializeField]
         private int maxWeapons = 2, maxGlobalAmmo = 150;
@@ -67,13 +68,14 @@ public class PlayerController : MonoBehaviour, IWater
 
     private bool isAlive = true;
     private bool isAimRaycastHit = false; //Used for aiming the center of screen
-    private int currentDamage = 0;
+    private float currentDamage = 0;
     private float runningTimer = 0, movingTimer = 0, interactTimer = 0, swapTimer = 0;
     private bool isSwapped = false; //Was weapon swapped already
     private int maxHealth = 100;
     //Classes
     public CanvasOverlayHandler canvasOverlay;
     public GameObject playerHead; //Has head collider for headshots.
+    public GameObject playerTorso;
     public GameObject gunsParent; //Position always same as camera. Weapon script uses this to parent guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
     public RigController rigController; //Controls player model animator state & physics (ragdoll)
@@ -101,6 +103,7 @@ public class PlayerController : MonoBehaviour, IWater
     public float stepHeight = 0;
     private Vector3 velocity = new Vector3(0, 0, 0);
     private float prevVelocity;
+    private Vector2 movementMagnitude; //Store leftHorizontal & rightHorizontal inputs
     public bool helpfulTips = true;
 
     private Collider prevFloor;
@@ -108,7 +111,7 @@ public class PlayerController : MonoBehaviour, IWater
     private Quaternion prevFloorRot;
     private float prevGroundPoint;
 
-    [SerializeField] private Collider[] damageColliders; //Colliders that take damage
+    private List<Collider> damageColliders; //Colliders that take damage
     private CapsuleCollider capsule;
     //possibly a list of who damaged you as well so we could give people assists and stuff
     //wed have to run off a points system that way so id rather keep it to k/d right now or time because they are both easy
@@ -174,7 +177,7 @@ public class PlayerController : MonoBehaviour, IWater
                 hud.UpdateAmmo();
             }
         }
-        public int CurrentDamage
+        public float CurrentDamage
         {
             get { return currentDamage; }
             set { currentDamage = value; }
@@ -246,6 +249,11 @@ public class PlayerController : MonoBehaviour, IWater
             canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
             canvasOverlay.SetOverlay(currentPlayers);
         }
+        damageColliders = new List<Collider>();
+        foreach(var col in playerHead.GetComponents<Collider>())
+            damageColliders.Add(col);
+        foreach (var col in playerTorso.GetComponents<Collider>())
+            damageColliders.Add(col);
 
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
         hud.playerController = this;
@@ -314,9 +322,7 @@ public class PlayerController : MonoBehaviour, IWater
     //Physics
     private void FixedUpdate()
     {
-        //Timers
-        runningTimer += Time.deltaTime;
-        movingTimer += Time.deltaTime;
+
         /*tempVel = new Vector3(tempVel.x,0, tempVel.z).normalized *playerSpeed;*/
         velocity += new Vector3(tempVel.x , 0, tempVel.z);
         tempVel = Vector3.zero;
@@ -485,9 +491,7 @@ public class PlayerController : MonoBehaviour, IWater
             }
 
 
-
-
-            if(runningTimer > 0.1f && isRunning)
+            if(((isRunning && !toggleRun) || (movementMagnitude.magnitude < 0.5f)) && runningTimer >0.1f)
             {
                 isRunning = false;
                 cameraHandler.NewFov(1); // 1 = original fov
@@ -501,6 +505,10 @@ public class PlayerController : MonoBehaviour, IWater
     }
     private void Update()
     {
+        //Timers
+        runningTimer += Time.deltaTime;
+        movingTimer += Time.deltaTime;
+
         gunsParent.transform.rotation = playerHead.transform.rotation;
     }
 
@@ -660,17 +668,26 @@ public class PlayerController : MonoBehaviour, IWater
         switch(axis)
         {
             case "L3":
-                runningTimer = 0;
-                if(!isRunning)
+
+                if(!isRunning && runningTimer>0.1f)
                 {
                     isRunning = true;
                     cameraHandler.NewFov(1.2f);
                     playerSpeed = walkSpeed * runMultiplier;
-                    hasSprinted = true;
                 }
+                else if (toggleRun && runningTimer > 0.1f && isRunning)
+                {
+                    isRunning = false;
+                    cameraHandler.NewFov(1f);
+                    playerSpeed = walkSpeed * runMultiplier;
+                }
+
+                hasSprinted = true;
+                runningTimer = 0;
                 break;
 
             case "LeftHorizontal":
+                movementMagnitude.x = magnitude;
                 tempVel += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed*Time.deltaTime;
                 playerAnim.SetBool("isMoving", true);
                 playerAnim.SetFloat("sideways", magnitude);
@@ -678,6 +695,7 @@ public class PlayerController : MonoBehaviour, IWater
                 break;
 
             case "LeftVertical":
+                movementMagnitude.y = magnitude;
                 tempVel += -transform.forward * magnitude * playerSpeed * Time.deltaTime;
                 playerAnim.SetBool("isMoving", true);
                 playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
@@ -753,6 +771,13 @@ public class PlayerController : MonoBehaviour, IWater
     {
         if (isAlive && pickupDrop != null && pickupAllowed)
         {
+
+            foreach (var weapon in carriedWeapons)
+            {
+                if (weapon.name == pickupDrop.pickupWeapon.name)
+                    return;
+            }
+
             if (carriedWeapons.Count < maxWeapons)
             {
                 Debug.Log("New weapon picked up");

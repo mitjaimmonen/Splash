@@ -34,8 +34,8 @@ public class CollisionBehaviour : MonoBehaviour {
 
 	private float hitParticlesSize;
 	private bool isHead = false, hitmarkerPlayed = false;
-	private float headshotMultiplier = 1f, stackedDamage = 0;
-	private int defaultDamage;
+	private float headshotMultiplier = 1f;
+	private float defaultDamage = 1, stackedDamage = 1;
 	private int oldCount = 0, count = 0, tempCount = 0;
 
 	private float collisionCountTimer;
@@ -78,7 +78,7 @@ public class CollisionBehaviour : MonoBehaviour {
 			maxCount = otherPlayerController.CurrentWeapon.weaponData.maxCollisionCount;
 
 
-		if (collisionCountTimer < Time.time - 0.1f)
+		if (collisionCountTimer < Time.time - 0.033f) //30tps
 		{
 			oldCount = 0;
 			collisionCountTimer= Time.time;
@@ -99,7 +99,7 @@ public class CollisionBehaviour : MonoBehaviour {
 				PlayParticleEffect(intersection);
 
 			if (dynamicItem != null)
-				dynamicItem.ParticleHit(other.transform.position, intersection, count * otherPlayerController.CurrentDamage);
+				dynamicItem.ParticleHit(other.transform.position, intersection, (int)(count * otherPlayerController.CurrentDamage));
 			
 			else if (isPlayer && playerController != otherPlayerController)
 			{
@@ -126,17 +126,19 @@ public class CollisionBehaviour : MonoBehaviour {
 		{
 			if (collisionEvents[i].colliderComponent == null)
 			{
-				count = Mathf.Min(count++, maxCount*2); //In case of endless loop which shouldnt happen in the first place
-				continue;
+				count = i;
+				Debug.Log(collisionEvents[i]);
+				break;
 			}
 			isHead = collisionEvents[i].colliderComponent.gameObject.CompareTag("Head");
 			headshotMultiplier = isHead ? attackerParticles.HeadshotMultiplier : 1f;
 			stackedDamage += defaultDamage * headshotMultiplier;
+			Debug.Log("Stacked damage: " + stackedDamage);
 
 		}
+		Debug.Log("attacker particles: " + attackerParticles);
+		Debug.Log("Stacked damage: " + stackedDamage + ", count: " + count);
 		
-		// Debug.Log("Stacked damage: " + stackedDamage + ", count: " + count);
-
 		soundBehaviour.PlayHitmarker(attacker, isHead);
 		attacker.DealDamage();
 		playerController.TakeDamage((int)stackedDamage, attacker);
