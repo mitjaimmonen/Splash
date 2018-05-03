@@ -157,7 +157,8 @@ MonoBehaviour:
   collisionSE: event:/Water Collisions/HitCeramicSurface
   waterSplashSE: event:/Water Collisions/WaterSplashHuge
   destroySE: 
-  dealDamageSE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!114 &114421952658478086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,8 +171,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  allowMaxCountOverrideByWeapons: 1
+  allowMaxCountOverrideByWeapons: 0
   maxCount: 10
+  collisionParticles: 0
   soundBehaviour: {fileID: 0}
 --- !u!114 &114982249891307772
 MonoBehaviour:
@@ -195,4 +197,3 @@ MonoBehaviour:
   mainRigidbody: {fileID: 0}
   psSplash: {fileID: 0}
   collisionBehaviour: {fileID: 0}
-  psSplashSizeMultiplier: 1

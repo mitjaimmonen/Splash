@@ -9,10 +9,12 @@ public class Balloon : MonoBehaviour {
 	public ParticleSystem trailEffect;
 	public Rigidbody rb;
 	public PlayerController playerController;
+	public LayerMask mask;
+	public float explosionCheckRadius = 5;
 	public float destroyTime = 5f;
 	[FMODUnity.EventRef] public string balloonSplashSE;
 
-	public ParticleLauncher particleLauncher;
+	public ParticleLauncher particleLauncherParent, particleLauncherChild;
 	private Collider col;
 	private bool isInstantiated = false, isDestroying = false;
 	private float destroyTimer;
@@ -32,7 +34,8 @@ public class Balloon : MonoBehaviour {
 		if (trailEffect)
 			trailEffect.Play();
 			
-		particleLauncher.Controller = playerController;
+		particleLauncherParent.Controller = playerController;
+		particleLauncherChild.Controller = playerController;
 		col = GetComponent<Collider>();
 		isInstantiated = true;
 	}
@@ -48,17 +51,6 @@ public class Balloon : MonoBehaviour {
 
 	private void BlowUp(Collision other)
 	{
-		// if (other != null)
-		// {
-		// 	var otherController = other.gameObject.GetComponent<PlayerController>();
-		// 	if (otherController != null && otherController != playerController)
-		// 	{
-		// 		//Player collision. Instakill.
-		// 		otherController.TakeDamage(50, playerController);
-		// 		playerController.DealDamage();
-		// 	}
-		// }
-
 		rb.isKinematic = true;
 		col.enabled = false;
 		model.SetActive(false);
@@ -66,6 +58,28 @@ public class Balloon : MonoBehaviour {
 		trailEffect.Stop();
 		balloonSplashParticles.Play();
 		isDestroying = true;
+
+
+		List<GameObject> blastedPlayers = new List<GameObject>();
+		Collider[] objectsInRange = Physics.OverlapSphere(transform.position, explosionCheckRadius, mask);
+		
+		foreach(var col in objectsInRange)
+		{
+			Vector3 direction = col.transform.position - transform.position;
+			float magnitude = direction.magnitude;
+			direction = direction.normalized;
+			RaycastHit hit;
+			Physics.Raycast(transform.position + direction/5f, col.transform.position - transform.position, out hit, magnitude);
+			// Debug.Log(!blastedPlayers.Contains(col.gameObject) + ", " + hit.collider + ", " + col + ", "+ col.gameObject.tag);
+			if (!blastedPlayers.Contains(col.gameObject) && col.gameObject.tag == "Torso")
+			{
+				// Debug.Log("magnitude in balloon blast: "+magnitude + ", direction:" + direction);
+				blastedPlayers.Add(col.gameObject);
+				//ROCKET JUMP/KNOCKBACK CODE HERE
+			}
+		}
+
+
 	}
 	
 	// Update is called once per frame

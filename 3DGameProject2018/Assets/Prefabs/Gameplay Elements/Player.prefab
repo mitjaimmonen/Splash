@@ -385,7 +385,7 @@ GameObject:
   - component: {fileID: 65138884215114132}
   m_Layer: 9
   m_Name: Torso
-  m_TagString: Untagged
+  m_TagString: Torso
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1616,8 +1616,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30768918ef4e97b428663d101058230a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayers: 4
-  playerNumber: 3
+  currentPlayers: 2
+  playerNumber: 1
   rotationV: 0
   rotationH: 0
   maxRotV: 65

@@ -72,6 +72,7 @@ GameObject:
   - component: {fileID: 4115548938463950}
   - component: {fileID: 198628666126680496}
   - component: {fileID: 199940725800724402}
+  - component: {fileID: 114302159137196298}
   m_Layer: 0
   m_Name: paticle water bomb new
   m_TagString: Untagged
@@ -205,7 +206,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1978878069188386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.77, z: 6.74}
+  m_LocalPosition: {x: 0, y: 3.07, z: 6.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4450797380401592}
@@ -259,6 +260,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114302159137196298
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1773224803242230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504aaa145ccd715479efd3fc6c987cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreTimers: 1
 --- !u!114 &114555365096349604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,9 +288,14 @@ MonoBehaviour:
   trailEffect: {fileID: 198841915862306758}
   rb: {fileID: 54546764050668602}
   playerController: {fileID: 0}
+  mask:
+    serializedVersion: 2
+    m_Bits: 512
+  explosionCheckRadius: 3.5
   destroyTime: 5
   balloonSplashSE: event:/Water Collisions/Water balloon
-  particleLauncher: {fileID: 114973075202783170}
+  particleLauncherParent: {fileID: 114302159137196298}
+  particleLauncherChild: {fileID: 114973075202783170}
 --- !u!114 &114973075202783170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3814,7 +3832,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 266923246
+  randomSeed: 1119798539
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6325,9 +6343,9 @@ ParticleSystem:
     radiusScale: 0.5
     collidesWith:
       serializedVersion: 2
-      m_Bits: 525313
+      m_Bits: 525824
     maxCollisionShapes: 30
-    quality: 1
+    quality: 0
     voxelSize: 0.5
     collisionMessages: 1
     collidesWithDynamic: 1
@@ -9704,7 +9722,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 0
-    radiusScale: 0.25
+    radiusScale: 0.5
     collidesWith:
       serializedVersion: 2
       m_Bits: 525825

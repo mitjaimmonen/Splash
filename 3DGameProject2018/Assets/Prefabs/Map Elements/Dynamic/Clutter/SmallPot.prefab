@@ -260,6 +260,7 @@ MonoBehaviour:
   isPlayer: 0
   allowMaxCountOverrideByWeapons: 0
   maxCount: 5
+  collisionParticles: 0
   soundBehaviour: {fileID: 0}
 --- !u!114 &114643241614402262
 MonoBehaviour:

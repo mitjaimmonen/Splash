@@ -220,7 +220,7 @@ public class MatchController : MonoBehaviour, IController{
                 unocupiedSpawns.Add(playerSpawns[i]);
             }
         }
-        Debug.Log(unocupiedSpawns.Count);
+        // Debug.Log(unocupiedSpawns.Count);
         int spawn = Random.Range(0, unocupiedSpawns.Count);
         instantiatedPlayers[playerIndex].transform.position = unocupiedSpawns[spawn].transform.position;
         instantiatedPlayers[playerIndex].transform.rotation = unocupiedSpawns[spawn].transform.rotation;

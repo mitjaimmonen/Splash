@@ -583,8 +583,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  allowMaxCountOverrideByWeapons: 1
+  allowMaxCountOverrideByWeapons: 0
   maxCount: 10
+  collisionParticles: 0
   soundBehaviour: {fileID: 0}
 --- !u!114 &114870802054246458
 MonoBehaviour:

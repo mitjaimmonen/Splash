@@ -66,6 +66,7 @@ public class CollisionBehaviour : MonoBehaviour {
 
 	private void OnParticleCollision(GameObject other)
 	{		
+		Debug.Log("ParticleCollision");
 		ParticleLauncher otherParticleLauncher = other.GetComponentInChildren<ParticleLauncher>();
 		PlayerController otherPlayerController = null;
 
@@ -118,7 +119,7 @@ public class CollisionBehaviour : MonoBehaviour {
 
 	public void PlayerDamage(PlayerController attacker, ParticleLauncher attackerParticles,List<ParticleCollisionEvent> collisionEvents)
 	{
-
+		Debug.Log("PlayerDamage");
 		stackedDamage = 0;
 		defaultDamage = attacker.CurrentDamage;
 		
@@ -126,17 +127,18 @@ public class CollisionBehaviour : MonoBehaviour {
 		{
 			if (collisionEvents[i].colliderComponent == null)
 			{
-				count = i;
-				Debug.Log(collisionEvents[i]);
-				break;
+				Debug.Log("No collider component found, using default dmg.");
+				stackedDamage += defaultDamage;
 			}
-			isHead = collisionEvents[i].colliderComponent.gameObject.CompareTag("Head");
-			headshotMultiplier = isHead ? attackerParticles.HeadshotMultiplier : 1f;
-			stackedDamage += defaultDamage * headshotMultiplier;
-			Debug.Log("Stacked damage: " + stackedDamage);
+			else
+			{
+				isHead = collisionEvents[i].colliderComponent.gameObject.CompareTag("Head");
+				headshotMultiplier = isHead ? attackerParticles.HeadshotMultiplier : 1f;
+				stackedDamage += defaultDamage * headshotMultiplier;
+			}
+			// Debug.Log("Stacked damage: " + stackedDamage);
 
 		}
-		Debug.Log("attacker particles: " + attackerParticles);
 		Debug.Log("Stacked damage: " + stackedDamage + ", count: " + count);
 		
 		soundBehaviour.PlayHitmarker(attacker, isHead);

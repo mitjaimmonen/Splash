@@ -333,15 +333,16 @@ public class Weapon : MonoBehaviour {
                 Quaternion randRot = new Quaternion(Random.Range(0,360),Random.Range(0,360),Random.Range(0,360),Random.Range(0,360));
                 Balloon balloon = Instantiate(weaponData.launcherProjectile, MuzzleTransform.position, randRot).GetComponent<Balloon>();
                 balloon.playerController = playerController;
-                balloon.particleLauncher.MaxLoopCount = weaponData.maxCollisionCount;
-                balloon.particleLauncher.HeadshotMultiplier = weaponData.headshotMultiplier;
+                balloon.particleLauncherParent.MaxLoopCount = weaponData.maxCollisionCount;
+                balloon.particleLauncherParent.HeadshotMultiplier = weaponData.headshotMultiplier;
+                balloon.particleLauncherChild.MaxLoopCount = weaponData.maxCollisionCount;
+                balloon.particleLauncherChild.HeadshotMultiplier = weaponData.headshotMultiplier;
                 balloon.Instantiate();
 
                 balloon.rb.AddTorque(new Vector3(Random.Range(-100,100), Random.Range(-100,100), Random.Range(-100,100)), ForceMode.Impulse);
                 balloon.rb.AddForce(MuzzleTransform.forward * weaponData.shootSpeed, ForceMode.Impulse);
                 
                 int ammo = Mathf.CeilToInt(CurrentClipAmmo/weaponData.shotUsage);
-                Debug.Log(ammo);
                 gunAnim.SetFloat("ammo", ammo);
 
                 //Grenade launcher stuff

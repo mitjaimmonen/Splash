@@ -101,7 +101,6 @@ public class Drops : MonoBehaviour {
     {
         if (pickupType == PickupEnum.gunPickup && playerController)
         {
-            Debug.Log("voi vitun vittu");
             playerController.AllowPickup(this, false, null);
             
         }

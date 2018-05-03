@@ -125,7 +125,6 @@ public class CameraHandler : MonoBehaviour {
         {
             if (i != player)
             {
-                Debug.Log("PlayerNumber: " + player + ", Culling" +i + " off");
                 currentCamera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Culling" + i)); //Turn bit off
                 currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("NonCulling" + i); //Turn bit on
 

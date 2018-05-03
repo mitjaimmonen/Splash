@@ -1703,9 +1703,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 3
-  damage: 1.5
+  damage: 2
   headshotMultiplier: 1.25
-  currentClipAmmo: 120
+  currentClipAmmo: 60
   isLauncher: 1
   launcherProjectile: {fileID: 1978878069188386, guid: 1105893eba7cc6f4ebf1494074378654,
     type: 2}
@@ -1718,7 +1718,7 @@ MonoBehaviour:
   centerAim: 0
   lerpAim: 0
   rotationSpeed: 5
-  maxCollisionCount: 30
+  maxCollisionCount: 25
 --- !u!114 &114159695403343832
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1233,7 +1233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 2
-  damage: 1.25
+  damage: 1.35
   headshotMultiplier: 1.5
   currentClipAmmo: 100
   isLauncher: 0

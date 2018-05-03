@@ -474,7 +474,7 @@ public class PlayerController : MonoBehaviour, IWater
                     pushback += new Vector3(0, .001f, 0);
                     velocity.y = 0;
                 }
-                Debug.Log(pushback);
+                // Debug.Log(pushback);
                 velocity += pushback.normalized * Time.deltaTime;
             }
 

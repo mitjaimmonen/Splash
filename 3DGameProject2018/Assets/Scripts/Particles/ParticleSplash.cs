@@ -36,7 +36,7 @@ public class ParticleSplash : MonoBehaviour {
 		// emitParams.velocity = Vector3.up * splashSizeMultiplier;
 		splashParticleSystem.transform.position = col.transform.position;
 		main.startSizeMultiplier = splashSize * splashSizeMultiplier;
-		Debug.Log(main.startSizeMultiplier);
+		// Debug.Log(main.startSizeMultiplier);
 		// main.startSpeedMultiplier = splashSpeed * splashSizeMultiplier;
 		Debug.Log(main.startSpeedMultiplier);
 
