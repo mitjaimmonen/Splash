@@ -92,39 +92,41 @@ public class PlayerController : MonoBehaviour, IWater
     public float lookSensV = 0.8f, lookSensH = 1f;
     public bool invertSensV = false;
     public Vector3 tempVel;
-    public float JumpVelocity = 1f;
+    public float jumpVelocity = 1f;
     public float gravity = 5f;
     public float maxVelocity;
     private bool isGrounded = true, isRunning = false;
     public float walkSpeed = 7f;
     public float runMultiplier = 1.5f;
     public float maxSlope = 60;
-    public float climbSpeed = 1;
-    public float stepHeight = 0;
     private Vector3 velocity = new Vector3(0, 0, 0);
     private float prevVelocity;
     private Vector2 movementMagnitude; //Store leftHorizontal & rightHorizontal inputs
     public bool helpfulTips = true;
-
-    private Collider prevFloor;
-    private Vector3 PrevFloorPos;
-    private Quaternion prevFloorRot;
-    private float prevGroundPoint;
 
     private List<Collider> damageColliders; //Colliders that take damage
     private CapsuleCollider capsule;
     //possibly a list of who damaged you as well so we could give people assists and stuff
     //wed have to run off a points system that way so id rather keep it to k/d right now or time because they are both easy
     private List<Effects> currentEffects;
-
-
+    private float acceleration;
+    private Collider[] m_colliders = new Collider[15];
+    public int maximumPhysicsLoops = 10;
+    //Variable for transforming platforms
+    private Collider lastCollider;
+    private Vector3 lastColliderPos;
+    private Quaternion lastColliderRot;
+    private RaycastHit lastColliderHit;
+    private Vector3 VelocityBuffer;
+    public float airFriction = 1;
+    private int addVelocity = 0;
 
     #region Getters & Setters
 
-        //Setters now trigger functions in hud when values change.
-        //by including values, hud doesnt need to have reference on this script.
+    //Setters now trigger functions in hud when values change.
+    //by including values, hud doesnt need to have reference on this script.
 
-        public Weapon CurrentWeapon
+    public Weapon CurrentWeapon
         {
             get{return currentWeapon;}
         }
@@ -277,7 +279,7 @@ public class PlayerController : MonoBehaviour, IWater
         cameraHandler.playerController = this;
         cameraHandler.target = playerHead;
         cameraHandler.SetViewport(currentPlayers, playerNumber);
-
+        hud.transform.parent = cameraHandler.transform;
         rigController = GetComponentInChildren<RigController>();
         armRigController = GetComponentInChildren<ArmRigController>();
         collisionBehaviour = GetComponent<CollisionBehaviour>();
@@ -323,68 +325,53 @@ public class PlayerController : MonoBehaviour, IWater
     private void FixedUpdate()
     {
 
-        /*tempVel = new Vector3(tempVel.x,0, tempVel.z).normalized *playerSpeed;*/
-        velocity += new Vector3(tempVel.x , 0, tempVel.z);
-        tempVel = Vector3.zero;
-
         if(!controller.IsPaused && isAlive)
         {
 
-
-            /*GRAVITY*/
-            velocity.y = (velocity.y + -gravity * Time.deltaTime) * Time.deltaTime;
-            velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
+            acceleration = (acceleration - gravity * Time.deltaTime);//calculate acceleration
 
 
-            isGrounded = false;
-            Vector3 TopSphere = transform.position + new Vector3(0, (capsule.height / 2 - capsule.radius) + 0.5f, 0) + capsule.center; //0.5f is additional offset because capsule does not reach head.
-            Vector3 BotSphere = transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0) + capsule.center;
-            /*Collision Calc*/
-
-
-
-
-            if(prevFloor != null)
+            //After jumping off a moving platform keep velocity, and deselerate at speed of airFriction
+            if(!isGrounded)
             {
-                if(Quaternion.Angle(prevFloor.transform.rotation, prevFloorRot) != 0)
-                {
-                    Quaternion relative = Quaternion.Inverse(prevFloorRot) * prevFloor.transform.rotation;
-                    transform.position = PrevFloorPos + (relative * (transform.position - PrevFloorPos));
-                }
-                if(prevFloor.transform.position != PrevFloorPos)
-                {
-                    transform.position += prevFloor.transform.position - PrevFloorPos;
-                }
-                prevFloor = null;
+                VelocityBuffer = VelocityBuffer.normalized * Mathf.Max(0, VelocityBuffer.magnitude - airFriction * Time.deltaTime);
+                addVelocity = 1;
             }
 
-            int ohshitcounter = 0;
+
+            velocity = transform.forward * tempVel.x;//Add the current relative forward or backwards input
+            velocity += Vector3.Cross(transform.forward, Vector3.up) * tempVel.z;//Add the current relative left or right input
+            tempVel = Vector3.zero;//Zero temp to wait for new input
+            velocity.y = acceleration * Time.deltaTime;//add curent acceleration
+            velocity += VelocityBuffer * addVelocity * Time.deltaTime;//add the velocity buffer only is in effect when addvelocity is set to 1
+            addVelocity = 0;//set our int flag for adding velocityBuffer back to 0
+            velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
+            isGrounded = false;//set grounded false until collision proves it should be
+
+            Pushout();
+
+            /*Colission Loop variables*/
+            int maxLoops = 0;
+            Vector3 loopStartVec;
             RaycastHit hit;
-            Vector3 lastMoveVec;
+            //Top and bottom sphere of player capsule used for capsule checks
+            Vector3 TopSphere = transform.position + new Vector3(0, capsule.height / 2 - capsule.radius, 0) + capsule.center;
+            Vector3 BotSphere = transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0) + capsule.center;
+            /*Main Collision Detection*/
             while(Physics.CapsuleCast(
-                    TopSphere,//Capsule top sphere center
-                    BotSphere,//bottom sphere center
-                    capsule.radius,//Capsule Radius
+                    TopSphere, BotSphere, capsule.radius,
                     velocity.normalized,//Direction vector
                     out hit,
-                    Mathf.Abs(velocity.magnitude),
-                    raycastLayerMask
-                    ))//Distance to cast
+                    Mathf.Abs(velocity.magnitude),//Direction Length
+                    raycastLayerMask))
             {
-                ohshitcounter++;//Loop count Tracker
-                lastMoveVec = velocity;
-
-                //if we loop too much just exit and set velocity to just before collision and exit
-                if(ohshitcounter == 5)
-                {
-                    Debug.Log("max loops");
-                    velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
-                    break;
-                }
+                maxLoops++;//Loop count Tracker
+                loopStartVec = velocity;
 
                 Vector3 XZ = new Vector3(velocity.x, 0, velocity.z);
-                if(hit.normal.y > maxSlope)
-                {//Traversable slope
+                if((-hit.normal.y + 1) * 90 < maxSlope)//hit normal is 1 for flat and 0 for wall so i invert that then times it by 90 to get the proper degree then compare it
+                {
+                    /*Traversable slope*/
                     //currently will step over anything less than 1/4th the radius of capsule
                     Vector3 perpPlaneDir = Vector3.Cross(hit.normal, XZ);//this is a vector that will be parrallel to the slope but it will be perpindicular to the direction we want to go
                     Vector3 planeDir = Vector3.Cross(perpPlaneDir, hit.normal);//This will be the an axis line of were we are walking, but we dont know if its forwards or backwards right now
@@ -392,106 +379,73 @@ public class PlayerController : MonoBehaviour, IWater
                     velocity = velocity.normalized * (hit.distance);//this will set velocity to go the un obstructed amount of the cast
                     XZ -= new Vector3(velocity.x, 0, velocity.z);//this makes xv the remainder xv distance
                     velocity += planeDir.normalized * XZ.magnitude;// / Mathf.Cos(Vector3.Angle(XV, planeDir.normalized)));//adds our plane direction of lenght xv if it were strethced to cover the same xv distance on our plane(so it doesnt slow down on slopes)
-                    velocity.y += Mathf.Sign(hit.normal.y) * .001f;
-                    prevFloor = hit.collider;
-                    PrevFloorPos = hit.collider.transform.position;
-                    prevFloorRot = hit.collider.transform.rotation;
+                    velocity.y += Mathf.Sign(hit.normal.y) * .001f;//sets the final position slightly offset from the ground so we dont clip through next frame
+                    //ground and remove acceleration
                     isGrounded = true;
+                    acceleration = 0;
+                    //Set last transform information
+                    lastCollider = hit.collider;
+                    lastColliderPos = hit.collider.transform.position;
+                    lastColliderRot = hit.collider.transform.rotation;
+                    lastColliderHit = hit;
                 } else
-                {//Wall or too steep slope
-                    if(Physics.CapsuleCast(
-                    TopSphere,//Capsule top sphere center
-                    BotSphere + new Vector3(0, stepHeight, 0),//bottom sphere center
-                    capsule.radius,//Capsule Radius
-                    velocity.normalized,//Direction vector
-                    out hit,
-                    Mathf.Abs(velocity.magnitude),
-                    raycastLayerMask
-                    ))
+                {
+                    //get the vectors of the plane we hit
+                    Vector3 parallelSide = Vector3.Cross(Vector3.up, hit.normal);
+                    Vector3 parallelDown = Vector3.Cross(parallelSide, hit.normal);
+                    //Correct the direction of the xz vector on our plane
+                    parallelSide = parallelSide * Mathf.Sign(Vector3.Dot(parallelSide, XZ));
+                    float angle = Vector3.Angle(-new Vector3(velocity.x, 0, velocity.z).normalized, hit.normal);//get our angle between our direction and the colliders normal
+                    float VerticalRemainder = velocity.y;
+                    float XZPlaneRemainder = XZ.magnitude;
+                    velocity = velocity.normalized * (hit.distance);//set our vector to the hit
+                    VerticalRemainder -= velocity.y;//Get the acurate remainder of y from our origional y
+                    XZPlaneRemainder -= new Vector3(velocity.x, 0, velocity.z).magnitude;//Get our xz remainder from initial xz vector
+                    if(velocity.y <= 0)
                     {
-                        Vector3 parallelSide = Vector3.Cross(Vector3.up, hit.normal);
-                        Vector3 parallelDown = Vector3.Cross(parallelSide, hit.normal);
-                        parallelSide = parallelSide * Mathf.Sign(Vector3.Dot(parallelSide, XZ));
-                        float angle = Vector3.Angle(-new Vector3(velocity.x, 0, velocity.z).normalized, hit.normal);
-                        float VerticalRemainder = velocity.y;
-                        float XZPlaneRemainder = XZ.magnitude;
-                        velocity = velocity.normalized * (hit.distance);
-                        VerticalRemainder -= velocity.y;
-                        XZPlaneRemainder -= new Vector3(velocity.x, 0, velocity.z).magnitude;
-                        if(velocity.y <= 0)
-                        {
-                            velocity += parallelDown.normalized * Mathf.Abs(VerticalRemainder);
-                        } else
-                        {
-                            velocity.y += VerticalRemainder;
-                        }
-                        velocity += parallelSide.normalized * (XZPlaneRemainder * (angle / 90));
-                        velocity += hit.normal * .001f;
-                        isGrounded = false;
+                        velocity += parallelDown.normalized * Mathf.Abs(VerticalRemainder);//if we are heading down slide down the slope
                     } else
                     {
-
-                        velocity = velocity.normalized * (hit.distance);
-                        velocity.y += stepHeight;
-                        velocity += hit.normal * .001f;
-                        isGrounded = true;
+                        velocity.y -= VerticalRemainder * .1f;// if we hit a slope while going up reflect the remaining velocity down 
                     }
+                    velocity += parallelSide.normalized * (XZPlaneRemainder * (angle / 90));//get our xzremainder and add it reduced by the angle we hit the collider at
+                    velocity += hit.normal * .001f;//offset our velocity a tad so it doesnt jitter or clip through next frame
+                    acceleration = velocity.y / Time.deltaTime;// set our acceleration either back to origional acceleration or smaller if we hit something, so its ready for the next acceleration calculation
+                    isGrounded = false;
+                }
 
+
+                /*Loop Breaks*/
+                //if we loop too much just exit and set velocity to just before collision and exit
+                if(maxLoops == maximumPhysicsLoops)
+                {
+                    Debug.Log("max loops");
+                    velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
+                    break;
                 }
                 //if last position velocity was the same as the new calculation set velocity to just before collision and exit
-                if(lastMoveVec == velocity)
+                if(loopStartVec == velocity)
                 {
                     Debug.Log("Same vector");
                     velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
                     break;
                 }
+
             }
+
+            /*Fall Back Fill Check*/
+            if(Physics.CheckCapsule(TopSphere + velocity, BotSphere + velocity, capsule.radius, raycastLayerMask))
+            {
+                Debug.Log("End Capsule Fail");
+                //Ditch Velocity
+                velocity = Vector3.zero;
+            }
+            transform.position += velocity;
 
             playerAnim.SetBool("isGrounded", isGrounded);
 
-            Vector3 pushback = new Vector3();
-            Vector3 newpos = transform.position + velocity;
-            if(Physics.CheckCapsule(TopSphere + velocity, BotSphere + velocity, capsule.radius, raycastLayerMask))
-            {
-                if(Physics.CheckBox(newpos + new Vector3(capsule.radius / 2, 0, capsule.radius / 2), new Vector3(capsule.radius / 2, capsule.height / 2, capsule.radius / 2), Quaternion.identity, raycastLayerMask))
-                {
-                    pushback += new Vector3(-1, 0, -1);
-                }
-                if(Physics.CheckBox(newpos + new Vector3(-capsule.radius / 2, 0, capsule.radius / 2), new Vector3(capsule.radius / 2, capsule.height / 2, capsule.radius / 2), Quaternion.identity, raycastLayerMask))
-                {
-                    pushback += new Vector3(1, 0, -1);
-                }
-                if(Physics.CheckBox(newpos + new Vector3(-capsule.radius / 2, 0, -capsule.radius / 2), new Vector3(capsule.radius / 2, capsule.height / 2, capsule.radius / 2), Quaternion.identity, raycastLayerMask))
-                {
-                    pushback += new Vector3(1, 0, 1);
-                }
-                if(Physics.CheckBox(newpos + new Vector3(capsule.radius / 2, 0, -capsule.radius / 2), new Vector3(capsule.radius / 2, capsule.height / 2, capsule.radius / 2), Quaternion.identity, raycastLayerMask))
-                {
-                    pushback += new Vector3(-1, 0, 1);
-                }
-                if(Physics.CheckBox(newpos + pushback.normalized * Time.deltaTime + new Vector3(0, -capsule.height / 4, 0), new Vector3(capsule.radius, capsule.height / 4, capsule.radius), Quaternion.identity, raycastLayerMask))
-                {
-                    pushback += new Vector3(0, .001f, 0);
-                    velocity.y = 0;
-                }
-                // Debug.Log(pushback);
-                velocity += pushback.normalized * Time.deltaTime;
-            }
 
-            /*Apply Velocity*/
-            transform.position += velocity;
-            velocity.y = velocity.y / Time.deltaTime;
-
-
-
-            /*Next frame vertical velocity calculation & reset*/
-            {
-                velocity.x = 0;
-                velocity.z = 0;
-            }
-
-
-            if(((isRunning && !toggleRun) || (movementMagnitude.magnitude < 0.5f)) && runningTimer >0.1f)
+            if(((isRunning && !toggleRun) || (movementMagnitude.magnitude < 0.5f)) && runningTimer > 0.1f)
             {
                 isRunning = false;
                 cameraHandler.NewFov(1); // 1 = original fov
@@ -511,11 +465,44 @@ public class PlayerController : MonoBehaviour, IWater
 
         gunsParent.transform.rotation = playerHead.transform.rotation;
     }
-
+    private void LateUpdate()
+    {
+        if(!controller.IsPaused && isAlive && lastCollider != null)
+        {
+            //if we are grounded translate and rotate the same as our object
+            //                                                                          /////////////////////////////////////////////
+            //--------------------------------------------------------------------------//Doesnt stop translating after jumping off//
+            //                                                                          /////////////////////////////////////////////
+            Vector3 posDifference = lastCollider.transform.position - lastColliderPos;
+            if(posDifference != Vector3.zero)
+            {
+                Debug.Log("Ground Translate");
+                transform.position += posDifference;
+                VelocityBuffer = posDifference;
+            }
+            if(Quaternion.Angle(lastCollider.transform.rotation, lastColliderRot) != 0)
+            {
+                Debug.Log("Ground Rotate");
+                Quaternion relative = Quaternion.Inverse(lastColliderRot) * lastCollider.transform.rotation;// get the difference quaternion between our old and new rot
+                // get a new position from a vector to the bottom of the capsule from the origion of the object, rotate by our difference quat, then put it back to world space and add offset to origin
+                //calculate were the origional intersect point is on the plane
+                Vector3 groundingpoint = transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0) - lastColliderHit.normal.normalized * capsule.radius - lastColliderPos;
+                //rotate a normal based on that hit to were the planes new normal is
+                Vector3 newNormal = relative * lastColliderHit.normal;
+                //take the new ground point then add were the new position of the capsule should be relative to where the capsule is tangent with the collision
+                Vector3 trans = (relative * (groundingpoint)) + newNormal.normalized * capsule.radius + new Vector3(0, capsule.height / 2 - capsule.radius, 0) + lastColliderPos;
+                transform.position = trans;
+            }
+            transform.position += new Vector3(0, .002f, 0);//buffer the y slightly
+            // update our last transform information
+            lastColliderPos = lastCollider.transform.position;
+            lastColliderRot = lastCollider.transform.rotation;
+        }
+    }
 
     #region Implementations
 
-        public float psSplashSizeMultiplier = 10f;
+    public float psSplashSizeMultiplier = 10f;
         public ParticleSplash psSplash;
 
         public ParticleSplash ParticleSplash
@@ -657,7 +644,7 @@ public class PlayerController : MonoBehaviour, IWater
         if(isGrounded)
         {
             playerAnim.SetTrigger("isJumping");
-            velocity.y += JumpVelocity;
+            acceleration += jumpVelocity;
             FMODUnity.RuntimeManager.PlayOneShotAttached(jumpSE, gameObject);
             isGrounded = false;
             hasJumped = true;
@@ -669,13 +656,12 @@ public class PlayerController : MonoBehaviour, IWater
         {
             case "L3":
 
-                if(!isRunning && runningTimer>0.1f)
+                if(!isRunning && runningTimer > 0.1f)
                 {
                     isRunning = true;
                     cameraHandler.NewFov(1.2f);
                     playerSpeed = walkSpeed * runMultiplier;
-                }
-                else if (toggleRun && runningTimer > 0.1f && isRunning)
+                } else if(toggleRun && runningTimer > 0.1f && isRunning)
                 {
                     isRunning = false;
                     cameraHandler.NewFov(1f);
@@ -688,18 +674,19 @@ public class PlayerController : MonoBehaviour, IWater
 
             case "LeftHorizontal":
                 movementMagnitude.x = magnitude;
-                tempVel += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed*Time.deltaTime;
+                tempVel.z -= playerSpeed * magnitude * Time.deltaTime;
                 playerAnim.SetBool("isMoving", true);
                 playerAnim.SetFloat("sideways", magnitude);
                 movingTimer = 0;
                 break;
 
             case "LeftVertical":
+                Debug.Log("vert");
                 movementMagnitude.y = magnitude;
-                tempVel += -transform.forward * magnitude * playerSpeed * Time.deltaTime;
+                tempVel.x -= playerSpeed * magnitude * Time.deltaTime;
                 playerAnim.SetBool("isMoving", true);
                 playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
-                if (isRunning)
+                if(isRunning)
                     playerAnim.SetFloat("forward", -magnitude);
                 movingTimer = 0;
                 break;
@@ -713,10 +700,28 @@ public class PlayerController : MonoBehaviour, IWater
 
     public void PlatformJump(float multiplier) {
 
-        velocity.y = JumpVelocity * multiplier;
+        acceleration = jumpVelocity * multiplier;
         isGrounded = false;
     }
-
+    private void Pushout()
+    {
+        /*Checks that the player doesnt start in something*/
+        int numOverlaps = 1;
+        numOverlaps = Physics.OverlapCapsuleNonAlloc(transform.position + new Vector3(0, capsule.height / 2 - capsule.radius, 0) + capsule.center, transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0) + capsule.center, capsule.radius, m_colliders, raycastLayerMask, QueryTriggerInteraction.UseGlobal);
+        for(int i = 0; i < numOverlaps; i++)
+        {
+            Debug.Log("Start Capsule Fail");
+            Vector3 direction;
+            float distance;
+            if(Physics.ComputePenetration(capsule, transform.position, transform.rotation, m_colliders[i], m_colliders[i].transform.position, m_colliders[i].transform.rotation, out direction, out distance))
+            {
+                Vector3 penetrationVector = direction * distance;
+                Vector3 velocityProjected = Vector3.Project(velocity, -direction);
+                transform.position = transform.position + penetrationVector;
+                velocity -= velocityProjected;
+            }
+        }
+    }
 
     #region Weapon Functions
 
