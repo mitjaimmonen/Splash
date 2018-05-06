@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour, IWater
     private bool isGrounded = true, isRunning = false;
     public float walkSpeed = 7f;
     public float runMultiplier = 1.5f;
+    [Range(0,90)]
     public float maxSlope = 60;
     private Vector3 velocity = new Vector3(0, 0, 0);
     private float prevVelocity;
@@ -327,6 +328,8 @@ public class PlayerController : MonoBehaviour, IWater
 
         if(!controller.IsPaused && isAlive)
         {
+            transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);//right horizontal
+            playerHead.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
 
             acceleration = (acceleration - gravity * Time.deltaTime);//calculate acceleration
 
@@ -440,6 +443,10 @@ public class PlayerController : MonoBehaviour, IWater
                 //Ditch Velocity
                 velocity = Vector3.zero;
             }
+            //if(isGrounded)
+            //{
+            //    velocity.y = 0;
+            //}
             transform.position += velocity;
 
             playerAnim.SetBool("isGrounded", isGrounded);
@@ -456,6 +463,7 @@ public class PlayerController : MonoBehaviour, IWater
                 playerAnim.SetBool("isMoving", false);
             }
         }
+        gunsParent.transform.rotation = playerHead.transform.rotation;
     }
     private void Update()
     {
@@ -463,7 +471,7 @@ public class PlayerController : MonoBehaviour, IWater
         runningTimer += Time.deltaTime;
         movingTimer += Time.deltaTime;
 
-        gunsParent.transform.rotation = playerHead.transform.rotation;
+        
     }
     private void LateUpdate()
     {
@@ -473,14 +481,16 @@ public class PlayerController : MonoBehaviour, IWater
             //                                                                          /////////////////////////////////////////////
             //--------------------------------------------------------------------------//Doesnt stop translating after jumping off//
             //                                                                          /////////////////////////////////////////////
+            bool transformed = false;
             Vector3 posDifference = lastCollider.transform.position - lastColliderPos;
             if(posDifference != Vector3.zero)
             {
                 Debug.Log("Ground Translate");
                 transform.position += posDifference;
                 VelocityBuffer = posDifference;
+                transformed = true;
             }
-            if(Quaternion.Angle(lastCollider.transform.rotation, lastColliderRot) != 0)
+            if(Quaternion.Angle(lastCollider.transform.rotation, lastColliderRot) >= 1)
             {
                 Debug.Log("Ground Rotate");
                 Quaternion relative = Quaternion.Inverse(lastColliderRot) * lastCollider.transform.rotation;// get the difference quaternion between our old and new rot
@@ -492,11 +502,16 @@ public class PlayerController : MonoBehaviour, IWater
                 //take the new ground point then add were the new position of the capsule should be relative to where the capsule is tangent with the collision
                 Vector3 trans = (relative * (groundingpoint)) + newNormal.normalized * capsule.radius + new Vector3(0, capsule.height / 2 - capsule.radius, 0) + lastColliderPos;
                 transform.position = trans;
+                transformed = true;
             }
-            transform.position += new Vector3(0, .002f, 0);//buffer the y slightly
-            // update our last transform information
-            lastColliderPos = lastCollider.transform.position;
-            lastColliderRot = lastCollider.transform.rotation;
+            if(transformed )
+            {
+                transform.position += new Vector3(0, .002f, 0);//buffer the y slightly
+                                                               // update our last transform information
+                lastColliderPos = lastCollider.transform.position;
+                lastColliderRot = lastCollider.transform.rotation;
+            }
+            
         }
     }
 
@@ -623,7 +638,7 @@ public class PlayerController : MonoBehaviour, IWater
             case "RightHorizontal":
                 //Player only rotates horizontally
                 rotationH += magnitude * lookSensH * Time.deltaTime;
-                transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);
+                
                 break;
             case "RightVertical":
                 //Face gameObject only rotates vertically.
@@ -631,8 +646,8 @@ public class PlayerController : MonoBehaviour, IWater
                     magnitude *= -1;
                 rotationV += magnitude * lookSensV * Time.deltaTime;
                 rotationV = Mathf.Clamp(rotationV, minRotV, maxRotV);
-                playerHead.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
-                // gunsParent.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
+                
+                //gunsParent.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
 
                 break;
         }

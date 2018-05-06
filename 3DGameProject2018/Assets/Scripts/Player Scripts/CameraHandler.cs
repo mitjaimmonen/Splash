@@ -32,7 +32,7 @@ public class CameraHandler : MonoBehaviour {
             SetFov(oldFov, newFov);
         }
     }
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (playerController.IsAlive)
         {
