@@ -1653,14 +1653,12 @@ MonoBehaviour:
   lookSensH: 230
   invertSensV: 0
   tempVel: {x: 0, y: 0, z: 0}
-  JumpVelocity: 14
+  jumpVelocity: 15
   gravity: 25
   maxVelocity: 1
   walkSpeed: 7
   runMultiplier: 1.5
-  maxSlope: 0.6
-  climbSpeed: 1
-  stepHeight: 0.1
+  maxSlope: 60
   helpfulTips: 1
   psSplashSizeMultiplier: 10
   psSplash: {fileID: 0}
