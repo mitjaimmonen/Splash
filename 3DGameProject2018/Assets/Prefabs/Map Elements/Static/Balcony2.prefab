@@ -23,7 +23,25 @@ GameObject:
   - component: {fileID: 114882573520060182}
   - component: {fileID: 114888191789114774}
   m_Layer: 10
-  m_Name: Window
+  m_Name: Window Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!1 &1308372508368542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4159436908494140}
+  - component: {fileID: 65146712838342262}
+  - component: {fileID: 114662279991840702}
+  - component: {fileID: 114086694407229462}
+  m_Layer: 10
+  m_Name: Balcony Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,6 +79,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
+--- !u!4 &4159436908494140
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308372508368542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4363020009410790}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4300792751396836
 Transform:
   m_ObjectHideFlags: 1
@@ -86,6 +117,7 @@ Transform:
   m_Children:
   - {fileID: 4300792751396836}
   - {fileID: 4745301347947210}
+  - {fileID: 4159436908494140}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,6 +178,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1349669104258846}
   m_Mesh: {fileID: 4300000, guid: c4c04ffd54b3d2a46954f09ea251077f, type: 3}
+--- !u!65 &65146712838342262
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308372508368542}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.93, y: 0.94, z: 1}
+  m_Center: {x: 0, y: -0.82, z: 0}
 --- !u!65 &65592476242896798
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -158,6 +202,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.39, y: 2.55, z: 0.2}
   m_Center: {x: 0, y: 0.27, z: -0.3}
+--- !u!114 &114086694407229462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308372508368542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer: 0
+  allowMaxCountOverrideByWeapons: 0
+  maxCount: 5
+  collisionParticles: 0
+  soundBehaviour: {fileID: 0}
+--- !u!114 &114662279991840702
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308372508368542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionSE: event:/Water Collisions/HitmetalSurface
+  waterSplashSE: 
+  destroySE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!114 &114882573520060182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -172,6 +248,7 @@ MonoBehaviour:
   isPlayer: 0
   allowMaxCountOverrideByWeapons: 0
   maxCount: 5
+  collisionParticles: 0
   soundBehaviour: {fileID: 0}
 --- !u!114 &114888191789114774
 MonoBehaviour:

@@ -66,7 +66,6 @@ public class CollisionBehaviour : MonoBehaviour {
 
 	private void OnParticleCollision(GameObject other)
 	{		
-		Debug.Log("ParticleCollision");
 		ParticleLauncher otherParticleLauncher = other.GetComponentInChildren<ParticleLauncher>();
 		PlayerController otherPlayerController = null;
 
@@ -127,7 +126,7 @@ public class CollisionBehaviour : MonoBehaviour {
 		{
 			if (collisionEvents[i].colliderComponent == null)
 			{
-				Debug.Log("No collider component found, using default dmg.");
+				// Debug.Log("No collider component found, using default dmg.");
 				stackedDamage += defaultDamage;
 			}
 			else

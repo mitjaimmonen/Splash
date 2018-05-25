@@ -85,7 +85,7 @@ public class RigController : MonoBehaviour {
 		isAlive = true;
 	}
 
-	public void Die()
+	public void Die(float acceleration)
 	{
 		//On death player model will become ragdoll and all rigidbodies need to enable physics.
 		//Now camera is allowed to render own player.
@@ -100,6 +100,8 @@ public class RigController : MonoBehaviour {
 		foreach (Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>(true))
 		{
 			rb.isKinematic = false;
+			rb.AddForce(Vector3.up * acceleration, ForceMode.Impulse);
 		}
+		
 	}
 }

@@ -222,18 +222,14 @@ public class Weapon : MonoBehaviour {
             {
                 lookDirection = (playerController.AimWorldPoint - MuzzleTransform.position).normalized;
                 lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-
-                if (weaponData.lerpAim)
-                    MuzzleTransform.rotation = Quaternion.Slerp(MuzzleTransform.rotation, lookRotation, Time.deltaTime * weaponData.rotationSpeed);
-                else
-                    MuzzleTransform.rotation = lookRotation;
+                MuzzleTransform.rotation = lookRotation;
             }
             else 
                 MuzzleTransform.localEulerAngles = RecoilScript.WeaponBody.transform.localEulerAngles - transform.localEulerAngles;
 
 
             //keep the water particles Muzzle position at its place during recoils.
-            Vector3 newPosition = transform.position + (muzzleToWeaponMagnitude * RecoilScript.WeaponBody.transform.forward);
+            Vector3 newPosition = RecoilScript.WeaponBody.transform.position + (muzzleToWeaponMagnitude * RecoilScript.WeaponBody.transform.forward);
             MuzzleTransform.position = newPosition;
             MuzzleTransform.localPosition += particlesLocalOffsetY;
             

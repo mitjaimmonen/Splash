@@ -292,7 +292,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   explosionCheckRadius: 3.5
-  destroyTime: 5
+  destroyTime: 10
+  blastForce: 8
+  blastDamage: 15
   balloonSplashSE: event:/Water Collisions/Water balloon
   particleLauncherParent: {fileID: 114302159137196298}
   particleLauncherChild: {fileID: 114973075202783170}
@@ -2965,7 +2967,7 @@ ParticleSystem:
     maxCollisionShapes: 20
     quality: 2
     voxelSize: 2
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 0
     interiorCollisions: 0
   TriggerModule:
@@ -3832,14 +3834,14 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1119798539
+  randomSeed: 1890223180
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
+      scalar: 0.125
       minScalar: 0.05
       maxCurve:
         serializedVersion: 2
@@ -3880,8 +3882,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 10
-      minScalar: 8
+      scalar: 15
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7262,7 +7264,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 30
+      scalar: 100
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -7307,7 +7309,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.4509804}
+        key0: {r: 1, g: 1, b: 1, a: 0.69411767}
         key1: {r: 1, g: 1, b: 1, a: 0.1764706}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -8758,7 +8760,7 @@ ParticleSystem:
     magnitude:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 30
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -8804,7 +8806,7 @@ ParticleSystem:
     drag:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.7
       minScalar: 0.5
       maxCurve:
         serializedVersion: 2
@@ -10596,7 +10598,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 2108838975
+  randomSeed: -1409614153
   InitialModule:
     serializedVersion: 3
     enabled: 1

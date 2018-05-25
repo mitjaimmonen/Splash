@@ -39,6 +39,7 @@ public class HudHandler : MonoBehaviour {
         public Text clipAmmoText;
         public Text globalAmmoText;
         public Text timerText;
+        public Text killcamText;
         public Sprite[] healthIcons;
         
     #endregion
@@ -319,6 +320,22 @@ public class HudHandler : MonoBehaviour {
     {
         timerText.color = Color.white;
         timerText.text = time.ToString();
+    }
+    public void UpdateKillcamText(bool active, PlayerController attacker)
+    {
+        if (active)
+        {
+            if (attacker != null && attacker != playerController)
+                killcamText.text = "Killed by: " + "Player"+attacker.playerNumber.ToString();
+            else
+                killcamText.text = "You killed yourself?!";
+            
+            killcamText.color = Color.white;
+        }
+        else
+        {
+            killcamText.color = Color.clear;
+        }
     }
     public void UpdateHealth(){
 

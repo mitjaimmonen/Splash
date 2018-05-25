@@ -147,6 +147,20 @@ public class PlayerController : MonoBehaviour, IWater
 
             }
         }
+
+        public float Acceleration
+        {
+            get { return acceleration; }
+            set
+            {
+                if (value < 45f)
+                    acceleration = value;
+                else 
+                    acceleration = 45f;
+
+                Debug.Log("Jump acceleration: " + acceleration);
+            }
+        }
         public int CurrentAmmo
         {
             get { return currentAmmo; }
@@ -696,7 +710,6 @@ public class PlayerController : MonoBehaviour, IWater
                 break;
 
             case "LeftVertical":
-                Debug.Log("vert");
                 movementMagnitude.y = magnitude;
                 tempVel.x -= playerSpeed * magnitude * Time.deltaTime;
                 playerAnim.SetBool("isMoving", true);
@@ -924,7 +937,8 @@ public class PlayerController : MonoBehaviour, IWater
             isAlive = false;
             ColBehaviour.soundBehaviour.PlayDestroy(rigController.transform.position);
             cameraHandler.Die(attacker);
-            rigController.Die();
+            rigController.Die(acceleration);
+            
             // armRigController.Die();
 
             foreach(Collider col in damageColliders)
@@ -939,20 +953,22 @@ public class PlayerController : MonoBehaviour, IWater
             {
                 Destroy(weapon.gameObject);
             }
-            StartCoroutine(RespawnTimer());
+            StartCoroutine(RespawnTimer(attacker));
         }
 
 
     }
-    private IEnumerator RespawnTimer()
+    private IEnumerator RespawnTimer(PlayerController attacker)
     {
         int time = 0;
+        hud.UpdateKillcamText(true, attacker);
         while (time <= controller.RespawnTime)
         {
             hud.UpdateTimerText(controller.RespawnTime - time);
             time++;
             yield return new WaitForSeconds(1);
         }
+        hud.UpdateKillcamText(false, attacker);
         controller.Spawn(playerNumber);
         yield break;
     }
@@ -964,6 +980,7 @@ public class PlayerController : MonoBehaviour, IWater
 
         if (!isAlive)
         {
+            acceleration = 0;
             weaponIndex = 0;
             carriedWeapons.Clear();
             carriedWeapons.Add(defaultWeapon);

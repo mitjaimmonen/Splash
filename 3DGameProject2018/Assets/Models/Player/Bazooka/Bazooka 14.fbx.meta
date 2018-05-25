@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 6581212c912706344949ef12c4174e02
-timeCreated: 1524554041
-licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -134,6 +132,7 @@ ModelImporter:
     13700000: balloon launcher
     13700002: Clip
     13700004: Cube.000
+    2186277476908879412: ImportLogs
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -168,6 +167,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
