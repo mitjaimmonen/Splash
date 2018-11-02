@@ -31,19 +31,16 @@ public class CameraHandler : MonoBehaviour {
             fovTimer += Time.deltaTime;
             SetFov(oldFov, newFov);
         }
-    }
-    private void FixedUpdate()
-    {
-        if (playerController.IsAlive)
+        if(playerController.IsAlive)
         {
             RaycastHit hit;
             Ray forwardRay = new Ray(transform.position + transform.forward, transform.forward);
 
-            if (Physics.Raycast(forwardRay, out hit, Mathf.Infinity))
+            if(Physics.Raycast(forwardRay, out hit, Mathf.Infinity))
             {
                 playerController.AimWorldPoint = hit.point;
                 playerController.IsAimRaycastHit = true;
-            } else 
+            } else
             {
                 playerController.IsAimRaycastHit = false;
             }
@@ -57,13 +54,17 @@ public class CameraHandler : MonoBehaviour {
             pos += rotRadius * localForw; //Add radius into offset
 
             Vector3 faceForw = playerController.playerHead.transform.forward;
-        
+
             transform.position = pos;
             localPosOffset = faceForw * playerController.RecoilScript.WeaponBody.transform.localPosition.z;
             transform.localPosition += localPosOffset;
             transform.rotation = target.transform.rotation;
             transform.localEulerAngles += playerController.RecoilScript.WeaponBody.transform.localEulerAngles;
         }
+    }
+    private void FixedUpdate()
+    {
+        
 
     }
 

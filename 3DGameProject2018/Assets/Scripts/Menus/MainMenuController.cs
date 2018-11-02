@@ -38,6 +38,7 @@ public class MainMenuController : MonoBehaviour, IController {
         stateHandler.options.maxKills = 0;
 
     }
+
     //Listen for controllers to add them to current players
     private void Update()
     {

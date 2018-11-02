@@ -84,6 +84,7 @@ public class StateHandler : MonoBehaviour {
         {
             case State.MainMenu:
                 SceneManager.LoadScene("MainMenu");
+                Destroy(gameObject);
                 break;
             case State.Game:
                 // if we have more than one map we will look at options map and call the associated scene
