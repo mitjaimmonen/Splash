@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64b688e7f9fca7d4ab20bc38cba1d985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocityMultiplier: 2
+  velocityMultiplier: 1.5
   platformJumpSE: event:/Character Movement/PlatformJump
 --- !u!114 &114702311085342146
 MonoBehaviour:

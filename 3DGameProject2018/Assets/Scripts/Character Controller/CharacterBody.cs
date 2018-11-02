@@ -19,6 +19,7 @@ public class CharacterBody : MonoBehaviour {
 
     public Camera cam;
     public CapsuleCollider capsule;
+    private PlayerController playerController;
     public MoveHandler mover;
 
     private bool isGrounded = false;
@@ -53,6 +54,7 @@ public class CharacterBody : MonoBehaviour {
     private void Awake()
     {
         inter = GetComponent<InterpolatedTransform>();
+        playerController = GetComponent<PlayerController>();
         Resetinter();
     }
 
@@ -61,7 +63,9 @@ public class CharacterBody : MonoBehaviour {
         //Rotate
         //transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);//right horizontal
         //playerHead.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
-       
+        if (!playerController.IsAlive)
+            return;
+
         //Normalize input
         Vector3 inXZ;
         if(isRunning)

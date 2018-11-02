@@ -1736,11 +1736,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charSpeed: 7
-  runMultiplier: 1.5
+  runMultiplier: 1.35
   rotateSpeed: {x: 1, y: 1}
   maxSlope: 45
-  jumpVelocity: 0.6
-  gravity: 1.3
+  jumpVelocity: 0.55
+  gravity: 1
   airFriction: 1
   maxVelocity: 1
   maximumPhysicsLoops: 10
