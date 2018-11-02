@@ -5833,6 +5833,12 @@ Prefab:
       value: 
       objectReference: {fileID: 1593175078492508, guid: 4275e6d1d3213494f9944b0a6108b807,
         type: 2}
+    - target: {fileID: 114981359564351386, guid: ef5f46a1cefaeb943844a0c7cdf487dc,
+        type: 2}
+      propertyPath: pickups.Array.data[3]
+      value: 
+      objectReference: {fileID: 1276350154424002, guid: c8f6fd7a010364246a4af6b7ae178f51,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef5f46a1cefaeb943844a0c7cdf487dc, type: 2}
   m_IsPrefabAsset: 0
@@ -10172,7 +10178,7 @@ Prefab:
     - target: {fileID: 114226994725315656, guid: 3d9d3542b6c7316469ffb162768cc004,
         type: 2}
       propertyPath: players
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d9d3542b6c7316469ffb162768cc004, type: 2}
@@ -14988,6 +14994,15 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480403723717286, guid: b27fcc4eb4121eb469839c5a7b715e45, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20538204199099566, guid: b27fcc4eb4121eb469839c5a7b715e45,
+        type: 2}
+      propertyPath: m_ForceIntoRT
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114544862365059188, guid: b27fcc4eb4121eb469839c5a7b715e45, type: 2}

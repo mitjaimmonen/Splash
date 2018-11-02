@@ -271,6 +271,14 @@ public class StateHandler : MonoBehaviour {
                 input[2] = "1";
                 controller.InputHandle(input);
             }
+            if(gamepads[i].Buttons.RightStick == ButtonState.Pressed)
+            {
+                Debug.Log("INPUUUUT");
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "RightStick";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
         }
     }
 

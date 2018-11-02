@@ -1656,7 +1656,7 @@ MonoBehaviour:
   autoReload: 0
   toggleRun: 1
   carriedWeapons:
-  - {fileID: 114053491068053900, guid: c2fed10b4c3775747ad846968b281c9e, type: 2}
+  - {fileID: 114412804487712570, guid: a8d838a278610b141b7f5d1f361aee96, type: 2}
   maxWeapons: 2
   maxGlobalAmmo: 500
   hasJumped: 0

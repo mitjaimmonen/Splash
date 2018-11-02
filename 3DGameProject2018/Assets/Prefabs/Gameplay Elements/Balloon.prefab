@@ -294,8 +294,8 @@ MonoBehaviour:
     m_Bits: 512
   explosionCheckRadius: 3.5
   destroyTime: 10
-  blastForce: 0.3
-  blastDamage: 15
+  blastForce: 8
+  blastDamage: 50
   balloonSplashSE: event:/Water Collisions/Water balloon
   particleLauncherParent: {fileID: 114302159137196298}
   particleLauncherChild: {fileID: 114973075202783170}
@@ -556,7 +556,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.4117647}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -2623,7 +2623,7 @@ ParticleSystem:
     enabled: 0
     multiplier: 1
   ClampVelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -8559,7 +8559,7 @@ ParticleSystem:
     radiusScale: 0.5
     collidesWith:
       serializedVersion: 2
-      m_Bits: 525824
+      m_Bits: 1536
     maxCollisionShapes: 30
     quality: 0
     voxelSize: 0.5
@@ -9653,13 +9653,13 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
-          inSlope: -3.941998
-          outSlope: -3.941998
+          value: 0.13846217
+          inSlope: -0.06773514
+          outSlope: -0.06773514
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
+          outWeight: 0.15142857
         - serializedVersion: 3
           time: 1
           value: 0.015748918
@@ -11948,12 +11948,12 @@ ParticleSystem:
     inWorldSpace: 1
     multiplyDragByParticleSize: 0
     multiplyDragByParticleVelocity: 1
-    dampen: 0
+    dampen: 1
     drag:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0.7
-      minScalar: 0.5
+      minMaxState: 3
+      scalar: 0.75
+      minScalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -13113,7 +13113,7 @@ ParticleSystem:
     radiusScale: 0.5
     collidesWith:
       serializedVersion: 2
-      m_Bits: 525825
+      m_Bits: 1536
     maxCollisionShapes: 30
     quality: 0
     voxelSize: 0.5
@@ -13140,7 +13140,7 @@ ParticleSystem:
     - serializedVersion: 2
       emitter: {fileID: 198439458931486722}
       type: 1
-      properties: 1
+      properties: 0
   LightsModule:
     enabled: 0
     ratio: 0
@@ -18696,7 +18696,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_RenderMode: 0
-  m_SortMode: 0
+  m_SortMode: 1
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
   m_CameraVelocityScale: 0

@@ -101,6 +101,8 @@ public class PlayerController : MonoBehaviour, IWater
     //possibly a list of who damaged you as well so we could give people assists and stuff
     //wed have to run off a points system that way so id rather keep it to k/d right now or time because they are both easy
     private List<Effects> currentEffects;
+    private float invertTime;
+    private bool InvertBtnReleased = true;
 
 
     #region Getters & Setters
@@ -448,6 +450,17 @@ public class PlayerController : MonoBehaviour, IWater
                     currentWeapon.Reload();
                     hasReloaded = true;
                 }
+                if (input[1] == "RightStick" && InvertBtnReleased)
+                {
+                    invertTime = Time.time;
+                    InvertBtnReleased= false;
+                    Debug.Log("INVERT BTN");
+                    invertSensV = !invertSensV;
+                }
+                else if (input[1] != "RightStick" && invertTime + 0.1f < Time.time)
+                {
+                    InvertBtnReleased = true;
+                }
             }
 
         }
@@ -466,7 +479,10 @@ public class PlayerController : MonoBehaviour, IWater
             case "RightVertical":
                 //Face gameObject only rotates vertically.
                 if (invertSensV)
+                {
                     magnitude *= -1;
+                    Debug.Log("INVERTED");
+                }
                 rotationV += magnitude * lookSensV * Time.deltaTime;
                 rotationV = Mathf.Clamp(rotationV, minRotV, maxRotV);
                 

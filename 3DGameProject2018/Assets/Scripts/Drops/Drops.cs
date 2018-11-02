@@ -34,6 +34,8 @@ public class Drops : MonoBehaviour {
 
     [FMODUnity.EventRef] public string pickupSE;
 
+    private bool isQuitting = false;
+
 
     private void Awake()
     {
@@ -43,6 +45,8 @@ public class Drops : MonoBehaviour {
         {
             weaponData = PersonalExtensions.CopyComponentValues(pickupWeapon.weaponData, this.gameObject);
         }
+
+        Application.wantsToQuit += Quitting();
     }
 
     void OnTriggerStay(Collider other)
@@ -105,7 +109,24 @@ public class Drops : MonoBehaviour {
             
         }
         // Debug.Log("This might cause fmod error on application exit");
-        FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
+
+        Debug.Log("OnDestroy called!");
+
+        if (!isQuitting)
+            FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
+        else
+            Debug.Log("Ondestroy called while quitting!");
+
+        Application.wantsToQuit -= Quitting();
         
     }
+
+    private System.Func<bool> Quitting()
+    {
+        Debug.Log("Quitting event called");
+        isQuitting = true;
+        return null;
+    }
+
+
 }
