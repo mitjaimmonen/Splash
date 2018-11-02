@@ -24,7 +24,7 @@ public class CameraHandler : MonoBehaviour {
 
     //Late update looks much more smooth because it lets all other transforms to finish first.    
 
-    private void Update()
+    private void LateUpdate()
     {
         if (fovTimer <= fovLerpTime)
         {
@@ -61,11 +61,6 @@ public class CameraHandler : MonoBehaviour {
             transform.rotation = target.transform.rotation;
             transform.localEulerAngles += playerController.RecoilScript.WeaponBody.transform.localEulerAngles;
         }
-    }
-    private void FixedUpdate()
-    {
-        
-
     }
 
     public void Die(PlayerController attacker)
