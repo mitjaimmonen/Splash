@@ -4071,6 +4071,7 @@ GameObject:
   - component: {fileID: 590713576}
   - component: {fileID: 590713575}
   - component: {fileID: 590713577}
+  - component: {fileID: 590713578}
   m_Layer: 0
   m_Name: plank
   m_TagString: Untagged
@@ -4150,6 +4151,18 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 71e0ce39ccd87d2449f10f19c4250fb1, type: 3}
+--- !u!114 &590713578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 590713573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53d05a895268234469cbb545272eaa4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHooked: 0
 --- !u!1001 &603189213
 Prefab:
   m_ObjectHideFlags: 0
@@ -15014,6 +15027,16 @@ Prefab:
     - target: {fileID: 20538204199099566, guid: b27fcc4eb4121eb469839c5a7b715e45,
         type: 2}
       propertyPath: m_ForceIntoRT
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54763071200529842, guid: b27fcc4eb4121eb469839c5a7b715e45,
+        type: 2}
+      propertyPath: m_Interpolate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 54763071200529842, guid: b27fcc4eb4121eb469839c5a7b715e45,
+        type: 2}
+      propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:

@@ -499,8 +499,6 @@ GameObject:
   - component: {fileID: 114600770065792890}
   - component: {fileID: 114971550634750604}
   - component: {fileID: 114819842456128336}
-  - component: {fileID: 114043190189828870}
-  - component: {fileID: 114240248164577152}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1524,7 +1522,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -1610,17 +1608,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114043190189828870
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1709318612409746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83ed1ae3a3fc0224da2ed324a25c879b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114100160157869630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1686,17 +1673,6 @@ MonoBehaviour:
   psSplashSizeMultiplier: 10
   psSplash: {fileID: 0}
   collisionBehaviour: {fileID: 0}
---- !u!114 &114240248164577152
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1709318612409746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e65849298bdb76a498fa94e056fcb0dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114466195618453568
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1735,7 +1711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff9387a673b97a43aedc3b16d51e028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charSpeed: 7
+  charSpeed: 2
   runMultiplier: 1.35
   rotateSpeed: {x: 1, y: 1}
   maxSlope: 45

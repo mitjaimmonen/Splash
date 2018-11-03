@@ -61,8 +61,9 @@ public class InterpolatedTransform : MonoBehaviour
         
         TransformData newestTransform = m_lastTransforms[m_newTransformIndex];
         TransformData olderTransform = m_lastTransforms[OldTransformIndex()];
-        Debug.Log(Vector3.Lerp(olderTransform.position, newestTransform.position, InterpolationController.InterpolationFactor));
-        transform.localPosition = Vector3.Lerp(olderTransform.position, newestTransform.position, InterpolationController.InterpolationFactor);
+        Vector3 vec = Vector3.Lerp(olderTransform.position, newestTransform.position, InterpolationController.InterpolationFactor);
+        Debug.Log("Time: "+Time.time+" Vector: " + vec +" InterFactor " + InterpolationController.InterpolationFactor);
+        transform.localPosition = vec;
         transform.localRotation = Quaternion.Slerp(olderTransform.rotation, newestTransform.rotation, InterpolationController.InterpolationFactor);
         transform.localScale = Vector3.Lerp(olderTransform.scale, newestTransform.scale, InterpolationController.InterpolationFactor);
     }

@@ -801,7 +801,7 @@ public class PlayerController : MonoBehaviour, IWater
             //Make weapon as current active weapon
             ActivateWeapon();
             isAlive = true;
-            charBody.Resetinter();
+            //charBody.Resetinter();
         }
 
 

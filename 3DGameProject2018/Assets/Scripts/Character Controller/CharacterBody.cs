@@ -53,12 +53,12 @@ public class CharacterBody : MonoBehaviour {
     }
     private void Awake()
     {
-        inter = GetComponent<InterpolatedTransform>();
+        //inter = GetComponent<InterpolatedTransform>();
         playerController = GetComponent<PlayerController>();
-        Resetinter();
+        //Resetinter();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         //Rotate
         //transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);//right horizontal
@@ -263,8 +263,8 @@ public class CharacterBody : MonoBehaviour {
     {
 
     }
-    public void Resetinter()
-    {
-        inter.ForgetPreviousTransforms();
-    }
+    //public void Resetinter()
+    //{
+    //    inter.ForgetPreviousTransforms();
+    //}
 }

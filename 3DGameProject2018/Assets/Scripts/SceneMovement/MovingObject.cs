@@ -22,7 +22,9 @@ public class MovingObject : MonoBehaviour {
     {
         isHooked = false;
     }
-
+    void Update() {
+        Move();
+    }
     public void Move() {
         
         if(isHooked)
