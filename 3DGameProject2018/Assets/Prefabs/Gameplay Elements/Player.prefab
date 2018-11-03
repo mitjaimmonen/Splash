@@ -1602,7 +1602,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: c0d5fd4a394c9824b825ed2c21327438, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -1659,6 +1659,7 @@ MonoBehaviour:
   hud: {fileID: 114934188383769336, guid: e9a10ea1efa7d7f4f9ce4a3bc489cfcc, type: 2}
   rigController: {fileID: 0}
   armRigController: {fileID: 0}
+  cameraHandler: {fileID: 0}
   controller: {fileID: 0}
   playerAnim: {fileID: 95016888741616598}
   charBody: {fileID: 114819842456128336}
@@ -1711,8 +1712,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff9387a673b97a43aedc3b16d51e028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charSpeed: 2
-  runMultiplier: 1.35
+  charSpeed: 0.2
+  runMultiplier: 1.3
   rotateSpeed: {x: 1, y: 1}
   maxSlope: 45
   jumpVelocity: 0.55
@@ -1727,6 +1728,10 @@ MonoBehaviour:
   capsule: {fileID: 136302762592438026}
   mover: {fileID: 114100160157869630}
   inter: {fileID: 0}
+  rotationV: 0
+  rotationH: 0
+  maxRotV: 65
+  minRotV: -60
 --- !u!114 &114846308794897092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1934,7 +1939,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.39
+  m_Radius: 0.45
   m_Height: 1.64
   m_Direction: 1
   m_Center: {x: 0, y: 0.66, z: -0.09}

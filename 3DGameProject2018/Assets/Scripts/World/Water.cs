@@ -64,7 +64,33 @@ public class Water : MonoBehaviour {
 		}
 
 	}
+		void OnTriggerStay(Collider otherCol)
+	{
+		IWater water = otherCol.GetComponent<IWater>();
 
+		if (water != null && splashTime < Time.time-0.5f)
+		{
+			splashTime = Time.time;
+			water.WaterInteraction(); //General object specific stuff the class wants to do.
+
+			
+			if(water.ColBehaviour != null)
+				water.ColBehaviour.soundBehaviour.WaterSplash();
+			if (water.ParticleSplash == null && psSplash)
+				water.ParticleSplash = psSplash;
+			if (water.ParticleSplash != null)
+				water.ParticleSplash.PlaySplash(otherCol, water.SplashSizeMultiplier);
+
+
+			//sound
+
+			//If collided object has any class with this function, it will handle the event itself.
+			// other.gameObject.BroadcastMessage("OnWaterTrigger", SendMessageOptions.DontRequireReceiver);
+			
+
+		}
+
+	}
 }
 
 

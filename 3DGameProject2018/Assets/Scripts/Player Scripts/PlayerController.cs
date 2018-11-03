@@ -340,6 +340,8 @@ public class PlayerController : MonoBehaviour, IWater
                 cameraHandler.NewFov(1); // 1 = original fov
             }
             if(movingTimer > 0.1f) {
+                charBody.IsRunning = false;
+                cameraHandler.NewFov(1f);
                 playerAnim.SetBool("isMoving", false);
             }
         }
@@ -788,7 +790,10 @@ public class PlayerController : MonoBehaviour, IWater
     {
         GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
-        rotationH = transform.localEulerAngles.y;
+        charBody.rotationH = transform.localEulerAngles.y;
+
+        charBody.IsRunning = false;
+        cameraHandler.NewFov(1f);
 
         if (!isAlive)
         {

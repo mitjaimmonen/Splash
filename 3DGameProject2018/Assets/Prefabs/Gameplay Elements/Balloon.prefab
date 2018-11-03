@@ -294,7 +294,7 @@ MonoBehaviour:
     m_Bits: 512
   explosionCheckRadius: 3.5
   destroyTime: 10
-  blastForce: 8
+  blastForce: 0.2
   blastDamage: 50
   balloonSplashSE: event:/Water Collisions/Water balloon
   particleLauncherParent: {fileID: 114302159137196298}
