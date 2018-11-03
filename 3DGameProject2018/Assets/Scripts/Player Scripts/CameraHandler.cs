@@ -23,25 +23,19 @@ public class CameraHandler : MonoBehaviour {
     }
 
     //Late update looks much more smooth because it lets all other transforms to finish first.    
-
-    private void LateUpdate()
-    {
-        if (fovTimer <= fovLerpTime)
-        {
+    public void updatePos() {
+        if(fovTimer <= fovLerpTime) {
             fovTimer += Time.deltaTime;
             SetFov(oldFov, newFov);
         }
-        if(playerController.IsAlive)
-        {
+        if(playerController.IsAlive) {
             RaycastHit hit;
             Ray forwardRay = new Ray(transform.position + transform.forward, transform.forward);
 
-            if(Physics.Raycast(forwardRay, out hit, Mathf.Infinity))
-            {
+            if(Physics.Raycast(forwardRay, out hit, Mathf.Infinity)) {
                 playerController.AimWorldPoint = hit.point;
                 playerController.IsAimRaycastHit = true;
-            } else
-            {
+            } else {
                 playerController.IsAimRaycastHit = false;
             }
 
@@ -62,6 +56,7 @@ public class CameraHandler : MonoBehaviour {
             transform.localEulerAngles += playerController.RecoilScript.WeaponBody.transform.localEulerAngles;
         }
     }
+
 
     public void Die(PlayerController attacker)
     {

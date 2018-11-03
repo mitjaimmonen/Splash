@@ -17,7 +17,7 @@ public class CharacterBody : MonoBehaviour {
     public int maximumPhysicsLoops = 10;
     public LayerMask raycastLayerMask;
 
-    public Camera cam;
+    public CameraHandler cam;
     public CapsuleCollider capsule;
     private PlayerController playerController;
     public MoveHandler mover;
@@ -31,6 +31,7 @@ public class CharacterBody : MonoBehaviour {
     private Collider[] m_colliders = new Collider[15];
     private Vector3 Momentum;
     public InterpolatedTransform inter;
+    public float rotationV = 0, rotationH, maxRotV = 65f, minRotV = -60f;
     //public float rotationH;
     //public float rotationV;
     public bool IsGrounded
@@ -53,16 +54,16 @@ public class CharacterBody : MonoBehaviour {
     }
     private void Awake()
     {
-        //inter = GetComponent<InterpolatedTransform>();
+        inter = GetComponent<InterpolatedTransform>();
         playerController = GetComponent<PlayerController>();
-        //Resetinter();
+        Resetinter();
     }
 
     private void Update()
     {
         //Rotate
-        //transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);//right horizontal
-        //playerHead.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
+        playerController.transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);//right horizontal
+        playerController.playerHead.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
         if (!playerController.IsAlive)
             return;
 
@@ -70,10 +71,10 @@ public class CharacterBody : MonoBehaviour {
         Vector3 inXZ;
         if(isRunning)
         {
-            inXZ = new Vector3(input.x, 0, input.z) * Time.deltaTime * charSpeed * runMultiplier * 100;
+            inXZ = new Vector3(input.x, 0, input.z) * charSpeed * runMultiplier * 100;
         } else
         {
-            inXZ = new Vector3(input.x, 0, input.z) * Time.deltaTime * charSpeed * 100;
+            inXZ = new Vector3(input.x, 0, input.z)  * charSpeed * 100;
         }
         //Gravity
         acceleration += input.y;
@@ -210,6 +211,7 @@ public class CharacterBody : MonoBehaviour {
         //clear input
         input = Vector3.zero;
         velocity = Vector3.zero;
+        playerController.cameraHandler.updatePos();
     }
 
 
@@ -263,8 +265,8 @@ public class CharacterBody : MonoBehaviour {
     {
 
     }
-    //public void Resetinter()
-    //{
-    //    inter.ForgetPreviousTransforms();
-    //}
+    public void Resetinter()
+    {
+       // inter.ForgetPreviousTransforms();
+    }
 }

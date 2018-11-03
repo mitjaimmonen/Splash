@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour, IWater
     public HudHandler hud; //Draws player-specific hud inside camera viewport
     public RigController rigController; //Controls player model animator state & physics (ragdoll)
     public ArmRigController armRigController; //Controls first-person arms.
-    private CameraHandler cameraHandler;
+    public CameraHandler cameraHandler;
     [HideInInspector]
     public MatchController controller;
     public PlayerStats stats;
@@ -312,29 +312,38 @@ public class PlayerController : MonoBehaviour, IWater
 
     }
     //Physics
-    private void FixedUpdate()
-    {
+    //private void FixedUpdate()
+    //{
 
-        if(!controller.IsPaused && isAlive)
-        {
-            transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);//right horizontal
-            playerHead.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
+    //    if(!controller.IsPaused && isAlive)
+    //    {
+    //        playerAnim.SetBool("isGrounded", charBody.IsGrounded);
+    //        if((charBody.IsRunning && !toggleRun) && runningTimer > 0.1f)
+    //        {
+    //            charBody.IsRunning = false;
+    //            cameraHandler.NewFov(1); // 1 = original fov
+    //        }
+    //        if(movingTimer > 0.1f)
+    //        {
+    //            playerAnim.SetBool("isMoving", false);
+    //        }
+    //    }
+    //    gunsParent.transform.rotation = playerHead.transform.rotation;
+    //}
+
+    private void Update()
+    {
+        if(!controller.IsPaused && isAlive) {
             playerAnim.SetBool("isGrounded", charBody.IsGrounded);
-            if((charBody.IsRunning && !toggleRun) && runningTimer > 0.1f)
-            {
+            if((charBody.IsRunning && !toggleRun) && runningTimer > 0.1f) {
                 charBody.IsRunning = false;
                 cameraHandler.NewFov(1); // 1 = original fov
             }
-            if(movingTimer > 0.1f)
-            {
+            if(movingTimer > 0.1f) {
                 playerAnim.SetBool("isMoving", false);
             }
         }
         gunsParent.transform.rotation = playerHead.transform.rotation;
-    }
-
-    private void Update()
-    {
         //Timers
         runningTimer += Time.deltaTime;
         movingTimer += Time.deltaTime;
@@ -473,7 +482,7 @@ public class PlayerController : MonoBehaviour, IWater
         {
             case "RightHorizontal":
                 //Player only rotates horizontally
-                rotationH += magnitude * lookSensH * Time.deltaTime;
+                charBody.rotationH += magnitude * lookSensH * Time.deltaTime;
                 
                 break;
             case "RightVertical":
@@ -483,8 +492,8 @@ public class PlayerController : MonoBehaviour, IWater
                     magnitude *= -1;
                     Debug.Log("INVERTED");
                 }
-                rotationV += magnitude * lookSensV * Time.deltaTime;
-                rotationV = Mathf.Clamp(rotationV, minRotV, maxRotV);
+                charBody.rotationV += magnitude * lookSensV * Time.deltaTime;
+                charBody.rotationV = Mathf.Clamp(charBody.rotationV, minRotV, maxRotV);
                 
                 //gunsParent.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
 
@@ -801,7 +810,7 @@ public class PlayerController : MonoBehaviour, IWater
             //Make weapon as current active weapon
             ActivateWeapon();
             isAlive = true;
-            //charBody.Resetinter();
+            charBody.Resetinter();
         }
 
 
