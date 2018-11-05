@@ -17,6 +17,7 @@ using UnityEngine;
 *   NOTE:
 *   Move canvasOverlay to whichever class instantiates players.
 */
+[RequireComponent(typeof(CollisionBehaviour))]
 public class PlayerController : MonoBehaviour, IWater
 {
 
@@ -28,26 +29,37 @@ public class PlayerController : MonoBehaviour, IWater
 
 
     #region Weapon
-        
+
         [SerializeField, Tooltip ("Switches to picked up weapon instantly.")]
         private bool switchOnPickup;
         [SerializeField, Tooltip ("Picks up new weapon instantly if space available")]
         private bool autoPickup;
-        [SerializeField, Tooltip ("Add initial weapon(s) from prefabs. Should always have at least one weapon.")]
-        private List<Weapon> carriedWeapons; //All current weapons under gunsParent.
+        [Tooltip("Does weapon reload automatically when empty.")]
+        public bool autoReload;
+        [Tooltip ("Add initial weapon(s) from prefabs. Should always have at least one weapon.")]
+        public bool toggleRun;
+        public List<Weapon> carriedWeapons; //All current weapons under gunsParent.
         [SerializeField]
-        private int maxWeapons = 2;
+        private int maxWeapons = 2, maxGlobalAmmo = 150;
 
         private Weapon currentWeapon; //Active weapon
-        private Weapon defaultWeapon; //Reference to a prefab, taken from first carriedWeapons list item.        
+        private Weapon defaultWeapon; //Reference to a prefab, taken from first carriedWeapons list item.
         private Drops pickupDrop; //Updates every time weapon drop is nearby
         private WeaponData pickupData; //Updates every time weapon drop is nearby
-        private int clipSize, currentAmmo, globalAmmo, maxGlobalAmmo = 150;
+        private int clipSize, currentAmmo, globalAmmo;
         private int weaponIndex = 0; //Current weapon in carriedWeapons
         private bool pickupAllowed = false;
 
     #endregion
+    #region Player Data
 
+        [HideInInspector]public bool hasJumped = false;
+        [HideInInspector]public bool hasShot = false;
+        [HideInInspector]public bool hasReloaded = false;
+        [HideInInspector]public bool hasSprinted = false;
+        [HideInInspector]public bool hasSwitchedWeapon = false;
+
+    #endregion
 
     private int currentHealth;
     private int deaths = 0, kills = 0;
@@ -56,51 +68,52 @@ public class PlayerController : MonoBehaviour, IWater
 
     private bool isAlive = true;
     private bool isAimRaycastHit = false; //Used for aiming the center of screen
-    private int currentDamage = 0;
-    private float runningTimer = 0, movingTimer = 0, interactTimer = 0, pickupTimer = 0;
+    private float currentDamage = 0;
+    private float runningTimer = 0, movingTimer = 0, interactTimer = 0, swapTimer = 0;
+    private bool isSwapped = false; //Was weapon swapped already
     private int maxHealth = 100;
     //Classes
     public CanvasOverlayHandler canvasOverlay;
     public GameObject playerHead; //Has head collider for headshots.
+    public GameObject playerTorso;
     public GameObject gunsParent; //Position always same as camera. Weapon script uses this to parent guns.
     public HudHandler hud; //Draws player-specific hud inside camera viewport
-
-    private RigController rigController; //Controls player model animator state & physics (ragdoll)
-    private CameraHandler cameraHandler;
+    public RigController rigController; //Controls player model animator state & physics (ragdoll)
+    public ArmRigController armRigController; //Controls first-person arms.
+    public CameraHandler cameraHandler;
     [HideInInspector]
     public MatchController controller;
     public PlayerStats stats;
     public Animator playerAnim;
 
+    public CharacterBody charBody;
+
     public LayerMask raycastLayerMask;
-    [FMODUnity.EventRef] public string hitmarkerSE, jumpSE, takeDamageSE, dieSE, waterSplashSE;
+    [FMODUnity.EventRef] public string jumpSE;
     //Movement Variables
     public float lookSensV = 0.8f, lookSensH = 1f;
     public bool invertSensV = false;
-    public Vector3 tempVel;
-    public float JumpVelocity = 1f;
-    public float gravity = 5f;
-    public float maxVelocity;
-    private bool isGrounded = true, isRunning = false;
-    public float walkSpeed = 7f;
-    public float runMultiplier = 1.5f;
-    public float maxSlope = 60;
-    public float climbSpeed = 1;
-    public float stepHeight = 0;
-    private Vector3 velocity = new Vector3(0, 0, 0);
-    private Vector3 prevVelocity;
-    [SerializeField] private Collider[] damageColliders; //Colliders that take damage
+ 
+    public bool helpfulTips = true;
+
+    private List<Collider> damageColliders; //Colliders that take damage
     private CapsuleCollider capsule;
     //possibly a list of who damaged you as well so we could give people assists and stuff
     //wed have to run off a points system that way so id rather keep it to k/d right now or time because they are both easy
     private List<Effects> currentEffects;
-
+    private float invertTime;
+    private bool InvertBtnReleased = true;
 
 
     #region Getters & Setters
 
-        //Setters now trigger functions in hud when values change.
-        //by including values, hud doesnt need to have reference on this script.
+    //Setters now trigger functions in hud when values change.
+    //by including values, hud doesnt need to have reference on this script.
+
+    public Weapon CurrentWeapon
+        {
+            get{return currentWeapon;}
+        }
         public int ClipSize
         {
             get { return clipSize; }
@@ -116,6 +129,12 @@ public class PlayerController : MonoBehaviour, IWater
                 hud.UpdateAmmo();
 
             }
+        }
+
+        public float Acceleration
+        {
+            get { return charBody.Acceleration; }
+            set { charBody.YInput(value); }
         }
         public int CurrentAmmo
         {
@@ -150,7 +169,7 @@ public class PlayerController : MonoBehaviour, IWater
                 hud.UpdateAmmo();
             }
         }
-        public int CurrentDamage
+        public float CurrentDamage
         {
             get { return currentDamage; }
             set { currentDamage = value; }
@@ -205,6 +224,11 @@ public class PlayerController : MonoBehaviour, IWater
             }
         }
 
+        public Recoil RecoilScript
+        {
+            get {return currentWeapon.RecoilScript;}
+        }
+
     #endregion
 
 
@@ -217,13 +241,18 @@ public class PlayerController : MonoBehaviour, IWater
             canvasOverlay = Instantiate(canvasOverlay, Vector3.zero, Quaternion.Euler(0,0,0));
             canvasOverlay.SetOverlay(currentPlayers);
         }
-        
+        damageColliders = new List<Collider>();
+        foreach(var col in playerHead.GetComponents<Collider>())
+            damageColliders.Add(col);
+        foreach (var col in playerTorso.GetComponents<Collider>())
+            damageColliders.Add(col);
+
         hud = Instantiate(hud, Vector3.zero, Quaternion.Euler(0,0,0));
         hud.playerController = this;
 
         GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
-        playerSpeed = walkSpeed;
+        charBody.IsRunning = false;
 
         //Set own camera for players by their number. Scene already has 4 inactive cameras ready.
         GameObject playerCamera = null;
@@ -234,15 +263,16 @@ public class PlayerController : MonoBehaviour, IWater
                 playerCamera.SetActive(true);
                 var canvas = hud.GetComponent<Canvas>();
                 canvas.worldCamera = playerCamera.GetComponent<Camera>();
-                hud.playerNumberText.text = "<HUD debug messages>";
             }
         }
         cameraHandler = playerCamera.GetComponent<CameraHandler>();
         cameraHandler.playerController = this;
         cameraHandler.target = playerHead;
         cameraHandler.SetViewport(currentPlayers, playerNumber);
-        
+        hud.transform.parent = cameraHandler.transform;
         rigController = GetComponentInChildren<RigController>();
+        armRigController = GetComponentInChildren<ArmRigController>();
+        collisionBehaviour = GetComponent<CollisionBehaviour>();
 
         stats = new PlayerStats {
             player = playerNumber
@@ -252,7 +282,7 @@ public class PlayerController : MonoBehaviour, IWater
             Debug.LogError("CarriedWeapons count should always be at least 1!");
         else
         {
-            weaponIndex = 0; 
+            weaponIndex = 0;
             defaultWeapon = carriedWeapons[weaponIndex]; //Default weapon always asset reference, not instantiated object
 
             for(int i = 0; i < carriedWeapons.Count; i++)
@@ -265,208 +295,91 @@ public class PlayerController : MonoBehaviour, IWater
                 carriedWeapons[i].Deactivate();
             }
 
-            //Create gun from the first item in carriedWeapons list & give parameters 
+            //Create gun from the first item in carriedWeapons list & give parameters
             currentWeapon = carriedWeapons[weaponIndex];
-            //Make weapon as current active weapon 
-            currentWeapon.Activate(); 
+
         }
 
     }
 
     private void Start()
     {
+        ActivateWeapon();
         rotationH = transform.localEulerAngles.y;
         hud.UpdateAmmo();
         capsule = GetComponent<CapsuleCollider>();
-        
+        gunsParent.transform.localPosition += cameraHandler.offsetFromHead;
+
     }
     //Physics
+    //private void FixedUpdate()
+    //{
+
+    //    if(!controller.IsPaused && isAlive)
+    //    {
+    //        playerAnim.SetBool("isGrounded", charBody.IsGrounded);
+    //        if((charBody.IsRunning && !toggleRun) && runningTimer > 0.1f)
+    //        {
+    //            charBody.IsRunning = false;
+    //            cameraHandler.NewFov(1); // 1 = original fov
+    //        }
+    //        if(movingTimer > 0.1f)
+    //        {
+    //            playerAnim.SetBool("isMoving", false);
+    //        }
+    //    }
+    //    gunsParent.transform.rotation = playerHead.transform.rotation;
+    //}
+
     private void Update()
     {
-        //Timers
-        runningTimer += Time.deltaTime;
-        movingTimer += Time.deltaTime;
-        interactTimer += Time.deltaTime;
-        pickupTimer += Time.deltaTime;
-        
-        velocity += new Vector3(tempVel.x*Time.deltaTime, tempVel.y, tempVel.z * Time.deltaTime);
-        tempVel = Vector3.zero;
-
-        if (!controller.IsPaused && isAlive)
-        {
-            gunsParent.transform.localPosition = transform.InverseTransformPoint(cameraHandler.transform.position);
-            gunsParent.transform.rotation = playerHead.transform.rotation;
-
-            /*Problems left:(/ == think its fixxed X = definitly fixed)
-             * [/]when hitting a 90degree meeting while jumping with the sphere of the collider it slows down y velocity
-             * [/]very occasional clipping when jumping into 90 with head and then pushing into the object
-             * [/]windowsils always clip???
-             * [/]some occasional thru floor(seems only infront of the first spawn when walking towards the house, possibly also only when looking down)
-             * []no real step function
-             * []halway of nightmares
-            */
-
-
-            /*GRAVITY*/
-            velocity.y -= gravity * Time.deltaTime;
-
-
-            isGrounded = false;
-            Vector3 TopSphere = transform.position + new Vector3(0, (capsule.height / 2 - capsule.radius) + 0.5f, 0) + capsule.center; //0.5f is additional offset because capsule does not reach head.
-            Vector3 BotSphere = transform.position - new Vector3(0, capsule.height / 2 - capsule.radius, 0) + capsule.center;
-            /*Collision Calc*/
-            {
-                int ohshitcounter = 0;
-                RaycastHit hit;
-                Vector3 lastMoveVec;
-                while(Physics.CapsuleCast(
-                        TopSphere,//Capsule top sphere center
-                        BotSphere,//bottom sphere center
-                        capsule.radius,//Capsule Radius
-                        velocity.normalized,//Direction vector
-                        out hit,
-                        Mathf.Abs(velocity.magnitude),
-                        raycastLayerMask
-                        ))//Distance to cast
-
-                {
-                    ohshitcounter++;//Loop count Tracker
-                    lastMoveVec = velocity;
-
-                    //if we loop too much just exit and set velocity to just before collision and exit
-                    if(ohshitcounter == 10)
-                    {
-                        Debug.Log("max loops");
-                        velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
-                        break;
-                    }
-
-                    Vector3 XZ = new Vector3(velocity.x, 0, velocity.z);
-                    if(hit.normal.y > maxSlope)
-                    {//Traversable slope
-                     //currently will step over anything less than 1/4th the radius of capsule
-                        Vector3 perpPlaneDir = Vector3.Cross(hit.normal, XZ);//this is a vector that will be parrallel to the slope but it will be perpindicular to the direction we want to go
-                        Vector3 planeDir = Vector3.Cross(perpPlaneDir, hit.normal);//This will be the an axis line of were we are walking, but we dont know if its forwards or backwards right now
-                        planeDir = planeDir * Mathf.Sign(Vector3.Dot(planeDir, XZ));//dot returns pos if they are headed in the same direction. so multiplying the planedir by its sign will give us the correct direction on the vector
-                        velocity = velocity.normalized * (hit.distance);//this will set velocity to go the un obstructed amount of the cast
-                        XZ -= new Vector3(velocity.x, 0, velocity.z);//this makes xv the remainder xv distance
-                        velocity += planeDir.normalized * XZ.magnitude;// / Mathf.Cos(Vector3.Angle(XV, planeDir.normalized)));//adds our plane direction of lenght xv if it were strethced to cover the same xv distance on our plane(so it doesnt slow down on slopes)
-                        velocity.y += Mathf.Sign(hit.normal.y) * .001f;
-                        isGrounded = true;
-                    } else
-                    {//Wall or too steep slope
-                        if(Physics.CapsuleCast(
-                        TopSphere,//Capsule top sphere center
-                        BotSphere+new Vector3(0,stepHeight,0),//bottom sphere center
-                        capsule.radius,//Capsule Radius
-                        velocity.normalized,//Direction vector
-                        out hit,
-                        Mathf.Abs(velocity.magnitude),
-                        raycastLayerMask
-                        ))
-                        {
-                            Vector3 parallelSide = Vector3.Cross(Vector3.up, hit.normal);
-                            Vector3 parallelDown = Vector3.Cross(parallelSide, hit.normal);
-                            parallelSide = parallelSide * Mathf.Sign(Vector3.Dot(parallelSide, XZ));
-                            float angle = Vector3.Angle(-new Vector3(velocity.x, 0, velocity.z).normalized, hit.normal);
-                            float VerticalRemainder = velocity.y;
-                            float XZPlaneRemainder = XZ.magnitude;
-                            velocity = velocity.normalized * (hit.distance);
-                            VerticalRemainder -= velocity.y;
-                            XZPlaneRemainder -= new Vector3(velocity.x, 0, velocity.z).magnitude;
-                            if(velocity.y <= 0)
-                            {
-                                velocity += parallelDown.normalized * Mathf.Abs(VerticalRemainder);
-                            } else
-                            {
-                                velocity.y += VerticalRemainder;
-                            }
-                            velocity += parallelSide.normalized * (XZPlaneRemainder * (angle / 90));
-                            velocity += hit.normal * .001f;
-                            isGrounded = false;
-                        } else
-                        {
-
-                            velocity = velocity.normalized * (hit.distance);
-                            velocity.y += stepHeight;
-                            velocity += hit.normal * .001f;
-                            isGrounded = true;
-                        }
-                        
-                    }
-                    //if last position velocity was the same as the new calculation set velocity to just before collision and exit
-                    if(lastMoveVec == velocity)
-                    {
-                        velocity = velocity.normalized * (hit.distance) + hit.normal * .001f;
-                        Debug.Log("Same vector");
-                        break;
-                    }
-                }
-                playerAnim.SetBool("isGrounded", isGrounded);
-            }
-
-            if(Physics.CheckCapsule(TopSphere+velocity, BotSphere+velocity, capsule.radius, raycastLayerMask))
-            {
-                Debug.Log("Triggered");
-                velocity = Vector3.zero;
-            }
-            /*Apply Velocity*/
-            transform.position += velocity;
-            prevVelocity = velocity;
-
-            /*Next frame vertical velocity calculation & reset*/
-            {
-                velocity.y = Mathf.Clamp(velocity.y, -maxVelocity, maxVelocity);
-                velocity.x = 0;
-                velocity.z = 0;
-            }
-
-
-                      
-
-            if (runningTimer > 0.1f && isRunning)
-            {
-                isRunning = false;
+        if(!controller.IsPaused && isAlive) {
+            playerAnim.SetBool("isGrounded", charBody.IsGrounded);
+            if((charBody.IsRunning && !toggleRun) && runningTimer > 0.1f) {
+                charBody.IsRunning = false;
                 cameraHandler.NewFov(1); // 1 = original fov
-                playerSpeed = walkSpeed;
             }
-            if (movingTimer > 0.1f)
-            {
+            if(movingTimer > 0.1f) {
+                charBody.IsRunning = false;
+                cameraHandler.NewFov(1f);
                 playerAnim.SetBool("isMoving", false);
             }
         }
+        gunsParent.transform.rotation = playerHead.transform.rotation;
+        //Timers
+        runningTimer += Time.deltaTime;
+        movingTimer += Time.deltaTime;
     }
+ 
+    #region Implementations
 
-
-    #region Implementations 
-
-        public float psSplashSizeMultiplier = 1;
+    public float psSplashSizeMultiplier = 10f;
         public ParticleSplash psSplash;
 
-        public ParticleSplash particleSplash
+        public ParticleSplash ParticleSplash
         {
             get{ return psSplash;}
-            set{ particleSplash = value; }
+            set{ psSplash = value; }
         }
 
-        public CollisionSounds colSplashSound;
-        public CollisionSounds colsounds
+        public CollisionBehaviour collisionBehaviour;
+        public CollisionBehaviour ColBehaviour
         {
-            get{ return colSplashSound;}
-            set{ colsounds = value; }
+            get{ return collisionBehaviour; }
+            set{ collisionBehaviour = value; }
         }
-        public float splashSizeMultiplier
+        public float SplashSizeMultiplier
         {
             get{ return psSplashSizeMultiplier; }
-            set{ splashSizeMultiplier = value; }   
+            set{ psSplashSizeMultiplier = value; }
         }
         public void WaterInteraction(){
             //do interaction
             if (isAlive)
             {
-                velocity.y = 0;
+                //velocity.y = 0;
                 Die(null);
-                FMODUnity.RuntimeManager.PlayOneShot(waterSplashSE, transform.position);
+                collisionBehaviour.soundBehaviour.WaterSplash();
             }
         }
 
@@ -475,7 +388,7 @@ public class PlayerController : MonoBehaviour, IWater
         {
             if (isAlive)
             {
-                if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical" || input[1] == "A" || input[1] == "L3")
+                if(input[1] == "LeftHorizontal" || input[1] == "LeftVertical"|| input[1] == "L3")
                 {
                     Move(input[1], float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
                 }
@@ -483,35 +396,81 @@ public class PlayerController : MonoBehaviour, IWater
                 {
                     Rotate(input[1],float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
                 }
-                if (input[1] == "Y")
+                if (input[1] == "A" || input[1] == "L2")
                 {
-                    if (pickupAllowed && pickupDrop != null && pickupTimer > 0.1f)
-                        PickupWeapon();
-                    pickupTimer = 0;
+                    Jump();
+                }
+                if (input[1] == "Y") //Used for world interactions such as pickup and swapping weapons
+                {
+                    if (interactTimer < Time.time - 0.1f) // If button has been released
+                    {
+                        swapTimer = Time.time;
+                        isSwapped = false;
+                        if (carriedWeapons.Count < maxWeapons)
+                        {
+                            PickupWeapon();
+                        }
+                    }
+                    else // If button is being held down
+                    {
+                        if (carriedWeapons.Count >= maxWeapons && !isSwapped && pickupAllowed)
+                        {
+                            if (swapTimer < Time.time - 1f)
+                            {
+                                isSwapped = true;
+                                SwapWeapon();
+                            }
+                            else
+                            {
+                                float uiTime = Mathf.Clamp((Time.time - swapTimer),0f,1f);
+                                hud.UpdateCircleTimer(uiTime);
+                            }
+                        }
+                        else
+                        {
+                            swapTimer = Time.time;
+                        }
+                    }
+
+                    interactTimer = Time.time;
+                    
                 }
                 if (input[1] == "B")
                 {
-                    if (interactTimer > 0.1f)
+                    if (Time.time - interactTimer > 0.1f)
                     {
                         DropWeapon(false);
                     }
-                    interactTimer = 0;
+                    interactTimer = Time.time;
                 }
                 if (input[1] == "R1")
                 {
-                    if (interactTimer > 0.1f)
+                    if (Time.time - interactTimer > 0.1f)
                     {
-                        SwitchWeapon(1+weaponIndex);                
+                        SwitchWeapon(1+weaponIndex, true);
                     }
-                    interactTimer = 0;
+                    interactTimer = Time.time;
                 }
                 if (input[1] == "R2")
                 {
                     currentWeapon.Shoot(float.Parse(input[2], CultureInfo.InvariantCulture.NumberFormat));
+                    hasShot = true;
                 }
                 if (input[1] == "L1")
                 {
                     currentWeapon.Reload();
+                    hasReloaded = true;
+                }
+                if (input[1] == "RightStick" && InvertBtnReleased)
+                {
+                    invertTime = Time.time;
+                    InvertBtnReleased= false;
+                    Debug.Log("INVERT BTN");
+                    invertSensV = !invertSensV;
+                }
+                else if (input[1] != "RightStick" && invertTime + 0.1f < Time.time)
+                {
+                    InvertBtnReleased = true;
                 }
             }
 
@@ -519,66 +478,80 @@ public class PlayerController : MonoBehaviour, IWater
 
     #endregion
 
-    private void Rotate(string axis, float magnitude) 
+    private void Rotate(string axis, float magnitude)
     {
         switch(axis)
         {
             case "RightHorizontal":
                 //Player only rotates horizontally
-                rotationH += magnitude * lookSensH * Time.deltaTime;
-                transform.eulerAngles = new Vector3(transform.localEulerAngles.x, rotationH, 0);
+                charBody.rotationH += magnitude * lookSensH * Time.deltaTime;
+                
                 break;
             case "RightVertical":
                 //Face gameObject only rotates vertically.
                 if (invertSensV)
+                {
                     magnitude *= -1;
-                rotationV += magnitude * lookSensV * Time.deltaTime;
-                rotationV = Mathf.Clamp(rotationV, minRotV, maxRotV);
-                playerHead.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
-                // gunsParent.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
+                    Debug.Log("INVERTED");
+                }
+                charBody.rotationV += magnitude * lookSensV * Time.deltaTime;
+                charBody.rotationV = Mathf.Clamp(charBody.rotationV, minRotV, maxRotV);
+                
+                //gunsParent.transform.localEulerAngles = new Vector3(rotationV, 0, 0);
 
                 break;
         }
     }
     //apply nongravity movements
+
+    private void Jump()
+    {
+        if(charBody.IsGrounded)
+        {
+            playerAnim.SetTrigger("isJumping");
+            charBody.Jump();
+            FMODUnity.RuntimeManager.PlayOneShotAttached(jumpSE, gameObject);
+            hasJumped = true;
+        }
+    }
     private void Move(string axis, float magnitude)
     {
         switch(axis)
         {
             case "L3":
-                runningTimer = 0;
-                if(!isRunning)
+
+                if(!charBody.IsRunning && runningTimer > 0.1f)
                 {
-                    isRunning = true;
+                    charBody.IsRunning = true;
                     cameraHandler.NewFov(1.2f);
-                    playerSpeed = walkSpeed * runMultiplier;
+                } else if(toggleRun && runningTimer > 0.1f && charBody.IsRunning)
+                {
+                    charBody.IsRunning = false;
+                    cameraHandler.NewFov(1f);
                 }
+
+                hasSprinted = true;
+                runningTimer = 0;
                 break;
 
             case "LeftHorizontal":
-                tempVel += new Vector3(transform.forward.z, 0, -transform.forward.x) * magnitude * playerSpeed;
+                //movementMagnitude.x = magnitude;
+                charBody.XZInput(new Vector2(0,- magnitude * Time.deltaTime));
                 playerAnim.SetBool("isMoving", true);
                 playerAnim.SetFloat("sideways", magnitude);
                 movingTimer = 0;
                 break;
 
             case "LeftVertical":
-                tempVel += -transform.forward * magnitude * playerSpeed;
+                //movementMagnitude.y = magnitude;
+                charBody.XZInput(new Vector2(-magnitude * Time.deltaTime,0));
                 playerAnim.SetBool("isMoving", true);
                 playerAnim.SetFloat("forward", Mathf.Clamp(-magnitude, -0.9f, 0.9f));
-                if (isRunning)
+                if(charBody.IsRunning)
                     playerAnim.SetFloat("forward", -magnitude);
                 movingTimer = 0;
                 break;
-            case "A":
-                if(isGrounded)
-                {
-                    playerAnim.SetTrigger("isJumping");
-                    velocity.y += JumpVelocity;
-                    FMODUnity.RuntimeManager.PlayOneShotAttached(jumpSE, gameObject);
-                    isGrounded = false;
-                }
-                break;
+
 
             default:
                 break;
@@ -587,76 +560,91 @@ public class PlayerController : MonoBehaviour, IWater
 
 
     public void PlatformJump(float multiplier) {
-        
-        velocity.y = JumpVelocity * multiplier;
-        isGrounded = false;
+
+        charBody.YInput( charBody.JumpVelocity * multiplier);
     }
 
+    #region Weapon Functions
 
     //Gets called when triggered near a gun pickup.
     public void AllowPickup(Drops drop, bool isAllowed, WeaponData data)
     {
+        // Debug.Log("AllowPickup called. drop: " + drop + ", isAllowed: " + isAllowed + ", weapondata: " + data);
         pickupDrop = drop;
         pickupAllowed = isAllowed;
         pickupData = data;
 
-        if (pickupAllowed && isAlive)
+        if (pickupAllowed)
         {
-            if (autoPickup && pickupDrop != null)
+            //Check if you have this weapon & if space for ammo. Destroy pickup if took any ammo
+            foreach (var weapon in carriedWeapons)
             {
-                PickupWeapon();
+                if (weapon.name == pickupDrop.pickupWeapon.name)
+                {
+                    //Already have this weapon, trying to take ammo
+                    int oldGlobalAmmo = GlobalAmmo;
+                    GlobalAmmo += pickupData.currentClipAmmo;
+                    if (oldGlobalAmmo != GlobalAmmo)
+                    {
+                        Destroy(pickupDrop.gameObject);
+                    }
+                    return;
+                }
             }
+
+            //If no space in inventory, update instruction text for swapping.
+            if (carriedWeapons.Count >= maxWeapons)
+                hud.UpdateMiddleInstructions(pickupAllowed,pickupDrop.pickupWeapon.gameObject.name, GamepadButton.Y);
+
+            else if (carriedWeapons.Count < maxWeapons)
+            {
+                if (autoPickup)
+                    PickupWeapon();
+                else
+                    hud.UpdateMiddleInstructions(pickupAllowed, pickupDrop.pickupWeapon.gameObject.name, GamepadButton.Y);
+            }
+
+        }
+        else
+        {
+            //If pickup not allowed, disable instruction text
+            hud.UpdateMiddleInstructions(pickupAllowed,"", GamepadButton.Y);
         }
     }
 
     //Picks up new weapon to carry
     public void PickupWeapon()
     {
-        foreach (var weapon in carriedWeapons)
+        if (isAlive && pickupDrop != null && pickupAllowed)
         {
-            if (weapon.name == pickupDrop.pickupWeaponIfAny.name)
-            {
-                Debug.Log("Carrying this weapon already.");
-                //Already have this weapon, trying to take ammo
-                int oldGlobalAmmo = GlobalAmmo;
-                GlobalAmmo += pickupData.currentClipAmmo;
-                if (oldGlobalAmmo != GlobalAmmo)
-                {
-                    Debug.Log("Took ammo, destroying pickup.");
-                    Destroy(pickupDrop.gameObject);
-                    return;
-                }
-                else
-                {
-                    Debug.Log("Ammo full. Cannot pick up.");
-                    return;
-                }
 
+            foreach (var weapon in carriedWeapons)
+            {
+                if (weapon.name == pickupDrop.pickupWeapon.name)
+                    return;
             }
 
+            if (carriedWeapons.Count < maxWeapons)
+            {
+                Debug.Log("New weapon picked up");
+                carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position, transform.rotation));
+                PersonalExtensions.CopyComponentValues<WeaponData>(pickupData, carriedWeapons[carriedWeapons.Count-1].gameObject);
+                carriedWeapons[carriedWeapons.Count-1].gameObject.name = pickupDrop.pickupWeapon.gameObject.name;
+                carriedWeapons[carriedWeapons.Count-1].playerController = this;
+                carriedWeapons[carriedWeapons.Count-1].Initialize();
+                carriedWeapons[carriedWeapons.Count-1].Deactivate();
+
+                Destroy(pickupDrop.gameObject);
+
+                if (switchOnPickup)
+                    SwitchWeapon(carriedWeapons.Count-1, false);
+            }
         }
 
-        if (carriedWeapons.Count < maxWeapons)
-        {
-            Debug.Log("New weapon picked up");
-            carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny, transform.position, transform.rotation));
-            PersonalExtensions.CopyComponentValues<WeaponData>(pickupData, carriedWeapons[carriedWeapons.Count-1].gameObject);
-            carriedWeapons[carriedWeapons.Count-1].gameObject.name = pickupDrop.pickupWeaponIfAny.gameObject.name;
-            carriedWeapons[carriedWeapons.Count-1].playerController = this;
-            carriedWeapons[carriedWeapons.Count-1].Initialize();
-            carriedWeapons[carriedWeapons.Count-1].Deactivate();
-
-            Destroy(pickupDrop.gameObject);
-
-            if (switchOnPickup)
-                SwitchWeapon(carriedWeapons.Count-1);
-        }
-        else if (!autoPickup)
-            SwapWeapon();  
     }
 
     //Switches between carried weapons
-    public void SwitchWeapon(int index)
+    public void SwitchWeapon(int index, bool manualSwitch)
     {
         if (index > carriedWeapons.Count-1)
             weaponIndex = 0;
@@ -668,58 +656,82 @@ public class PlayerController : MonoBehaviour, IWater
         {
             if (currentWeapon)
                 currentWeapon.Deactivate();
-            
+
             currentWeapon = carriedWeapons[weaponIndex];
-            currentWeapon.Activate();
+            ActivateWeapon();
+        
+            if (!hasSwitchedWeapon && manualSwitch)
+                hasSwitchedWeapon = true;
 
         }
-        
+
     }
     //Swaps current weapon to new and throws current away
     public void SwapWeapon()
     {
-        //Create weapon pickup and remove weapon from player.
+        if (!pickupAllowed)
+            return;
+     
+        foreach (var weapon in carriedWeapons)
+        {
+            if (weapon.name == pickupDrop.pickupWeapon.name)
+            {
+                return;
+            }
+        }
+
+
         DropWeapon(true);
-        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeaponIfAny, transform.position, transform.rotation));
+        carriedWeapons.Add(Instantiate(pickupDrop.pickupWeapon, transform.position, transform.rotation));
         weaponIndex = carriedWeapons.Count-1; //Index updates to be list's last item
         currentWeapon = carriedWeapons[weaponIndex];
-        currentWeapon.name = pickupDrop.pickupWeaponIfAny.name; //Prevents name to be a "(clone)"
+        currentWeapon.name = pickupDrop.pickupWeapon.name; //Prevents name to be a "(clone)"
         PersonalExtensions.CopyComponentValues<WeaponData>(pickupData, currentWeapon.gameObject);
         currentWeapon.playerController = this;
         currentWeapon.Initialize(); // Picked up weapons need to set some initial values
-        currentWeapon.Activate(); //SwapWeapon makes swapped weapon current & active
+        ActivateWeapon(); //SwapWeapon makes swapped weapon current & active
 
         Destroy(pickupDrop.gameObject);
     }
 
+    //Autopickup must be disabled to use this function
     public void DropWeapon(bool isReplaced)
     {
-        
-        if (carriedWeapons.Count > 1 || isReplaced) // Player must have at least one weapon
+        if ((carriedWeapons.Count > 1 && !autoPickup) || isReplaced) // Player must have at least one weapon
         {
-            GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, currentWeapon.transform.position, transform.rotation);
+            GameObject swappedGunPickup = Instantiate(currentWeapon.weaponPickup, transform.position + (transform.forward + Vector3.up)*0.7f, Quaternion.LookRotation(transform.right));
             PersonalExtensions.CopyComponentValues<WeaponData>(currentWeapon.weaponData, swappedGunPickup);
+            var tempRB = swappedGunPickup.GetComponent<Rigidbody>();
+            if (tempRB)
+                tempRB.AddForce(transform.forward*6f, ForceMode.Impulse);
             Destroy(currentWeapon.gameObject);
             carriedWeapons.RemoveAt(weaponIndex);
 
             if (!isReplaced)
-                SwitchWeapon(weaponIndex+1);
+                SwitchWeapon(weaponIndex+1, false);
         }
 
     }
+
+    private void ActivateWeapon()
+    {
+        currentWeapon.Activate();
+        hud.hudWeaponsHandler.SetWeaponUI(maxWeapons, carriedWeapons, weaponIndex);
+    }
+
+    #endregion
 
 
     public void TakeDamage(int damage, PlayerController attacker)
     {
         hud.TakeDamage(attacker.transform.position);
-        FMODUnity.RuntimeManager.PlayOneShotAttached(takeDamageSE, gameObject);
+        ColBehaviour.soundBehaviour.PlayTakeDamage();
 
         CurrentHealth -= damage;
         if(currentHealth<1 && isAlive)
         {
             attacker.stats.kills++;
             Die(attacker);
-            // controller.Spawn(playerNumber);
         }
     }
 
@@ -727,7 +739,6 @@ public class PlayerController : MonoBehaviour, IWater
     //Can be used for score system later on.
     public void DealDamage()
     {
-        FMODUnity.RuntimeManager.PlayOneShotAttached(hitmarkerSE, gameObject);
         hud.DealDamage();
     }
 
@@ -736,10 +747,13 @@ public class PlayerController : MonoBehaviour, IWater
         //Note: attacker will be null on suicide.
         if (isAlive)
         {
+            stats.deaths++;
             isAlive = false;
-            FMODUnity.RuntimeManager.PlayOneShotAttached(dieSE, rigController.gameObject); //Arm is part of rig, so sound updates wherever rig has ragdolled.
+            ColBehaviour.soundBehaviour.PlayDestroy(rigController.transform.position);
             cameraHandler.Die(attacker);
-            rigController.Die();
+            rigController.Die(charBody.Acceleration);
+            
+            // armRigController.Die();
 
             foreach(Collider col in damageColliders)
             {
@@ -753,20 +767,22 @@ public class PlayerController : MonoBehaviour, IWater
             {
                 Destroy(weapon.gameObject);
             }
-            StartCoroutine(RespawnTimer());
+            StartCoroutine(RespawnTimer(attacker));
         }
 
-        
+
     }
-    private IEnumerator RespawnTimer()
+    private IEnumerator RespawnTimer(PlayerController attacker)
     {
         int time = 0;
+        hud.UpdateKillcamText(true, attacker);
         while (time <= controller.RespawnTime)
         {
-            hud.UpdateTimer(controller.RespawnTime - time);
+            hud.UpdateTimerText(controller.RespawnTime - time);
             time++;
             yield return new WaitForSeconds(1);
         }
+        hud.UpdateKillcamText(false, attacker);
         controller.Spawn(playerNumber);
         yield break;
     }
@@ -774,10 +790,14 @@ public class PlayerController : MonoBehaviour, IWater
     {
         GlobalAmmo = maxGlobalAmmo;
         CurrentHealth = maxHealth;
-        rotationH = transform.localEulerAngles.y;
+        charBody.rotationH = transform.localEulerAngles.y;
+
+        charBody.IsRunning = false;
+        cameraHandler.NewFov(1f);
 
         if (!isAlive)
         {
+            charBody.Acceleration = 0;
             weaponIndex = 0;
             carriedWeapons.Clear();
             carriedWeapons.Add(defaultWeapon);
@@ -793,8 +813,9 @@ public class PlayerController : MonoBehaviour, IWater
             //Initialize basically a start function but had to be called after parameters are set
             currentWeapon.Initialize();
             //Make weapon as current active weapon
-            currentWeapon.Activate();
-            isAlive = true;        
+            ActivateWeapon();
+            isAlive = true;
+            charBody.Resetinter();
         }
 
 
@@ -817,9 +838,9 @@ public class PlayerController : MonoBehaviour, IWater
     /******************************
      *            To Do
      *  Make associated camera follow the
-     *  killer until death timer is up and 
+     *  killer until death timer is up and
      *  call respawn
-     *  
+     *
      ******************************/
 
 }

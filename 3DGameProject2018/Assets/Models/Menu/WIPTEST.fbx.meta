@@ -1,0 +1,277 @@
+fileFormatVersion: 2
+guid: 2bd883a2c55ceaa45ae247e9dd697a19
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: BlackboardOut
+    100002: BoxLow
+    100004: building
+    100006: CAFE NAME
+    100008: chair.007
+    100010: chair.008
+    100012: chair.009
+    100014: chair.010
+    100016: chair.011
+    100018: Circle
+    100020: counter
+    100022: Cube.004
+    100024: Cube.005
+    100026: Cube.009
+    100028: Cube.011
+    100030: Cube.015
+    100032: Glass
+    100034: Glass.001
+    100036: Mug1
+    100038: Mug2
+    100040: OutdoorFloor
+    100042: OutdoorFloor.001
+    100044: plateHolder
+    100046: plateHolder.001
+    100048: plateHolder.005
+    100050: self
+    100052: Straws
+    100054: table.003
+    100056: table.004
+    100058: Tambor
+    100060: WINDOW 1B.006
+    100062: WINDOWS
+    100064: //RootNode
+    400000: BlackboardOut
+    400002: BoxLow
+    400004: building
+    400006: CAFE NAME
+    400008: chair.007
+    400010: chair.008
+    400012: chair.009
+    400014: chair.010
+    400016: chair.011
+    400018: Circle
+    400020: counter
+    400022: Cube.004
+    400024: Cube.005
+    400026: Cube.009
+    400028: Cube.011
+    400030: Cube.015
+    400032: Glass
+    400034: Glass.001
+    400036: Mug1
+    400038: Mug2
+    400040: OutdoorFloor
+    400042: OutdoorFloor.001
+    400044: plateHolder
+    400046: plateHolder.001
+    400048: plateHolder.005
+    400050: self
+    400052: Straws
+    400054: table.003
+    400056: table.004
+    400058: Tambor
+    400060: WINDOW 1B.006
+    400062: WINDOWS
+    400064: //RootNode
+    2100000: Clip
+    2100002: Body
+    2100004: Red dot
+    2100006: Box
+    2100008: BlackboarOut
+    2100010: WindowUgly
+    2100012: GlassWindowUgly
+    2100014: No Name
+    2100016: Straws
+    2100018: plate
+    2100020: mug
+    2100022: PlateHolder
+    2100024: Glass
+    2100026: LongGlass
+    2100028: Stools
+    2100030: Tables
+    2100032: Counter
+    2100034: Building
+    2100036: Windows
+    2100038: Selves
+    2100040: Letrero
+    2100042: Counter2
+    2100044: Businessdoors
+    2100046: Leatherboard
+    2100048: PicsBig
+    2100050: PicsSmall
+    2100052: SmallObjects
+    2300000: BlackboardOut
+    2300002: BoxLow
+    2300004: building
+    2300006: CAFE NAME
+    2300008: chair.007
+    2300010: chair.008
+    2300012: chair.009
+    2300014: chair.010
+    2300016: chair.011
+    2300018: Circle
+    2300020: counter
+    2300022: Cube.004
+    2300024: Cube.005
+    2300026: Cube.009
+    2300028: Cube.011
+    2300030: Cube.015
+    2300032: Glass
+    2300034: Glass.001
+    2300036: Mug1
+    2300038: Mug2
+    2300040: OutdoorFloor
+    2300042: OutdoorFloor.001
+    2300044: plateHolder
+    2300046: plateHolder.001
+    2300048: plateHolder.005
+    2300050: self
+    2300052: Straws
+    2300054: table.003
+    2300056: table.004
+    2300058: Tambor
+    2300060: WINDOW 1B.006
+    2300062: WINDOWS
+    3300000: BlackboardOut
+    3300002: BoxLow
+    3300004: building
+    3300006: CAFE NAME
+    3300008: chair.007
+    3300010: chair.008
+    3300012: chair.009
+    3300014: chair.010
+    3300016: chair.011
+    3300018: Circle
+    3300020: counter
+    3300022: Cube.004
+    3300024: Cube.005
+    3300026: Cube.009
+    3300028: Cube.011
+    3300030: Cube.015
+    3300032: Glass
+    3300034: Glass.001
+    3300036: Mug1
+    3300038: Mug2
+    3300040: OutdoorFloor
+    3300042: OutdoorFloor.001
+    3300044: plateHolder
+    3300046: plateHolder.001
+    3300048: plateHolder.005
+    3300050: self
+    3300052: Straws
+    3300054: table.003
+    3300056: table.004
+    3300058: Tambor
+    3300060: WINDOW 1B.006
+    3300062: WINDOWS
+    4300000: Tambor
+    4300002: BoxLow
+    4300004: BlackboardOut
+    4300006: WINDOW 1B.006
+    4300008: OutdoorFloor.001
+    4300010: OutdoorFloor
+    4300012: Straws
+    4300014: plateHolder.005
+    4300016: Mug2
+    4300018: Mug1
+    4300020: plateHolder.001
+    4300022: Glass.001
+    4300024: plateHolder
+    4300026: Glass
+    4300028: chair.011
+    4300030: table.003
+    4300032: chair.007
+    4300034: chair.008
+    4300036: table.004
+    4300038: chair.009
+    4300040: chair.010
+    4300042: counter
+    4300044: building
+    4300046: WINDOWS
+    4300048: self
+    4300050: CAFE NAME
+    4300052: Cube.004
+    4300054: Cube.005
+    4300056: Cube.009
+    4300058: Cube.011
+    4300060: Cube.015
+    4300062: Circle
+    7400000: BlackboardOut|Empty|Empty|EmptyAction|Empty|EmptyAction
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

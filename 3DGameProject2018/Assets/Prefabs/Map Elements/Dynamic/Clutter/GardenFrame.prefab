@@ -36,10 +36,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4397481884948214}
-  - component: {fileID: 114881585933476660}
-  - component: {fileID: 114199200151824234}
   - component: {fileID: 65688345047642570}
   - component: {fileID: 54537587929320112}
+  - component: {fileID: 114881585933476660}
+  - component: {fileID: 114199200151824234}
+  - component: {fileID: 114018577691709056}
   m_Layer: 10
   m_Name: GardenFrame
   m_TagString: Dynamic Elements
@@ -123,9 +124,9 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659014116671932}
   serializedVersion: 2
-  m_Mass: 2
-  m_Drag: 0
-  m_AngularDrag: 0.5
+  m_Mass: 20
+  m_Drag: 0.25
+  m_AngularDrag: 0.25
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
@@ -143,6 +144,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.11, y: 2.86, z: 0.33}
   m_Center: {x: -0.14, y: -0.31, z: 0}
+--- !u!114 &114018577691709056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1659014116671932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionSE: event:/Water Collisions/HitHardSurface
+  waterSplashSE: event:/Water Collisions/WaterSplashHuge
+  destroySE: 
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!114 &114199200151824234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,10 +171,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxParticleCollisionCount: 10
-  collisionSE: event:/Water Collisions/HitHardSurface
-  waterSplashSE: event:/Water Collisions/WaterSplashBig
-  destroySE: 
+  isPlayer: 0
+  allowMaxCountOverrideByWeapons: 0
+  maxCount: 5
+  collisionParticles: 0
+  soundBehaviour: {fileID: 0}
 --- !u!114 &114881585933476660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -169,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18f579a7c334d164abf2fcd9ebaa9cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 30
   explosionForce: 0
   isDestroyable: 1
   isMovable: 0
@@ -179,5 +197,4 @@ MonoBehaviour:
   ObjectsToDisableOnDestroy: []
   mainRigidbody: {fileID: 0}
   psSplash: {fileID: 0}
-  colSplashSound: {fileID: 0}
-  psSplashSizeMultiplier: 1
+  collisionBehaviour: {fileID: 0}

@@ -17,51 +17,114 @@ using UnityEngine.UI;
 *
 */
 
+public enum GamepadButton
+{
+    None,
+    A, Y, R1, R2, L1, L2, L3
+
+}
+
 public class HudHandler : MonoBehaviour {     
 
     #region canvasReferences
-        public Image healthIcon, throwableIcon, damageIndicator, hitmarker, crosshair;
+        public Image healthIcon, damageIndicator, hitmarker, crosshair, buttonIndicatorMiddle, buttonIndicatorLeft;
+        public List<Sprite> buttonSprites;
         public Slider healthSlider;
         public Slider clipSlider;
+        public Slider circleTimerSlider;
+        public Image circleSliderImage;
+        
+        public Text deathCountText, killCountText;
+        public Text instructionTextMiddle, instructionTextLeft;
         public Text clipAmmoText;
         public Text globalAmmoText;
         public Text timerText;
-        public Sprite[] healthIcons, thorwableIcons;
-        public Text playerNumberText;
+        public Text killcamText;
+        public Sprite[] healthIcons;
         
     #endregion
+
 
     public float hitMarkerTime = 0.15f, damageIndicatorTime = 1f;
     public Color damageIndicatorColor;
     public PlayerController playerController;
+    public HudWeaponsHandler hudWeaponsHandler;
 
     private int maxHealth, currentHealth;
     private int globalAmmo, clipSize, currentAmmo;
-    private float healthUpdateTimer = 0, ammoUpdateTimer = 0, damageIndicatorTimer = 0, hitmarkerTimer = 0;
-    private bool isHealthUpdating = false, isAmmoUpdating = false;
+    private float healthUpdateTimer = 0, ammoUpdateTimer = 0, damageIndicatorTimer = 0, hitmarkerTimer = 1;
+    private bool isHealthUpdating = false, isAmmoUpdating = false , instructionsFadeMiddle = true, instructionsFadeLeft = true;
     private int oldCurrentHealth, oldCurrentAmmo;
     private Vector3 lastDamageOrigin, hitmarkerScale;
-    private float fpsDeltaTime=0;
+    private float delta=0, sceneTime = 0;
+    private float tipTimerLeftSide =0;
     private Color noAlpha;
 
+
+    private bool hasJumped = false;
+    private bool hasShot = false;
+    private bool hasReloaded = false;
+    private bool hasSprinted = false;
+    private bool hasSwitchedWeapon = false;
 
     private void Start() {
         oldCurrentHealth = playerController.CurrentHealth;
         hitmarkerScale = crosshair.transform.localScale;
         oldCurrentAmmo = playerController.CurrentAmmo;
+        killCountText.text = playerController.stats.kills.ToString();
+        deathCountText.text = playerController.stats.deaths.ToString();
+
+        buttonIndicatorMiddle.color = Color.clear;
+        buttonIndicatorLeft.color = Color.clear;
+        instructionTextMiddle.text = "";
+        instructionTextLeft.text = "";
+        circleTimerSlider.value = 0;
     }
 
+    #region Updates
     private void Update() 
     {
-        fpsDeltaTime += (Time.unscaledDeltaTime - fpsDeltaTime) * 0.1f;
-        int fps = (int)(1f/fpsDeltaTime);
-        playerNumberText.text = "FPS: " + fps;
+        delta = Time.deltaTime;
+        sceneTime = Time.timeSinceLevelLoad;
+        UpdateColorAlphas();
+        UpdateStats();
+
+        if (playerController.helpfulTips)
+            UpdateTips();
+
+        if (hitmarkerTimer < hitMarkerTime)
+        {
+            hitmarkerTimer += delta;
+            UpdateHitmarker();
+        }
+
+        if (isHealthUpdating)
+        {
+            healthUpdateTimer += delta * 3.5f;
+            UpdateHealth();
+
+        }
+        if (isAmmoUpdating)
+        {
+            ammoUpdateTimer += delta * 3.5f;
+            UpdateAmmo();
+        }
+        
+    }
+
+    void UpdateStats()
+    {
+        killCountText.text = playerController.stats.kills.ToString();
+        deathCountText.text = playerController.stats.deaths.ToString();
+    }
+    void UpdateColorAlphas()
+    {
 
         if (timerText.color.a != 0)
         {
             noAlpha = timerText.color;
             noAlpha.a = 0;
-            timerText.color = Color.Lerp(timerText.color, noAlpha, Time.deltaTime * 5f);
+            timerText.color = Color.Lerp(timerText.color, noAlpha, delta * 5f);
         }
 
         if (damageIndicator.color.a != 0)
@@ -69,31 +132,134 @@ public class HudHandler : MonoBehaviour {
             noAlpha = damageIndicator.color;
             noAlpha.a = 0;
             UpdateDamageIndicator();
-            damageIndicator.color = Color.Lerp(damageIndicator.color, noAlpha, Time.deltaTime * 5f);
-        }
-        
-        if (hitmarkerTimer < hitMarkerTime)
-        {
-            UpdateHitmarker();
-            hitmarkerTimer += Time.deltaTime;
+            damageIndicator.color = Color.Lerp(damageIndicator.color, noAlpha, delta * 5f);
         }
 
-
-        if (isHealthUpdating || isAmmoUpdating)
+        if (circleSliderImage.color.a != 0)
         {
-            if (isHealthUpdating)
+            noAlpha = circleSliderImage.color;
+            noAlpha.a = 0;
+            circleSliderImage.color = Color.Lerp(circleSliderImage.color, noAlpha, delta * 5f);
+        }
+        if (instructionTextMiddle.color.a != 0 && instructionsFadeMiddle)
+        {
+            noAlpha = instructionTextMiddle.color;
+            noAlpha.a = 0;
+            instructionTextMiddle.color = Color.Lerp(instructionTextMiddle.color, noAlpha, delta * 5f);
+            buttonIndicatorMiddle.color = Color.Lerp(buttonIndicatorMiddle.color, noAlpha, delta * 5f);
+            
+        }
+        if (instructionTextLeft.color.a != 0 && instructionsFadeMiddle)
+        {
+            noAlpha = instructionTextLeft.color;
+            noAlpha.a = 0;
+            instructionTextLeft.color = Color.Lerp(instructionTextLeft.color, noAlpha, delta * 5f);
+            buttonIndicatorLeft.color = Color.Lerp(buttonIndicatorLeft.color, noAlpha, delta * 5f);
+            
+        }
+
+    }
+
+    void UpdateTips()
+    {
+        if (instructionsFadeMiddle) //Middle has ONLY aggressive instructions (kinda blocks the view)
+        {
+
+            if (playerController.GlobalAmmo + playerController.CurrentAmmo < playerController.CurrentWeapon.weaponData.shotUsage)
             {
-                healthUpdateTimer += Time.deltaTime * 3.5f;
-                UpdateHealth();
+                instructionTextMiddle.color = Color.white;
+                buttonIndicatorMiddle.color = Color.clear;
+                instructionTextMiddle.text = "Not enough ammo";
+                buttonIndicatorMiddle.sprite = buttonSprites[(int)GamepadButton.None];
+                return;
+            }
+
+            if (playerController.CurrentAmmo < playerController.CurrentWeapon.weaponData.shotUsage && !playerController.autoReload)
+            {
+                instructionTextMiddle.color = Color.white;
+                buttonIndicatorMiddle.color = Color.white;
+                instructionTextMiddle.text = "Reload";
+                buttonIndicatorMiddle.sprite = buttonSprites[(int)GamepadButton.L1];
+                return;
 
             }
-            if (isAmmoUpdating)
+        }
+        if (instructionsFadeLeft) //Left has less important tips and texts
+        {
+            if (!playerController.hasShot)
             {
-                ammoUpdateTimer += Time.deltaTime * 3.5f;
-                UpdateAmmo();
+                if (tipTimerLeftSide < sceneTime - 5f && sceneTime > 5f)
+                {
+                    instructionTextLeft.color = Color.white;
+                    buttonIndicatorLeft.color = Color.white;
+                    instructionTextLeft.text = "Shoot";
+                    buttonIndicatorLeft.sprite = buttonSprites[(int)GamepadButton.R2];
+                }
+                return;
+            }
+            else if (playerController.hasShot && !hasShot)
+            {
+                hasShot = true;
+                tipTimerLeftSide = sceneTime;
+                return;
+            }
+
+            if (!playerController.hasSwitchedWeapon)
+            {
+                if (playerController.carriedWeapons.Count > 1)
+                {
+                    instructionTextLeft.color = Color.white;
+                    buttonIndicatorLeft.color = Color.white;
+                    instructionTextLeft.text = "Switch weapon";
+                    buttonIndicatorLeft.sprite = buttonSprites[(int)GamepadButton.R1];
+                }
+                return;
+            }
+            else if (playerController.hasSwitchedWeapon && !hasSwitchedWeapon)
+            {
+                hasSwitchedWeapon = true;
+                tipTimerLeftSide = sceneTime;
+                return;
+            }
+
+            if (!playerController.hasJumped)
+            {
+                if (tipTimerLeftSide < sceneTime - 5f)
+                {
+                    instructionTextLeft.color = Color.white;
+                    buttonIndicatorLeft.color = Color.white;
+                    instructionTextLeft.text = "Jump";
+                    buttonIndicatorLeft.sprite = buttonSprites[(int)GamepadButton.L2];
+                }
+                return;
+            }
+            else if (playerController.hasJumped && !hasJumped)
+            {
+                hasJumped = true;
+                tipTimerLeftSide = sceneTime;
+                return;
+            }
+            if (!playerController.hasSprinted)
+            {
+                if (tipTimerLeftSide < sceneTime - 5f)
+                {
+                    instructionTextLeft.color = Color.white;
+                    buttonIndicatorLeft.color = Color.white;
+                    instructionTextLeft.text = "Sprint";
+                    buttonIndicatorLeft.sprite = buttonSprites[(int)GamepadButton.L3];
+                }
+                return;
+            }
+            else if (playerController.hasSprinted && !hasSprinted)
+            {
+                hasSprinted = true;
+                tipTimerLeftSide = sceneTime;
+                return;
             }
         }
     }
+
+    #endregion
 
     public void TakeDamage(Vector3 origin) 
     {
@@ -107,9 +273,33 @@ public class HudHandler : MonoBehaviour {
         hitmarkerTimer = 0;
         UpdateHitmarker();
     }
+
+
+    public void UpdateMiddleInstructions(bool active,string textContent, GamepadButton btn)
+    {   
+        if (active)
+        {
+            instructionsFadeMiddle = false;
+            instructionTextMiddle.color = Color.white;
+            instructionTextMiddle.text = textContent;
+            buttonIndicatorMiddle.sprite = buttonSprites[(int)btn];
+            buttonIndicatorMiddle.color = Color.white;
+        }
+        else
+        {
+            instructionsFadeMiddle = true;
+        }
+    }
+    
+    public void UpdateCircleTimer(float time)
+    {
+        circleSliderImage.color = Color.white;
+        circleTimerSlider.value = time;
+    }
+
     private void UpdateHitmarker()
     {
-        Vector3 newScale = hitmarkerScale + hitmarkerScale/2 * Mathf.Sin(Mathf.PI*hitmarkerTimer/hitMarkerTime);
+        Vector3 newScale = hitmarkerScale + (hitmarkerScale/2) * Mathf.Sin(Mathf.PI*hitmarkerTimer/hitMarkerTime);
         crosshair.transform.localScale = newScale;
 
         if (hitmarker.isActiveAndEnabled)
@@ -126,10 +316,26 @@ public class HudHandler : MonoBehaviour {
         damageIndicator.transform.localEulerAngles = new Vector3(0, 0, angle);
     }
 
-    public void UpdateTimer(int time)
+    public void UpdateTimerText(int time)
     {
         timerText.color = Color.white;
         timerText.text = time.ToString();
+    }
+    public void UpdateKillcamText(bool active, PlayerController attacker)
+    {
+        if (active)
+        {
+            if (attacker != null && attacker != playerController)
+                killcamText.text = "Killed by: " + "Player"+attacker.playerNumber.ToString();
+            else
+                killcamText.text = "You killed yourself?!";
+            
+            killcamText.color = Color.white;
+        }
+        else
+        {
+            killcamText.color = Color.clear;
+        }
     }
     public void UpdateHealth(){
 
@@ -142,7 +348,7 @@ public class HudHandler : MonoBehaviour {
         int lerpHealth = (int)Mathf.Lerp(oldCurrentHealth, currentHealth, healthUpdateTimer);
 
         int healthPercentage = (int)((float)lerpHealth/(float)maxHealth * 100f);
-        int sliderHealth = (int)((float)healthPercentage * 0.6f + 20f);
+        int sliderHealth = (int)((float)healthPercentage * 0.6f + 21f);
         healthSlider.value = sliderHealth;
 
         if (healthUpdateTimer >= 1)
@@ -191,13 +397,5 @@ public class HudHandler : MonoBehaviour {
 
     }
 
-    public void UpdateThrowable(string name) {
-        throwableIcon.enabled = true;
-        if (name == "balloon")
-            throwableIcon.sprite = thorwableIcons[0];
-        else
-            throwableIcon.enabled = false;
-
-    }
 
 }

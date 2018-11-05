@@ -31,7 +31,8 @@ public class StateHandler : MonoBehaviour {
     public MatchOptions options = new MatchOptions();
     [SerializeField, Tooltip("Default initialized players when starting in game")]
     private int players = 0;
-    private IController controller;
+    [HideInInspector]
+    public IController controller;
     public State state;
     private GamePadState[] gamepads = new GamePadState[4];
     public List<PlayerStats> stats = new List<PlayerStats>();
@@ -83,6 +84,7 @@ public class StateHandler : MonoBehaviour {
         {
             case State.MainMenu:
                 SceneManager.LoadScene("MainMenu");
+                Destroy(gameObject);
                 break;
             case State.Game:
                 // if we have more than one map we will look at options map and call the associated scene
@@ -266,6 +268,14 @@ public class StateHandler : MonoBehaviour {
             {
                 input[0] = (i - skippedplayer).ToString();
                 input[1] = "L3";
+                input[2] = "1";
+                controller.InputHandle(input);
+            }
+            if(gamepads[i].Buttons.RightStick == ButtonState.Pressed)
+            {
+                Debug.Log("INPUUUUT");
+                input[0] = (i - skippedplayer).ToString();
+                input[1] = "RightStick";
                 input[2] = "1";
                 controller.InputHandle(input);
             }

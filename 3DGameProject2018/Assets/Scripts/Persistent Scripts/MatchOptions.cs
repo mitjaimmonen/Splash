@@ -9,6 +9,11 @@ public enum Map
     //Enum For Maps
     Arena
 }
+public enum TimeOfDay
+{
+    Day,
+    Night
+}
 
 /********************************************
  *  MatchOptions class
@@ -21,6 +26,7 @@ public class MatchOptions {
     /*Member Variables*/
     public GameMode mode = GameMode.DeathMatch;
     public Map map = Map.Arena;
+    public TimeOfDay timeOfDay = TimeOfDay.Day;
     public float maxTime = 0;
     public float maxKills = 0;
     public int respawnTime = 5;

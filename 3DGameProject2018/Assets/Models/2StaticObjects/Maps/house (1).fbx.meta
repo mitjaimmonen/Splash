@@ -31,7 +31,31 @@ ModelImporter:
     4300002: door01
     4300004: balcony
     4300006: house
-  externalObjects: {}
+    6400000: balcony
+    6400002: door01
+    6400004: door02
+    6400006: house
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 00b0a9ae629d0bf418d70b1d8f43a6fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 55d41d5fc89dd5341800223bc0c1d8d4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: edf314d435b707f4c85e473e4a5e7b42, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.005
+    second: {fileID: 2100000, guid: 62698705167942b40bf889f395b81872, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -63,13 +87,13 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

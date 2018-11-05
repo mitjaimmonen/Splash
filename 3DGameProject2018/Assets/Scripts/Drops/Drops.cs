@@ -26,28 +26,34 @@ public class Drops : MonoBehaviour {
     public int pickupValue;
     public PickupEnum pickupType = PickupEnum.healthPickup;
     private PlayerController playerController;
-    public Weapon pickupWeaponIfAny;
+    public Weapon pickupWeapon;
     public Rigidbody rb;
 
     private WeaponData weaponData;
+    private float triggerTimer = 0;
 
     [FMODUnity.EventRef] public string pickupSE;
+
+    private bool isQuitting = false;
 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         weaponData = GetComponent<WeaponData>();
-        if (!weaponData && pickupWeaponIfAny)
+        if (!weaponData && pickupWeapon)
         {
-            weaponData = PersonalExtensions.CopyComponentValues(pickupWeaponIfAny.weaponData, this.gameObject);
+            weaponData = PersonalExtensions.CopyComponentValues(pickupWeapon.weaponData, this.gameObject);
         }
+
+        Application.wantsToQuit += Quitting();
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {        
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && triggerTimer < Time.time-0.1f)
         {
+            triggerTimer = Time.time;
             playerController = other.GetComponent<PlayerController>();
             if (pickupType == PickupEnum.healthPickup)
             {
@@ -55,12 +61,8 @@ public class Drops : MonoBehaviour {
                 playerController.CurrentHealth += pickupValue;
 
                 if (tempHealth != playerController.CurrentHealth)
-                {
-                    //Play sound
-                    FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
-
                     Destroy(this.gameObject);
-                }
+                
                     
             } 
             else if (pickupType == PickupEnum.ammoPickup)
@@ -69,14 +71,10 @@ public class Drops : MonoBehaviour {
                 playerController.GlobalAmmo += pickupValue;
 
                 if (tempAmmo != playerController.GlobalAmmo)
-                {
-                    //Play sound
-                    FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
-                    
                     Destroy(this.gameObject);
-                }
+                
             }
-            else if (pickupType == PickupEnum.gunPickup)
+            else if (pickupType == PickupEnum.gunPickup && playerController.IsAlive)
             {
                 if (!weaponData)
                 {
@@ -102,4 +100,33 @@ public class Drops : MonoBehaviour {
             }
         }
     }
+
+    void OnDestroy()
+    {
+        if (pickupType == PickupEnum.gunPickup && playerController)
+        {
+            playerController.AllowPickup(this, false, null);
+            
+        }
+        // Debug.Log("This might cause fmod error on application exit");
+
+        Debug.Log("OnDestroy called!");
+
+        if (!isQuitting)
+            FMODUnity.RuntimeManager.PlayOneShot(pickupSE, transform.position);
+        else
+            Debug.Log("Ondestroy called while quitting!");
+
+        Application.wantsToQuit -= Quitting();
+        
+    }
+
+    private System.Func<bool> Quitting()
+    {
+        Debug.Log("Quitting event called");
+        isQuitting = true;
+        return null;
+    }
+
+
 }

@@ -6,25 +6,36 @@ using UnityEngine.UI;
 
 public class ParticleLauncher : MonoBehaviour {
 
-	public float damageInterval = 0.09f;
-	public int maxLoopCount = 20;
+
+	[Tooltip("Do collisions have cooldown or not.")]
 	public bool ignoreTimers = false;
 
 	private ParticleDecal particleDecal;
 	private PlayerController thisPlayerController;
 	private ParticleSystem thisParticleSystem;
-	private ParticleSystem splatterParticleSystem;
 	private List<ParticleCollisionEvent> collisionEvents;
-	private float collisionCountTimer = 0, damageTimer = 0, splashTimer = 0, clutterHitTimer = 0;
+	private float collisionCountTimer = 0, splashTimer = 0;
 	private int oldLoopCount = 0;
-	private float headshotMultiplier;
+	private int maxLoopCount = 20;
 
+
+	private float headshotMultiplier;
 	public float HeadshotMultiplier
 	{
+		get {return headshotMultiplier;}
 		set {headshotMultiplier = value;}
 	}
 
-
+	public PlayerController Controller
+	{
+		get {return thisPlayerController;}
+		set {thisPlayerController = value; }
+	}
+	public int MaxLoopCount
+	{
+		get{return maxLoopCount;}
+		set {maxLoopCount = value;}
+	}
 
 	private void Start()
 	{
@@ -32,112 +43,44 @@ public class ParticleLauncher : MonoBehaviour {
 		if (particleDecal == null)
 			particleDecal = Instantiate(particleDecal, Vector3.zero,Quaternion.identity);
 
-		splatterParticleSystem = GameObject.Find("SplatterParticles").GetComponent<ParticleSystem>();
-		thisPlayerController = GetComponentInParent<PlayerController>();
+		if (!thisPlayerController)
+			thisPlayerController = GetComponentInParent<PlayerController>();
 		thisParticleSystem = GetComponent<ParticleSystem>();
 		collisionEvents = new List<ParticleCollisionEvent>();
 	}
 
-	private void Update()
-	{
-		collisionCountTimer += Time.deltaTime;
-		splashTimer += Time.deltaTime;
-		damageTimer += Time.deltaTime;
-		clutterHitTimer += Time.deltaTime;
-	}
 	private void OnParticleCollision(GameObject other)
 	{
-		if (collisionCountTimer >= 0.1f)
+		if (other.layer == LayerMask.NameToLayer("Environment"))
 		{
-			//This allows to have maxLoopCount amount of collisions independently from framerate.
-			//Without oldLoopCount, the first time collisions are called, the list might not be full yet,
-			//but would be in next frame and timer wouldnt allow more collision calls.
-			oldLoopCount = 0;
-			collisionCountTimer=0;
-		}
-
-		ParticlePhysicsExtensions.GetCollisionEvents (thisParticleSystem, other, collisionEvents);
-
-		int loopCount = Mathf.Clamp(collisionEvents.Count, 0, maxLoopCount-oldLoopCount);
-
-		if (loopCount > 0)
-		{
-			oldLoopCount += loopCount;
-			PlayerController otherPlayerController = null;
-			int originalDamage = thisPlayerController.CurrentDamage;
-			int currentDamage = originalDamage;
-
-			for (int i = 0; i < loopCount;i++)
+			if (collisionCountTimer < Time.time - 0.1f)
 			{
-				if (!collisionEvents[i].colliderComponent)
-				{
-					continue;
-				}
-				if (collisionEvents[i].colliderComponent.gameObject.layer == LayerMask.NameToLayer("Player"))
-				{
-					if (otherPlayerController == null)
-						{
-							otherPlayerController = other.GetComponent<PlayerController>();
-							if (otherPlayerController == null)
-								otherPlayerController = other.GetComponentInParent<PlayerController>();
-							if (otherPlayerController == null)
-								continue;
-						}
+				oldLoopCount = 0;
+				collisionCountTimer= Time.time;
+			}
 
-					if (otherPlayerController != thisPlayerController)
+			ParticlePhysicsExtensions.GetCollisionEvents (thisParticleSystem, other, collisionEvents);
+
+			int loopCount = Mathf.Clamp(collisionEvents.Count, 0, MaxLoopCount-oldLoopCount);
+
+			if (loopCount > 0)
+			{
+				oldLoopCount += loopCount;
+
+				if (ignoreTimers || splashTimer < Time.time - 0.025f)
+				{
+					for (int i = 0; i < loopCount;i++)
 					{
+						if (!collisionEvents[i].colliderComponent)
+							continue;
 
-						if (collisionEvents[i].colliderComponent.gameObject.tag == "Head")
-						{
-							currentDamage = (int)(originalDamage * headshotMultiplier);
-						}
-
-
-						if (ignoreTimers || damageTimer > 0.09f)
-						{
-							thisPlayerController.DealDamage();
-							otherPlayerController.TakeDamage(currentDamage, thisPlayerController);
-							damageTimer = 0;
-							
-						}
-					}
-				}
-				else if (splashTimer > 0.025f || ignoreTimers )
-				{
-					splashTimer = 0;		
-					particleDecal.ParticleHit (collisionEvents [i]);
-					if (splatterParticleSystem != null)
-						EmitSplashAtCollisionPoint(collisionEvents[i]);
-				}
-				
-				if (collisionEvents[i].colliderComponent.gameObject.tag == "Dynamic Elements" )
-				{
-					DynamicItemScript script = collisionEvents[i].colliderComponent.GetComponentInParent<DynamicItemScript>();
-					if (script != null)
-					{
-						script.ParticleHit(thisPlayerController.transform.position, collisionEvents[i].intersection);
-					}
-				}
-				else if (collisionEvents[i].colliderComponent.gameObject.tag == "Static Elements")
-				{
-					BreakableLampScript script;
-					if (script = collisionEvents[i].colliderComponent.GetComponent<BreakableLampScript>())
-					{
-						if (script != null)
-							script.TakeDamage();
+						splashTimer = Time.time;		
+						particleDecal.ParticleHit (collisionEvents [i]);
+						if (!ignoreTimers)
+							break; //We only need one decal because area of effect is not big
 					}
 				}
 			}
 		}
 	}
-
-	private void EmitSplashAtCollisionPoint(ParticleCollisionEvent collisionEvent)
-	{
-		splatterParticleSystem.transform.position = collisionEvent.intersection;
-		splatterParticleSystem.transform.localEulerAngles = Quaternion.LookRotation(collisionEvent.normal).eulerAngles;
-
-		splatterParticleSystem.Emit(1);
-	}
-
-
 }

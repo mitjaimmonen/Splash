@@ -17,9 +17,15 @@ ModelImporter:
     2300000: pier
     3300000: pier
     4300000: pier
+    6400000: pier
     10800000: Sun
     10800002: Sun.001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: b79bbdf3dafe12f46ab5f0ed471261d8, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -51,13 +57,13 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

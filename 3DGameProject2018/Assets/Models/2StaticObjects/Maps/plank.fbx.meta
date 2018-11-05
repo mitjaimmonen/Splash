@@ -17,9 +17,15 @@ ModelImporter:
     2300000: plank
     3300000: plank
     4300000: plank
+    6400000: plank
     10800000: Sun
     10800002: Sun.001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: d1150b8d95c95c84795ad07c4bf69c7a, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -51,13 +57,13 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4176063325134868}
   - component: {fileID: 33071308034473774}
   - component: {fileID: 23706675299330264}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CanalPole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,8 @@ GameObject:
   - component: {fileID: 4275522022450820}
   - component: {fileID: 136507144004057706}
   - component: {fileID: 114821850086026048}
-  m_Layer: 0
+  - component: {fileID: 114942397694893010}
+  m_Layer: 10
   m_Name: CanalPole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,10 +125,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxParticleCollisionCount: 10
-  collisionSE: event:/Water Collisions/HitMetalSurface
+  isPlayer: 0
+  allowMaxCountOverride: 1
+  maxCount: 5
+  soundBehaviour: {fileID: 114942397694893010}
+--- !u!114 &114942397694893010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1966378151177472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionSE: event:/Water Collisions/HitmetalSurface
   waterSplashSE: 
   destroySE: 
+  dealDamageSE: 
 --- !u!136 &136507144004057706
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -18,17 +18,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: BALONY DOOR
-    second: {fileID: 2100000, guid: 0d68f72a28253ca4286c0f4e169a25d8, type: 2}
+    second: {fileID: 2100000, guid: 985d4713ae4a3d742ae2e2de5fa413f2, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: WINDOW
-    second: {fileID: 2100000, guid: 3dca9e4520ef0b34685d44e85b271b67, type: 2}
+    second: {fileID: 2100000, guid: b682b1bc26ada314591da61b5dfa44f0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: window 1 frame
-    second: {fileID: 2100000, guid: 3c5e05f15b0dd1b4b87f5ee944e51d8e, type: 2}
+    second: {fileID: 2100000, guid: cc73742fd8abbce4e9232640e0cc27f0, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -66,7 +66,7 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

@@ -4,41 +4,56 @@ using UnityEngine;
 
 public class RigController : MonoBehaviour {
 
-	public Transform leftArm, rightArm;
-	private Vector3 leftRot, rightRot;
+
 	private PlayerController playerController;
+	private Generics.Dynamics.InverseKinematics inverseKinematics;
 	private Animator anim;
-	private float vRotation;
 	private int layer;
-	private bool isAlive;
+	private bool isAlive = false;
 
 
 
 	// Use this for initialization
 	void Awake () {
 		playerController = GetComponentInParent<PlayerController>();
-		if (leftArm && rightArm)
-		{
-			leftRot = leftArm.localRotation.eulerAngles;
-			rightRot = rightArm.localRotation.eulerAngles;
-		}
-
+		inverseKinematics = GetComponent<Generics.Dynamics.InverseKinematics>();
+		Debug.Log(inverseKinematics);
 		anim = GetComponent<Animator>();
 
 		//Cameras have each one culling mask which they wont render
 		//Player model must not be rendered by its own camera.
-        layer = LayerMask.NameToLayer("Culling" + playerController.playerNumber);	
+        layer = LayerMask.NameToLayer("NonCulling" + playerController.playerNumber);	
 		foreach (Transform trans in gameObject.GetComponentInChildren<Transform>(true))
 		{
 			trans.gameObject.layer = layer;	
 		}	
 		foreach (Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>(true)) {
 			rb.isKinematic = true;
+			rb.sleepThreshold = 0;
 		}
 		transform.localPosition = Vector3.zero;
 		anim.enabled = true;
 
 		
+	}
+
+	public void SwitchArmPoints(GameObject left, GameObject right)
+	{
+		if (left && right && inverseKinematics)
+		{
+			inverseKinematics.otherChains[0].target = left.transform;
+			inverseKinematics.otherChains[1].target = right.transform;		
+		}
+		else if (inverseKinematics)
+		{
+			inverseKinematics.otherChains[0].target = null;
+			inverseKinematics.otherChains[1].target = null;		
+		}
+		else
+		{
+			Debug.Log("No inverseKinematics script found.");
+		}
+
 	}
 
 	
@@ -48,25 +63,13 @@ public class RigController : MonoBehaviour {
 		{
 			Reset();
 		}
-
-		if (isAlive && rightArm && leftArm)
-		{
-			vRotation = playerController.rotationV;
-			Vector3 leftArmRot = leftRot;
-			leftArmRot.x -= Mathf.Clamp(vRotation,-90, 25);
-			leftArm.localEulerAngles = leftArmRot;
-			
-			Vector3 rightArmRot = rightRot;
-			rightArmRot.x -= vRotation;
-			rightArm.localEulerAngles = rightArmRot;
-		}
 	}
 
 	private void Reset()
 	{
 		//On reset disable player ragdoll and make rigidbodies kinematic again.
 		//Camera cannot see own player anymore
-		layer = LayerMask.NameToLayer("Culling" + playerController.playerNumber);
+		layer = LayerMask.NameToLayer("NonCulling" + playerController.playerNumber);
 		foreach (Transform trans in gameObject.GetComponentInChildren<Transform>(true))
 		{
 			trans.gameObject.layer = layer;
@@ -77,17 +80,19 @@ public class RigController : MonoBehaviour {
 		}
 		anim.enabled = true;		
 		anim.Rebind();
+		inverseKinematics.enabled = true;
 		transform.localPosition = Vector3.zero;
 		isAlive = true;
 	}
 
-	public void Die()
+	public void Die(float acceleration)
 	{
 		//On death player model will become ragdoll and all rigidbodies need to enable physics.
 		//Now camera is allowed to render own player.
 		isAlive = false;
 		anim.enabled = false;
 		layer = LayerMask.NameToLayer("Player");
+		inverseKinematics.enabled = false;
 		foreach (Transform trans in gameObject.GetComponentInChildren<Transform>(true))
 		{
 			trans.gameObject.layer = layer;
@@ -95,6 +100,8 @@ public class RigController : MonoBehaviour {
 		foreach (Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>(true))
 		{
 			rb.isKinematic = false;
+			rb.AddForce(Vector3.up * acceleration, ForceMode.Impulse);
 		}
+		
 	}
 }

@@ -2,8 +2,8 @@
 {e778f30e-7d2e-475b-8a5b-77d5d0712265} event:/Ambience/Clock tower tick
 {49a724da-afee-4e6f-943c-8b2c2fa9f904} event:/Ambience/In-land birds
 {fa82c28e-4845-4241-a67e-3f73050f6bbc} event:/Ambience/Seagulls
-{098fa337-42f3-4995-a57b-75dbd3303373} event:/Ambience/Waves on rocks
 {28320760-3b99-4ba3-ac64-ef5666cf3215} event:/Ambience/Waves
+{098fa337-42f3-4995-a57b-75dbd3303373} event:/Ambience/Waves on rocks
 {a09cb229-9a45-4e78-9022-93b5b6c54bd6} event:/Character Movement/Crouch
 {f6808611-44a3-4877-b88a-7a127c28ab3a} event:/Character Movement/Death
 {b535f6b5-8195-4f71-87a2-318a5bc7d9d3} event:/Character Movement/Footsteps
@@ -34,6 +34,7 @@
 {0b89c783-7337-422b-839c-3777c4ac54bf} event:/Water Collisions/HitHardSurface
 {295dabb0-c42b-4d42-8f62-6557a2d461a3} event:/Water Collisions/HitLeaves
 {0a80392a-d75e-4ccf-a4ba-7e7a321e1f8e} event:/Water Collisions/Hitmarker
+{d0eb25df-a827-42cb-9a13-cb3a0848103a} event:/Water Collisions/Hitmarker Headshot
 {3f366a64-9d9d-4f63-9b65-390817bbd03e} event:/Water Collisions/HitMetalSurface
 {0e31ab33-120b-44bf-bf72-636184dc5298} event:/Water Collisions/HitSmallObject
 {6556615f-304e-45cb-85ca-a7d4f6c9cdee} event:/Water Collisions/Water balloon

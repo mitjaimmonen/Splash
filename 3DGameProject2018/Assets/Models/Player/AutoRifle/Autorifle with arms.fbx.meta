@@ -1,0 +1,178 @@
+fileFormatVersion: 2
+guid: 4579ba38b8a9b7c49986cb0396f54517
+timeCreated: 1524132661
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Armature
+    100002: //RootNode
+    100004: b_hand1.L
+    100006: b_hand1.R
+    100008: b_hand2.L
+    100010: b_hand2.L_end
+    100012: b_hand2.R
+    100014: b_hand2.R_end
+    100016: b_lowerarm.L
+    100018: b_lowerarm.R
+    100020: b_shoulder.L
+    100022: b_shoulder.R
+    100024: b_thumb1.L
+    100026: b_thumb1.R
+    100028: b_thumb2.L
+    100030: b_thumb2.L_end
+    100032: b_thumb2.R
+    100034: b_thumb2.R_end
+    100036: b_upperarm.L
+    100038: b_upperarm.R
+    100040: Cube
+    100042: Cube.001
+    100044: Empty
+    100046: Master
+    100048: Plane
+    100050: Tambor
+    400000: Armature
+    400002: //RootNode
+    400004: b_hand1.L
+    400006: b_hand1.R
+    400008: b_hand2.L
+    400010: b_hand2.L_end
+    400012: b_hand2.R
+    400014: b_hand2.R_end
+    400016: b_lowerarm.L
+    400018: b_lowerarm.R
+    400020: b_shoulder.L
+    400022: b_shoulder.R
+    400024: b_thumb1.L
+    400026: b_thumb1.R
+    400028: b_thumb2.L
+    400030: b_thumb2.L_end
+    400032: b_thumb2.R
+    400034: b_thumb2.R_end
+    400036: b_upperarm.L
+    400038: b_upperarm.R
+    400040: Cube
+    400042: Cube.001
+    400044: Empty
+    400046: Master
+    400048: Plane
+    400050: Tambor
+    2100000: Body
+    2100002: Red dot
+    2100004: Clip
+    2100006: face
+    2300000: Cube
+    2300002: Plane
+    2300004: Tambor
+    3300000: Cube
+    3300002: Plane
+    3300004: Tambor
+    4300000: Cube
+    4300002: Plane
+    4300004: Tambor
+    4300006: Cube.001
+    7400000: Empty|Empty|Empty|EmptyAction|Empty|EmptyAction
+    7400002: Armature|ArmaturePose
+    7400004: Armature|Empty|Empty|EmptyAction|Empty|EmptyAction
+    9500000: //RootNode
+    13700000: Cube.001
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body
+    second: {fileID: 2100000, guid: 3eda41c428e0ba74c951b7eaa095d03c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Clip
+    second: {fileID: 2100000, guid: ab0865ddaf38774418362d853d64b2fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Red dot
+    second: {fileID: 2100000, guid: e2d72f48fa576804ea7facc84a875c62, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: face
+    second: {fileID: 2100000, guid: 1181bf17a405d394d9df20022dbb17c7, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

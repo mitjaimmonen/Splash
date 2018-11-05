@@ -6,17 +6,17 @@ using UnityEngine;
 public interface IWater
 {
 	void WaterInteraction();
-	ParticleSplash particleSplash
+	ParticleSplash ParticleSplash
 	{
 		get;
 		set;
 	}
-	CollisionSounds colsounds
+	CollisionBehaviour ColBehaviour
 	{
 		get;
 		set;
 	}
-	float splashSizeMultiplier
+	float SplashSizeMultiplier
 	{
 		get;
 		set;
@@ -26,21 +26,34 @@ public interface IWater
 
 public class Water : MonoBehaviour {
 
+	private ParticleSplash psSplash;
 	private float splashTime = 0;
-	public CollisionSounds colsound;
-	void OnTriggerEnter(Collider other)
-	{
-		IWater water = other.GetComponent<IWater>();
+	public CollisionBehaviour collisionBehaviour;
 
-		if (water != null && splashTime < Time.time-1f)
+	private void Awake()
+	{
+		var temp = GameObject.Find("SplashParticles");
+		if (temp)
+			psSplash = temp.GetComponent<ParticleSplash>();
+		
+	}
+	void OnTriggerEnter(Collider otherCol)
+	{
+		IWater water = otherCol.GetComponent<IWater>();
+
+		if (water != null && splashTime < Time.time-0.1f)
 		{
 			splashTime = Time.time;
 			water.WaterInteraction(); //General object specific stuff the class wants to do.
-			// water.particleSplash.PlaySplash(other, water.splashSizeMultiplier);
-			if(water.colsounds != null)
-			{
-				water.colsounds.WaterSplashSound();
-			}
+
+			
+			if(water.ColBehaviour != null)
+				water.ColBehaviour.soundBehaviour.WaterSplash();
+			if (water.ParticleSplash == null && psSplash)
+				water.ParticleSplash = psSplash;
+			if (water.ParticleSplash != null)
+				water.ParticleSplash.PlaySplash(otherCol, water.SplashSizeMultiplier);
+
 
 			//sound
 
@@ -51,7 +64,33 @@ public class Water : MonoBehaviour {
 		}
 
 	}
+		void OnTriggerStay(Collider otherCol)
+	{
+		IWater water = otherCol.GetComponent<IWater>();
 
+		if (water != null && splashTime < Time.time-0.5f)
+		{
+			splashTime = Time.time;
+			water.WaterInteraction(); //General object specific stuff the class wants to do.
+
+			
+			if(water.ColBehaviour != null)
+				water.ColBehaviour.soundBehaviour.WaterSplash();
+			if (water.ParticleSplash == null && psSplash)
+				water.ParticleSplash = psSplash;
+			if (water.ParticleSplash != null)
+				water.ParticleSplash.PlaySplash(otherCol, water.SplashSizeMultiplier);
+
+
+			//sound
+
+			//If collided object has any class with this function, it will handle the event itself.
+			// other.gameObject.BroadcastMessage("OnWaterTrigger", SendMessageOptions.DontRequireReceiver);
+			
+
+		}
+
+	}
 }
 
 

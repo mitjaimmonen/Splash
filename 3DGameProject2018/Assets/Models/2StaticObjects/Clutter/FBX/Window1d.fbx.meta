@@ -24,7 +24,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: WINDOW
-    second: {fileID: 2100000, guid: 5cb63275edeb2184bab15468241b523f, type: 2}
+    second: {fileID: 2100000, guid: b682b1bc26ada314591da61b5dfa44f0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -34,7 +34,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: window 1 frame
-    second: {fileID: 2100000, guid: 6b29d12e0b734954eb09b62104c21acc, type: 2}
+    second: {fileID: 2100000, guid: cc73742fd8abbce4e9232640e0cc27f0, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -72,7 +72,7 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

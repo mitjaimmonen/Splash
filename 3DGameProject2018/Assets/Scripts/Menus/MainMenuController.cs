@@ -34,8 +34,11 @@ public class MainMenuController : MonoBehaviour, IController {
                 visualPlayerElements[i].text = "Player " + (i+1) + " Ready";
             }
         }
+        stateHandler.options.maxTime = 0;
+        stateHandler.options.maxKills = 0;
 
     }
+
     //Listen for controllers to add them to current players
     private void Update()
     {

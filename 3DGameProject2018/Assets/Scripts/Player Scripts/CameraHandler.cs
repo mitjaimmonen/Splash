@@ -11,7 +11,8 @@ public class CameraHandler : MonoBehaviour {
 
     private Camera currentCamera; 
     public float fovLerpTime = 0.2f;
-    public float forwardOffset = -0.1f, upOffset = -0.2f, rotRadius = 0.1f;
+    public float rotRadius = 0.1f;
+    public Vector3 offsetFromHead = new Vector3(0, -0.2f, -0.1f);
 
     private float fov, newFov, oldFov;
     private float fovTimer = 1f;
@@ -22,43 +23,40 @@ public class CameraHandler : MonoBehaviour {
     }
 
     //Late update looks much more smooth because it lets all other transforms to finish first.    
-
-    private void Update()
-    {
-        if (fovTimer <= fovLerpTime)
-        {
+    public void updatePos() {
+        if(fovTimer <= fovLerpTime) {
             fovTimer += Time.deltaTime;
             SetFov(oldFov, newFov);
         }
-    }
-    private void LateUpdate()
-    {
-        if (playerController.IsAlive)
-        {
+        if(playerController.IsAlive) {
             RaycastHit hit;
             Ray forwardRay = new Ray(transform.position + transform.forward, transform.forward);
 
-            if (Physics.Raycast(forwardRay, out hit, Mathf.Infinity))
-            {
+            if(Physics.Raycast(forwardRay, out hit, Mathf.Infinity)) {
                 playerController.AimWorldPoint = hit.point;
                 playerController.IsAimRaycastHit = true;
-            } else 
-            {
+            } else {
                 playerController.IsAimRaycastHit = false;
             }
 
             var pos = target.transform.position; //Player's head position
+            var localPosOffset = Vector3.zero;
             Vector3 forw = playerController.transform.forward.normalized; //Player's forward (never looking up or down)
             Vector3 up = playerController.transform.up.normalized; //Player's up vector (should always be straight upwards)
-            pos += forwardOffset * forw + upOffset * up; //Add offsets to camera position
-            forw = target.transform.forward.normalized; //Change forward vector to head's forward, which can also be upwards/downwards
-            pos += rotRadius * forw; //Add radius into offset
+            pos += offsetFromHead.z * forw + offsetFromHead.y * up; //Add offsets to camera position
+            Vector3 localForw = target.transform.forward.normalized; //Change forward vector to head's forward, which can also be upwards/downwards
+            pos += rotRadius * localForw; //Add radius into offset
+
+            Vector3 faceForw = playerController.playerHead.transform.forward;
 
             transform.position = pos;
+            localPosOffset = faceForw * playerController.RecoilScript.WeaponBody.transform.localPosition.z;
+            transform.localPosition += localPosOffset;
             transform.rotation = target.transform.rotation;
+            transform.localEulerAngles += playerController.RecoilScript.WeaponBody.transform.localEulerAngles;
         }
-
     }
+
 
     public void Die(PlayerController attacker)
     {
@@ -76,6 +74,7 @@ public class CameraHandler : MonoBehaviour {
             float time = Time.time + 2f;        
             while (time > Time.time || (!playerController.IsAlive && !attacker))
             {
+                yield return new WaitForEndOfFrame();
                 //If suicide (= !Attacker), look at dying player until respawned.
                 posOffset = (playerController.transform.right * 0.5f) + (-playerController.transform.forward * 2f) + (playerController.transform.up *2f);            
 
@@ -83,21 +82,20 @@ public class CameraHandler : MonoBehaviour {
                 Quaternion lerpRot = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(playerController.playerHead.transform.position - lerpPos, playerController.transform.up), Time.deltaTime * 5f);
                 transform.position = lerpPos;
                 transform.rotation = lerpRot;
-                yield return new WaitForEndOfFrame();
             }
 
             while (!playerController.IsAlive && attacker)
             {
+                yield return new WaitForEndOfFrame();
                 posOffset =(attacker.transform.forward * 1.5f) + (attacker.transform.up * 0.8f) + (-attacker.transform.right);                
                 //Look at attacker until respawn
-                Vector3 lerpPos = Vector3.Lerp(transform.position, attacker.transform.position + posOffset, Time.deltaTime *8f);
+                Vector3 lerpPos = Vector3.Lerp(transform.position, attacker.transform.position + posOffset, Time.deltaTime *10f);
                 Quaternion lerpRot = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(attacker.playerHead.transform.position - lerpPos, attacker.transform.up),Time.deltaTime*8f);
                 transform.position = lerpPos;
                 transform.rotation = lerpRot;
-                yield return new WaitForEndOfFrame();
             }
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
         
 
@@ -114,7 +112,22 @@ public class CameraHandler : MonoBehaviour {
         //Each camera has one cullingMask which no other camera has.
         //Can be used to show player specific in-world elements.
         // currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("Culling" + player);
-        currentCamera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Culling" + player));
+        for(int i = 0; i < playerAmount; i++)
+        {
+            if (i != player)
+            {
+                currentCamera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Culling" + i)); //Turn bit off
+                currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("NonCulling" + i); //Turn bit on
+
+            }
+            else
+            {
+                currentCamera.cullingMask |= 1 << LayerMask.NameToLayer("Culling" + i); //Turn bit on
+                currentCamera.cullingMask &=  ~(1 << LayerMask.NameToLayer("NonCulling" + i)); //Turn bit off
+            }
+
+            
+        }
 
         var rect = currentCamera.rect;
         fov = currentCamera.fieldOfView;

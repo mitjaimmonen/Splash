@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CollisionBehaviour))]
 public class DynamicItemScript : MonoBehaviour, IWater {
 
 	public int health = 10;
@@ -13,53 +14,56 @@ public class DynamicItemScript : MonoBehaviour, IWater {
 
 	private int currentHealth;
 	private ParticleSystem destroyParticleSystem;
-	private CollisionSounds collisionSounds;
 	private List<Rigidbody> childRigidbodies;
 	[SerializeField] private Rigidbody mainRigidbody;
+
+	private List<ParticleCollisionEvent> collisionEvents;
 
 	private float timer;
 	private bool isDestroying = false;
 
+	#region IWater implementation
+		public ParticleSplash psSplash;
+		public CollisionBehaviour collisionBehaviour;
 
+		public ParticleSplash ParticleSplash
+		{
+			get{ return psSplash;}
+			set{ psSplash = value; }
+		}
 
-        public ParticleSplash psSplash;
-        public CollisionSounds colSplashSound;
+		public CollisionBehaviour ColBehaviour
+		{
+			get{ return collisionBehaviour;}
+			set{ collisionBehaviour = value; }
+		}
 
-		public ParticleSplash particleSplash
-        {
-            get{ return psSplash;}
-            set{ particleSplash = value; }
-        }
-
-        public CollisionSounds colsounds
-        {
-            get{ return colSplashSound;}
-            set{ colsounds = value; }
-        }
-
-        public float psSplashSizeMultiplier = 1;
-        public float splashSizeMultiplier
-        {
-            get{ return psSplashSizeMultiplier; }
-            set{ splashSizeMultiplier = value; }   
-        }
-        public void WaterInteraction(){
+		//How big particle splash
+		private float psSplashSizeMultiplier = 1;
+		public float SplashSizeMultiplier 
+		{
+			get{ return psSplashSizeMultiplier; }
+			set{ psSplashSizeMultiplier = value; }   
+		}
+		public void WaterInteraction(){
 			Destroy(gameObject, 1f);
-        }
+		}
+
+	#endregion
 
 
 	void Awake()
 	{
-		colSplashSound = GetComponent<CollisionSounds>();
-		if (!collisionSounds)
-			colSplashSound = GetComponentInChildren<CollisionSounds>();
+		collisionEvents = new List<ParticleCollisionEvent>();
+		collisionBehaviour = GetComponent<CollisionBehaviour>();
+		if (!collisionBehaviour)
+			collisionBehaviour = GetComponentInChildren<CollisionBehaviour>();
 		
 	}
 	private void Start()
 	{
 		currentHealth = health;
 		destroyParticleSystem = GetComponentInChildren<ParticleSystem>();
-		collisionSounds = GetComponent<CollisionSounds>();
 		Rigidbody[] childRB = GetComponentsInChildren<Rigidbody>(true);
 		childRigidbodies = new List<Rigidbody>();
 		foreach(var child in childRB)
@@ -72,30 +76,35 @@ public class DynamicItemScript : MonoBehaviour, IWater {
 				childRigidbodies.Add(child);
 		}
 		if (randomizeStartRotation)
-		{
 			transform.rotation = Quaternion.Euler(Random.Range(0,360), Random.Range(0,360), Random.Range(0,360));
-		}
+		
+		if (mainRigidbody)
+			SplashSizeMultiplier = mainRigidbody.mass; //Set mass to define splash size.
 
 	}
 
-	public void ParticleHit(Vector3 origin, Vector3 intersection)
+
+	public void ParticleHit(Vector3 origin, Vector3 intersection, int damage)
 	{
-		if(health != 0)
-			currentHealth -= 1;
+		
+
+		if(health > 0)
+			currentHealth -= damage;
 
 		if (currentHealth < 1 && isDestroyable && !isDestroying)
 			StartCoroutine(StartDestroy(origin, intersection));
 
 		else if ((isMovable && !isDestroying) || (isDestroying && isMovableOnDestroy))
-			Move(origin, intersection);
+			Move(origin, intersection, damage);
 	}
 
-	private void Move(Vector3 origin, Vector3 intersection)
+	private void Move(Vector3 origin, Vector3 intersection, int damage)
 	{
-		Vector3 dir = (transform.position - origin).normalized;
-		dir.y += 0.5f;
+		// Debug.Log("move");
+		Vector3 dir = (transform.position - origin).normalized * damage;
+		dir.y += 0.5f * damage;
 		mainRigidbody.isKinematic = false;
-		mainRigidbody.AddForceAtPosition(dir/2, intersection, ForceMode.Impulse);
+		mainRigidbody.AddForceAtPosition(dir, intersection, ForceMode.Impulse);
 	}
 
 	private IEnumerator StartDestroy(Vector3 origin, Vector3 intersection)
@@ -105,8 +114,8 @@ public class DynamicItemScript : MonoBehaviour, IWater {
 		isDestroying = true;
 		mainRigidbody.isKinematic = isMovableOnDestroy ? false : true; //dynamic if isMovableOnDestroy
 		mainCollider.enabled = isMovableOnDestroy ? true : false;
-		if (collisionSounds)
-			collisionSounds.PlayDestroy();
+		if (collisionBehaviour)
+			collisionBehaviour.soundBehaviour.PlayDestroy(transform.position);
 		
 		if (childRigidbodies.Count > 0)
 		{

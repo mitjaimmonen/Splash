@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114154549000546710}
   - component: {fileID: 114195290351430560}
   - component: {fileID: 114935866467096404}
+  - component: {fileID: 114665662606629762}
   m_Layer: 0
   m_Name: Main Camera1
   m_TagString: MainCamera
@@ -80,6 +81,7 @@ GameObject:
   - component: {fileID: 114673455543112976}
   - component: {fileID: 114515424991665912}
   - component: {fileID: 114776245986901562}
+  - component: {fileID: 114621611351204472}
   m_Layer: 0
   m_Name: Main Camera3
   m_TagString: MainCamera
@@ -119,6 +121,7 @@ GameObject:
   - component: {fileID: 114342759632499976}
   - component: {fileID: 114892186422128446}
   - component: {fileID: 114931461639966584}
+  - component: {fileID: 114544862365059188}
   m_Layer: 0
   m_Name: Main Camera2
   m_TagString: MainCamera
@@ -226,15 +229,15 @@ Camera:
     width: 0.5
     height: 1
   near clip plane: 0.1
-  far clip plane: 200
+  far clip plane: 500
   field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294965247
-  m_RenderingPath: 1
+    m_Bits: 4294905855
+  m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -262,15 +265,15 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 200
+  far clip plane: 500
   field of view: 65
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: 1
+    m_Bits: 4294690815
+  m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -298,15 +301,15 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 200
+  far clip plane: 500
   field of view: 65
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: 1
+    m_Bits: 4294813695
+  m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -334,15 +337,15 @@ Camera:
     width: 0.5
     height: 1
   near clip plane: 0.1
-  far clip plane: 200
+  far clip plane: 500
   field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294963199
-  m_RenderingPath: 1
+    m_Bits: 4294875135
+  m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -378,12 +381,12 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
+  m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -470,9 +473,8 @@ MonoBehaviour:
   target: {fileID: 0}
   playerController: {fileID: 0}
   fovLerpTime: 0.2
-  forwardOffset: 0.1
-  upOffset: -0.15
   rotRadius: 0
+  offsetFromHead: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &114154549000546710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -487,9 +489,8 @@ MonoBehaviour:
   target: {fileID: 0}
   playerController: {fileID: 0}
   fovLerpTime: 0.2
-  forwardOffset: 0.1
-  upOffset: -0.15
   rotRadius: 0
+  offsetFromHead: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &114168662326135348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -541,9 +542,8 @@ MonoBehaviour:
   target: {fileID: 0}
   playerController: {fileID: 0}
   fovLerpTime: 0.2
-  forwardOffset: 0.1
-  upOffset: -0.15
   rotRadius: 0
+  offsetFromHead: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &114357480037767126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -568,6 +568,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ListenerNumber: 3
+--- !u!114 &114544862365059188
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626810101349316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 0de36f096021a6348ac8d0c78def356f, type: 2}
 --- !u!114 &114588860310747316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -581,6 +593,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Resolution: 1
   DefaultSpotCookie: {fileID: 2800000, guid: 5157bf6d690b6df458f6c0ce0c06d329, type: 3}
+--- !u!114 &114621611351204472
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1351039918025734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 0de36f096021a6348ac8d0c78def356f, type: 2}
+--- !u!114 &114665662606629762
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1076863754956562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 0de36f096021a6348ac8d0c78def356f, type: 2}
 --- !u!114 &114673455543112976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -595,9 +631,8 @@ MonoBehaviour:
   target: {fileID: 0}
   playerController: {fileID: 0}
   fovLerpTime: 0.2
-  forwardOffset: 0.1
-  upOffset: -0.15
   rotRadius: 0
+  offsetFromHead: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &114776245986901562
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /********************************************
  * LastMenuController class
  *  Handles showing scores and looping the game
  */
-public class LastMenuController : MonoBehaviour {
+public class LastMenuController : MonoBehaviour, IController{
 
     /******************/
     /*Member Variables*/
@@ -14,13 +15,14 @@ public class LastMenuController : MonoBehaviour {
     public GameObject visualStatPrefab;
     private StateHandler state;
     public RectTransform canvas;
+    public Button firstSelectedGameObject;
 
 
 
     /************************/
     /*MonoBehavior Functions*/
     //Instantiates visual stats and fill them with player data
-    private void Start()
+    public void Finish()
     {
         state = GameObject.FindGameObjectWithTag("State Handler").GetComponent<StateHandler>();
         state.Sort();
@@ -29,7 +31,20 @@ public class LastMenuController : MonoBehaviour {
         {
             GameObject temp = Instantiate(visualStatPrefab, transform);
             //position it relative to amount of cards total and canvas size
-            temp.GetComponent<RectTransform>().anchoredPosition = new Vector3((canvas.rect.width / state.stats.Count) * (i + 1) - ((canvas.rect.width / state.stats.Count) / 2), -90, 0);
+            //temp.GetComponent<RectTransform>().anchoredPosition = new Vector3((canvas.rect.width / state.stats.Count) * (i + 1) - ((canvas.rect.width / state.stats.Count) / 2), -90, 0);
+            switch(state.stats.Count)
+            {
+                case 1:
+                    temp.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 90, 0);
+                    break;
+                case 2:
+                    temp.GetComponent<RectTransform>().anchoredPosition = new Vector3(canvas.rect.width / 4 * -Mathf.Cos(Mathf.PI/1 * i) , 0, 0);
+                    break;
+                case 3:
+                case 4:
+                    temp.GetComponent<RectTransform>().anchoredPosition = new Vector3(canvas.rect.width / 4 * -Mathf.Cos(Mathf.PI / 1 * i), canvas.rect.height / 4 * -Mathf.Sign(i-2), 0);
+                    break;
+            }
             //Gets wincard script and sets the texts
             InstatntiatedStats.Add(temp.GetComponent<WinCards>());
             InstatntiatedStats[i].player.text = "Player: " + (state.stats[i].player + 1);

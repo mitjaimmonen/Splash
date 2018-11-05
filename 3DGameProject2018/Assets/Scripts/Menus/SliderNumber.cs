@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 /********************************************
  * SliderNumber class
  *  Changes text element based on slider value
@@ -11,7 +11,7 @@ public class SliderNumber : MonoBehaviour {
 
     /******************/
     /*Member Variables*/
-    public Text text;
+    public TextMeshProUGUI text;
 
 
 

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4254649332581836}
   - component: {fileID: 33602276288175480}
   - component: {fileID: 23794530080822882}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,11 +36,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4598892195997302}
-  - component: {fileID: 114643241614402262}
-  - component: {fileID: 114510883037561770}
   - component: {fileID: 65653752613374108}
   - component: {fileID: 54180119676748438}
-  m_Layer: 15
+  - component: {fileID: 114643241614402262}
+  - component: {fileID: 114510883037561770}
+  - component: {fileID: 114724610745356072}
+  m_Layer: 19
   m_Name: SmallPot
   m_TagString: Dynamic Elements
   m_Icon: {fileID: 0}
@@ -57,7 +58,7 @@ GameObject:
   - component: {fileID: 4293689295460376}
   - component: {fileID: 198787995339436460}
   - component: {fileID: 199299858702155198}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: DestroyParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +75,7 @@ GameObject:
   - component: {fileID: 4242582587627754}
   - component: {fileID: 33301532626510070}
   - component: {fileID: 23007729361753626}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,8 +127,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1303909819408260}
-  m_LocalRotation: {x: -0, y: -0.41274732, z: -0, w: 0.9108456}
-  m_LocalPosition: {x: -11.565, y: 0.12299991, z: -19.692}
+  m_LocalRotation: {x: -0, y: 0.4278188, z: -0, w: 0.9038645}
+  m_LocalPosition: {x: -14.789, y: 1.157, z: 3.272}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4254649332581836}
@@ -225,7 +226,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1303909819408260}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 5
   m_Drag: 0.25
   m_AngularDrag: 0.25
   m_UseGravity: 1
@@ -256,10 +257,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxParticleCollisionCount: 10
-  collisionSE: event:/Water Collisions/HitHardSurface
-  waterSplashSE: event:/Water Collisions/WaterSplashBig
-  destroySE: event:/Interactions/SmallPotBreak
+  isPlayer: 0
+  allowMaxCountOverrideByWeapons: 0
+  maxCount: 5
+  collisionParticles: 0
+  soundBehaviour: {fileID: 0}
 --- !u!114 &114643241614402262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -271,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18f579a7c334d164abf2fcd9ebaa9cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
+  health: 2
   explosionForce: 0
   isDestroyable: 1
   isMovable: 1
@@ -283,8 +285,23 @@ MonoBehaviour:
   - {fileID: 1688043866326688}
   mainRigidbody: {fileID: 0}
   psSplash: {fileID: 0}
-  colSplashSound: {fileID: 0}
-  psSplashSizeMultiplier: 1
+  collisionBehaviour: {fileID: 0}
+--- !u!114 &114724610745356072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1303909819408260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionSE: event:/Water Collisions/HitCeramicSurface
+  waterSplashSE: event:/Water Collisions/WaterSplashSmall
+  destroySE: event:/Interactions/SmallPotBreak
+  hitmarkerSE: 
+  hitmarkerHeadshotSE: 
 --- !u!198 &198787995339436460
 ParticleSystem:
   m_ObjectHideFlags: 1

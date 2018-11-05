@@ -159,11 +159,11 @@ Material:
     - _ShoreColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShorePerturbation: {r: 0, g: 0, b: 0, a: 0}
     - _ShoreTiling: {r: 1, g: 1, b: 0.1, a: 0.1}
-    - _SpecularColor: {r: 1, g: 0.6, b: 0, a: 1}
+    - _SpecularColor: {r: 1, g: 0.74807304, b: 0.20588237, a: 1}
     - _UnderwaterColor: {r: 0.6950323, g: 0.89552236, b: 0.7502397, a: 1}
     - _WaveOffset: {r: 1, g: 1, b: -0.01, a: -0.01}
     - _WaveScale4: {r: 0.1, g: 0.1, b: 0.01, a: 0.01}
-    - _WorldLightDir: {r: 0, g: -0.45, b: 1, a: 1}
+    - _WorldLightDir: {r: 0.42, g: -1.5, b: 0.87, a: 1}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6

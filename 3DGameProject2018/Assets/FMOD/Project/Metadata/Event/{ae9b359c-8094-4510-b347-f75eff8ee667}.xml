@@ -139,9 +139,6 @@
         </relationship>
     </object>
     <object class="EventMixerMaster" id="{1ebc4a3e-ae22-4d09-bc65-5891444d4dc5}">
-        <property name="volume">
-            <value>-10</value>
-        </property>
         <relationship name="effectChain">
             <destination>{621e5bce-5714-4b61-84b3-308b64f286b3}</destination>
         </relationship>
@@ -457,20 +454,23 @@
         <property name="filterTypeA">
             <value>8</value>
         </property>
+        <property name="filterTypeB">
+            <value>7</value>
+        </property>
         <property name="frequencyA">
-            <value>1344.77405</value>
+            <value>1237.81726</value>
         </property>
         <property name="frequencyB">
-            <value>290.256744</value>
+            <value>98.8270416</value>
         </property>
         <property name="qualityA">
             <value>1.15286207</value>
         </property>
         <property name="gainA">
-            <value>20.1724148</value>
+            <value>18.6206894</value>
         </property>
         <property name="gainB">
-            <value>1.03448153</value>
+            <value>5.17241478</value>
         </property>
     </object>
     <object class="AutomationCurve" id="{b2f2ae26-1a16-4463-9ed0-870323089d0f}">

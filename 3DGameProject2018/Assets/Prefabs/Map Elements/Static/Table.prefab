@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4371386574922418}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,8 @@ GameObject:
   - component: {fileID: 23093084461285044}
   - component: {fileID: 64314063705254812}
   - component: {fileID: 114607904149727420}
-  m_Layer: 0
+  - component: {fileID: 114753111066892420}
+  m_Layer: 10
   m_Name: ttable (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1215272403385290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.83, y: 0.558, z: 16.84}
+  m_LocalPosition: {x: 2.018, y: 0.558, z: 16.836}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4865117854355046}
@@ -123,7 +124,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 0a22358fa6c1c6247b97668913c17365, type: 3}
@@ -138,7 +139,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e3b161851a214dbba4375af14200a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxParticleCollisionCount: 10
-  collisionSE: event:/Water Collisions/HitHardSurface
-  waterSplashSE: 
+  isPlayer: 0
+  allowMaxCountOverride: 0
+  maxCount: 5
+  soundBehaviour: {fileID: 0}
+--- !u!114 &114753111066892420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1684533506722318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a0821e711b0e4680b2ee3e6387c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionSE: event:/Water Collisions/HitmetalSurface
+  waterSplashSE: event:/Water Collisions/WaterSplashBig
   destroySE: 
+  dealDamageSE: 

@@ -11,7 +11,13 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: ship
-  externalObjects: {}
+    6400000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: f07909da60c5d5440ac68e3ceca0ad5b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -43,13 +49,13 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
