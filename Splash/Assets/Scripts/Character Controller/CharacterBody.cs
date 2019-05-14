@@ -52,6 +52,7 @@ public class CharacterBody : MonoBehaviour {
         get { return isRunning; }
         set { isRunning = value; }
     }
+
     private void Awake()
     {
         inter = GetComponent<InterpolatedTransform>();
